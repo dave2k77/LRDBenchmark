@@ -1,0 +1,111 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Data files (uncomment if you don't want to track data)
+# *.csv
+# *.json
+# *.h5
+# *.pkl
+# *.npy
+# *.npz
+
+# Results and plots (uncomment if you don't want to track results)
+# results/
+# plots/
+# figures/
+
+# Auto-discovery system files (keep these for tracking)
+# component_registry.json
+# COMPONENT_SUMMARY.md
+# .last_discovery
+
+# Neural network checkpoints and models
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.pb
+*.onnx
+
+# JAX cache
+.jax_cache/
+
+# Numba cache
+__numba_cache__/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
