@@ -72,6 +72,144 @@ except ImportError:
 
 # Import all available estimators
 try:
+    from analysis.machine_learning.transformer_estimator import BaseMLEstimator
+    BASEMLESTIMATOR_AVAILABLE = True
+except ImportError:
+    BASEMLESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.machine_learning.cnn_estimator import CNNEstimator
+    CNNESTIMATOR_AVAILABLE = True
+except ImportError:
+    CNNESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
+    GRADIENTBOOSTINGESTIMATOR_AVAILABLE = True
+except ImportError:
+    GRADIENTBOOSTINGESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.machine_learning.gru_estimator import GRUEstimator
+    GRUESTIMATOR_AVAILABLE = True
+except ImportError:
+    GRUESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.machine_learning.lstm_estimator import LSTMEstimator
+    LSTMESTIMATOR_AVAILABLE = True
+except ImportError:
+    LSTMESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.machine_learning.neural_network_estimator import NeuralNetworkEstimator
+    NEURALNETWORKESTIMATOR_AVAILABLE = True
+except ImportError:
+    NEURALNETWORKESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.machine_learning.random_forest_estimator import RandomForestEstimator
+    RANDOMFORESTESTIMATOR_AVAILABLE = True
+except ImportError:
+    RANDOMFORESTESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.machine_learning.svr_estimator import SVREstimator
+    SVRESTIMATOR_AVAILABLE = True
+except ImportError:
+    SVRESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.machine_learning.transformer_estimator import TransformerEstimator
+    TRANSFORMERESTIMATOR_AVAILABLE = True
+except ImportError:
+    TRANSFORMERESTIMATOR_AVAILABLE = False
+
+try:
+    from models.estimators.base_estimator import BaseEstimator
+    BASEESTIMATOR_AVAILABLE = True
+except ImportError:
+    BASEESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.wavelet.cwt.cwt_estimator import CWTEstimator
+    CWTESTIMATOR_AVAILABLE = True
+except ImportError:
+    CWTESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.wavelet.log_variance.wavelet_log_variance_estimator import WaveletLogVarianceEstimator
+    WAVELETLOGVARIANCEESTIMATOR_AVAILABLE = True
+except ImportError:
+    WAVELETLOGVARIANCEESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.wavelet.variance.wavelet_variance_estimator import WaveletVarianceEstimator
+    WAVELETVARIANCEESTIMATOR_AVAILABLE = True
+except ImportError:
+    WAVELETVARIANCEESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.wavelet.whittle.wavelet_whittle_estimator import WaveletWhittleEstimator
+    WAVELETWHITTLEESTIMATOR_AVAILABLE = True
+except ImportError:
+    WAVELETWHITTLEESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.temporal.dfa.dfa_estimator import DFAEstimator
+    DFAESTIMATOR_AVAILABLE = True
+except ImportError:
+    DFAESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.temporal.dma.dma_estimator import DMAEstimator
+    DMAESTIMATOR_AVAILABLE = True
+except ImportError:
+    DMAESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
+    HIGUCHIESTIMATOR_AVAILABLE = True
+except ImportError:
+    HIGUCHIESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.temporal.rs.rs_estimator import RSEstimator
+    RSESTIMATOR_AVAILABLE = True
+except ImportError:
+    RSESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.spectral.gph.gph_estimator import GPHEstimator
+    GPHESTIMATOR_AVAILABLE = True
+except ImportError:
+    GPHESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
+    PERIODOGRAMESTIMATOR_AVAILABLE = True
+except ImportError:
+    PERIODOGRAMESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.spectral.whittle.whittle_estimator import WhittleEstimator
+    WHITTLEESTIMATOR_AVAILABLE = True
+except ImportError:
+    WHITTLEESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
+    MFDFAESTIMATOR_AVAILABLE = True
+except ImportError:
+    MFDFAESTIMATOR_AVAILABLE = False
+
+try:
+    from analysis.multifractal.wavelet_leaders.multifractal_wavelet_leaders_estimator import MultifractalWaveletLeadersEstimator
+    MULTIFRACTALWAVELETLEADERSESTIMATOR_AVAILABLE = True
+except ImportError:
+    MULTIFRACTALWAVELETLEADERSESTIMATOR_AVAILABLE = False
+
+
     from models.estimators.base_estimator import BaseEstimator
     BASEESTIMATOR_AVAILABLE = True
 except ImportError:

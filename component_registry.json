@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-08-20T14:29:10.315592",
+  "timestamp": "2025-08-22T16:18:06.162021",
   "components": {
     "data_generators": {
       "ARFIMAModel": {
@@ -123,6 +123,78 @@
       }
     },
     "estimators": {
+      "BaseMLEstimator": {
+        "class_name": "BaseMLEstimator",
+        "module_name": "analysis.machine_learning.transformer_estimator",
+        "file_path": "analysis\\machine_learning\\transformer_estimator.py",
+        "constructor_params": {},
+        "category": "other",
+        "description": "\nAbstract base class for all machine learning-based estimators.\n\nThis class defines the interface that all ML estimators must implement,\nincluding methods for feature extraction, model training, prediction,\nand performance evaluation.\n"
+      },
+      "CNNEstimator": {
+        "class_name": "CNNEstimator",
+        "module_name": "analysis.machine_learning.cnn_estimator",
+        "file_path": "analysis\\machine_learning\\cnn_estimator.py",
+        "constructor_params": {},
+        "category": "other",
+        "description": "\nConvolutional Neural Network estimator for Hurst parameter estimation.\n\nThis estimator uses CNN to learn the mapping from time series data\nto Hurst parameters. Currently a placeholder for future implementation.\n"
+      },
+      "GradientBoostingEstimator": {
+        "class_name": "GradientBoostingEstimator",
+        "module_name": "analysis.machine_learning.gradient_boosting_estimator",
+        "file_path": "analysis\\machine_learning\\gradient_boosting_estimator.py",
+        "constructor_params": {},
+        "category": "other",
+        "description": "\nGradient Boosting estimator for Hurst parameter estimation.\n\nThis estimator uses gradient boosting to learn the mapping\nfrom time series features to Hurst parameters.\n"
+      },
+      "GRUEstimator": {
+        "class_name": "GRUEstimator",
+        "module_name": "analysis.machine_learning.gru_estimator",
+        "file_path": "analysis\\machine_learning\\gru_estimator.py",
+        "constructor_params": {},
+        "category": "other",
+        "description": "GRU estimator for Hurst parameter estimation using PyTorch."
+      },
+      "LSTMEstimator": {
+        "class_name": "LSTMEstimator",
+        "module_name": "analysis.machine_learning.lstm_estimator",
+        "file_path": "analysis\\machine_learning\\lstm_estimator.py",
+        "constructor_params": {},
+        "category": "other",
+        "description": "\nLSTM estimator for Hurst parameter estimation using PyTorch.\n"
+      },
+      "NeuralNetworkEstimator": {
+        "class_name": "NeuralNetworkEstimator",
+        "module_name": "analysis.machine_learning.neural_network_estimator",
+        "file_path": "analysis\\machine_learning\\neural_network_estimator.py",
+        "constructor_params": {},
+        "category": "other",
+        "description": "\nNeural Network estimator for Hurst parameter estimation.\n\nThis estimator uses a multi-layer perceptron (MLP) to learn the mapping\nfrom time series features to Hurst parameters.\n"
+      },
+      "RandomForestEstimator": {
+        "class_name": "RandomForestEstimator",
+        "module_name": "analysis.machine_learning.random_forest_estimator",
+        "file_path": "analysis\\machine_learning\\random_forest_estimator.py",
+        "constructor_params": {},
+        "category": "other",
+        "description": "\nRandom Forest estimator for Hurst parameter estimation.\n\nThis estimator uses an ensemble of decision trees to learn the mapping\nfrom time series features to Hurst parameters.\n"
+      },
+      "SVREstimator": {
+        "class_name": "SVREstimator",
+        "module_name": "analysis.machine_learning.svr_estimator",
+        "file_path": "analysis\\machine_learning\\svr_estimator.py",
+        "constructor_params": {},
+        "category": "other",
+        "description": "\nSupport Vector Regression estimator for Hurst parameter estimation.\n\nThis estimator uses support vector regression to learn the mapping\nfrom time series features to Hurst parameters.\n"
+      },
+      "TransformerEstimator": {
+        "class_name": "TransformerEstimator",
+        "module_name": "analysis.machine_learning.transformer_estimator",
+        "file_path": "analysis\\machine_learning\\transformer_estimator.py",
+        "constructor_params": {},
+        "category": "other",
+        "description": "\nTransformer estimator for Hurst parameter estimation.\n\nThis estimator uses transformer architecture to learn the mapping from time series data\nto Hurst parameters. Currently a placeholder for future implementation.\n"
+      },
       "BaseEstimator": {
         "class_name": "BaseEstimator",
         "module_name": "models.estimators.base_estimator",
@@ -761,7 +833,7 @@
   },
   "summary": {
     "data_generators": 5,
-    "estimators": 14,
+    "estimators": 23,
     "neural_components": 7
   }
 }

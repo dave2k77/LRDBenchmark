@@ -1,6 +1,6 @@
 # Component Discovery Summary
 
-Generated on: 2025-08-20 14:29:10
+Generated on: 2025-08-22 16:18:06
 
 ## Data Generators
 
@@ -99,6 +99,91 @@ method : str, optional
 - **Parameters**: ['H', 'lambda_param', 'sigma', 'method']
 
 ## Estimators
+
+### BaseMLEstimator
+- **Category**: other
+- **Module**: `analysis.machine_learning.transformer_estimator`
+- **File**: `analysis\machine_learning\transformer_estimator.py`
+- **Description**: Abstract base class for all machine learning-based estimators.
+
+This class defines the interface that all ML estimators must implement,
+including methods for feature extraction, model training, prediction,
+and performance evaluation.
+- **Parameters**: []
+
+### CNNEstimator
+- **Category**: other
+- **Module**: `analysis.machine_learning.cnn_estimator`
+- **File**: `analysis\machine_learning\cnn_estimator.py`
+- **Description**: Convolutional Neural Network estimator for Hurst parameter estimation.
+
+This estimator uses CNN to learn the mapping from time series data
+to Hurst parameters. Currently a placeholder for future implementation.
+- **Parameters**: []
+
+### GradientBoostingEstimator
+- **Category**: other
+- **Module**: `analysis.machine_learning.gradient_boosting_estimator`
+- **File**: `analysis\machine_learning\gradient_boosting_estimator.py`
+- **Description**: Gradient Boosting estimator for Hurst parameter estimation.
+
+This estimator uses gradient boosting to learn the mapping
+from time series features to Hurst parameters.
+- **Parameters**: []
+
+### GRUEstimator
+- **Category**: other
+- **Module**: `analysis.machine_learning.gru_estimator`
+- **File**: `analysis\machine_learning\gru_estimator.py`
+- **Description**: GRU estimator for Hurst parameter estimation using PyTorch.
+- **Parameters**: []
+
+### LSTMEstimator
+- **Category**: other
+- **Module**: `analysis.machine_learning.lstm_estimator`
+- **File**: `analysis\machine_learning\lstm_estimator.py`
+- **Description**: LSTM estimator for Hurst parameter estimation using PyTorch.
+- **Parameters**: []
+
+### NeuralNetworkEstimator
+- **Category**: other
+- **Module**: `analysis.machine_learning.neural_network_estimator`
+- **File**: `analysis\machine_learning\neural_network_estimator.py`
+- **Description**: Neural Network estimator for Hurst parameter estimation.
+
+This estimator uses a multi-layer perceptron (MLP) to learn the mapping
+from time series features to Hurst parameters.
+- **Parameters**: []
+
+### RandomForestEstimator
+- **Category**: other
+- **Module**: `analysis.machine_learning.random_forest_estimator`
+- **File**: `analysis\machine_learning\random_forest_estimator.py`
+- **Description**: Random Forest estimator for Hurst parameter estimation.
+
+This estimator uses an ensemble of decision trees to learn the mapping
+from time series features to Hurst parameters.
+- **Parameters**: []
+
+### SVREstimator
+- **Category**: other
+- **Module**: `analysis.machine_learning.svr_estimator`
+- **File**: `analysis\machine_learning\svr_estimator.py`
+- **Description**: Support Vector Regression estimator for Hurst parameter estimation.
+
+This estimator uses support vector regression to learn the mapping
+from time series features to Hurst parameters.
+- **Parameters**: []
+
+### TransformerEstimator
+- **Category**: other
+- **Module**: `analysis.machine_learning.transformer_estimator`
+- **File**: `analysis\machine_learning\transformer_estimator.py`
+- **Description**: Transformer estimator for Hurst parameter estimation.
+
+This estimator uses transformer architecture to learn the mapping from time series data
+to Hurst parameters. Currently a placeholder for future implementation.
+- **Parameters**: []
 
 ### BaseEstimator
 - **Category**: other
