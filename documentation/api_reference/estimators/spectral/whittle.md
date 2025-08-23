@@ -56,6 +56,7 @@ Estimates the fractional differencing parameter d and Hurst parameter from time 
 - `log_periodogram` (`np.ndarray`): Log of the periodogram values
 - `slope` (`float`): Slope of the log-log fit
 - `intercept` (`float`): Intercept of the log-log fit
+- `p_value` (`float`): P-value of the linear regression
 
 ### get_confidence_intervals(confidence_level=0.95)
 

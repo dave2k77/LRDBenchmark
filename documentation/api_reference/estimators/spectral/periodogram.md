@@ -56,7 +56,9 @@ Estimates the Hurst parameter from time series data.
 **Results dictionary includes:**
 - `hurst_parameter` (`float`): Estimated Hurst parameter
 - `beta` (`float`): Estimated spectral slope β
+- `slope` (`float`): Slope of the log-log fit
 - `intercept` (`float`): Intercept of the log-log fit
+- `p_value` (`float`): P-value of the linear regression
 - `r_squared` (`float`): R-squared value of the linear fit
 - `m` (`int`): Number of frequency bins used
 - `log_freq` (`np.ndarray`): Log frequencies used for fitting

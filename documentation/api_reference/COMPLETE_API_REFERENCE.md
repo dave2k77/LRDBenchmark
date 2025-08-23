@@ -303,7 +303,7 @@ def __init__(self, min_window_size: int = 8, max_window_size: int = 200,
 ```
 
 **Methods**:
-- `estimate(data: np.ndarray) -> Dict[str, Any]`
+- `estimate(data: np.ndarray) -> Dict[str, Any]` - Returns dict with `hurst_parameter`, `window_sizes`, `rs_values`, `r_squared`, `std_error`, `confidence_interval`, `p_value`, `intercept`, `slope`
 - `get_confidence_intervals(confidence_level: float = 0.95, n_bootstrap: int = 1000) -> Dict[str, Tuple[float, float]]`
 - `get_estimation_quality() -> Dict[str, Any]`
 - `plot_scaling(figsize: Tuple[int, int] = (10, 6), save_path: Optional[str] = None, show: bool = True) -> None`
@@ -390,7 +390,7 @@ def __init__(self, min_freq_ratio: float = 0.01, max_freq_ratio: float = 0.1,
 ```
 
 **Methods**:
-- `estimate(data: np.ndarray) -> Dict[str, Any]`
+- `estimate(data: np.ndarray) -> Dict[str, Any]` - Returns dict with `hurst_parameter`, `beta`, `slope`, `intercept`, `p_value`, `r_squared`, `m`, `log_freq`, `log_psd`
 - `get_confidence_intervals(confidence_level: float = 0.95, n_bootstrap: int = 1000) -> Dict[str, Tuple[float, float]]`
 - `get_estimation_quality() -> Dict[str, Any]`
 - `plot_spectrum(figsize: Tuple[int, int] = (10, 6), save_path: Optional[str] = None, show: bool = True) -> None`
@@ -422,7 +422,7 @@ def __init__(self, min_freq_ratio: float = 0.01, max_freq_ratio: float = 0.1,
 ```
 
 **Methods**:
-- `estimate(data: np.ndarray) -> Dict[str, Any]`
+- `estimate(data: np.ndarray) -> Dict[str, Any]` - Returns dict with `d`, `hurst_parameter`, `objective_value`, `converged`, `r_squared`, `log_model_spec`, `log_periodogram`, `slope`, `intercept`, `p_value`
 - `get_confidence_intervals(confidence_level: float = 0.95, n_bootstrap: int = 1000) -> Dict[str, Tuple[float, float]]`
 - `get_estimation_quality() -> Dict[str, Any]`
 - `plot_spectrum(figsize: Tuple[int, int] = (10, 6), save_path: Optional[str] = None, show: bool = True) -> None`
@@ -453,7 +453,7 @@ def __init__(self, min_freq_ratio: float = 0.01, max_freq_ratio: float = 0.1,
 ```
 
 **Methods**:
-- `estimate(data: np.ndarray) -> Dict[str, Any]`
+- `estimate(data: np.ndarray) -> Dict[str, Any]` - Returns dict with `d`, `hurst_parameter`, `r_squared`, `log_regressor`, `log_periodogram`, `slope`, `intercept`, `p_value`, `m`
 - `get_confidence_intervals(confidence_level: float = 0.95, n_bootstrap: int = 1000) -> Dict[str, Tuple[float, float]]`
 - `get_estimation_quality() -> Dict[str, Any]`
 - `plot_spectrum(figsize: Tuple[int, int] = (10, 6), save_path: Optional[str] = None, show: bool = True) -> None`

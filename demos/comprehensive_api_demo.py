@@ -246,6 +246,9 @@ def demonstrate_estimators():
     print("   - 'window_sizes' (List): Analysis window sizes used")
     print("   - 'rs_values' (List): R/S values for each window")
     print("   - 'std_error' (float): Standard error of estimate")
+    print("   - 'p_value' (float): P-value of the linear regression")
+    print("   - 'intercept' (float): Intercept of the linear fit")
+    print("   - 'slope' (float): Slope of the linear fit (equals H)")
     
     print("\n💻 Example Usage:")
     print("   from analysis.temporal.rs.rs_estimator import RSEstimator")
@@ -261,6 +264,9 @@ def demonstrate_estimators():
     print(f"   R²: {rs_result['r_squared']:.3f}")
     print(f"   95% CI: ({rs_result['confidence_interval'][0]:.3f}, {rs_result['confidence_interval'][1]:.3f})")
     print(f"   Standard Error: {rs_result['std_error']:.4f}")
+    print(f"   P-value: {rs_result['p_value']:.4f}")
+    print(f"   Intercept: {rs_result['intercept']:.4f}")
+    print(f"   Slope: {rs_result['slope']:.4f}")
     print(f"   Error from true H (0.7): {abs(rs_result['hurst_parameter'] - 0.7):.3f}")
     
     results['rs'] = {
