@@ -7,7 +7,7 @@ a self-similar Gaussian process with long-range dependence.
 
 import numpy as np
 from scipy import linalg
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Union
 import sys
 import os
 
@@ -240,3 +240,108 @@ class FractionalBrownianMotion(BaseModel):
             Increments (fractional Gaussian noise)
         """
         return np.diff(fbm)
+    
+    def get_autocorrelation(self, lag: Union[int, np.ndarray]) -> Union[float, np.ndarray]:
+        """
+        Get theoretical autocorrelation function of fBm.
+        
+        For fBm, the autocorrelation function is:
+        ρ(t,s) = (1/2)(|t|^(2H) + |s|^(2H) - |t-s|^(2H))
+        
+        Parameters
+        ----------
+        lag : int or np.ndarray
+            Lag(s) for autocorrelation calculation
+            
+        Returns
+        -------
+        float or np.ndarray
+            Autocorrelation values at the specified lags
+        """
+        H = self.parameters['H']
+        sigma = self.parameters['sigma']
+        
+        if isinstance(lag, (int, float)):
+            lag = np.array([lag])
+        
+        # Convert to absolute values for calculation
+        lag_abs = np.abs(lag)
+        
+        # Autocorrelation formula for fBm
+        # For lag k, ρ(k) = (1/2)(|k+1|^(2H) - 2|k|^(2H) + |k-1|^(2H))
+        autocorr = 0.5 * (
+            np.power(np.maximum(0, lag_abs + 1), 2*H) - 
+            2 * np.power(lag_abs, 2*H) + 
+            np.power(np.maximum(0, lag_abs - 1), 2*H)
+        )
+        
+        # Normalize by variance
+        autocorr = autocorr / (sigma**2)
+        
+        # Handle single value return
+        if len(autocorr) == 1:
+            return float(autocorr[0])
+        return autocorr
+    
+    def get_cumulative_variance(self, t: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
+        """
+        Get cumulative variance at time t.
+        
+        For fBm, Var(B_H(t)) = σ²|t|^(2H)
+        
+        Parameters
+        ----------
+        t : float or np.ndarray
+            Time point(s)
+            
+        Returns
+        -------
+        float or np.ndarray
+            Cumulative variance at time t
+        """
+        H = self.parameters['H']
+        sigma = self.parameters['sigma']
+        
+        if isinstance(t, (int, float)):
+            t = np.array([t])
+        
+        # Variance formula: Var(B_H(t)) = σ²|t|^(2H)
+        variance = sigma**2 * np.power(np.abs(t), 2*H)
+        
+        # Handle single value return
+        if len(variance) == 1:
+            return float(variance[0])
+        return variance
+    
+    def get_spectral_density(self, frequency: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
+        """
+        Get theoretical power spectral density of fBm.
+        
+        For fBm, S(f) = σ²|f|^(-2H-1)
+        
+        Parameters
+        ----------
+        frequency : float or np.ndarray
+            Frequency(ies)
+            
+        Returns
+        -------
+        float or np.ndarray
+            Power spectral density values
+        """
+        H = self.parameters['H']
+        sigma = self.parameters['sigma']
+        
+        if isinstance(frequency, (int, float)):
+            frequency = np.array([frequency])
+        
+        # Avoid division by zero for f=0
+        frequency = np.where(frequency == 0, 1e-10, frequency)
+        
+        # Power spectral density formula: S(f) = σ²|f|^(-2H-1)
+        psd = sigma**2 * np.power(np.abs(frequency), -2*H - 1)
+        
+        # Handle single value return
+        if len(psd) == 1:
+            return float(psd[0])
+        return psd
