@@ -101,7 +101,7 @@ exclude = ["web-dashboard*", "setup*", "research*", "tests*", "demos*", "documen
 
 [tool.black]
 line-length = 88
-target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+target-version = ['py39', 'py310', 'py311', 'py312']
 include = '\.pyi?$'
 extend-exclude = '''
 /(
@@ -124,7 +124,7 @@ line_length = 88
 known_first_party = ["data_exploratory_project"]
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
@@ -137,11 +137,28 @@ warn_unused_ignores = true
 warn_no_return = true
 warn_unreachable = true
 strict_equality = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = [
+    "numpy.*",
+    "scipy.*",
+    "pandas.*",
+    "matplotlib.*",
+    "seaborn.*",
+    "sklearn.*",
+    "torch.*",
+    "jax.*",
+    "pywt.*"
+]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q --strict-markers --strict-config"
-testpaths = ["tests"]
+testpaths = [
+    "tests",
+]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
