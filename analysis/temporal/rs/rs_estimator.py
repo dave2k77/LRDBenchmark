@@ -144,6 +144,11 @@ class RSEstimator(BaseEstimator):
         self.r_squared = r_value**2
         self.confidence_interval = (slope - 1.96 * std_err, slope + 1.96 * std_err)
         
+        # Store additional regression parameters
+        self.intercept = intercept
+        self.slope = slope
+        self.p_value = p_value
+        
         # Store results in base class format
         self.results = {
             'hurst_parameter': self.estimated_hurst,
@@ -151,7 +156,10 @@ class RSEstimator(BaseEstimator):
             'rs_values': self.rs_values,
             'r_squared': self.r_squared,
             'std_error': std_err,
-            'confidence_interval': self.confidence_interval
+            'confidence_interval': self.confidence_interval,
+            'p_value': self.p_value,
+            'intercept': self.intercept,
+            'slope': self.slope
         }
         
         # Return results dictionary
@@ -433,7 +441,9 @@ class RSEstimator(BaseEstimator):
             'r_squared': self.results['r_squared'],
             'p_value': self.results['p_value'],
             'std_error': self.results['std_error'],
-            'num_scales': len(self.results['scales']),
-            'min_scale': self.results['scales'][0],
-            'max_scale': self.results['scales'][-1]
+            'intercept': self.results['intercept'],
+            'slope': self.results['slope'],
+            'num_scales': len(self.results['window_sizes']),
+            'min_scale': self.results['window_sizes'][0],
+            'max_scale': self.results['window_sizes'][-1]
         }

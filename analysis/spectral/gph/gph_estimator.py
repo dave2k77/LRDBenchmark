@@ -119,7 +119,7 @@ class GPHEstimator(BaseEstimator):
         log_periodogram = np.log(psd_sel)
         
         # Linear regression
-        slope, intercept, r_value, _, _ = stats.linregress(regressor, log_periodogram)
+        slope, intercept, r_value, p_value, std_err = stats.linregress(regressor, log_periodogram)
         d_parameter = -slope  # d = -slope
         
         # Apply bias correction if requested
@@ -139,7 +139,10 @@ class GPHEstimator(BaseEstimator):
             "hurst_parameter": float(hurst),
             "d_parameter": float(d_parameter),
             "intercept": float(intercept),
+            "slope": float(slope),
             "r_squared": float(r_value ** 2),
+            "p_value": float(p_value),
+            "std_error": float(std_err),
             "m": int(len(freqs_sel)),
             "log_regressor": regressor,
             "log_periodogram": log_periodogram,

@@ -20,7 +20,7 @@ def read_requirements():
 
 # Get version from pyproject.toml or use default
 def get_version():
-    return "1.0.1"
+    return "1.1.0"
 
 setup(
     name="lrdbench",

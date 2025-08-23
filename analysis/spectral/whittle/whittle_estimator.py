@@ -120,7 +120,7 @@ class WhittleEstimator(BaseEstimator):
         log_model = np.log(self._fgn_spectrum(freqs_sel, hurst, scale))
         log_periodogram = np.log(psd_sel)
         
-        slope, intercept, r_value, _, _ = stats.linregress(log_model, log_periodogram)
+        slope, intercept, r_value, p_value, std_err = stats.linregress(log_model, log_periodogram)
         r_squared = r_value ** 2
         
         self.results = {
@@ -129,6 +129,10 @@ class WhittleEstimator(BaseEstimator):
             "scale_parameter": float(scale),
             "log_likelihood": float(log_lik),
             "r_squared": float(r_squared),
+            "slope": float(slope),
+            "intercept": float(intercept),
+            "p_value": float(p_value),
+            "std_error": float(std_err),
             "m": int(len(freqs_sel)),
             "log_model": log_model,
             "log_periodogram": log_periodogram,

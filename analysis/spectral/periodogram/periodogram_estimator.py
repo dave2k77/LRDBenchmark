@@ -126,7 +126,7 @@ class PeriodogramEstimator(BaseEstimator):
         log_f = np.log(freqs_sel)
         log_I = np.log(psd_sel)
         
-        slope, intercept, r_value, _, _ = stats.linregress(log_f, log_I)
+        slope, intercept, r_value, p_value, std_err = stats.linregress(log_f, log_I)
         beta = -slope  # PSD ~ f^{-beta}
         hurst = (beta + 1) / 2  # H = (beta + 1) / 2
         
@@ -136,7 +136,10 @@ class PeriodogramEstimator(BaseEstimator):
             "hurst_parameter": float(hurst),
             "beta": float(beta),
             "intercept": float(intercept),
+            "slope": float(slope),
             "r_squared": float(r_value ** 2),
+            "p_value": float(p_value),
+            "std_error": float(std_err),
             "m": int(len(freqs_sel)),
             "log_freq": log_f,
             "log_psd": log_I,
