@@ -1,0 +1,74 @@
+\section{Appendix C: Machine Learning Baseline Results}
+
+\subsection{Machine Learning Estimator Performance}
+
+Our comprehensive evaluation of machine learning baselines against classical estimators revealed significant performance advantages. Table \ref{tab:appendix_ml_detailed} presents the detailed performance metrics for all ML estimators.
+
+% PLACEHOLDER: Insert Appendix Table C1 - ML Detailed Performance
+\begin{table}[h]
+\centering
+\caption{Detailed Machine Learning Estimator Performance}
+\label{tab:appendix_ml_detailed}
+% INSERT TABLE CONTENT HERE
+\end{table}
+
+\subsection{Feature Extraction Analysis}
+
+The machine learning estimators utilize comprehensive feature extraction methods:
+
+\begin{itemize}
+    \item \textbf{Statistical Features:} Mean, variance, skewness, kurtosis, autocorrelation
+    \item \textbf{Spectral Features:} Power spectral density, spectral slope, band power
+    \item \textbf{Wavelet Features:} Wavelet coefficients, energy distribution
+    \item \textbf{Raw Features:} Direct time series values for deep learning models
+\end{itemize}
+
+\subsection{Model Persistence and Caching}
+
+The framework implements "train once, apply many" strategy using model persistence:
+
+\begin{itemize}
+    \item \textbf{Versioned Filenames:} Models saved with metadata and version information
+    \item \textbf{Automatic Loading:} Models automatically loaded if compatible version exists
+    \item \textbf{Metadata Validation:} Checks for parameter compatibility and data characteristics
+    \item \textbf{Incremental Training:} Support for updating models with new data
+\end{itemize}
+
+% PLACEHOLDER: Insert Appendix Figure C1 - ML Performance Comparison
+\begin{figure}[h]
+\centering
+\caption{Machine Learning vs Classical Estimators Performance Comparison}
+\label{fig:appendix_ml_comparison}
+% INSERT FIGURE HERE
+\end{figure}
+
+\subsection{Cross-Validation Results}
+
+Table \ref{tab:appendix_cross_validation} presents the cross-validation results for all machine learning estimators.
+
+% PLACEHOLDER: Insert Appendix Table C2 - Cross-Validation Results
+\begin{table}[h]
+\centering
+\caption{Cross-Validation Results for Machine Learning Estimators}
+\label{tab:appendix_cross_validation}
+% INSERT TABLE CONTENT HERE
+\end{table}
+
+\subsection{Computational Requirements}
+
+The machine learning estimators have varying computational requirements:
+
+\begin{itemize}
+    \item \textbf{Training Time:} Ranging from seconds (Random Forest) to minutes (LSTM/GRU)
+    \item \textbf{Memory Usage:} Efficient memory usage with optimized implementations
+    \item \textbf{Inference Time:} Sub-second inference for all models
+    \item \textbf{Model Size:} Compact model files for easy deployment
+\end{itemize}
+
+% PLACEHOLDER: Insert Appendix Figure C2 - ML Computational Analysis
+\begin{figure}[h]
+\centering
+\caption{Machine Learning Estimator Computational Analysis}
+\label{fig:appendix_ml_computational}
+% INSERT FIGURE HERE
+\end{figure}

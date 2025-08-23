@@ -1,0 +1,46 @@
+\section{Theoretical Foundations and Current Limitations}
+
+\subsection{Neural Time Series Memory Dynamics}
+
+Neural time series exhibit complex memory dynamics that challenge traditional time series analysis approaches. The hierarchical organization of brain networks creates temporal dependencies that span multiple time scales, from milliseconds to hours \citep{VanDenHeuvel2010}. These dependencies manifest as power-law scaling in the frequency domain and persistent correlations in the time domain, reflecting the fractal-like properties of neural oscillations \citep{Marasco2012}.
+
+The mathematical foundation for understanding these dynamics lies in fractional calculus, which naturally captures memory effects and long-range dependencies \citep{Bouteiller2011}. Fractional derivatives and integrals provide the mathematical tools necessary for modeling the non-Markovian nature of neural processes, where current states depend on the entire history of the system \citep{Lytton2017}.
+
+\subsection{Current Methodological Limitations}
+
+Despite the theoretical understanding of neural memory dynamics, current methodological approaches face significant limitations in practical applications \citep{Harris2020}. Classical estimators, including Detrended Fluctuation Analysis (DFA), Rescaled Range (R/S), and spectral methods, exhibit variable performance under realistic clinical conditions \citep{Virtanen2020}. The lack of standardized evaluation protocols has hindered clinical translation and limited the development of reliable biomarkers for neurological disorders \citep{McKinney2010}.
+
+Key methodological challenges include:
+\begin{itemize}
+    \item \textbf{Confound Sensitivity:} Traditional estimators fail under realistic clinical conditions including noise, artifacts, and non-stationarity
+    \item \textbf{Computational Inefficiency:} Many methods require extensive computational resources, limiting real-time applications
+    \item \textbf{Parameter Sensitivity:} Performance varies significantly with parameter choices, reducing clinical reliability
+    \item \textbf{Lack of Standardization:} Absence of comprehensive benchmarking frameworks prevents objective method comparison
+\end{itemize}
+
+\subsection{Fractional Calculus in Neural Modeling}
+
+Fractional calculus provides a natural mathematical framework for modeling neural memory dynamics \citep{Karniadakis2021}. The fractional derivative operator captures the memory effects that are characteristic of neural processes, where current activity depends on the entire history of the system \citep{Wang2022}. This approach enables more accurate modeling of long-range dependencies compared to traditional integer-order differential equations \citep{Li2021}.
+
+Recent advances in computational fractional calculus have made these approaches practical for real-time applications \citep{Raubitzek2022}. High-performance implementations of fractional operators, achieving 61.5x speedup for Marchaud derivatives, provide the computational foundation necessary for clinical deployment \citep{Kang2024}.
+
+\subsection{Benchmarking Gaps in Current Literature}
+
+The current literature lacks comprehensive benchmarking frameworks for long-range dependence estimation in neurological applications \citep{Mill2017}. Existing studies focus on individual methods or limited comparisons, failing to provide the systematic evaluation necessary for clinical translation \citep{Fornito2016}. The absence of standardized evaluation protocols has contributed to the reproducibility crisis in neurological time series analysis \citep{Marasco2012}.
+
+Key gaps in current benchmarking approaches include:
+\begin{itemize}
+    \item \textbf{Limited Confound Testing:} Most studies evaluate methods only on clean synthetic data
+    \item \textbf{Inconsistent Evaluation Metrics:} Lack of standardized performance measures across studies
+    \item \textbf{Missing Real-World Validation:} Insufficient testing under realistic clinical conditions
+    \item \textbf{Computational Profiling:} Limited assessment of computational requirements and efficiency
+\end{itemize}
+
+% PLACEHOLDER: Insert Figure - Neural Memory Dynamics Illustration
+\begin{figure}[h]
+\centering
+\caption{Neural Memory Dynamics and Fractional Calculus Framework}
+\label{fig:neural_memory_dynamics}
+% INSERT FIGURE HERE
+% \includegraphics[width=0.8\textwidth]{figures/neural_memory_dynamics.png}
+\end{figure}

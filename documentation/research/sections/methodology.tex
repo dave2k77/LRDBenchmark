@@ -1,0 +1,81 @@
+\section{Methodology and Experimental Design}
+
+\subsection{Benchmarking Protocols and Procedures}
+
+Our benchmarking methodology follows established protocols in computational neuroscience and machine learning evaluation \citep{Harris2020, Virtanen2020}. The experimental design ensures comprehensive evaluation under controlled conditions while maintaining realistic characteristics of neurological time series \citep{McKinney2010}.
+
+\subsection{Data Generation and Preprocessing}
+
+Synthetic data generation utilizes well-established models that capture the essential characteristics of neurological time series:
+
+\begin{itemize}
+    \item \textbf{Fractional Brownian Motion (fBm):} Generated using the Davies-Harte method
+    \item \textbf{Fractional Gaussian Noise (fGn):} Derived from fBm processes
+    \item \textbf{ARFIMA Models:} Autoregressive fractionally integrated moving average processes
+    \item \textbf{Multifractal Random Walk (MRW):} Generated using wavelet-based synthesis
+\end{itemize}
+
+\subsection{Confound Application and Testing}
+
+The confound testing protocol applies realistic clinical conditions systematically:
+
+\begin{itemize}
+    \item \textbf{Noise Addition:} Additive white Gaussian noise with varying SNR levels
+    \item \textbf{Outlier Contamination:} Random replacement with extreme values
+    \item \textbf{Trend Addition:} Linear and quadratic trends with varying slopes
+    \item \textbf{Seasonality:} Periodic components with different frequencies
+    \item \textbf{Missing Data:} Random data removal with interpolation
+    \item \textbf{Smoothing:} Moving average filtering with varying windows
+    \item \textbf{Heteroscedasticity:} Time-varying noise levels
+    \item \textbf{Non-stationarity:} Piecewise stationary segments
+\end{itemize}
+
+\subsection{Machine Learning Baseline Implementation}
+
+Machine learning estimators were implemented using scikit-learn and PyTorch frameworks \citep{Paszke2019, Abadi2016}:
+
+\begin{itemize}
+    \item \textbf{Neural Network (MLP):} Multi-layer perceptron with optimized architecture
+    \item \textbf{Random Forest:} Ensemble method with 100 decision trees
+    \item \textbf{Support Vector Regression:} SVR with RBF kernel
+    \item \textbf{Gradient Boosting:} XGBoost implementation with early stopping
+    \item \textbf{LSTM/GRU:} Recurrent neural networks for sequence modeling
+\end{itemize}
+
+\subsection{Performance Evaluation Metrics}
+
+Comprehensive performance evaluation employs multiple metrics:
+
+\begin{itemize}
+    \item \textbf{Accuracy Metrics:} R² score, MAE, RMSE, MSE
+    \item \textbf{Precision Metrics:} Standard deviation, confidence intervals
+    \item \textbf{Efficiency Metrics:} Execution time, memory usage, speedup
+    \item \textbf{Robustness Metrics:} Success rate, parameter sensitivity
+\end{itemize}
+
+% PLACEHOLDER: Insert Figure - Experimental Design
+\begin{figure}[h]
+\centering
+\caption{Experimental Design and Methodology Flowchart}
+\label{fig:experimental_design}
+% INSERT FIGURE HERE
+\end{figure}
+
+\subsection{Statistical Analysis and Validation}
+
+Statistical validation procedures ensure robust results:
+
+\begin{itemize}
+    \item \textbf{Monte Carlo Simulations:} 1000 realizations per condition
+    \item \textbf{Cross-Validation:} 5-fold cross-validation for ML methods
+    \item \textbf{Bootstrap Analysis:} 95\% confidence intervals
+    \item \textbf{Hypothesis Testing:} t-tests, ANOVA, effect size analysis
+\end{itemize}
+
+% PLACEHOLDER: Insert Table - Experimental Parameters
+\begin{table}[h]
+\centering
+\caption{Experimental Parameters and Specifications}
+\label{tab:experimental_parameters}
+% INSERT TABLE CONTENT HERE
+\end{table}

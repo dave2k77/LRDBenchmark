@@ -1,0 +1,98 @@
+[core]
+    editor = code --wait
+    autocrlf = false
+    eol = lf
+
+[core.editor]
+    # Use VS Code as default editor
+    editor = code --wait
+
+[core.autocrlf]
+    # Disable automatic line ending conversion
+    autocrlf = false
+
+[core.eol]
+    # Use LF line endings
+    eol = lf
+
+[init]
+    # Set default branch name
+    defaultBranch = main
+
+[user]
+    # You'll need to set these values
+    # name = Your Name
+    # email = your.email@example.com
+
+[core.shell]
+    # Force Git to use Git Bash
+    shell = "C:/Program Files/Git/bin/bash.exe"
+
+[core.terminal]
+    # Ensure terminal uses Git Bash
+    terminal = "C:/Program Files/Git/bin/bash.exe"
+
+[gui]
+    # Use Git Bash for GUI operations
+    terminal = "C:/Program Files/Git/bin/bash.exe"
+
+[credential]
+    # Use Git Credential Manager
+    helper = manager-core
+
+[push]
+    # Set default push behavior
+    default = simple
+
+[pull]
+    # Set default pull behavior
+    rebase = false
+
+[merge]
+    # Set merge strategy
+    strategy = recursive
+
+[rebase]
+    # Set rebase behavior
+    autoStash = true
+
+[fetch]
+    # Set fetch behavior
+    prune = true
+
+[status]
+    # Show untracked files
+    showUntrackedFiles = all
+
+[log]
+    # Set log formatting
+    decorate = auto
+    abbrevCommit = true
+    graph = true
+    oneline = true
+
+[diff]
+    # Set diff behavior
+    mnemonicPrefix = true
+    renames = copies
+    algorithm = patience
+
+[color]
+    # Enable colored output
+    ui = auto
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+
+[alias]
+    # Useful aliases
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    ca = commit -a
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    visual = !gitk
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit

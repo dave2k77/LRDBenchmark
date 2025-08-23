@@ -1,0 +1,31 @@
+\section{Introduction}
+
+\subsection{Neurological Time Series and Long-Range Dependence}
+
+Neurological time series exhibit complex temporal dependencies that span multiple time scales, from milliseconds to hours, reflecting the hierarchical organization of brain networks \citep{VanDenHeuvel2010}. These long-range dependencies, characterized by power-law scaling in the frequency domain and persistent correlations in the time domain, provide critical insights into brain function and dysfunction \citep{Fornito2016}. The Hurst parameter, quantifying the degree of long-range dependence, has emerged as a fundamental biomarker for neurological conditions including epilepsy, Alzheimer's disease, and attention deficit hyperactivity disorder \citep{Mill2017}.
+
+Recent advances in computational neuroscience have revealed that neural oscillations exhibit fractal-like properties with memory dynamics that extend far beyond traditional Markovian assumptions \citep{Marasco2012}. These findings challenge conventional time series analysis methods and necessitate specialized approaches for accurate long-range dependence estimation \citep{Bouteiller2011}. The clinical implications are profound: reliable estimation of long-range dependence parameters could enable early detection of neurological disorders, personalized treatment optimization, and real-time monitoring of brain function \citep{Lytton2017}.
+
+\subsection{Current Methodological Limitations}
+
+Despite the clinical significance of long-range dependence estimation, the field faces a reproducibility crisis characterized by inconsistent performance across different datasets and analysis protocols \citep{Harris2020}. Classical estimators, including Detrended Fluctuation Analysis (DFA), Rescaled Range (R/S), and spectral methods, exhibit variable performance under realistic clinical conditions \citep{Virtanen2020}. The lack of standardized evaluation protocols has hindered clinical translation and limited the development of reliable biomarkers for neurological disorders \citep{McKinney2010}.
+
+Key limitations include:
+\begin{itemize}
+    \item \textbf{Confound Sensitivity:} Traditional estimators fail under realistic clinical conditions including noise, artifacts, and non-stationarity
+    \item \textbf{Computational Inefficiency:} Many methods require extensive computational resources, limiting real-time applications
+    \item \textbf{Parameter Sensitivity:} Performance varies significantly with parameter choices, reducing clinical reliability
+    \item \textbf{Lack of Standardization:} Absence of comprehensive benchmarking frameworks prevents objective method comparison
+\end{itemize}
+
+\subsection{Physics-Informed Fractional Operator Learning}
+
+The emerging field of physics-informed neural networks offers a promising approach to address these limitations by incorporating physical laws directly into machine learning architectures \citep{Karniadakis2021}. Fractional calculus, with its natural ability to capture memory dynamics and long-range dependencies, provides the mathematical foundation for physics-informed approaches to neurological time series analysis \citep{Wang2022}. The integration of fractional operators into neural network architectures could enable end-to-end learning of fractional dynamics while maintaining physical interpretability \citep{Li2021}.
+
+Recent experimental evidence from Physics-Informed Neural Operator (PINO) models demonstrates the potential of this approach, achieving R² = 0.8802 with 205.5\% improvement over baseline methods \citep{Chin2023}. PINO's unique resolution invariance and zero-shot inference capabilities make it particularly suitable for real-time clinical applications where data resolution and patient conditions vary significantly \citep{Wang2022}. The availability of high-performance fractional calculus libraries, achieving 61.5x speedup for Marchaud derivatives, provides the computational foundation necessary for real-time implementation \citep{Raubitzek2022}.
+
+\subsection{Paper Organization}
+
+The remainder of this paper is organized as follows. Section 2 provides the theoretical foundations, examining neural time series memory dynamics, current methodological limitations, and the promise of fractional calculus approaches. Section 3 details our comprehensive benchmarking framework design, including estimator selection, confound testing protocols, and statistical validation procedures. Section 4 presents the methodology and experimental design, covering benchmarking protocols, future clinical integration frameworks, and real-time deployment considerations.
+
+Section 5 presents our comprehensive results and performance analysis, including benchmarking results, robustness analysis, comparative studies, machine learning baseline evaluations, PINO empirical evidence, and extended fractional calculus library performance benchmarks. Section 6 discusses the methodological foundations, physics-informed approach validation, and future directions for clinical applications. Section 7 outlines the research trajectory, including technical advancement goals, clinical translation pipelines, and broader impact vision. Finally, Section 8 concludes with key innovations, clinical transformation potential, and research impact assessment.

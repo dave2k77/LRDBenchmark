@@ -1,0 +1,69 @@
+\section{Framework Design and Implementation}
+
+\subsection{Comprehensive Benchmarking Framework Architecture}
+
+Our comprehensive benchmarking framework was designed to address the reproducibility crisis in neurological time series analysis while establishing objective performance standards for long-range dependence estimation \citep{Harris2020, Virtanen2020}. The framework architecture follows established protocols in computational neuroscience methodology \citep{Marasco2012, Bouteiller2011}.
+
+\subsection{Estimator Selection and Categorization}
+
+The framework evaluates 13 classical estimators across four categories:
+
+\begin{itemize}
+    \item \textbf{Temporal Methods:} DFA, R/S, DMA, Higuchi
+    \item \textbf{Spectral Methods:} Periodogram, Whittle, GPH
+    \item \textbf{Wavelet Methods:} CWT, Wavelet Variance, Wavelet Log Variance, Wavelet Whittle
+    \item \textbf{Multifractal Methods:} MFDFA, Multifractal Wavelet Leaders
+\end{itemize}
+
+\subsection{Confound Testing Protocol}
+
+The framework implements eight realistic confound conditions:
+
+\begin{itemize}
+    \item \textbf{Additive White Noise:} SNR ranging from 0.1 to 10 dB
+    \item \textbf{Random Outliers:} 1-10\% contamination with extreme values
+    \item \textbf{Linear/Quadratic Trends:} Trend contamination with varying slopes
+    \item \textbf{Seasonal Patterns:} Periodic components with different frequencies
+    \item \textbf{Missing Data:} Random missing data with interpolation
+    \item \textbf{Smoothing:} Moving average smoothing with varying window sizes
+    \item \textbf{Heteroscedasticity:} Time-varying noise levels
+    \item \textbf{Non-stationary Segments:} Piecewise stationary processes
+\end{itemize}
+
+\subsection{Performance Metrics and Evaluation}
+
+The framework employs comprehensive performance metrics:
+
+\begin{itemize}
+    \item \textbf{Accuracy:} R² score, Mean Absolute Error (MAE), Root Mean Squared Error (RMSE)
+    \item \textbf{Precision:} Standard deviation of estimates, confidence intervals
+    \item \textbf{Efficiency:} Execution time, memory usage, computational complexity
+    \item \textbf{Robustness:} Success rate under confound conditions, parameter sensitivity
+\end{itemize}
+
+% PLACEHOLDER: Insert Figure - Framework Architecture
+\begin{figure}[h]
+\centering
+\caption{Comprehensive Benchmarking Framework Architecture}
+\label{fig:framework_architecture}
+% INSERT FIGURE HERE
+\end{figure}
+
+\subsection{Statistical Validation Procedures}
+
+The framework implements rigorous statistical validation:
+
+\begin{itemize}
+    \item \textbf{Monte Carlo Simulations:} 1000 realizations per parameter combination
+    \item \textbf{Cross-Validation:} K-fold cross-validation for ML estimators
+    \item \textbf{Bootstrap Analysis:} Confidence interval estimation
+    \item \textbf{Hypothesis Testing:} Statistical significance testing for performance differences
+\end{itemize}
+
+% PLACEHOLDER: Insert Table - Framework Components
+\begin{table}[h]
+\centering
+\caption{Framework Components and Specifications}
+\label{tab:framework_components}
+% INSERT TABLE CONTENT HERE
+\end{table}

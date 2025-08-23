@@ -1,0 +1,140 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage{breakurl}
+\usepackage{doi}
+\usepackage{abstract}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+
+% Page setup
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% Header/footer setup
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Physics-Informed Fractional Operator Learning}
+\lhead{Long-Range Dependence Estimation}
+\rfoot{\thepage}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    citecolor=red,
+    pdftitle={Comprehensive Benchmarking Framework for Long-Range Dependence Estimation},
+    pdfauthor={Author Name},
+    pdfsubject={Neurological Time Series Analysis},
+    pdfkeywords={fractional calculus, physics-informed neural networks, benchmarking, neurological time series}
+}
+
+% Title formatting
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% Section numbering
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+
+% Abstract environment
+\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+\renewcommand{\abstracttextfont}{\normalfont\small}
+
+% Bibliography setup
+\bibliographystyle{apalike}
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries Comprehensive Benchmarking Framework for Long-Range Dependence Estimation: Foundation for Physics-Informed Fractional Operator Learning in Neurological Time Series Analysis}
+
+\vspace{1cm}
+{\Large\bfseries Author Name}
+
+\vspace{0.5cm}
+{\large Institution Name}
+
+\vspace{0.5cm}
+{\large Department Name}
+
+\vspace{1cm}
+{\large \today}
+
+\vspace{2cm}
+\begin{abstract}
+\input{abstract.tex}
+\end{abstract}
+
+\vspace{1cm}
+{\large \textbf{Keywords:} Fractional calculus, Physics-informed neural networks, Benchmarking, Neurological time series, Long-range dependence, Machine learning, Clinical decision support systems}
+
+\end{center}
+\end{titlepage}
+
+% Table of contents
+\tableofcontents
+\newpage
+
+% List of figures and tables
+\listoffigures
+\listoftables
+\newpage
+
+% Main content
+\input{sections/introduction.tex}
+\input{sections/theoretical_foundations.tex}
+\input{sections/framework_design.tex}
+\input{sections/fractional_pino_architecture.tex}
+\input{sections/methodology.tex}
+\input{sections/results.tex}
+\input{sections/discussion.tex}
+\input{sections/future_directions.tex}
+\input{sections/conclusion.tex}
+
+% References
+\bibliography{references}
+
+% Appendices
+\appendix
+\input{appendices/appendix_a.tex}
+\input{appendices/appendix_b.tex}
+\input{appendices/appendix_c.tex}
+\input{appendices/appendix_d.tex}
+\input{appendices/appendix_e.tex}
+
+\end{document}
