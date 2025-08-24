@@ -1,6 +1,6 @@
 # Getting Started Guide
 
-Welcome to the Synthetic Data Generation and Analysis Project! This guide will help you get up and running quickly.
+Welcome to LRDBench! This guide will help you get up and running quickly with long-range dependence estimation.
 
 ## Table of Contents
 
@@ -17,39 +17,17 @@ Welcome to the Synthetic Data Generation and Analysis Project! This guide will h
 - Python 3.8 or higher
 - pip (Python package installer)
 
-### Step 1: Clone the Repository
+### Step 1: Install from PyPI
 
 ```bash
-git clone <repository-url>
-cd DataExploratoryProject
+pip install lrdbench
 ```
 
-### Step 2: Create Virtual Environment
-
-```bash
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
-# On Unix/MacOS:
-source venv/bin/activate
-```
-
-### Step 3: Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### Step 4: Verify Installation
+### Step 2: Verify Installation
 
 ```python
-import numpy as np
-import matplotlib.pyplot as plt
-from models.data_models.fbm import FractionalBrownianMotion
-from analysis.temporal.dfa import DFAEstimator
+import lrdbench
+from lrdbench.analysis.benchmark import ComprehensiveBenchmark
 
 print("Installation successful!")
 ```
@@ -60,13 +38,13 @@ print("Installation successful!")
 
 ```python
 # Import the fBm model
-from models.data_models.fbm import FractionalBrownianMotion
+from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
 
 # Create a model with Hurst parameter H = 0.7
 fbm = FractionalBrownianMotion(H=0.7, sigma=1.0)
 
 # Generate 1000 data points
-data = fbm.generate(n=1000, seed=42)
+data = fbm.generate(1000, seed=42)
 
 # Plot the data
 import matplotlib.pyplot as plt
@@ -83,7 +61,7 @@ plt.show()
 
 ```python
 # Import the DFA estimator
-from analysis.temporal.dfa import DFAEstimator
+from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
 
 # Create estimator
 dfa = DFAEstimator(min_box_size=8, max_box_size=200)
@@ -98,273 +76,187 @@ print(f"R-squared: {results['r_squared']:.3f}")
 dfa.plot_scaling()
 ```
 
+### Run a Comprehensive Benchmark
+
+```python
+# Import the benchmark system
+from lrdbench.analysis.benchmark import ComprehensiveBenchmark
+
+# Initialize benchmark
+benchmark = ComprehensiveBenchmark()
+
+# Run comprehensive test
+results = benchmark.run_comprehensive_benchmark(
+    data_length=1000,
+    contamination_type='additive_gaussian',
+    contamination_level=0.1
+)
+
+print(f"Success rate: {results['success_rate']:.1%}")
+print(f"Total tests: {results['total_tests']}")
+```
+
 ## Basic Concepts
 
-### Stochastic Models
+### What is Long-Range Dependence?
 
-The project implements four main stochastic models:
+Long-range dependence (LRD) is a property of time series where observations that are far apart in time are still correlated. This is quantified by the **Hurst parameter (H)**:
 
-1. **Fractional Brownian Motion (fBm)**
-   - Self-similar Gaussian process
-   - Characterized by Hurst parameter H
-   - Exhibits long-range dependence
+- **H > 0.5**: Persistent (positive correlations)
+- **H < 0.5**: Anti-persistent (negative correlations)  
+- **H = 0.5**: Independent (no long-range correlations)
 
-2. **Fractional Gaussian Noise (fGn)**
-   - Increments of fBm
-   - Stationary process
-   - Related to fBm through differencing
+### Available Data Models
 
-3. **ARFIMA (AutoRegressive Fractionally Integrated Moving Average)**
-   - Long-memory time series model
-   - Combines ARMA with fractional differencing
-   - Useful for modeling persistent time series
+1. **fBm (Fractional Brownian Motion)**: Self-similar Gaussian process
+2. **fGn (Fractional Gaussian Noise)**: Stationary increments of fBm
+3. **ARFIMA**: AutoRegressive Fractionally Integrated Moving Average
+4. **MRW (Multifractal Random Walk)**: Non-Gaussian multifractal process
 
-4. **Multifractal Random Walk (MRW)**
-   - Non-Gaussian multifractal process
-   - Exhibits scale-invariant properties
-   - Characterized by multifractal spectrum
+### Available Estimators
 
-### Estimators
+#### Classical Estimators (13 total)
+- **Temporal**: R/S, DFA, DMA, Higuchi
+- **Spectral**: GPH, Whittle, Periodogram
+- **Wavelet**: CWT, Wavelet Variance, Wavelet Log Variance, Wavelet Whittle
+- **Multifractal**: MFDFA, Wavelet Leaders
 
-The project provides various estimators for characterizing time series:
+#### Machine Learning Estimators (3 total)
+- Random Forest, Gradient Boosting, SVR
 
-#### Temporal Estimators
-- **DFA**: Detrended Fluctuation Analysis
-- **R/S**: Rescaled Range Analysis
-- **Higuchi**: Higuchi's fractal dimension method
-- **DMA**: Detrending Moving Average
-
-#### Spectral Estimators
-- **Periodogram**: Power spectral density estimation
-- **Whittle**: Maximum likelihood estimation
-- **GPH**: Geweke-Porter-Hudak estimator
-
-#### Wavelet Estimators
-- **Wavelet Log Variance**: Log-variance of wavelet coefficients
-- **Wavelet Variance**: Variance of wavelet coefficients
-- **Wavelet Whittle**: Whittle estimation using wavelets
-- **CWT**: Continuous Wavelet Transform
-
-#### Multifractal Estimators
-- **MFDFA**: Multifractal Detrended Fluctuation Analysis
-- **Wavelet Leaders**: Multifractal analysis using wavelet leaders
+#### Neural Network Estimators (2 total)
+- CNN, Transformer
 
 ## First Examples
 
-### Example 1: Comparing Different Hurst Parameters
+### Example 1: Compare Multiple Estimators
 
 ```python
 import numpy as np
-import matplotlib.pyplot as plt
-from models.data_models.fbm import FractionalBrownianMotion
+from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
+from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
 
-# Generate fBm with different Hurst parameters
-hurst_values = [0.3, 0.5, 0.7, 0.9]
-n = 1000
+# Generate test data
+fbm = FractionalBrownianMotion(H=0.7, sigma=1.0)
+data = fbm.generate(1000, seed=42)
 
-fig, axes = plt.subplots(2, 2, figsize=(12, 8))
-axes = axes.flatten()
+# Test different estimators
+estimators = {
+    'R/S': RSEstimator(),
+    'DFA': DFAEstimator(),
+    'CWT': CWTEstimator()
+}
 
-for i, H in enumerate(hurst_values):
-    fbm = FractionalBrownianMotion(H=H, sigma=1.0)
-    data = fbm.generate(n, seed=42)
-    
-    axes[i].plot(data)
-    axes[i].set_title(f'fBm with H = {H}')
-    axes[i].set_xlabel('Time')
-    axes[i].set_ylabel('Value')
-    axes[i].grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.show()
+print("Estimator Comparison:")
+print("-" * 40)
+for name, estimator in estimators.items():
+    try:
+        result = estimator.estimate(data)
+        h_est = result['hurst_parameter']
+        error = abs(h_est - 0.7)
+        print(f"{name:>8}: H_est={h_est:.4f}, Error={error:.4f}")
+    except Exception as e:
+        print(f"{name:>8}: Failed - {e}")
 ```
 
-### Example 2: Parameter Estimation and Validation
+### Example 2: Test with Contamination
 
 ```python
-from analysis.temporal.dfa import DFAEstimator
+from lrdbench.analysis.benchmark import ComprehensiveBenchmark
 
-# Generate synthetic data with known Hurst parameter
-true_H = 0.7
-fbm = FractionalBrownianMotion(H=true_H, sigma=1.0)
-data = fbm.generate(2000, seed=42)
+# Initialize benchmark
+benchmark = ComprehensiveBenchmark()
 
-# Estimate Hurst parameter using DFA
-dfa = DFAEstimator(min_box_size=8, max_box_size=500)
-results = dfa.estimate(data)
+# Test robustness under different contamination types
+contamination_types = ['additive_gaussian', 'outliers', 'trend']
 
-# Compare true vs estimated
-estimated_H = results['hurst_parameter']
-error = abs(estimated_H - true_H)
-
-print(f"True Hurst parameter: {true_H}")
-print(f"Estimated Hurst parameter: {estimated_H:.3f}")
-print(f"Absolute error: {error:.3f}")
-print(f"Relative error: {error/true_H*100:.1f}%")
-print(f"R-squared: {results['r_squared']:.3f}")
-
-# Get confidence intervals
-ci = dfa.get_confidence_intervals(confidence_level=0.95)
-lower, upper = ci['hurst_parameter']
-print(f"95% Confidence Interval: [{lower:.3f}, {upper:.3f}]")
+for cont_type in contamination_types:
+    results = benchmark.run_classical_benchmark(
+        data_length=500,
+        contamination_type=cont_type,
+        contamination_level=0.2
+    )
+    print(f"{cont_type:>20}: {results['success_rate']:.1%} success rate")
 ```
 
-### Example 3: Comprehensive Analysis
+### Example 3: Use Pre-trained Models
 
 ```python
-import numpy as np
-import matplotlib.pyplot as plt
-from models.data_models.fbm import FractionalBrownianMotion
-from analysis.temporal.dfa import DFAEstimator
+from lrdbench.models.pretrained_models.cnn_pretrained import CNNPretrainedModel
+from lrdbench.models.pretrained_models.transformer_pretrained import TransformerPretrainedModel
 
-# Set up parameters
-hurst_values = [0.3, 0.5, 0.7, 0.9]
-n = 2000
-n_trials = 10
+# Load pre-trained models
+cnn_model = CNNPretrainedModel(input_length=500)
+transformer_model = TransformerPretrainedModel(input_length=500)
 
-# Results storage
-results_summary = {}
+# Generate test data
+fbm = FractionalBrownianMotion(H=0.7, sigma=1.0)
+data = fbm.generate(1000, seed=42)
 
-for H_true in hurst_values:
-    print(f"\nAnalyzing fBm with H = {H_true}")
-    
-    estimated_H_values = []
-    
-    for trial in range(n_trials):
-        # Generate data
-        fbm = FractionalBrownianMotion(H=H_true, sigma=1.0)
-        data = fbm.generate(n, seed=42 + trial)
-        
-        # Estimate Hurst parameter
-        dfa = DFAEstimator(min_box_size=8, max_box_size=n//8)
-        dfa_results = dfa.estimate(data)
-        
-        estimated_H_values.append(dfa_results['hurst_parameter'])
-    
-    # Calculate statistics
-    mean_H = np.mean(estimated_H_values)
-    std_H = np.std(estimated_H_values)
-    bias = mean_H - H_true
-    
-    results_summary[H_true] = {
-        'mean': mean_H,
-        'std': std_H,
-        'bias': bias,
-        'relative_error': abs(bias)/H_true*100
-    }
-    
-    print(f"  True H: {H_true:.3f}")
-    print(f"  Estimated H (mean ± std): {mean_H:.3f} ± {std_H:.3f}")
-    print(f"  Bias: {bias:.3f}")
-    print(f"  Relative error: {abs(bias)/H_true*100:.1f}%")
+# Use models immediately (no training required)
+cnn_result = cnn_model.estimate(data)
+transformer_result = transformer_model.estimate(data)
 
-# Create summary plot
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
-
-# Plot 1: Estimation accuracy
-true_Hs = list(results_summary.keys())
-estimated_Hs = [results_summary[H]['mean'] for H in true_Hs]
-
-ax1.scatter(true_Hs, estimated_Hs, s=100, alpha=0.7)
-ax1.plot([0, 1], [0, 1], 'r--', alpha=0.7, label='Perfect estimation')
-ax1.set_xlabel('True Hurst Parameter')
-ax1.set_ylabel('Estimated Hurst Parameter')
-ax1.set_title('Estimation Accuracy')
-ax1.legend()
-ax1.grid(True, alpha=0.3)
-
-# Plot 2: Relative errors
-relative_errors = [results_summary[H]['relative_error'] for H in true_Hs]
-
-ax2.bar(range(len(true_Hs)), relative_errors, alpha=0.7)
-ax2.set_xlabel('Hurst Parameter')
-ax2.set_ylabel('Relative Error (%)')
-ax2.set_title('Estimation Errors')
-ax2.set_xticks(range(len(true_Hs)))
-ax2.set_xticklabels([f'{H:.1f}' for H in true_Hs])
-ax2.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.show()
+print(f"CNN: H_est={cnn_result['hurst_parameter']:.4f}")
+print(f"Transformer: H_est={transformer_result['hurst_parameter']:.4f}")
 ```
 
 ## Next Steps
 
-### 1. Explore the Models
+### 1. Explore the API Reference
+- [Complete API Reference](../api_reference/COMPLETE_API_REFERENCE.md)
+- [Benchmark Documentation](../api_reference/estimators/benchmark.md)
+- [Individual Estimator Docs](../api_reference/estimators/)
 
-- [fBm Model Tutorial](tutorials/fbm_tutorial.md)
-- [ARFIMA Model Tutorial](tutorials/arfima_tutorial.md)
-- [fGn Model Tutorial](tutorials/fgn_tutorial.md)
-- [MRW Model Tutorial](tutorials/mrw_tutorial.md)
+### 2. Run the Demos
+- [Comprehensive API Demo](../../demos/comprehensive_api_demo.py)
+- [CPU-Based Demos](../../demos/cpu_based/)
+- [GPU-Based Demos](../../demos/gpu_based/)
 
-### 2. Learn About Estimators
+### 3. Learn Advanced Features
+- **Contamination Testing**: Test estimator robustness
+- **Adaptive Wavelet Scaling**: Automatic scale optimization
+- **High-Performance Versions**: JAX and Numba optimized estimators
+- **Benchmark System**: Systematic performance evaluation
 
-- [DFA Tutorial](tutorials/dfa_tutorial.md)
-- [R/S Analysis Tutorial](tutorials/rs_tutorial.md)
-- [Wavelet Methods Tutorial](tutorials/wavelet_tutorial.md)
-- [Multifractal Analysis Tutorial](tutorials/multifractal_tutorial.md)
-
-### 3. Advanced Topics
-
-- [Performance Optimization](advanced/performance.md)
-- [High-Performance Computing](advanced/hpc.md)
-- [Validation and Testing](advanced/validation.md)
-- [Research Applications](advanced/applications.md)
-
-### 4. API Reference
-
-- [Complete API Documentation](../api_reference/README.md)
-- [Model Classes](../api_reference/models/README.md)
-- [Estimator Classes](../api_reference/estimators/README.md)
-
-### 5. Examples and Use Cases
-
-- [Financial Time Series](examples/financial.md)
-- [Physiological Signals](examples/physiological.md)
-- [Network Traffic](examples/network.md)
-- [Climate Data](examples/climate.md)
+### 4. Contribute and Extend
+- Add new estimators
+- Implement new data models
+- Optimize existing methods
+- Improve documentation
 
 ## Troubleshooting
 
 ### Common Issues
 
 1. **Import Errors**
-   ```bash
-   # Make sure you're in the correct directory
-   cd DataExploratoryProject
+   ```python
+   # ❌ Wrong
+   from analysis.benchmark import ComprehensiveBenchmark
    
-   # Activate virtual environment
-   venv\Scripts\activate  # Windows
-   source venv/bin/activate  # Unix/MacOS
+   # ✅ Correct
+   from lrdbench.analysis.benchmark import ComprehensiveBenchmark
    ```
 
-2. **Missing Dependencies**
-   ```bash
-   # Reinstall requirements
-   pip install -r requirements.txt
-   ```
+2. **Data Length Issues**
+   - Wavelet estimators require ≥100 points
+   - Recommended: ≥500 points for reliable results
+   - Very long data (>10,000 points) may be slow
 
 3. **Memory Issues**
-   ```python
-   # For large datasets, use smaller parameters
-   dfa = DFAEstimator(min_box_size=16, max_box_size=100)
-   ```
+   - Reduce data length
+   - Use smaller contamination levels
+   - Process data in chunks
 
 ### Getting Help
 
-- Check the [API Reference](../api_reference/README.md) for detailed documentation
-- Review the [Examples](examples/README.md) for usage patterns
-- Consult the [Technical Documentation](../technical/README.md) for implementation details
+- Check the [API Reference](../api_reference/)
+- Run the [demos](../../demos/) for examples
+- Review the [project README](../../README.md)
+- Create an issue on GitHub for bugs
 
-## Contributing
+---
 
-We welcome contributions! Please see the [Contributing Guide](../../CONTRIBUTING.md) for details on:
-
-- Code style and standards
-- Testing requirements
-- Documentation guidelines
-- Pull request process
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](../../LICENSE) file for details.
+**Welcome to LRDBench! Start exploring long-range dependence estimation today.**

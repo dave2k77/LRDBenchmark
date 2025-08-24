@@ -107,7 +107,7 @@ Get the increments of the MRW process.
 ### Basic Usage
 
 ```python
-from models.data_models.mrw.mrw_model import MultifractalRandomWalk
+from lrdbench.models.data_models.mrw.mrw_model import MultifractalRandomWalk
 
 # Create MRW model
 mrw = MultifractalRandomWalk(H=0.7, lambda_param=0.3, sigma=1.0)

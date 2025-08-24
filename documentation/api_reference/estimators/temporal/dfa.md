@@ -365,7 +365,7 @@ import numpy as np
 dfa = DFAEstimator(min_box_size=8, max_box_size=200)
 
 # Generate test data (fBm with H=0.7)
-from models.data_models.fbm.fbm_model import FractionalBrownianMotion
+from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
 fbm = FractionalBrownianMotion(H=0.7)
 data = fbm.generate(1000, seed=42)
 

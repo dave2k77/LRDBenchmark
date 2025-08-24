@@ -115,7 +115,7 @@ Get the increments of the ARFIMA process.
 ### Basic Usage
 
 ```python
-from models.data_models.arfima.arfima_model import ARFIMAModel
+from lrdbench.models.data_models.arfima.arfima_model import ARFIMAModel
 
 # Create ARFIMA(1,0.3,1) model
 arfima = ARFIMAModel(d=0.3, ar_params=[0.5], ma_params=[0.3])

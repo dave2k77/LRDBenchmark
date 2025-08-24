@@ -3,7 +3,13 @@
 Example script demonstrating the enhanced LRDBench benchmark features.
 """
 
-from analysis.benchmark import ComprehensiveBenchmark
+import sys
+import os
+
+# Add the project root to the path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from lrdbench.analysis.benchmark import ComprehensiveBenchmark
 
 def main():
     """Demonstrate different benchmark types and contamination options."""
@@ -60,6 +66,13 @@ def main():
     print("   ✓ Contamination options (noise, outliers, trend, etc.)")
     print("   ✓ Configurable contamination levels")
     print("   ✓ Automatic result saving and reporting")
+    
+    # Print summary statistics
+    print("\n📊 Summary Statistics:")
+    print(f"   Classical: {results_classical['success_rate']:.1%} success rate")
+    print(f"   ML: {results_ml['success_rate']:.1%} success rate")
+    print(f"   Neural: {results_neural['success_rate']:.1%} success rate")
+    print(f"   Comprehensive: {results_custom['success_rate']:.1%} success rate")
 
 if __name__ == "__main__":
     main()

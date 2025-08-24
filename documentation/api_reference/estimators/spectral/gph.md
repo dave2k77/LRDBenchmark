@@ -86,7 +86,7 @@ Creates visualization of the GPH regression.
 ```python
 import numpy as np
 from analysis.spectral.gph import GPHEstimator
-from models.data_models.fgn import FractionalGaussianNoise
+from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
 
 # Generate test data
 fgn = FractionalGaussianNoise(H=0.55)

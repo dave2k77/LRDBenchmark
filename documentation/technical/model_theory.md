@@ -1,6 +1,6 @@
 # Model Theory
 
-This document provides the mathematical foundations and theoretical background for all stochastic models implemented in the project.
+This document provides the mathematical foundations and theoretical background for all stochastic models implemented in LRDBench.
 
 ## Table of Contents
 
@@ -10,6 +10,7 @@ This document provides the mathematical foundations and theoretical background f
 4. [Multifractal Random Walk (MRW)](#multifractal-random-walk-mrw)
 5. [Model Relationships](#model-relationships)
 6. [Mathematical Properties](#mathematical-properties)
+7. [Implementation Details](#implementation-details)
 
 ## Fractional Brownian Motion (fBm)
 
@@ -86,6 +87,18 @@ The Davies-Harte method uses the spectral representation:
 3. **Eigenvalue Decomposition**: C = QΛQ^T
 4. **Generation**: B_H = Q√ΛZ
 
+### Implementation
+
+**Location**: `lrdbench.models.data_models.fbm.fbm_model.FractionalBrownianMotion`
+
+**Usage**:
+```python
+from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+
+fbm = FractionalBrownianMotion(H=0.7, sigma=1.0, method='davies_harte')
+data = fbm.generate(1000, seed=42)
+```
+
 ## Fractional Gaussian Noise (fGn)
 
 ### Definition
@@ -106,206 +119,231 @@ fGn is a stationary process with:
 
 #### Long-Range Dependence
 
-For H > 0.5, the autocorrelation function decays slowly:
+For H > 0.5, fGn exhibits long-range dependence with:
 
-ρ(k) ≈ H(2H-1)k^(2H-2) as k → ∞
+- **Persistent**: H > 0.5 (positive correlations)
+- **Anti-persistent**: H < 0.5 (negative correlations)
+- **Independent**: H = 0.5 (white noise)
 
 #### Power Spectral Density
 
 The power spectral density of fGn is:
 
-S(f) = 4σ² sin²(πf)|f|^(-2H-1)
+S(f) = σ²(2 sin(πf))^(1-2H)
 
-### Relationship to fBm
+### Implementation
 
-fGn and fBm are related through:
+**Location**: `lrdbench.models.data_models.fgn.fgn_model.FractionalGaussianNoise`
 
-1. **fGn from fBm**: X(t) = B_H(t+1) - B_H(t)
-2. **fBm from fGn**: B_H(t) = Σ_{k=1}^t X(k)
+**Usage**:
+```python
+from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
+
+fgn = FractionalGaussianNoise(H=0.7, sigma=1.0)
+data = fgn.generate(1000, seed=42)
+```
 
 ## ARFIMA Models
 
 ### Definition
 
-ARFIMA(p,d,q) models combine ARMA processes with fractional differencing:
+ARFIMA (AutoRegressive Fractionally Integrated Moving Average) models are defined as:
 
-(1 - B)^d Φ(B)X_t = Θ(B)ε_t
+φ(B)(1-B)^d X_t = θ(B)ε_t
 
 where:
-- d is the fractional differencing parameter
-- Φ(B) is the AR polynomial of order p
-- Θ(B) is the MA polynomial of order q
-- ε_t is white noise
+- φ(B) = 1 - φ₁B - φ₂B² - ... - φ_p B^p (AR polynomial)
+- θ(B) = 1 + θ₁B + θ₂B² + ... + θ_q B^q (MA polynomial)
+- (1-B)^d is the fractional differencing operator
+- ε_t ~ N(0, σ²) is white noise
 
-### Fractional Differencing
+### Mathematical Properties
 
-The fractional differencing operator (1 - B)^d is defined as:
+#### Fractional Differencing
 
-(1 - B)^d = Σ_{k=0}^∞ (d choose k) (-B)^k
+The fractional differencing operator (1-B)^d is defined as:
 
-where (d choose k) = d(d-1)...(d-k+1)/k!
+(1-B)^d = Σ_{k=0}^∞ (-1)^k (d choose k) B^k
 
-### Properties
+where (d choose k) = Γ(d+1)/(Γ(k+1)Γ(d-k+1)) is the generalized binomial coefficient.
 
-#### Long-Range Dependence
+#### Long-Memory Property
 
-For 0 < d < 0.5, ARFIMA processes exhibit long-range dependence with:
+For 0 < d < 0.5, the process exhibits long-memory with:
 
-- **Autocorrelation**: ρ(k) ≈ Ck^(2d-1) as k → ∞
-- **Power Spectrum**: S(f) ≈ C|f|^(-2d) as f → 0
+- **Autocorrelation**: ρ(k) ≈ ck^(2d-1) for large k
+- **Power Spectrum**: S(f) ≈ c|f|^(-2d) for small f
+- **Hurst Parameter**: H = d + 0.5
 
-#### Stationarity
+#### Stationarity and Invertibility
 
-ARFIMA processes are stationary for -0.5 < d < 0.5.
+- **Stationary**: for -0.5 < d < 0.5
+- **Invertible**: for -0.5 < d < 0.5
+- **Long-memory**: for 0 < d < 0.5
 
-#### Invertibility
+### Implementation
 
-ARFIMA processes are invertible for d > -1.
+**Location**: `lrdbench.models.data_models.arfima.arfima_model.ARFIMAModel`
 
-### Parameter Estimation
+**Usage**:
+```python
+from lrdbench.models.data_models.arfima.arfima_model import ARFIMAModel
 
-#### Maximum Likelihood
+arfima = ARFIMAModel(d=0.3, ar_params=[0.5], ma_params=[0.2], sigma=1.0)
+data = arfima.generate(1000, seed=42)
+```
 
-The log-likelihood function is:
-
-L(θ) = -(n/2)log(2π) - (1/2)log|Σ| - (1/2)X^T Σ^(-1) X
-
-where Σ is the covariance matrix.
-
-#### Whittle Estimation
-
-The Whittle likelihood is:
-
-L_W(θ) = -Σ_{j=1}^m [log S(f_j; θ) + I(f_j)/S(f_j; θ)]
-
-where I(f_j) is the periodogram.
+**Performance Features**:
+- **FFT-based fractional differencing**: O(n log n) complexity
+- **Efficient AR/MA filtering**: Using scipy.signal.lfilter
+- **Spectral method as default**: Optimal performance for most cases
 
 ## Multifractal Random Walk (MRW)
 
 ### Definition
 
-Multifractal Random Walk is a non-Gaussian multifractal process defined as:
+Multifractal Random Walk is a non-Gaussian process that exhibits multifractal scaling properties. It is defined as:
 
-X(t) = B_H(t) exp(ω(t))
+X(t) = Σ_{i=1}^t ε_i exp(ω_i)
 
 where:
-- B_H(t) is fBm with Hurst parameter H
-- ω(t) is a Gaussian process with specific covariance structure
+- ε_i ~ N(0, σ²) are Gaussian innovations
+- ω_i is a multifractal process with:
+  - E[ω_i] = -λ²/2 (ensures E[X(t)] = 0)
+  - Cov(ω_i, ω_j) = λ² log_2(|i-j|+1) for i ≠ j
 
-### Multifractal Properties
+### Mathematical Properties
 
 #### Multifractal Spectrum
 
-The multifractal spectrum f(α) describes the distribution of Hölder exponents:
+The multifractal spectrum f(α) describes the distribution of local Hölder exponents:
 
-f(α) = dim{t : α(t) = α}
+f(α) = 1 - (α - H)²/(2λ²)
 
-where α(t) is the local Hölder exponent.
+where:
+- α is the local Hölder exponent
+- H is the Hurst parameter
+- λ is the intermittency parameter
 
-#### Structure Functions
+#### Scaling Properties
 
 The q-th order structure function scales as:
 
 S_q(τ) = E[|X(t+τ) - X(t)|^q] ≈ τ^ζ(q)
 
-where ζ(q) is the scaling exponent function.
+where the scaling exponents ζ(q) are:
 
-### Parameter Estimation
+ζ(q) = qH - λ²q(q-1)/2
 
-#### Multifractal Detrended Fluctuation Analysis (MFDFA)
+#### Non-Gaussian Properties
 
-1. **Profile**: Y(i) = Σ_{k=1}^i (X(k) - ⟨X⟩)
-2. **Segmentation**: Divide into N_s = N/s segments
-3. **Detrending**: Fit polynomial and calculate variance
-4. **Scaling**: F_q(s) = [Σ_{ν=1}^N_s F²(ν,s)^(q/2)/N_s]^(1/q)
-5. **Multifractal Spectrum**: f(α) = qα - τ(q)
+- **Heavy tails**: Due to exponential multifractal modulation
+- **Intermittency**: Clustering of extreme events
+- **Scale invariance**: Self-similarity across multiple scales
+
+### Implementation
+
+**Location**: `lrdbench.models.data_models.mrw.mrw_model.MultifractalRandomWalk`
+
+**Usage**:
+```python
+from lrdbench.models.data_models.mrw.mrw_model import MultifractalRandomWalk
+
+mrw = MultifractalRandomWalk(H=0.7, lambda_param=0.5, sigma=1.0)
+data = mrw.generate(1000, seed=42)
+```
 
 ## Model Relationships
 
-### Hierarchical Structure
+### fBm ↔ fGn
 
-```
-Stochastic Processes
-├── Gaussian Processes
-│   ├── Fractional Brownian Motion (fBm)
-│   │   └── Fractional Gaussian Noise (fGn)
-│   └── ARFIMA Models
-└── Non-Gaussian Processes
-    └── Multifractal Random Walk (MRW)
-```
+- **fGn to fBm**: B_H(t) = Σ_{i=1}^t X_i where X_i ~ fGn
+- **fBm to fGn**: X_t = B_H(t) - B_H(t-1)
 
-### Transformations
+### ARFIMA ↔ fGn
 
-1. **fBm → fGn**: X(t) = B_H(t+1) - B_H(t)
-2. **fGn → fBm**: B_H(t) = Σ_{k=1}^t X(k)
-3. **ARFIMA → Long Memory**: d > 0 induces long-range dependence
-4. **MRW → Multifractal**: Combines fBm with log-normal multipliers
+- **ARFIMA to fGn**: For d = H - 0.5, ARFIMA(d) ≈ fGn(H)
+- **fGn to ARFIMA**: fGn(H) can be approximated by ARFIMA(d = H - 0.5)
 
-### Parameter Relationships
+### MRW ↔ fBm
 
-| Model | Key Parameter | Range | Interpretation |
-|-------|---------------|-------|----------------|
-| fBm | H | (0, 1) | Hurst parameter |
-| fGn | H | (0, 1) | Hurst parameter |
-| ARFIMA | d | (-0.5, 0.5) | Fractional differencing |
-| MRW | H, λ² | H ∈ (0, 1), λ² > 0 | Hurst + multifractal |
+- **MRW to fBm**: For λ → 0, MRW → fBm
+- **fBm to MRW**: fBm is the Gaussian limit of MRW
 
 ## Mathematical Properties
 
-### Scaling Properties
+### Self-Similarity
 
-#### Self-Similarity
+All models exhibit self-similarity:
 
 - **fBm**: B_H(at) = a^H B_H(t)
 - **fGn**: X(at) = a^(H-1) X(t)
-- **ARFIMA**: No exact self-similarity
-- **MRW**: Approximate self-similarity
+- **ARFIMA**: X(at) = a^(d-0.5) X(t)
+- **MRW**: X(at) = a^H X(t) (in distribution)
 
-#### Long-Range Dependence
+### Long-Range Dependence
 
-- **fBm**: H > 0.5
-- **fGn**: H > 0.5
-- **ARFIMA**: d > 0
-- **MRW**: H > 0.5
+Long-range dependence is quantified by the Hurst parameter H:
 
-### Statistical Properties
+- **fBm/fGn**: Direct parameter H
+- **ARFIMA**: H = d + 0.5
+- **MRW**: Direct parameter H
 
-#### Moments
+### Power Law Scaling
 
-| Model | Mean | Variance | Skewness | Kurtosis |
-|-------|------|----------|----------|----------|
-| fBm | 0 | σ²t^(2H) | 0 | 3 |
-| fGn | 0 | σ² | 0 | 3 |
-| ARFIMA | 0 | σ² | 0 | 3 |
-| MRW | 0 | σ²t^(2H) | 0 | > 3 |
+All models exhibit power law scaling:
 
-#### Autocorrelation
+- **Autocorrelation**: ρ(k) ≈ ck^(2H-2)
+- **Power Spectrum**: S(f) ≈ c|f|^(-2H-1)
+- **Structure Function**: S_q(τ) ≈ τ^ζ(q)
 
-- **fBm**: Non-stationary
-- **fGn**: ρ(k) ≈ H(2H-1)k^(2H-2)
-- **ARFIMA**: ρ(k) ≈ Ck^(2d-1)
-- **MRW**: Complex structure
+## Implementation Details
 
-### Computational Complexity
+### Performance Optimizations
 
-| Generation Method | Time Complexity | Space Complexity | Accuracy |
-|-------------------|-----------------|------------------|----------|
-| Davies-Harte | O(n log n) | O(n) | Good |
-| Cholesky | O(n³) | O(n²) | Exact |
-| Circulant | O(n log n) | O(n) | Good |
-| ARFIMA | O(n²) | O(n) | Exact |
-| MRW | O(n log n) | O(n) | Good |
+1. **FFT-based Methods**: Used for spectral generation (Davies-Harte)
+2. **Vectorized Operations**: NumPy-based implementations
+3. **Memory Management**: Efficient memory usage for large datasets
+4. **Parallel Processing**: Support for multiprocessing where applicable
 
-## References
+### Numerical Stability
 
-1. Mandelbrot, B. B., & Van Ness, J. W. (1968). Fractional Brownian motions, fractional noises and applications. *SIAM Review*, 10(4), 422-437.
+1. **Parameter Validation**: All parameters are validated before use
+2. **Error Handling**: Robust error handling for edge cases
+3. **Precision Control**: Configurable precision for numerical operations
+4. **Fallback Methods**: Multiple generation methods for robustness
 
-2. Beran, J. (1994). *Statistics for Long-Memory Processes*. Chapman & Hall.
+### Quality Assurance
 
-3. Granger, C. W., & Joyeux, R. (1980). An introduction to long-memory time series models and fractional differencing. *Journal of Time Series Analysis*, 1(1), 15-29.
+1. **Unit Tests**: Comprehensive test coverage
+2. **Statistical Validation**: Verification of theoretical properties
+3. **Performance Benchmarks**: Regular performance testing
+4. **Documentation**: Complete API documentation
 
-4. Bacry, E., Delour, J., & Muzy, J. F. (2001). Multifractal random walk. *Physical Review E*, 64(2), 026103.
+### Usage Patterns
 
-5. Davies, R. B., & Harte, D. S. (1987). Tests for Hurst effect. *Biometrika*, 74(1), 95-101.
+```python
+# Standard usage
+from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
 
-6. Abry, P., & Veitch, D. (1998). Wavelet analysis of long-range-dependent traffic. *IEEE Transactions on Information Theory*, 44(1), 2-15.
+fbm = FractionalBrownianMotion(H=0.7, sigma=1.0)
+data = fbm.generate(1000, seed=42)
+
+# Get theoretical properties
+properties = fbm.get_theoretical_properties()
+print(f"Hurst parameter: {properties['hurst_parameter']}")
+print(f"Long-range dependence: {properties['long_range_dependence']}")
+
+# Batch generation
+data_batch = [fbm.generate(1000, seed=i) for i in range(10)]
+
+# Parameter exploration
+for H in [0.3, 0.5, 0.7, 0.9]:
+    fbm = FractionalBrownianMotion(H=H, sigma=1.0)
+    data = fbm.generate(1000, seed=42)
+    # Process data...
+```
+
+---
+
+**For more information, see the [Complete API Reference](../api_reference/COMPLETE_API_REFERENCE.md) or the [project documentation](../../README.md).**

@@ -1,0 +1,371 @@
+{
+  "timestamp": "2025-08-24T12:02:11.993666",
+  "benchmark_type": "neural",
+  "contamination_type": "outliers",
+  "contamination_level": 0.1,
+  "total_tests": 8,
+  "successful_tests": 8,
+  "success_rate": 1.0,
+  "data_models_tested": 4,
+  "estimators_tested": 2,
+  "results": {
+    "fBm": {
+      "data_params": {
+        "H": 0.7,
+        "sigma": 1.0,
+        "contamination": {
+          "type": "outliers",
+          "level": 0.1,
+          "parameters": {
+            "outlier_fraction": 0.1,
+            "outlier_magnitude": 3.0
+          },
+          "original_data_shape": [
+            1000
+          ],
+          "contaminated_data_shape": [
+            1000
+          ]
+        }
+      },
+      "estimator_results": [
+        {
+          "estimator": "CNN",
+          "success": true,
+          "execution_time": 0.0,
+          "estimated_hurst": 0.43188944504126553,
+          "true_hurst": 0.7,
+          "error": 0.2681105549587344,
+          "r_squared": null,
+          "p_value": null,
+          "intercept": null,
+          "slope": null,
+          "std_error": 0.1,
+          "full_result": {
+            "hurst_parameter": 0.43188944504126553,
+            "confidence_interval": [
+              0.23588944504126552,
+              0.6278894450412655
+            ],
+            "std_error": 0.1,
+            "method": "CNN (Statistical Fallback)",
+            "model_info": {
+              "model_type": "CNN1D",
+              "conv_channels": [
+                32,
+                64,
+                128
+              ],
+              "fc_layers": [
+                256,
+                128,
+                64
+              ],
+              "dropout_rate": 0.3
+            }
+          }
+        },
+        {
+          "estimator": "Transformer",
+          "success": true,
+          "execution_time": 0.0011606216430664062,
+          "estimated_hurst": 0.0,
+          "true_hurst": 0.7,
+          "error": 0.7,
+          "r_squared": null,
+          "p_value": null,
+          "intercept": null,
+          "slope": null,
+          "std_error": 0.1,
+          "full_result": {
+            "hurst_parameter": 0.0,
+            "confidence_interval": [
+              0,
+              0.196
+            ],
+            "std_error": 0.1,
+            "method": "Transformer (Spectral Fallback)",
+            "model_info": {
+              "model_type": "TimeSeriesTransformer",
+              "d_model": 128,
+              "nhead": 8,
+              "num_layers": 6,
+              "dim_feedforward": 512,
+              "dropout": 0.1
+            }
+          }
+        }
+      ]
+    },
+    "fGn": {
+      "data_params": {
+        "H": 0.7,
+        "sigma": 1.0,
+        "contamination": {
+          "type": "outliers",
+          "level": 0.1,
+          "parameters": {
+            "outlier_fraction": 0.1,
+            "outlier_magnitude": 3.0
+          },
+          "original_data_shape": [
+            1000
+          ],
+          "contaminated_data_shape": [
+            1000
+          ]
+        }
+      },
+      "estimator_results": [
+        {
+          "estimator": "CNN",
+          "success": true,
+          "execution_time": 0.0,
+          "estimated_hurst": 0.485738756336314,
+          "true_hurst": 0.7,
+          "error": 0.21426124366368593,
+          "r_squared": null,
+          "p_value": null,
+          "intercept": null,
+          "slope": null,
+          "std_error": 0.1,
+          "full_result": {
+            "hurst_parameter": 0.485738756336314,
+            "confidence_interval": [
+              0.289738756336314,
+              0.681738756336314
+            ],
+            "std_error": 0.1,
+            "method": "CNN (Statistical Fallback)",
+            "model_info": {
+              "model_type": "CNN1D",
+              "conv_channels": [
+                32,
+                64,
+                128
+              ],
+              "fc_layers": [
+                256,
+                128,
+                64
+              ],
+              "dropout_rate": 0.3
+            }
+          }
+        },
+        {
+          "estimator": "Transformer",
+          "success": true,
+          "execution_time": 0.0,
+          "estimated_hurst": 0.0,
+          "true_hurst": 0.7,
+          "error": 0.7,
+          "r_squared": null,
+          "p_value": null,
+          "intercept": null,
+          "slope": null,
+          "std_error": 0.1,
+          "full_result": {
+            "hurst_parameter": 0.0,
+            "confidence_interval": [
+              0,
+              0.196
+            ],
+            "std_error": 0.1,
+            "method": "Transformer (Spectral Fallback)",
+            "model_info": {
+              "model_type": "TimeSeriesTransformer",
+              "d_model": 128,
+              "nhead": 8,
+              "num_layers": 6,
+              "dim_feedforward": 512,
+              "dropout": 0.1
+            }
+          }
+        }
+      ]
+    },
+    "ARFIMAModel": {
+      "data_params": {
+        "d": 0.3,
+        "ar_params": [
+          0.5
+        ],
+        "ma_params": [
+          0.2
+        ],
+        "contamination": {
+          "type": "outliers",
+          "level": 0.1,
+          "parameters": {
+            "outlier_fraction": 0.1,
+            "outlier_magnitude": 3.0
+          },
+          "original_data_shape": [
+            1000
+          ],
+          "contaminated_data_shape": [
+            1000
+          ]
+        }
+      },
+      "estimator_results": [
+        {
+          "estimator": "CNN",
+          "success": true,
+          "execution_time": 0.0,
+          "estimated_hurst": 0.5132557788379372,
+          "true_hurst": null,
+          "error": null,
+          "r_squared": null,
+          "p_value": null,
+          "intercept": null,
+          "slope": null,
+          "std_error": 0.1,
+          "full_result": {
+            "hurst_parameter": 0.5132557788379372,
+            "confidence_interval": [
+              0.31725577883793715,
+              0.7092557788379372
+            ],
+            "std_error": 0.1,
+            "method": "CNN (Statistical Fallback)",
+            "model_info": {
+              "model_type": "CNN1D",
+              "conv_channels": [
+                32,
+                64,
+                128
+              ],
+              "fc_layers": [
+                256,
+                128,
+                64
+              ],
+              "dropout_rate": 0.3
+            }
+          }
+        },
+        {
+          "estimator": "Transformer",
+          "success": true,
+          "execution_time": 0.001012563705444336,
+          "estimated_hurst": 0.0,
+          "true_hurst": null,
+          "error": null,
+          "r_squared": null,
+          "p_value": null,
+          "intercept": null,
+          "slope": null,
+          "std_error": 0.1,
+          "full_result": {
+            "hurst_parameter": 0.0,
+            "confidence_interval": [
+              0,
+              0.196
+            ],
+            "std_error": 0.1,
+            "method": "Transformer (Spectral Fallback)",
+            "model_info": {
+              "model_type": "TimeSeriesTransformer",
+              "d_model": 128,
+              "nhead": 8,
+              "num_layers": 6,
+              "dim_feedforward": 512,
+              "dropout": 0.1
+            }
+          }
+        }
+      ]
+    },
+    "MRW": {
+      "data_params": {
+        "H": 0.7,
+        "lambda_param": 0.5,
+        "sigma": 1.0,
+        "contamination": {
+          "type": "outliers",
+          "level": 0.1,
+          "parameters": {
+            "outlier_fraction": 0.1,
+            "outlier_magnitude": 3.0
+          },
+          "original_data_shape": [
+            1000
+          ],
+          "contaminated_data_shape": [
+            1000
+          ]
+        }
+      },
+      "estimator_results": [
+        {
+          "estimator": "CNN",
+          "success": true,
+          "execution_time": 0.0,
+          "estimated_hurst": 0.30889309803407017,
+          "true_hurst": 0.7,
+          "error": 0.3911069019659298,
+          "r_squared": null,
+          "p_value": null,
+          "intercept": null,
+          "slope": null,
+          "std_error": 0.1,
+          "full_result": {
+            "hurst_parameter": 0.30889309803407017,
+            "confidence_interval": [
+              0.11289309803407016,
+              0.5048930980340702
+            ],
+            "std_error": 0.1,
+            "method": "CNN (Statistical Fallback)",
+            "model_info": {
+              "model_type": "CNN1D",
+              "conv_channels": [
+                32,
+                64,
+                128
+              ],
+              "fc_layers": [
+                256,
+                128,
+                64
+              ],
+              "dropout_rate": 0.3
+            }
+          }
+        },
+        {
+          "estimator": "Transformer",
+          "success": true,
+          "execution_time": 0.0,
+          "estimated_hurst": 0.0,
+          "true_hurst": 0.7,
+          "error": 0.7,
+          "r_squared": null,
+          "p_value": null,
+          "intercept": null,
+          "slope": null,
+          "std_error": 0.1,
+          "full_result": {
+            "hurst_parameter": 0.0,
+            "confidence_interval": [
+              0,
+              0.196
+            ],
+            "std_error": 0.1,
+            "method": "Transformer (Spectral Fallback)",
+            "model_info": {
+              "model_type": "TimeSeriesTransformer",
+              "d_model": 128,
+              "nhead": 8,
+              "num_layers": 6,
+              "dim_feedforward": 512,
+              "dropout": 0.1
+            }
+          }
+        }
+      ]
+    }
+  }
+}

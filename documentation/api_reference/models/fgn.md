@@ -24,7 +24,7 @@ FractionalGaussianNoise(H: float, sigma: float = 1.0, method: str = "circulant")
 
 ### Example
 ```python
-from models.data_models.fgn.fgn_model import FractionalGaussianNoise
+from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
 
 fgn = FractionalGaussianNoise(H=0.7, sigma=1.0)
 x = fgn.generate(n=4096, seed=123)

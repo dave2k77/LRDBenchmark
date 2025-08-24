@@ -20,7 +20,7 @@ def read_requirements():
 
 # Get version from pyproject.toml or use default
 def get_version():
-    return "1.1.1"
+    return "1.2.0"
 
 setup(
     name="lrdbench",
@@ -36,7 +36,7 @@ setup(
         "Source": "https://github.com/dave2k77/long-range-dependence-project-3",
         "Documentation": "https://github.com/dave2k77/long-range-dependence-project-3#readme",
     },
-    packages=find_packages(include=["models*", "analysis*"], exclude=["web-dashboard*", "setup*", "research*", "tests*", "demos*", "documentation*", "assets*", "confound_results*", "scripts*", "config*"]),
+    packages=find_packages(include=["lrdbench*"]),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Science/Research",
@@ -82,9 +82,9 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "lrdbench=analysis.benchmark:main",
-            "benchmark-estimators=analysis.benchmark:main",
-            "confound-analysis=analysis.benchmark:main",
+            "lrdbench=lrdbench.analysis.benchmark:main",
+            "benchmark-estimators=lrdbench.analysis.benchmark:main",
+            "confound-analysis=lrdbench.analysis.benchmark:main",
         ],
     },
     keywords=[
@@ -99,5 +99,4 @@ setup(
         "physics-informed",
         "scientific-computing",
     ],
-    zip_safe=False,
 )

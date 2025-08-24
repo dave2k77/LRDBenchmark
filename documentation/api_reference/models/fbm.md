@@ -325,7 +325,7 @@ def description(self) -> str:
 ### Basic Usage
 
 ```python
-from models.data_models.fbm.fbm_model import FractionalBrownianMotion
+from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
 import numpy as np
 
 # Create fBm model
