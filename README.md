@@ -138,8 +138,28 @@ sys.path.insert(0, '.')
 
 # Run comprehensive benchmark
 from scripts.comprehensive_estimator_benchmark import run_comprehensive_benchmark
-results = run_comprehensive_benchmark()
+results = run_comprehensive_estimator_benchmark()
 print("Benchmark completed successfully!")
+```
+
+### **3. Enhanced Benchmarking with LRDBench**
+```python
+from analysis.benchmark import ComprehensiveBenchmark
+
+# Initialize benchmark system
+benchmark = ComprehensiveBenchmark()
+
+# Run different types of benchmarks
+results = benchmark.run_comprehensive_benchmark(
+    benchmark_type='classical',  # 'comprehensive', 'classical', 'ML', 'neural'
+    contamination_type='additive_gaussian',  # optional: add noise, outliers, etc.
+    contamination_level=0.2  # 0.0 to 1.0
+)
+
+# Or use convenience methods
+results_classical = benchmark.run_classical_benchmark()
+results_ml = benchmark.run_ml_benchmark(contamination_type='outliers')
+results_neural = benchmark.run_neural_benchmark(contamination_type='trend')
 ```
 
 ### **3. Explore Machine Learning Estimators**
@@ -156,18 +176,30 @@ transformer = TransformerEstimator()
 
 ## 📊 **Key Features**
 
-### **🔬 Comprehensive Estimator Suite (23 Total)**
+### **🔬 Comprehensive Estimator Suite (25+ Total)**
 - **Temporal Methods**: DFA, R/S, Higuchi, DMA (4 estimators)
 - **Spectral Methods**: Periodogram, Whittle, GPH (3 estimators)
 - **Wavelet Methods**: Log Variance, Variance, Whittle, CWT (4 estimators)
 - **Multifractal Methods**: MFDFA, Wavelet Leaders (2 estimators)
 - **Machine Learning**: LSTM, GRU, CNN, Transformer, Gradient Boosting, Random Forest, SVR (10 estimators)
 
+### **🎯 Flexible Benchmarking System**
+- **Benchmark Types**: Comprehensive, Classical, ML, Neural
+- **Contamination Options**: Gaussian noise, outliers, trend, seasonal, missing data
+- **Configurable Levels**: Adjustable contamination intensity (0.0 to 1.0)
+- **Automatic Reporting**: CSV and JSON output with performance rankings
+
 ### **⚡ High-Performance Implementation**
 - **JAX Optimization**: GPU acceleration for large-scale computations
 - **Numba JIT**: Just-in-time compilation for critical loops
 - **Parallel Processing**: Multi-core benchmark execution
 - **Memory Efficient**: Optimized data structures and algorithms
+
+### **🧪 Advanced Benchmarking Features**
+- **Category-Specific Testing**: Test only classical, ML, or neural estimators
+- **Contamination Simulation**: Real-world data quality challenges
+- **Performance Metrics**: Execution time, accuracy, and robustness analysis
+- **Result Export**: Structured output for further analysis and publication
 
 ### **🎯 Clinical Applications**
 - **Real-time Processing**: Sub-100ms estimation for continuous monitoring

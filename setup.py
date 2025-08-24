@@ -82,9 +82,9 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "lrdbench=scripts.comprehensive_estimator_benchmark:main",
-            "benchmark-estimators=scripts.comprehensive_estimator_benchmark:main",
-            "confound-analysis=scripts.confounded_data_benchmark:main",
+            "lrdbench=analysis.benchmark:main",
+            "benchmark-estimators=analysis.benchmark:main",
+            "confound-analysis=analysis.benchmark:main",
         ],
     },
     keywords=[

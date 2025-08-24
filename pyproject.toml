@@ -85,9 +85,9 @@ Repository = "https://github.com/dave2k77/long-range-dependence-project-3"
 "Bug Tracker" = "https://github.com/dave2k77/long-range-dependence-project-3/issues"
 
 [project.scripts]
-lrdbench = "scripts.comprehensive_estimator_benchmark:main"
-benchmark-estimators = "scripts.comprehensive_estimator_benchmark:main"
-confound-analysis = "scripts.confounded_data_benchmark:main"
+lrdbench = "analysis.benchmark:main"
+benchmark-estimators = "analysis.benchmark:main"
+confound-analysis = "analysis.benchmark:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

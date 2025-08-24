@@ -447,3 +447,6 @@ class RSEstimator(BaseEstimator):
             'min_scale': self.results['window_sizes'][0],
             'max_scale': self.results['window_sizes'][-1]
         }
+
+
+
