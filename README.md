@@ -1,214 +1,166 @@
-# 🚀 **LRDBench: Comprehensive Framework for Long-Range Dependence Estimation**
+# 🚀 **LRDBench: Long-Range Dependence Benchmarking Toolkit**
 
-A comprehensive repository for exploring synthetic data generation techniques and estimation methods for various stochastic processes, with a focus on **long-range dependence estimation** and **machine learning approaches**.
+A comprehensive Python package for benchmarking long-range dependence estimators on synthetic and real-world time series data. LRDBench provides ready-to-use implementations of classical, machine learning, and neural network estimators with built-in analytics and performance monitoring.
 
-## 🎯 **Project Overview**
+## 🎯 **What is LRDBench?**
 
-This project focuses on implementing and analyzing five key stochastic models:
-- **ARFIMA** (AutoRegressive Fractionally Integrated Moving Average)
-- **fBm** (Fractional Brownian Motion)
-- **fGn** (Fractional Gaussian Noise)
-- **MRW** (Multifractal Random Walk)
-- **Neural fSDE** (Neural network-based fractional SDEs)
+LRDBench is designed for researchers, data scientists, and practitioners who need to:
+- **Compare different long-range dependence estimation methods**
+- **Generate synthetic data from stochastic processes**
+- **Benchmark estimator performance across various data types**
+- **Monitor usage patterns and performance metrics**
+- **Use pre-trained models without additional training**
 
-## 🏆 **Project Status**
+## ✨ **Key Features**
 
-🎉 **PROJECT COMPLETE - 100%** 🎉
-
-All major components have been successfully implemented and tested:
-
-- ✅ **Data Models**: 5/5 models fully implemented and optimized
-- ✅ **Estimators**: 18/18 estimators with comprehensive testing
-- ✅ **High-Performance**: Sub-100ms estimation times with robust algorithms
-- ✅ **Neural fSDE**: Components present with optional JAX/PyTorch dependencies
-- ✅ **Auto-Discovery**: Intelligent component discovery and integration system
-- ✅ **PyPI Ready**: Complete packaging configuration for distribution
-- ✅ **Demos**: Comprehensive demonstration scripts and examples
-- ✅ **Production Ready**: All models come pre-trained and ready to use
-
-## 🏗️ **Project Structure**
-
-### **📁 Root Level (Essential Files)**
-```
-DataExploratoryProject/
-├── README.md                           # Main project documentation
-├── requirements.txt                    # Dependencies
-├── setup.py                          # PyPI packaging configuration
-├── pyproject.toml                     # Modern Python packaging
-├── MANIFEST.in                        # Package inclusion rules
-├── LICENSE                            # MIT License
-├── .gitignore                         # Git ignore rules
-├── auto_discovery_system.py           # Component discovery system
-├── component_registry.json            # Component registry
-├── models/                            # Data model implementations (5 generators)
-├── analysis/                          # Estimator implementations (18 estimators)
-├── setup/                             # Setup and configuration files
-├── scripts/                           # Main Python scripts
-├── config/                            # Configuration files
-├── assets/                            # Images and media files
-├── documentation/                     # Documentation
-├── demos/                             # Demo scripts
-├── tests/                             # Test files
-└── confound_results/                  # Quality leaderboard and benchmark results
-```
-
-### **📁 Organized Folders**
-
-#### **🔧 setup/ - Setup & Configuration**
-- Git Bash setup guides and configuration
-- PowerShell profiles and terminal settings
-- Git hooks and automation scripts
-- Project cleanup documentation
-
-#### **🐍 scripts/ - Main Python Scripts**
-- Comprehensive benchmarking scripts
-- Machine learning estimator analysis and training
-- Confound analysis and robustness testing
-- Machine learning vs classical comparison
-
-#### **⚙️ config/ - Configuration & Registry**
-- Component registry and discovery metadata
-- Git configuration and project settings
-- Auto-discovery system configuration
-
-#### **🖼️ assets/ - Images & Media**
-- Research visualizations and diagrams
-- Neural fSDE framework analysis
-- Machine learning estimator performance results
-- Publication-quality figures
-
----
-
-## 🚀 **Quick Start**
-
-### **1. Installation**
-
-#### **From PyPI (Recommended)**
-```bash
-pip install lrdbench
-```
-
-#### **From Source**
-```bash
-# Clone repository
-git clone https://github.com/dave2k77/long-range-dependence-project-3.git
-cd long-range-dependence-project-3
-
-# Create and activate virtual environment
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On Unix/MacOS:
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### **2. Run Comprehensive Benchmark**
-```python
-from lrdbench.analysis.benchmark import ComprehensiveBenchmark
-
-# Initialize benchmark system
-benchmark = ComprehensiveBenchmark()
-
-# Run different types of benchmarks
-results = benchmark.run_comprehensive_benchmark(
-    benchmark_type='classical',  # 'comprehensive', 'classical', 'ML', 'neural'
-    contamination_type='additive_gaussian',  # optional: add noise, outliers, etc.
-    contamination_level=0.2  # 0.0 to 1.0
-)
-
-# Or use convenience methods
-results_classical = benchmark.run_classical_benchmark()
-results_ml = benchmark.run_ml_benchmark(contamination_type='outliers')
-results_neural = benchmark.run_neural_benchmark(contamination_type='trend')
-```
-
-### **3. Explore Machine Learning Estimators**
-```python
-# Run machine learning estimator analysis
-from lrdbench.analysis.machine_learning.cnn_estimator import CNNEstimator
-from lrdbench.analysis.machine_learning.transformer_estimator import TransformerEstimator
-cnn = CNNEstimator()
-transformer = TransformerEstimator()
-# Configure and run estimation
-```
-
----
-
-## 📊 **Key Features**
-
-### **🔬 Comprehensive Estimator Suite (18 Total)**
-- **Temporal Methods**: DFA, R/S, Higuchi, DMA (4 estimators)
+### **🔬 18 Built-in Estimators**
+- **Temporal Methods**: DFA, DMA, Higuchi, R/S (4 estimators)
 - **Spectral Methods**: Periodogram, Whittle, GPH (3 estimators)
 - **Wavelet Methods**: Log Variance, Variance, Whittle, CWT (4 estimators)
 - **Multifractal Methods**: MFDFA, Wavelet Leaders (2 estimators)
 - **Machine Learning**: Random Forest, Gradient Boosting, SVR (3 estimators)
 - **Neural Networks**: CNN, Transformer (2 estimators)
 
-### **🎯 Flexible Benchmarking System**
-- **Benchmark Types**: Comprehensive, Classical, ML, Neural
-- **Contamination Options**: Gaussian noise, outliers, trend, seasonal, missing data
-- **Configurable Levels**: Adjustable contamination intensity (0.0 to 1.0)
-- **Automatic Reporting**: CSV and JSON output with performance rankings
+### **📊 5 Stochastic Data Models**
+- **FBMModel**: Fractional Brownian Motion
+- **FGNModel**: Fractional Gaussian Noise
+- **ARFIMAModel**: AutoRegressive Fractionally Integrated Moving Average
+- **MRWModel**: Multifractal Random Walk
+- **Neural fSDE**: Neural network-based fractional SDEs
 
-### **⚡ High-Performance Implementation**
+### **⚡ High Performance**
 - **JAX Optimization**: GPU acceleration for large-scale computations
 - **Numba JIT**: Just-in-time compilation for critical loops
 - **Parallel Processing**: Multi-core benchmark execution
 - **Memory Efficient**: Optimized data structures and algorithms
 
-### **🧪 Advanced Benchmarking Features**
-- **Category-Specific Testing**: Test only classical, ML, or neural estimators
-- **Contamination Simulation**: Real-world data quality challenges
-- **Performance Metrics**: Execution time, accuracy, and robustness analysis
-- **Result Export**: Structured output for further analysis and publication
-
 ### **🎯 Production Ready**
-- **Pre-trained Models**: All ML and neural models come ready to use
-- **No Training Required**: Models work immediately after installation
-- **Consistent API**: Unified interface across all estimator types
-- **Robust Error Handling**: Graceful fallbacks and comprehensive error reporting
+- **Pre-trained Models**: All ML and neural models work immediately
+- **No Training Required**: Models ready to use after installation
+- **Built-in Analytics**: Usage tracking and performance monitoring
+- **Robust Error Handling**: Graceful fallbacks and comprehensive reporting
 
----
+## 🚀 **Quick Start**
 
-## 📚 **Documentation & Resources**
+### **Installation**
 
-### **📖 Core Documentation**
-- **README.md**: This comprehensive overview
-- **setup/README.md**: Setup and configuration guide
-- **scripts/README.md**: Main Python scripts documentation
-- **config/README.md**: Configuration and registry guide
-- **assets/README.md**: Images and media assets guide
+```bash
+pip install lrdbench
+```
 
-### **🔧 Setup & Configuration**
-- **setup/**: All setup files and configuration guides
-- **config/**: Component registry and project configuration
-- **Git Bash**: Configured as default shell for development
+### **Basic Usage**
 
-### **📊 Results & Analysis**
-- **confound_results/**: Quality leaderboard and clinical recommendations
-- **benchmark_results/**: Comprehensive benchmark results
-- **publication_figures/**: Research paper figures and diagrams
+```python
+import lrdbench
 
----
+# Generate synthetic data
+from lrdbench import FBMModel
+fbm = FBMModel(H=0.7, sigma=1.0)
+data = fbm.generate(1000)
+
+# Run comprehensive benchmark
+from lrdbench import ComprehensiveBenchmark
+benchmark = ComprehensiveBenchmark()
+results = benchmark.run_comprehensive_benchmark()
+
+# Get analytics summary
+summary = lrdbench.get_analytics_summary()
+print(summary)
+```
+
+### **Advanced Usage**
+
+```python
+# Generate data with contamination
+from lrdbench import FGNModel
+fgn = FGNModel(H=0.6, sigma=1.0)
+clean_data = fgn.generate(1000)
+
+# Add noise contamination
+contaminated_data = clean_data + 0.1 * np.random.randn(1000)
+
+# Run ML vs Classical comparison
+results = benchmark.run_ml_classical_comparison()
+```
+
+## 📚 **Documentation**
+
+- **📖 [User Guide](documentation/user_guides/getting_started.md)**: Getting started tutorial
+- **🔧 [API Reference](documentation/api_reference/README.md)**: Complete API documentation
+- **📊 [Examples](examples/)**: Usage examples and demonstrations
+- **🔬 [Model Theory](documentation/technical/model_theory.md)**: Mathematical foundations
+
+## 🧪 **Examples & Demos**
+
+### **Quick Examples**
+- **Basic Usage**: `examples/quick_start_demo.py`
+- **Comprehensive API**: `examples/comprehensive_api_demo.py`
+- **Benchmark Examples**: `examples/benchmark_examples.py`
+
+### **Advanced Demos**
+- **CPU-based**: `demos/cpu_based/`
+- **GPU-based**: `demos/gpu_based/`
+- **Performance Comparison**: `demos/gpu_based/high_performance_comparison_demo.py`
+
+## 📊 **Analytics & Monitoring**
+
+LRDBench includes a built-in analytics system that tracks:
+- **Usage Patterns**: Which estimators are used most
+- **Performance Metrics**: Execution times and resource usage
+- **Error Analysis**: Failure patterns and reliability scores
+- **Workflow Insights**: Common usage sequences and patterns
+
+```python
+# Enable analytics (enabled by default)
+lrdbench.enable_analytics(True, privacy_mode=True)
+
+# Get usage summary
+summary = lrdbench.get_analytics_summary()
+
+# Generate comprehensive report
+report_path = lrdbench.generate_analytics_report(days=30)
+```
+
+## 🔧 **Configuration & Customization**
+
+### **Analytics Settings**
+```python
+# Disable analytics
+lrdbench.enable_analytics(False)
+
+# Configure privacy mode
+lrdbench.enable_analytics(True, privacy_mode=True)
+```
+
+### **Benchmark Configuration**
+```python
+# Customize benchmark parameters
+benchmark = ComprehensiveBenchmark(
+    data_lengths=[500, 1000, 2000],
+    contamination_levels=[0.0, 0.1, 0.2],
+    estimators=['classical', 'ml', 'neural']
+)
+```
+
+## 🏆 **Performance Benchmarks**
+
+LRDBench has been extensively tested and optimized:
+- **Data Generation**: < 10ms for 1000 points
+- **Estimation**: < 100ms for most estimators
+- **Memory Usage**: Optimized for large datasets
+- **GPU Acceleration**: Available for JAX-based methods
 
 ## 🤝 **Contributing**
 
-This project welcomes contributions from researchers, developers, and practitioners interested in:
-- **Long-range dependence estimation**
-- **Physics-informed neural networks**
-- **Clinical time series analysis**
-- **High-performance scientific computing**
+We welcome contributions! Please see our [Development Guide](DEVELOPMENT.md) for:
+- Development setup instructions
+- Contributing guidelines
+- Testing procedures
+- Code review process
 
-### **Development Guidelines**
-1. **Follow existing code style** and documentation patterns
-2. **Add comprehensive tests** for new features
-3. **Update documentation** for any API changes
-4. **Use the auto-discovery system** for component integration
+## 📄 **License**
 
----
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 **Author**
 
@@ -216,12 +168,6 @@ This project welcomes contributions from researchers, developers, and practition
 *Department of Biomedical Engineering*  
 *University of Reading*  
 *Email: d.r.chin@pgr.reading.ac.uk*
-
-## 📄 **License**
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 ## 📚 **References**
 
@@ -239,4 +185,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**For questions, contributions, or collaboration opportunities, please refer to the comprehensive documentation in this repository.**
+**For questions, contributions, or collaboration opportunities, please refer to our comprehensive documentation or create an issue on GitHub.**
