@@ -59,8 +59,8 @@ Basic usage:
    
    print(results)
 
-Installation
------------
+Installation & Setup
+-------------------
 
 .. toctree::
    :maxdepth: 2
@@ -68,29 +68,6 @@ Installation
 
    installation
    quickstart
-
-User Guide
-----------
-
-.. toctree::
-   :maxdepth: 2
-   :caption: User Guide
-
-   user_guide/getting_started
-   user_guide/data_models
-   user_guide/estimators
-   user_guide/benchmarking
-   user_guide/analytics
-   user_guide/examples
-
-Examples & Demos
----------------
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Examples & Demos
-
-   examples/comprehensive_demo
 
 API Reference
 ------------
@@ -104,40 +81,24 @@ API Reference
    api/benchmark
    api/analytics
 
-Advanced Topics
---------------
+Research & Theory
+----------------
 
 .. toctree::
    :maxdepth: 2
-   :caption: Advanced Topics
-
-   advanced/performance
-   advanced/extending
-   advanced/integration
-   advanced/troubleshooting
-
-Development
-----------
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Development
-
-   development/contributing
-   development/architecture
-   development/testing
-   development/releasing
-
-Research & Publications
-----------------------
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Research
+   :caption: Research & Theory
 
    research/theory
-   research/benchmarks
-   research/publications
+   research/validation
+
+Examples & Demos
+---------------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples & Demos
+
+   examples/comprehensive_demo
 
 Indices and tables
 ==================
@@ -151,25 +112,10 @@ Indices and tables
 
    installation
    quickstart
-   user_guide/getting_started
-   user_guide/data_models
-   user_guide/estimators
-   user_guide/benchmarking
-   user_guide/analytics
-   user_guide/examples
-   examples/comprehensive_demo
    api/data_models
    api/estimators
    api/benchmark
    api/analytics
-   advanced/performance
-   advanced/extending
-   advanced/integration
-   advanced/troubleshooting
-   development/contributing
-   development/architecture
-   development/testing
-   development/releasing
    research/theory
-   research/benchmarks
-   research/publications
+   research/validation
+   examples/comprehensive_demo
