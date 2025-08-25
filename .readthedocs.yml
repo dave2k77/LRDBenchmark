@@ -15,7 +15,7 @@ python:
         - docs
     - requirements: docs/requirements.txt
 
-# Build PDFs
+# Build PDFs and EPUB
 formats:
   - pdf
   - epub
@@ -26,28 +26,5 @@ build:
   tools:
     python: "3.9"
 
-# Optionally set the version of pip to use
-python:
-  pip_install: true
-  extra_requirements:
-    - docs
-
-# Optionally build your docs in additional formats such as PDF and ePub
-formats:
-  - pdf
-  - epub
-
-# Optionally provide the default version that will be shown at the root of the site
+# Set the default version that will be shown at the root of the site
 default_version: latest
-
-# Optionally set the version name to a branch name, tag name, or commit hash
-# for the "latest" version, replacing the default of using the latest tag
-default_version: latest
-
-# Optionally set the version name to a branch name, tag name, or commit hash
-# for the "latest" version, replacing the default of using the latest tag
-# default_version: main
-
-# Optionally set the version name to a branch name, tag name, or commit hash
-# for the "latest" version, replacing the default of using the latest tag
-# default_version: master
