@@ -3,26 +3,26 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to LRDBench's documentation!
-====================================
+Welcome to LRDBenchmark's documentation!
+========================================
 
-.. image:: https://img.shields.io/pypi/v/lrdbench.svg
-   :target: https://pypi.org/project/lrdbench/
+.. image:: https://img.shields.io/pypi/v/lrdbenchmark.svg
+   :target: https://pypi.org/project/lrdbenchmark/
    :alt: PyPI version
 
-.. image:: https://img.shields.io/pypi/pyversions/lrdbench.svg
-   :target: https://pypi.org/project/lrdbench/
+.. image:: https://img.shields.io/pypi/pyversions/lrdbenchmark.svg
+   :target: https://pypi.org/project/lrdbenchmark/
    :alt: Python versions
 
 .. image:: https://img.shields.io/badge/License-MIT-blue.svg
    :target: https://opensource.org/licenses/MIT
    :alt: License
 
-.. image:: https://readthedocs.org/projects/lrdbench/badge/?version=latest
-   :target: https://lrdbench.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/lrdbenchmark/badge/?version=latest
+   :target: https://lrdbenchmark.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
-**LRDBench** is a comprehensive benchmarking framework for long-range dependence (LRD) analysis in time series data. It provides a unified platform for evaluating and comparing various estimators and models for detecting and quantifying long-range dependence patterns.
+**LRDBenchmark** is a comprehensive benchmarking framework for long-range dependence (LRD) analysis in time series data. It provides a unified platform for evaluating and comparing various estimators and models for detecting and quantifying long-range dependence patterns.
 
 Key Features
 -----------
@@ -37,11 +37,11 @@ Key Features
 Quick Start
 ----------
 
-Install LRDBench:
+Install LRDBenchmark:
 
 .. code-block:: bash
 
-   pip install lrdbench
+   pip install lrdbenchmark
 
 Basic usage:
 

@@ -16,13 +16,13 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'LRDBench'
+project = 'LRDBenchmark'
 copyright = '2025, Davian Chin'
 author = 'Davian Chin'
 
 # The full version, including alpha/beta/rc tags
-release = '1.3.0'
-version = '1.3.0'
+release = '1.5.1'
+version = '1.5.1'
 
 # -- General configuration ---------------------------------------------------
 

@@ -1,7 +1,7 @@
 Installation Guide
 =================
 
-This guide will help you install LRDBench and its dependencies.
+This guide will help you install LRDBenchmark and its dependencies.
 
 Requirements
 -----------
@@ -13,13 +13,13 @@ Requirements
 Basic Installation
 -----------------
 
-Install LRDBench from PyPI:
+Install LRDBenchmark from PyPI:
 
 .. code-block:: bash
 
-   pip install lrdbench
+   pip install lrdbenchmark
 
-This will install LRDBench with all required dependencies.
+This will install LRDBenchmark with all required dependencies.
 
 Installation with Optional Dependencies
 -------------------------------------
@@ -29,24 +29,24 @@ For GPU acceleration and additional features:
 .. code-block:: bash
 
    # Install with GPU support (PyTorch + CUDA)
-   pip install lrdbench[gpu]
+   pip install lrdbenchmark[gpu]
    
    # Install with JAX backend
-   pip install lrdbench[jax]
+   pip install lrdbenchmark[jax]
    
    # Install with all optional dependencies
-   pip install lrdbench[all]
+   pip install lrdbenchmark[all]
 
 Development Installation
 -----------------------
 
-To install LRDBench in development mode:
+To install LRDBenchmark in development mode:
 
 .. code-block:: bash
 
    # Clone the repository
-   git clone https://github.com/your-username/lrdbench.git
-   cd lrdbench
+   git clone https://github.com/dave2k77/LRDBenchmark.git
+   cd LRDBenchmark
    
    # Install in development mode
    pip install -e .
@@ -62,42 +62,42 @@ Using conda:
 .. code-block:: bash
 
    # Create a new conda environment
-   conda create -n lrdbench python=3.9
-   conda activate lrdbench
+   conda create -n lrdbenchmark python=3.9
+   conda activate lrdbenchmark
    
-   # Install LRDBench
-   pip install lrdbench
+   # Install LRDBenchmark
+   pip install lrdbenchmark
 
 Docker Installation
 ------------------
 
-Pull the official LRDBench Docker image:
+Pull the official LRDBenchmark Docker image:
 
 .. code-block:: bash
 
-   docker pull lrdbench/lrdbench:latest
+   docker pull lrdbenchmark/lrdbenchmark:latest
    
    # Run with GPU support
-   docker run --gpus all -it lrdbench/lrdbench:latest
+   docker run --gpus all -it lrdbenchmark/lrdbenchmark:latest
 
 Or build from Dockerfile:
 
 .. code-block:: bash
 
-   git clone https://github.com/your-username/lrdbench.git
-   cd lrdbench
-   docker build -t lrdbench .
-   docker run -it lrdbench
+   git clone https://github.com/dave2k77/LRDBenchmark.git
+   cd LRDBenchmark
+   docker build -t lrdbenchmark .
+   docker run -it lrdbenchmark
 
 Verification
 -----------
 
-After installation, verify that LRDBench is working correctly:
+After installation, verify that LRDBenchmark is working correctly:
 
 .. code-block:: python
 
    import lrdbench
-   print(f"LRDBench version: {lrdbench.__version__}")
+   print(f"LRDBenchmark version: {lrdbench.__version__}")
    
    # Test basic functionality
    from lrdbench import FBMModel
@@ -115,7 +115,7 @@ Common Installation Issues
    Install PyTorch separately: ``pip install torch``
 
 **CUDA not found**
-   Install CUDA toolkit or use CPU-only version: ``pip install lrdbench[cpu]``
+   Install CUDA toolkit or use CPU-only version: ``pip install lrdbenchmark[cpu]``
 
 **JAX installation issues**
    On Windows, JAX may require special installation. See `JAX installation guide <https://github.com/google/jax#installation>`_.

@@ -1,7 +1,7 @@
 Quick Start Guide
 ================
 
-This guide will get you up and running with LRDBench in minutes.
+This guide will get you up and running with LRDBenchmark in minutes.
 
 Basic Usage
 ----------
@@ -27,7 +27,7 @@ Generate synthetic data and run a benchmark:
 Data Models
 ----------
 
-LRDBench provides several synthetic data models:
+LRDBenchmark provides several synthetic data models:
 
 .. code-block:: python
 
