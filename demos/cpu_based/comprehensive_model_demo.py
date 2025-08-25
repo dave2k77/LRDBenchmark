@@ -26,10 +26,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import models
 try:
-    from models.data_models.arfima.arfima_model import ARFIMAModel
-    from models.data_models.fbm.fbm_model import FractionalBrownianMotion
-    from models.data_models.fgn.fgn_model import FractionalGaussianNoise
-    from models.data_models.mrw.mrw_model import MultifractalRandomWalk
+    from lrdbench.models.data_models.arfima.arfima_model import ARFIMAModel
+    from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+    from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
+    from lrdbench.models.data_models.mrw.mrw_model import MultifractalRandomWalk
     MODELS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Some models not available: {e}")

@@ -16,38 +16,38 @@ from typing import Dict, Any, List
 # Add the project root to the path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from models.data_models.fbm.fbm_model import FractionalBrownianMotion
-from models.data_models.fgn.fgn_model import FractionalGaussianNoise
-from analysis.temporal.dfa.dfa_estimator import DFAEstimator
-from analysis.temporal.rs.rs_estimator import RSEstimator
-from analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
-from analysis.temporal.dma.dma_estimator import DMAEstimator
-from analysis.high_performance.jax.dfa_jax import DFAEstimatorJAX
-from analysis.high_performance.jax.rs_jax import RSEstimatorJAX
-from analysis.high_performance.jax.higuchi_jax import HiguchiEstimatorJAX
-from analysis.high_performance.jax.dma_jax import DMAEstimatorJAX
-from analysis.high_performance.jax.periodogram_jax import PeriodogramEstimatorJAX
-from analysis.high_performance.jax.whittle_jax import WhittleEstimatorJAX
-from analysis.high_performance.jax.gph_jax import GPHEstimatorJAX
-from analysis.high_performance.numba.dfa_numba import DFAEstimatorNumba
-from analysis.high_performance.numba.rs_numba import RSEstimatorNumba
-from analysis.high_performance.numba.higuchi_numba import HiguchiEstimatorNumba
-from analysis.high_performance.numba.dma_numba import DMAEstimatorNumba
-from analysis.high_performance.numba.periodogram_numba import PeriodogramEstimatorNumba
-from analysis.high_performance.numba.whittle_numba import WhittleEstimatorNumba
-from analysis.high_performance.numba.gph_numba import GPHEstimatorNumba
-from analysis.high_performance.jax.wavelet_log_variance_jax import WaveletLogVarianceEstimatorJAX
-from analysis.high_performance.jax.wavelet_variance_jax import WaveletVarianceEstimatorJAX
-from analysis.high_performance.jax.wavelet_whittle_jax import WaveletWhittleEstimatorJAX
-from analysis.high_performance.jax.cwt_jax import CWTEstimatorJAX
-from analysis.high_performance.jax.mfdfa_jax import MFDFAEstimatorJAX
-from analysis.high_performance.jax.multifractal_wavelet_leaders_jax import MultifractalWaveletLeadersEstimatorJAX
-from analysis.high_performance.numba.wavelet_log_variance_numba import WaveletLogVarianceEstimatorNumba
-from analysis.high_performance.numba.wavelet_variance_numba import WaveletVarianceEstimatorNumba
-from analysis.high_performance.numba.wavelet_whittle_numba import WaveletWhittleEstimatorNumba
-from analysis.high_performance.numba.cwt_numba import CWTEstimatorNumba
-from analysis.high_performance.numba.mfdfa_numba import MFDFAEstimatorNumba
-from analysis.high_performance.numba.multifractal_wavelet_leaders_numba import MultifractalWaveletLeadersEstimatorNumba
+from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
+from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
+from lrdbench.analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
+from lrdbench.analysis.temporal.dma.dma_estimator import DMAEstimator
+from lrdbench.analysis.high_performance.jax.dfa_jax import DFAEstimatorJAX
+from lrdbench.analysis.high_performance.jax.rs_jax import RSEstimatorJAX
+from lrdbench.analysis.high_performance.jax.higuchi_jax import HiguchiEstimatorJAX
+from lrdbench.analysis.high_performance.jax.dma_jax import DMAEstimatorJAX
+from lrdbench.analysis.high_performance.jax.periodogram_jax import PeriodogramEstimatorJAX
+from lrdbench.analysis.high_performance.jax.whittle_jax import WhittleEstimatorJAX
+from lrdbench.analysis.high_performance.jax.gph_jax import GPHEstimatorJAX
+from lrdbench.analysis.high_performance.numba.dfa_numba import DFAEstimatorNumba
+from lrdbench.analysis.high_performance.numba.rs_numba import RSEstimatorNumba
+from lrdbench.analysis.high_performance.numba.higuchi_numba import HiguchiEstimatorNumba
+from lrdbench.analysis.high_performance.numba.dma_numba import DMAEstimatorNumba
+from lrdbench.analysis.high_performance.numba.periodogram_numba import PeriodogramEstimatorNumba
+from lrdbench.analysis.high_performance.numba.whittle_numba import WhittleEstimatorNumba
+from lrdbench.analysis.high_performance.numba.gph_numba import GPHEstimatorNumba
+from lrdbench.analysis.high_performance.jax.wavelet_log_variance_jax import WaveletLogVarianceEstimatorJAX
+from lrdbench.analysis.high_performance.jax.wavelet_variance_jax import WaveletVarianceEstimatorJAX
+from lrdbench.analysis.high_performance.jax.wavelet_whittle_jax import WaveletWhittleEstimatorJAX
+from lrdbench.analysis.high_performance.jax.cwt_jax import CWTEstimatorJAX
+from lrdbench.analysis.high_performance.jax.mfdfa_jax import MFDFAEstimatorJAX
+from lrdbench.analysis.high_performance.jax.multifractal_wavelet_leaders_jax import MultifractalWaveletLeadersEstimatorJAX
+from lrdbench.analysis.high_performance.numba.wavelet_log_variance_numba import WaveletLogVarianceEstimatorNumba
+from lrdbench.analysis.high_performance.numba.wavelet_variance_numba import WaveletVarianceEstimatorNumba
+from lrdbench.analysis.high_performance.numba.wavelet_whittle_numba import WaveletWhittleEstimatorNumba
+from lrdbench.analysis.high_performance.numba.cwt_numba import CWTEstimatorNumba
+from lrdbench.analysis.high_performance.numba.mfdfa_numba import MFDFAEstimatorNumba
+from lrdbench.analysis.high_performance.numba.multifractal_wavelet_leaders_numba import MultifractalWaveletLeadersEstimatorNumba
 
 
 class HighPerformanceComparisonDemo:
@@ -386,7 +386,7 @@ class HighPerformanceComparisonDemo:
         print(f"\nTesting on fGn data (true H = 0.6, n = {len(self.fgn_data)})")
         
         # Original Periodogram
-        from analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
+        from lrdbench.analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
         periodogram_original = PeriodogramEstimator(min_freq_ratio=0.01, max_freq_ratio=0.1)
         original_results = self._time_estimation(periodogram_original, self.fgn_data, "Original Periodogram")
         
@@ -450,7 +450,7 @@ class HighPerformanceComparisonDemo:
         print(f"\nTesting on fGn data (true H = 0.6, n = {len(self.fgn_data)})")
         
         # Original Whittle
-        from analysis.spectral.whittle.whittle_estimator import WhittleEstimator
+        from lrdbench.analysis.spectral.whittle.whittle_estimator import WhittleEstimator
         whittle_original = WhittleEstimator(min_freq_ratio=0.01, max_freq_ratio=0.1)
         original_results = self._time_estimation(whittle_original, self.fgn_data, "Original Whittle")
         
@@ -514,7 +514,7 @@ class HighPerformanceComparisonDemo:
         print(f"\nTesting on fGn data (true H = 0.6, n = {len(self.fgn_data)})")
         
         # Original GPH
-        from analysis.spectral.gph.gph_estimator import GPHEstimator
+        from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
         gph_original = GPHEstimator(min_freq_ratio=0.01, max_freq_ratio=0.1)
         original_results = self._time_estimation(gph_original, self.fgn_data, "Original GPH")
         
@@ -578,7 +578,7 @@ class HighPerformanceComparisonDemo:
         print(f"\nTesting on fBm data (true H = 0.7, n = {len(self.fbm_data)})")
         
         # Original Wavelet Log Variance
-        from analysis.wavelet.log_variance.wavelet_log_variance_estimator import WaveletLogVarianceEstimator
+        from lrdbench.analysis.wavelet.log_variance.wavelet_log_variance_estimator import WaveletLogVarianceEstimator
         wlv_original = WaveletLogVarianceEstimator(scales=list(range(2, 6)))
         original_results = self._time_estimation(wlv_original, self.fbm_data, "Original Wavelet Log Variance")
         
@@ -642,7 +642,7 @@ class HighPerformanceComparisonDemo:
         print(f"\nTesting on fBm data (true H = 0.7, n = {len(self.fbm_data)})")
         
         # Original Wavelet Variance
-        from analysis.wavelet.variance.wavelet_variance_estimator import WaveletVarianceEstimator
+        from lrdbench.analysis.wavelet.variance.wavelet_variance_estimator import WaveletVarianceEstimator
         wv_original = WaveletVarianceEstimator(scales=list(range(2, 6)))
         original_results = self._time_estimation(wv_original, self.fbm_data, "Original Wavelet Variance")
         
@@ -706,7 +706,7 @@ class HighPerformanceComparisonDemo:
         print(f"\nTesting on fBm data (true H = 0.7, n = {len(self.fbm_data)})")
         
         # Original Wavelet Whittle
-        from analysis.wavelet.whittle.wavelet_whittle_estimator import WaveletWhittleEstimator
+        from lrdbench.analysis.wavelet.whittle.wavelet_whittle_estimator import WaveletWhittleEstimator
         ww_original = WaveletWhittleEstimator(scales=list(range(2, 6)))
         original_results = self._time_estimation(ww_original, self.fbm_data, "Original Wavelet Whittle")
         
@@ -770,7 +770,7 @@ class HighPerformanceComparisonDemo:
         print(f"\nTesting on fBm data (true H = 0.7, n = {len(self.fbm_data)})")
         
         # Original CWT
-        from analysis.wavelet.cwt.cwt_estimator import CWTEstimator
+        from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
         cwt_original = CWTEstimator(scales=np.logspace(1, 3, 10))
         original_results = self._time_estimation(cwt_original, self.fbm_data, "Original CWT")
         
@@ -834,7 +834,7 @@ class HighPerformanceComparisonDemo:
         print(f"\nTesting on fBm data (true H = 0.7, n = {len(self.fbm_data)})")
         
         # Original MFDFA
-        from analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
+        from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
         mfdfa_original = MFDFAEstimator(scales=list(range(4, 65, 4)))
         original_results = self._time_estimation(mfdfa_original, self.fbm_data, "Original MFDFA")
         
@@ -898,7 +898,7 @@ class HighPerformanceComparisonDemo:
         print(f"\nTesting on fBm data (true H = 0.7, n = {len(self.fbm_data)})")
         
         # Original Multifractal Wavelet Leaders
-        from analysis.multifractal.wavelet_leaders.multifractal_wavelet_leaders_estimator import MultifractalWaveletLeadersEstimator
+        from lrdbench.analysis.multifractal.wavelet_leaders.multifractal_wavelet_leaders_estimator import MultifractalWaveletLeadersEstimator
         mwl_original = MultifractalWaveletLeadersEstimator(scales=list(range(2, 33, 3)))
         original_results = self._time_estimation(mwl_original, self.fbm_data, "Original Multifractal Wavelet Leaders")
         

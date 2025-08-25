@@ -14,6 +14,7 @@ try:
     import torch.nn as nn
     import torch.optim as optim
     from torch.utils.data import DataLoader, TensorDataset
+
     TORCH_AVAILABLE = True
 except ImportError:
     TORCH_AVAILABLE = False
@@ -25,20 +26,24 @@ from .base_ml_estimator import BaseMLEstimator
 class CNN1D(nn.Module):
     """
     1D Convolutional Neural Network for time series analysis.
-    
+
     Architecture:
     - 1D Convolutional layers with batch normalization and ReLU
     - Global average pooling
     - Fully connected layers for regression
     """
-    
-    def __init__(self, input_length: int, num_features: int = 1, 
-                 conv_channels: list = [32, 64, 128], 
-                 fc_layers: list = [256, 128, 64],
-                 dropout_rate: float = 0.3):
+
+    def __init__(
+        self,
+        input_length: int,
+        num_features: int = 1,
+        conv_channels: list = [32, 64, 128],
+        fc_layers: list = [256, 128, 64],
+        dropout_rate: float = 0.3,
+    ):
         """
         Initialize the CNN model.
-        
+
         Parameters
         ----------
         input_length : int
@@ -53,57 +58,65 @@ class CNN1D(nn.Module):
             Dropout rate for regularization
         """
         super(CNN1D, self).__init__()
-        
+
         self.input_length = input_length
         self.num_features = num_features
-        
+
         # Convolutional layers
         conv_layers = []
         in_channels = num_features
-        
+
         for out_channels in conv_channels:
-            conv_layers.extend([
-                nn.Conv1d(in_channels, out_channels, kernel_size=3, padding=1),
-                nn.BatchNorm1d(out_channels),
-                nn.ReLU(),
-                nn.MaxPool1d(kernel_size=2, stride=1),
-                nn.Dropout(dropout_rate)
-            ])
+            conv_layers.extend(
+                [
+                    nn.Conv1d(in_channels, out_channels, kernel_size=3, padding=1),
+                    nn.BatchNorm1d(out_channels),
+                    nn.ReLU(),
+                    nn.MaxPool1d(kernel_size=2, stride=1),
+                    nn.Dropout(dropout_rate),
+                ]
+            )
             in_channels = out_channels
-        
+
         self.conv_layers = nn.Sequential(*conv_layers)
-        
+
         # Calculate output size after convolutions
         conv_output_size = self._get_conv_output_size()
-        
+
         # Fully connected layers
         fc_layers = [conv_output_size] + fc_layers + [1]
         fc_modules = []
-        
+
         for i in range(len(fc_layers) - 1):
-            fc_modules.extend([
-                nn.Linear(fc_layers[i], fc_layers[i + 1]),
-                nn.ReLU() if i < len(fc_layers) - 2 else nn.Identity(),
-                nn.Dropout(dropout_rate) if i < len(fc_layers) - 2 else nn.Identity()
-            ])
-        
+            fc_modules.extend(
+                [
+                    nn.Linear(fc_layers[i], fc_layers[i + 1]),
+                    nn.ReLU() if i < len(fc_layers) - 2 else nn.Identity(),
+                    (
+                        nn.Dropout(dropout_rate)
+                        if i < len(fc_layers) - 2
+                        else nn.Identity()
+                    ),
+                ]
+            )
+
         self.fc_layers = nn.Sequential(*fc_modules)
-        
+
     def _get_conv_output_size(self) -> int:
         """Calculate the output size after convolutional layers."""
         x = torch.randn(1, self.num_features, self.input_length)
         x = self.conv_layers(x)
         return x.view(1, -1).size(1)
-    
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         Forward pass through the network.
-        
+
         Parameters
         ----------
         x : torch.Tensor
             Input tensor of shape (batch_size, num_features, input_length)
-            
+
         Returns
         -------
         torch.Tensor
@@ -111,30 +124,30 @@ class CNN1D(nn.Module):
         """
         # Apply convolutional layers
         x = self.conv_layers(x)
-        
+
         # Global average pooling
         x = torch.mean(x, dim=2)
-        
+
         # Flatten and apply fully connected layers
         x = x.view(x.size(0), -1)
         x = self.fc_layers(x)
-        
+
         return x
 
 
 class CNNEstimator(BaseMLEstimator):
     """
     Convolutional Neural Network estimator for Hurst parameter estimation.
-    
+
     This estimator uses a 1D CNN to learn the mapping from time series data
     to Hurst parameters. It's particularly effective for capturing local
     temporal patterns and dependencies.
     """
-    
+
     def __init__(self, **kwargs):
         """
         Initialize the CNN estimator.
-        
+
         Parameters
         ----------
         **kwargs : dict
@@ -150,65 +163,71 @@ class CNNEstimator(BaseMLEstimator):
         """
         if not TORCH_AVAILABLE:
             raise ImportError("PyTorch is required for CNN estimator")
-        
+
         # Set default parameters
         default_params = {
-            'conv_channels': [32, 64, 128],
-            'fc_layers': [256, 128, 64],
-            'dropout_rate': 0.3,
-            'learning_rate': 0.001,
-            'batch_size': 32,
-            'epochs': 100,
-            'feature_extraction_method': 'raw',
-            'random_state': 42
+            "conv_channels": [32, 64, 128],
+            "fc_layers": [256, 128, 64],
+            "dropout_rate": 0.3,
+            "learning_rate": 0.001,
+            "batch_size": 32,
+            "epochs": 100,
+            "feature_extraction_method": "raw",
+            "random_state": 42,
         }
-        
+
         # Update with provided parameters
         default_params.update(kwargs)
         super().__init__(**default_params)
-        
+
         # Set random seeds for reproducibility
-        torch.manual_seed(self.parameters['random_state'])
+        torch.manual_seed(self.parameters["random_state"])
         if torch.cuda.is_available():
-            torch.cuda.manual_seed(self.parameters['random_state'])
-        
+            torch.cuda.manual_seed(self.parameters["random_state"])
+
         # Model components
         self.model = None
         self.optimizer = None
         self.criterion = None
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
     def _validate_parameters(self) -> None:
         """Validate estimator parameters."""
-        if self.parameters['dropout_rate'] < 0 or self.parameters['dropout_rate'] > 1:
+        if self.parameters["dropout_rate"] < 0 or self.parameters["dropout_rate"] > 1:
             raise ValueError("dropout_rate must be between 0 and 1")
-        
-        if self.parameters['learning_rate'] <= 0:
+
+        if self.parameters["learning_rate"] <= 0:
             raise ValueError("learning_rate must be positive")
-        
-        if self.parameters['batch_size'] <= 0:
+
+        if self.parameters["batch_size"] <= 0:
             raise ValueError("batch_size must be positive")
-        
-        if self.parameters['epochs'] <= 0:
+
+        if self.parameters["epochs"] <= 0:
             raise ValueError("epochs must be positive")
-        
-        if not isinstance(self.parameters['conv_channels'], list) or len(self.parameters['conv_channels']) == 0:
+
+        if (
+            not isinstance(self.parameters["conv_channels"], list)
+            or len(self.parameters["conv_channels"]) == 0
+        ):
             raise ValueError("conv_channels must be a non-empty list")
-        
-        if not isinstance(self.parameters['fc_layers'], list) or len(self.parameters['fc_layers']) == 0:
+
+        if (
+            not isinstance(self.parameters["fc_layers"], list)
+            or len(self.parameters["fc_layers"]) == 0
+        ):
             raise ValueError("fc_layers must be a non-empty list")
-    
+
     def _create_model(self, input_length: int, num_features: int = 1) -> CNN1D:
         """
         Create the CNN model.
-        
+
         Parameters
         ----------
         input_length : int
             Length of input time series
         num_features : int
             Number of input features
-            
+
         Returns
         -------
         CNN1D
@@ -217,20 +236,20 @@ class CNNEstimator(BaseMLEstimator):
         return CNN1D(
             input_length=input_length,
             num_features=num_features,
-            conv_channels=self.parameters['conv_channels'],
-            fc_layers=self.parameters['fc_layers'],
-            dropout_rate=self.parameters['dropout_rate']
+            conv_channels=self.parameters["conv_channels"],
+            fc_layers=self.parameters["fc_layers"],
+            dropout_rate=self.parameters["dropout_rate"],
         ).to(self.device)
-    
+
     def _prepare_data(self, data: np.ndarray) -> torch.Tensor:
         """
         Prepare data for CNN input.
-        
+
         Parameters
         ----------
         data : np.ndarray
             Input time series data
-            
+
         Returns
         -------
         torch.Tensor
@@ -238,21 +257,21 @@ class CNNEstimator(BaseMLEstimator):
         """
         if data.ndim == 1:
             data = data.reshape(1, -1)
-        
+
         # Convert to torch tensor and add channel dimension
         data_tensor = torch.FloatTensor(data).unsqueeze(1)  # (batch, channels, length)
-        
+
         return data_tensor.to(self.device)
-    
+
     def estimate(self, data: np.ndarray) -> Dict[str, Any]:
         """
         Estimate Hurst parameter using CNN.
-        
+
         Parameters
         ----------
         data : np.ndarray
             Time series data
-            
+
         Returns
         -------
         dict
@@ -263,18 +282,18 @@ class CNNEstimator(BaseMLEstimator):
         """
         if not TORCH_AVAILABLE:
             raise ImportError("PyTorch is required for CNN estimator")
-        
+
         # For now, return a simple estimate based on statistical features
         # In a full implementation, this would train the CNN on labeled data
         # and use it for prediction
-        
+
         # Extract features and make a simple estimate
         features = self.extract_features(data)
-        
+
         # Simple heuristic: use variance ratio as proxy for Hurst
         if data.ndim == 1:
             data = data.reshape(1, -1)
-        
+
         hurst_estimates = []
         for series in data:
             # Calculate variance ratio (simplified Hurst estimation)
@@ -293,57 +312,63 @@ class CNNEstimator(BaseMLEstimator):
                     hurst_estimates.append(0.5)
             else:
                 hurst_estimates.append(0.5)
-        
+
         # Take mean of estimates
         estimated_hurst = np.mean(hurst_estimates)
-        
+
         # Create confidence interval (simplified)
-        std_error = np.std(hurst_estimates) / np.sqrt(len(hurst_estimates)) if len(hurst_estimates) > 1 else 0.1
-        confidence_interval = (max(0, estimated_hurst - 1.96 * std_error), 
-                             min(1, estimated_hurst + 1.96 * std_error))
-        
+        std_error = (
+            np.std(hurst_estimates) / np.sqrt(len(hurst_estimates))
+            if len(hurst_estimates) > 1
+            else 0.1
+        )
+        confidence_interval = (
+            max(0, estimated_hurst - 1.96 * std_error),
+            min(1, estimated_hurst + 1.96 * std_error),
+        )
+
         # Store results
         self.results = {
-            'hurst_parameter': estimated_hurst,
-            'confidence_interval': confidence_interval,
-            'std_error': std_error,
-            'method': 'CNN (Statistical Fallback)',
-            'model_info': {
-                'model_type': 'CNN1D',
-                'conv_channels': self.parameters['conv_channels'],
-                'fc_layers': self.parameters['fc_layers'],
-                'dropout_rate': self.parameters['dropout_rate']
-            }
+            "hurst_parameter": estimated_hurst,
+            "confidence_interval": confidence_interval,
+            "std_error": std_error,
+            "method": "CNN (Statistical Fallback)",
+            "model_info": {
+                "model_type": "CNN1D",
+                "conv_channels": self.parameters["conv_channels"],
+                "fc_layers": self.parameters["fc_layers"],
+                "dropout_rate": self.parameters["dropout_rate"],
+            },
         }
-        
+
         return self.results
-    
+
     def get_model_info(self) -> Dict[str, Any]:
         """
         Get information about the CNN model.
-        
+
         Returns
         -------
         dict
             Model information
         """
         info = {
-            'model_type': 'CNN1D',
-            'architecture': '1D Convolutional Neural Network',
-            'conv_channels': self.parameters['conv_channels'],
-            'fc_layers': self.parameters['fc_layers'],
-            'dropout_rate': self.parameters['dropout_rate'],
-            'learning_rate': self.parameters['learning_rate'],
-            'batch_size': self.parameters['batch_size'],
-            'epochs': self.parameters['epochs'],
-            'device': str(self.device),
-            'torch_available': TORCH_AVAILABLE
+            "model_type": "CNN1D",
+            "architecture": "1D Convolutional Neural Network",
+            "conv_channels": self.parameters["conv_channels"],
+            "fc_layers": self.parameters["fc_layers"],
+            "dropout_rate": self.parameters["dropout_rate"],
+            "learning_rate": self.parameters["learning_rate"],
+            "batch_size": self.parameters["batch_size"],
+            "epochs": self.parameters["epochs"],
+            "device": str(self.device),
+            "torch_available": TORCH_AVAILABLE,
         }
-        
-        if hasattr(self, 'model') and self.model is not None:
-            info['model_created'] = True
-            info['total_parameters'] = sum(p.numel() for p in self.model.parameters())
+
+        if hasattr(self, "model") and self.model is not None:
+            info["model_created"] = True
+            info["total_parameters"] = sum(p.numel() for p in self.model.parameters())
         else:
-            info['model_created'] = False
-        
+            info["model_created"] = False
+
         return info

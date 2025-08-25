@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from analysis.temporal.rs.rs_estimator import RSEstimator
+from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
 
 
 class TestRSEstimator:

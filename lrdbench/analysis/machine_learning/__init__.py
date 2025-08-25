@@ -6,7 +6,7 @@ Hurst parameters and long-range dependence characteristics from time series data
 
 The estimators include:
 - Neural Network Regression
-- Random Forest Regression  
+- Random Forest Regression
 - Support Vector Regression
 - Gradient Boosting Regression
 - Convolutional Neural Networks
@@ -25,13 +25,13 @@ from .gru_estimator import GRUEstimator
 from .transformer_estimator import TransformerEstimator
 
 __all__ = [
-    'BaseMLEstimator',
-    'NeuralNetworkEstimator', 
-    'RandomForestEstimator',
-    'SVREstimator',
-    'GradientBoostingEstimator',
-    'CNNEstimator',
-    'LSTMEstimator',
-    'GRUEstimator',
-    'TransformerEstimator'
+    "BaseMLEstimator",
+    "NeuralNetworkEstimator",
+    "RandomForestEstimator",
+    "SVREstimator",
+    "GradientBoostingEstimator",
+    "CNNEstimator",
+    "LSTMEstimator",
+    "GRUEstimator",
+    "TransformerEstimator",
 ]

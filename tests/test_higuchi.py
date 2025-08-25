@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
+from lrdbench.analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
 
 
 class TestHiguchiEstimator:

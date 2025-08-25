@@ -19,17 +19,17 @@ def test_core_imports():
     
     try:
         # Test data models
-        from models.data_models.fbm.fbm_model import FractionalBrownianMotion
-        from models.data_models.fgn.fgn_model import FractionalGaussianNoise
-        from models.data_models.arfima.arfima_model import ARFIMAModel
-        from models.data_models.mrw.mrw_model import MultifractalRandomWalk
+        from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+        from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
+        from lrdbench.models.data_models.arfima.arfima_model import ARFIMAModel
+        from lrdbench.models.data_models.mrw.mrw_model import MultifractalRandomWalk
         print("✅ Data models imported successfully")
         
         # Test estimators
-        from analysis.temporal.rs.rs_estimator import RSEstimator
-        from analysis.temporal.dfa.dfa_estimator import DFAEstimator
-        from analysis.spectral.gph.gph_estimator import GPHEstimator
-        from analysis.wavelet.cwt.cwt_estimator import CWTEstimator
+        from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
+        from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+        from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
+        from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
         print("✅ Core estimators imported successfully")
         
         # Test auto-discovery
@@ -49,7 +49,7 @@ def test_data_generation():
     
     try:
         # Test fBm generation
-        from models.data_models.fbm.fbm_model import FractionalBrownianMotion
+        from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
         fbm = FractionalBrownianMotion(H=0.7, sigma=1.0)
         data = fbm.generate(1000, seed=42)
         
@@ -59,7 +59,7 @@ def test_data_generation():
         print(f"✅ fBm generation: {len(data)} samples, range [{data.min():.3f}, {data.max():.3f}]")
         
         # Test fGn generation
-        from models.data_models.fgn.fgn_model import FractionalGaussianNoise
+        from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
         fgn = FractionalGaussianNoise(H=0.6, sigma=1.0)
         data = fgn.generate(1000, seed=42)
         
@@ -80,8 +80,8 @@ def test_estimation():
     print("\n🔍 Testing estimation...")
     
     try:
-        from models.data_models.fbm.fbm_model import FractionalBrownianMotion
-        from analysis.temporal.rs.rs_estimator import RSEstimator
+        from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+        from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
         
         # Generate test data
         fbm = FractionalBrownianMotion(H=0.7, sigma=1.0)
@@ -113,10 +113,10 @@ def run_performance_benchmark():
     print("\n🔍 Running performance benchmark...")
     
     try:
-        from models.data_models.fbm.fbm_model import FractionalBrownianMotion
-        from analysis.temporal.rs.rs_estimator import RSEstimator
-        from analysis.temporal.dfa.dfa_estimator import DFAEstimator
-        from analysis.spectral.gph.gph_estimator import GPHEstimator
+        from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+        from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
+        from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+        from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
         
         # Test parameters
         n_samples = 1000

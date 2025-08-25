@@ -8,6 +8,3 @@ increments of fractional Brownian motion.
 from .fgn_model import FractionalGaussianNoise
 
 __all__ = ["FractionalGaussianNoise"]
-
-
-

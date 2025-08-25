@@ -20,17 +20,17 @@ from .mfdfa_jax import MFDFAEstimatorJAX
 from .multifractal_wavelet_leaders_jax import MultifractalWaveletLeadersEstimatorJAX
 
 __all__ = [
-    'DFAEstimatorJAX',
-    'RSEstimatorJAX',
-    'HiguchiEstimatorJAX',
-    'DMAEstimatorJAX',
-    'PeriodogramEstimatorJAX',
-    'WhittleEstimatorJAX',
-    'GPHEstimatorJAX',
-    'WaveletLogVarianceEstimatorJAX',
-    'WaveletVarianceEstimatorJAX',
-    'WaveletWhittleEstimatorJAX',
-    'CWTEstimatorJAX',
-    'MFDFAEstimatorJAX',
-    'MultifractalWaveletLeadersEstimatorJAX'
+    "DFAEstimatorJAX",
+    "RSEstimatorJAX",
+    "HiguchiEstimatorJAX",
+    "DMAEstimatorJAX",
+    "PeriodogramEstimatorJAX",
+    "WhittleEstimatorJAX",
+    "GPHEstimatorJAX",
+    "WaveletLogVarianceEstimatorJAX",
+    "WaveletVarianceEstimatorJAX",
+    "WaveletWhittleEstimatorJAX",
+    "CWTEstimatorJAX",
+    "MFDFAEstimatorJAX",
+    "MultifractalWaveletLeadersEstimatorJAX",
 ]

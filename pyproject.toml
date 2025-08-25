@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lrdbenchmark"
+name = "lrdbench"
 version = "1.5.1"
 description = "Long-Range Dependence Benchmarking Toolkit"
 readme = "README.md"
@@ -61,7 +61,7 @@ docs = [
 
 [project.urls]
 Homepage = "https://github.com/dave2k77/LRDBenchmark"
-Documentation = "https://lrdbenchmark.readthedocs.io/"
+Documentation = "https://lrdbench.readthedocs.io/"
 Repository = "https://github.com/dave2k77/LRDBenchmark.git"
 Issues = "https://github.com/dave2k77/LRDBenchmark/issues"
 

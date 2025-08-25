@@ -14,7 +14,7 @@ def get_version():
         match = re.search(r'version = "([^"]+)"', content)
         if match:
             return match.group(1)
-    return "1.3.0"  # fallback
+    return "1.5.1"  # fallback
 
 def get_long_description():
     """Read README.md for long description"""
@@ -22,7 +22,7 @@ def get_long_description():
         return f.read()
 
 setup(
-    name="lrdbenchmark",
+    name="lrdbench",
     version=get_version(),
     description="Long-Range Dependence Benchmarking Toolkit",
     long_description=get_long_description(),

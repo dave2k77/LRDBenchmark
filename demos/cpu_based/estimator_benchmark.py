@@ -26,18 +26,18 @@ import matplotlib.pyplot as plt
 # Ensure project root on path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from models.data_models.fbm.fbm_model import FractionalBrownianMotion
-from models.data_models.fgn.fgn_model import FractionalGaussianNoise
+from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
 
 # Estimators (choose a compact but representative set)
-from analysis.temporal.dfa.dfa_estimator import DFAEstimator
-from analysis.temporal.rs.rs_estimator import RSEstimator
-from analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
-from analysis.spectral.gph.gph_estimator import GPHEstimator
-from analysis.wavelet.log_variance.wavelet_log_variance_estimator import (
+from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
+from lrdbench.analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
+from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
+from lrdbench.analysis.wavelet.log_variance.wavelet_log_variance_estimator import (
     WaveletLogVarianceEstimator,
 )
-from analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
+from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
 
 
 @dataclass

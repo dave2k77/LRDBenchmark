@@ -11,13 +11,13 @@ import numpy as np
 import pytest
 from typing import Dict, List, Any
 
-from models.contamination.contamination_models import (
+from lrdbench.models.contamination.contamination_models import (
     ContaminationModel, ContaminationType, ContaminationConfig
 )
-from models.contamination.complex_time_series_library import (
+from lrdbench.models.contamination.complex_time_series_library import (
     ComplexTimeSeriesLibrary, ComplexTimeSeriesType, ComplexTimeSeriesConfig
 )
-from models.data_models.fgn.fgn_model import FractionalGaussianNoise
+from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
 
 
 class TestContaminationModel:

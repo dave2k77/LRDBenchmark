@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from models.data_models.mrw.mrw_model import MultifractalRandomWalk
+from lrdbench.models.data_models.mrw.mrw_model import MultifractalRandomWalk
 
 
 class TestMultifractalRandomWalk:

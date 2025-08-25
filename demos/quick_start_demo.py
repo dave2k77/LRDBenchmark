@@ -28,12 +28,12 @@ def quick_start_demo():
     print("-" * 50)
     
     print("Code:")
-    print("    from models.data_models.fbm.fbm_model import FractionalBrownianMotion")
+    print("    from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion")
     print("    fbm = FractionalBrownianMotion(H=0.7, sigma=1.0)")
     print("    data = fbm.generate(1000, seed=42)")
     print("    properties = fbm.get_theoretical_properties()")
     
-    from models.data_models.fbm.fbm_model import FractionalBrownianMotion
+    from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
     fbm = FractionalBrownianMotion(H=0.7, sigma=1.0)
     data = fbm.generate(1000, seed=42)
     properties = fbm.get_theoretical_properties()
@@ -49,12 +49,12 @@ def quick_start_demo():
     print("-" * 50)
     
     print("Code:")
-    print("    from analysis.temporal.rs.rs_estimator import RSEstimator")
+    print("    from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator")
     print("    rs_estimator = RSEstimator()")
     print("    result = rs_estimator.estimate(data)")
     print("    estimated_h = result['hurst_parameter']")
     
-    from analysis.temporal.rs.rs_estimator import RSEstimator
+    from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
     rs_estimator = RSEstimator()
     result = rs_estimator.estimate(data)
     estimated_h = result['hurst_parameter']
@@ -71,10 +71,10 @@ def quick_start_demo():
     print("-" * 50)
     
     print("Code:")
-    print("    from analysis.temporal.dfa.dfa_estimator import DFAEstimator")
-    print("    from analysis.wavelet.cwt.cwt_estimator import CWTEstimator")
-    print("    from analysis.machine_learning.cnn_estimator import CNNEstimator")
-    print("    from analysis.machine_learning.transformer_estimator import TransformerEstimator")
+    print("    from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator")
+    print("    from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator")
+    print("    from lrdbench.analysis.machine_learning.cnn_estimator import CNNEstimator")
+    print("    from lrdbench.analysis.machine_learning.transformer_estimator import TransformerEstimator")
     print("    ")
     print("    estimators = {")
     print("        'R/S': RSEstimator(),")
@@ -88,10 +88,10 @@ def quick_start_demo():
     print("        result = estimator.estimate(data)")
     print("        print(f'{name}: H = {result[\"hurst_parameter\"]:.3f}')")
     
-    from analysis.temporal.dfa.dfa_estimator import DFAEstimator
-    from analysis.wavelet.cwt.cwt_estimator import CWTEstimator
-    from analysis.machine_learning.cnn_estimator import CNNEstimator
-    from analysis.machine_learning.transformer_estimator import TransformerEstimator
+    from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+    from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
+    from lrdbench.analysis.machine_learning.cnn_estimator import CNNEstimator
+    from lrdbench.analysis.machine_learning.transformer_estimator import TransformerEstimator
     
     estimators = {
         'R/S': RSEstimator(),
@@ -117,11 +117,11 @@ def quick_start_demo():
     print("-" * 50)
     
     print("Code:")
-    print("    from models.data_models.arfima.arfima_model import ARFIMAModel")
+    print("    from lrdbench.models.data_models.arfima.arfima_model import ARFIMAModel")
     print("    arfima = ARFIMAModel(d=0.3, ar_params=[0.5], ma_params=[0.3])")
     print("    arfima_data = arfima.generate(1000, seed=42)")
     
-    from models.data_models.arfima.arfima_model import ARFIMAModel
+    from lrdbench.models.data_models.arfima.arfima_model import ARFIMAModel
     arfima = ARFIMAModel(d=0.3, ar_params=[0.5], ma_params=[0.3])
     arfima_data = arfima.generate(1000, seed=42)
     
@@ -155,26 +155,26 @@ def quick_start_demo():
     
     api_examples = [
         "# Data Generation",
-        "from models.data_models.fbm.fbm_model import FractionalBrownianMotion",
+        "from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion",
         "fbm = FractionalBrownianMotion(H=0.7, sigma=1.0)",
         "data = fbm.generate(1000, seed=42)",
         "",
         "# Hurst Estimation (Classical)", 
-        "from analysis.temporal.rs.rs_estimator import RSEstimator",
+        "from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator",
         "estimator = RSEstimator()",
         "result = estimator.estimate(data)",
         "hurst = result['hurst_parameter']",
         "",
         "# Hurst Estimation (Machine Learning)",
-        "from analysis.machine_learning.cnn_estimator import CNNEstimator",
-        "from analysis.machine_learning.transformer_estimator import TransformerEstimator",
+        "from lrdbench.analysis.machine_learning.cnn_estimator import CNNEstimator",
+        "from lrdbench.analysis.machine_learning.transformer_estimator import TransformerEstimator",
         "cnn_estimator = CNNEstimator()",
         "transformer_estimator = TransformerEstimator()",
         "cnn_result = cnn_estimator.estimate(data)",
         "transformer_result = transformer_estimator.estimate(data)",
         "",
         "# ARFIMA Generation",
-        "from models.data_models.arfima.arfima_model import ARFIMAModel", 
+        "from lrdbench.models.data_models.arfima.arfima_model import ARFIMAModel", 
         "arfima = ARFIMAModel(d=0.3, ar_params=[0.5], ma_params=[0.3])",
         "arfima_data = arfima.generate(1000, seed=42)",
         "",

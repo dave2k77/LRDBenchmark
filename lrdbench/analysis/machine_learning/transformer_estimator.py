@@ -14,6 +14,7 @@ try:
     import torch.nn as nn
     import torch.optim as optim
     from torch.utils.data import DataLoader, TensorDataset
+
     TORCH_AVAILABLE = True
 except ImportError:
     TORCH_AVAILABLE = False
@@ -25,15 +26,15 @@ from .base_ml_estimator import BaseMLEstimator
 class PositionalEncoding(nn.Module):
     """
     Positional encoding for transformer models.
-    
+
     Adds positional information to input embeddings to help the model
     understand the temporal order of the sequence.
     """
-    
+
     def __init__(self, d_model: int, max_len: int = 5000):
         """
         Initialize positional encoding.
-        
+
         Parameters
         ----------
         d_model : int
@@ -42,38 +43,40 @@ class PositionalEncoding(nn.Module):
             Maximum sequence length
         """
         super(PositionalEncoding, self).__init__()
-        
+
         pe = torch.zeros(max_len, d_model)
         position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
-        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-np.log(10000.0) / d_model))
-        
+        div_term = torch.exp(
+            torch.arange(0, d_model, 2).float() * (-np.log(10000.0) / d_model)
+        )
+
         pe[:, 0::2] = torch.sin(position * div_term)
         pe[:, 1::2] = torch.cos(position * div_term)
         pe = pe.unsqueeze(0).transpose(0, 1)
-        
-        self.register_buffer('pe', pe)
-    
+
+        self.register_buffer("pe", pe)
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         Add positional encoding to input.
-        
+
         Parameters
         ----------
         x : torch.Tensor
             Input tensor of shape (seq_len, batch_size, d_model)
-            
+
         Returns
         -------
         torch.Tensor
             Input with positional encoding added
         """
-        return x + self.pe[:x.size(0), :]
+        return x + self.pe[: x.size(0), :]
 
 
 class TimeSeriesTransformer(nn.Module):
     """
     Transformer model for time series analysis.
-    
+
     Architecture:
     - Input embedding layer
     - Positional encoding
@@ -82,14 +85,20 @@ class TimeSeriesTransformer(nn.Module):
     - Global average pooling
     - Output regression layer
     """
-    
-    def __init__(self, input_dim: int = 1, d_model: int = 128, 
-                 nhead: int = 8, num_layers: int = 6,
-                 dim_feedforward: int = 512, dropout: float = 0.1,
-                 max_seq_length: int = 1000):
+
+    def __init__(
+        self,
+        input_dim: int = 1,
+        d_model: int = 128,
+        nhead: int = 8,
+        num_layers: int = 6,
+        dim_feedforward: int = 512,
+        dropout: float = 0.1,
+        max_seq_length: int = 1000,
+    ):
         """
         Initialize the transformer model.
-        
+
         Parameters
         ----------
         input_dim : int
@@ -108,44 +117,46 @@ class TimeSeriesTransformer(nn.Module):
             Maximum sequence length
         """
         super(TimeSeriesTransformer, self).__init__()
-        
+
         self.d_model = d_model
         self.input_dim = input_dim
-        
+
         # Input projection
         self.input_projection = nn.Linear(input_dim, d_model)
-        
+
         # Positional encoding
         self.pos_encoder = PositionalEncoding(d_model, max_seq_length)
-        
+
         # Transformer encoder
         encoder_layer = nn.TransformerEncoderLayer(
             d_model=d_model,
             nhead=nhead,
             dim_feedforward=dim_feedforward,
             dropout=dropout,
-            batch_first=True
+            batch_first=True,
         )
-        self.transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
-        
+        self.transformer_encoder = nn.TransformerEncoder(
+            encoder_layer, num_layers=num_layers
+        )
+
         # Output layers
         self.global_pool = nn.AdaptiveAvgPool1d(1)
         self.output_projection = nn.Sequential(
             nn.Linear(d_model, d_model // 2),
             nn.ReLU(),
             nn.Dropout(dropout),
-            nn.Linear(d_model // 2, 1)
+            nn.Linear(d_model // 2, 1),
         )
-        
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         Forward pass through the transformer.
-        
+
         Parameters
         ----------
         x : torch.Tensor
             Input tensor of shape (batch_size, seq_len, input_dim)
-            
+
         Returns
         -------
         torch.Tensor
@@ -153,39 +164,39 @@ class TimeSeriesTransformer(nn.Module):
         """
         # Project input to d_model dimensions
         x = self.input_projection(x)  # (batch, seq_len, d_model)
-        
+
         # Add positional encoding
         x = x.transpose(0, 1)  # (seq_len, batch, d_model)
         x = self.pos_encoder(x)
         x = x.transpose(0, 1)  # (batch, seq_len, d_model)
-        
+
         # Apply transformer encoder
         x = self.transformer_encoder(x)  # (batch, seq_len, d_model)
-        
+
         # Global average pooling
         x = x.transpose(1, 2)  # (batch, d_model, seq_len)
         x = self.global_pool(x)  # (batch, d_model, 1)
         x = x.squeeze(-1)  # (batch, d_model)
-        
+
         # Output projection
         x = self.output_projection(x)  # (batch, 1)
-        
+
         return x
 
 
 class TransformerEstimator(BaseMLEstimator):
     """
     Transformer estimator for Hurst parameter estimation.
-    
-    This estimator uses a transformer architecture to learn the mapping from 
-    time series data to Hurst parameters. It's particularly effective for 
+
+    This estimator uses a transformer architecture to learn the mapping from
+    time series data to Hurst parameters. It's particularly effective for
     capturing long-range dependencies and temporal patterns.
     """
-    
+
     def __init__(self, **kwargs):
         """
         Initialize the Transformer estimator.
-        
+
         Parameters
         ----------
         **kwargs : dict
@@ -203,75 +214,75 @@ class TransformerEstimator(BaseMLEstimator):
         """
         if not TORCH_AVAILABLE:
             raise ImportError("PyTorch is required for Transformer estimator")
-        
+
         # Set default parameters
         default_params = {
-            'd_model': 128,
-            'nhead': 8,
-            'num_layers': 6,
-            'dim_feedforward': 512,
-            'dropout': 0.1,
-            'learning_rate': 0.0001,
-            'batch_size': 16,
-            'epochs': 100,
-            'feature_extraction_method': 'raw',
-            'random_state': 42
+            "d_model": 128,
+            "nhead": 8,
+            "num_layers": 6,
+            "dim_feedforward": 512,
+            "dropout": 0.1,
+            "learning_rate": 0.0001,
+            "batch_size": 16,
+            "epochs": 100,
+            "feature_extraction_method": "raw",
+            "random_state": 42,
         }
-        
+
         # Update with provided parameters
         default_params.update(kwargs)
         super().__init__(**default_params)
-        
+
         # Set random seeds for reproducibility
-        torch.manual_seed(self.parameters['random_state'])
+        torch.manual_seed(self.parameters["random_state"])
         if torch.cuda.is_available():
-            torch.cuda.manual_seed(self.parameters['random_state'])
-        
+            torch.cuda.manual_seed(self.parameters["random_state"])
+
         # Model components
         self.model = None
         self.optimizer = None
         self.criterion = None
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
     def _validate_parameters(self) -> None:
         """Validate estimator parameters."""
-        if self.parameters['d_model'] <= 0:
+        if self.parameters["d_model"] <= 0:
             raise ValueError("d_model must be positive")
-        
-        if self.parameters['nhead'] <= 0:
+
+        if self.parameters["nhead"] <= 0:
             raise ValueError("nhead must be positive")
-        
-        if self.parameters['num_layers'] <= 0:
+
+        if self.parameters["num_layers"] <= 0:
             raise ValueError("num_layers must be positive")
-        
-        if self.parameters['dim_feedforward'] <= 0:
+
+        if self.parameters["dim_feedforward"] <= 0:
             raise ValueError("dim_feedforward must be positive")
-        
-        if self.parameters['dropout'] < 0 or self.parameters['dropout'] > 1:
+
+        if self.parameters["dropout"] < 0 or self.parameters["dropout"] > 1:
             raise ValueError("dropout must be between 0 and 1")
-        
-        if self.parameters['learning_rate'] <= 0:
+
+        if self.parameters["learning_rate"] <= 0:
             raise ValueError("learning_rate must be positive")
-        
-        if self.parameters['batch_size'] <= 0:
+
+        if self.parameters["batch_size"] <= 0:
             raise ValueError("batch_size must be positive")
-        
-        if self.parameters['epochs'] <= 0:
+
+        if self.parameters["epochs"] <= 0:
             raise ValueError("epochs must be positive")
-        
+
         # Check if d_model is divisible by nhead
-        if self.parameters['d_model'] % self.parameters['nhead'] != 0:
+        if self.parameters["d_model"] % self.parameters["nhead"] != 0:
             raise ValueError("d_model must be divisible by nhead")
-    
+
     def _create_model(self, input_dim: int = 1) -> TimeSeriesTransformer:
         """
         Create the transformer model.
-        
+
         Parameters
         ----------
         input_dim : int
             Input dimension
-            
+
         Returns
         -------
         TimeSeriesTransformer
@@ -279,22 +290,22 @@ class TransformerEstimator(BaseMLEstimator):
         """
         return TimeSeriesTransformer(
             input_dim=input_dim,
-            d_model=self.parameters['d_model'],
-            nhead=self.parameters['nhead'],
-            num_layers=self.parameters['num_layers'],
-            dim_feedforward=self.parameters['dim_feedforward'],
-            dropout=self.parameters['dropout']
+            d_model=self.parameters["d_model"],
+            nhead=self.parameters["nhead"],
+            num_layers=self.parameters["num_layers"],
+            dim_feedforward=self.parameters["dim_feedforward"],
+            dropout=self.parameters["dropout"],
         ).to(self.device)
-    
+
     def _prepare_data(self, data: np.ndarray) -> torch.Tensor:
         """
         Prepare data for transformer input.
-        
+
         Parameters
         ----------
         data : np.ndarray
             Input time series data
-            
+
         Returns
         -------
         torch.Tensor
@@ -302,25 +313,25 @@ class TransformerEstimator(BaseMLEstimator):
         """
         if data.ndim == 1:
             data = data.reshape(1, -1)
-        
+
         # Convert to torch tensor
         data_tensor = torch.FloatTensor(data)  # (batch, seq_len)
-        
+
         # Add feature dimension if needed
         if data_tensor.dim() == 2:
             data_tensor = data_tensor.unsqueeze(-1)  # (batch, seq_len, features)
-        
+
         return data_tensor.to(self.device)
-    
+
     def estimate(self, data: np.ndarray) -> Dict[str, Any]:
         """
         Estimate Hurst parameter using Transformer.
-        
+
         Parameters
         ----------
         data : np.ndarray
             Time series data
-            
+
         Returns
         -------
         dict
@@ -331,18 +342,18 @@ class TransformerEstimator(BaseMLEstimator):
         """
         if not TORCH_AVAILABLE:
             raise ImportError("PyTorch is required for Transformer estimator")
-        
+
         # For now, return a simple estimate based on statistical features
         # In a full implementation, this would train the transformer on labeled data
         # and use it for prediction
-        
+
         # Extract features and make a simple estimate
         features = self.extract_features(data)
-        
+
         # Simple heuristic: use spectral slope as proxy for Hurst
         if data.ndim == 1:
             data = data.reshape(1, -1)
-        
+
         hurst_estimates = []
         for series in data:
             # Calculate spectral slope (simplified Hurst estimation)
@@ -350,19 +361,19 @@ class TransformerEstimator(BaseMLEstimator):
             if n > 10:
                 # Use FFT to get power spectrum
                 fft_vals = np.fft.fft(series)
-                power_spectrum = np.abs(fft_vals[:n//2])**2
-                frequencies = np.fft.fftfreq(n)[:n//2]
-                
+                power_spectrum = np.abs(fft_vals[: n // 2]) ** 2
+                frequencies = np.fft.fftfreq(n)[: n // 2]
+
                 # Remove DC component and zero frequencies
                 valid_mask = (frequencies > 0) & (power_spectrum > 0)
                 if np.sum(valid_mask) > 5:
                     log_freq = np.log(frequencies[valid_mask])
                     log_power = np.log(power_spectrum[valid_mask])
-                    
+
                     # Fit linear regression to log-log plot
                     coeffs = np.polyfit(log_freq, log_power, 1)
                     spectral_slope = coeffs[0]
-                    
+
                     # Convert spectral slope to Hurst parameter
                     # For fBm: P(f) ~ f^(-2H-1), so slope = -(2H+1)
                     # Therefore: H = -(slope + 1) / 2
@@ -372,61 +383,67 @@ class TransformerEstimator(BaseMLEstimator):
                     hurst_estimates.append(0.5)
             else:
                 hurst_estimates.append(0.5)
-        
+
         # Take mean of estimates
         estimated_hurst = np.mean(hurst_estimates)
-        
+
         # Create confidence interval (simplified)
-        std_error = np.std(hurst_estimates) / np.sqrt(len(hurst_estimates)) if len(hurst_estimates) > 1 else 0.1
-        confidence_interval = (max(0, estimated_hurst - 1.96 * std_error), 
-                             min(1, estimated_hurst + 1.96 * std_error))
-        
+        std_error = (
+            np.std(hurst_estimates) / np.sqrt(len(hurst_estimates))
+            if len(hurst_estimates) > 1
+            else 0.1
+        )
+        confidence_interval = (
+            max(0, estimated_hurst - 1.96 * std_error),
+            min(1, estimated_hurst + 1.96 * std_error),
+        )
+
         # Store results
         self.results = {
-            'hurst_parameter': estimated_hurst,
-            'confidence_interval': confidence_interval,
-            'std_error': std_error,
-            'method': 'Transformer (Spectral Fallback)',
-            'model_info': {
-                'model_type': 'TimeSeriesTransformer',
-                'd_model': self.parameters['d_model'],
-                'nhead': self.parameters['nhead'],
-                'num_layers': self.parameters['num_layers'],
-                'dim_feedforward': self.parameters['dim_feedforward'],
-                'dropout': self.parameters['dropout']
-            }
+            "hurst_parameter": estimated_hurst,
+            "confidence_interval": confidence_interval,
+            "std_error": std_error,
+            "method": "Transformer (Spectral Fallback)",
+            "model_info": {
+                "model_type": "TimeSeriesTransformer",
+                "d_model": self.parameters["d_model"],
+                "nhead": self.parameters["nhead"],
+                "num_layers": self.parameters["num_layers"],
+                "dim_feedforward": self.parameters["dim_feedforward"],
+                "dropout": self.parameters["dropout"],
+            },
         }
-        
+
         return self.results
-    
+
     def get_model_info(self) -> Dict[str, Any]:
         """
         Get information about the transformer model.
-        
+
         Returns
         -------
         dict
             Model information
         """
         info = {
-            'model_type': 'TimeSeriesTransformer',
-            'architecture': 'Transformer with Self-Attention',
-            'd_model': self.parameters['d_model'],
-            'nhead': self.parameters['nhead'],
-            'num_layers': self.parameters['num_layers'],
-            'dim_feedforward': self.parameters['dim_feedforward'],
-            'dropout': self.parameters['dropout'],
-            'learning_rate': self.parameters['learning_rate'],
-            'batch_size': self.parameters['batch_size'],
-            'epochs': self.parameters['epochs'],
-            'device': str(self.device),
-            'torch_available': TORCH_AVAILABLE
+            "model_type": "TimeSeriesTransformer",
+            "architecture": "Transformer with Self-Attention",
+            "d_model": self.parameters["d_model"],
+            "nhead": self.parameters["nhead"],
+            "num_layers": self.parameters["num_layers"],
+            "dim_feedforward": self.parameters["dim_feedforward"],
+            "dropout": self.parameters["dropout"],
+            "learning_rate": self.parameters["learning_rate"],
+            "batch_size": self.parameters["batch_size"],
+            "epochs": self.parameters["epochs"],
+            "device": str(self.device),
+            "torch_available": TORCH_AVAILABLE,
         }
-        
-        if hasattr(self, 'model') and self.model is not None:
-            info['model_created'] = True
-            info['total_parameters'] = sum(p.numel() for p in self.model.parameters())
+
+        if hasattr(self, "model") and self.model is not None:
+            info["model_created"] = True
+            info["total_parameters"] = sum(p.numel() for p in self.model.parameters())
         else:
-            info['model_created'] = False
-        
+            info["model_created"] = False
+
         return info

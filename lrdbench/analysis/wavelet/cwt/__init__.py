@@ -7,4 +7,4 @@ from time series data using continuous wavelet decomposition.
 
 from .cwt_estimator import CWTEstimator
 
-__all__ = ['CWTEstimator']
+__all__ = ["CWTEstimator"]

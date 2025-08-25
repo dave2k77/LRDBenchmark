@@ -19,7 +19,7 @@ from datetime import datetime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import the ARFIMA model
-from models.data_models.arfima.arfima_model import ARFIMAModel
+from lrdbench.models.data_models.arfima.arfima_model import ARFIMAModel
 
 # Set up plotting style
 plt.style.use('seaborn-v0_8')

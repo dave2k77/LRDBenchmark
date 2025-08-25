@@ -8,4 +8,4 @@ correlations in time series.
 
 from .dfa_estimator import DFAEstimator
 
-__all__ = ['DFAEstimator']
+__all__ = ["DFAEstimator"]

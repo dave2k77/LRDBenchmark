@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from models.data_models.fgn.fgn_model import FractionalGaussianNoise
+from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
 
 
 class TestFractionalGaussianNoise:

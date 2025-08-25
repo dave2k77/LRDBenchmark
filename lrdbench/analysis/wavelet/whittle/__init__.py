@@ -7,4 +7,4 @@ from time series data using wavelet-based Whittle likelihood estimation.
 
 from .wavelet_whittle_estimator import WaveletWhittleEstimator
 
-__all__ = ['WaveletWhittleEstimator']
+__all__ = ["WaveletWhittleEstimator"]

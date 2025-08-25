@@ -27,15 +27,10 @@ from .base_neural_fsde import BaseNeuralFSDE
 from .fractional_brownian_motion import (
     FractionalBrownianMotionGenerator,
     generate_fbm_path,
-    generate_fbm_increments
+    generate_fbm_increments,
 )
 
-from .numerical_solvers import (
-    SDESolver,
-    JAXSDESolver,
-    AdaptiveSDESolver,
-    solve_sde
-)
+from .numerical_solvers import SDESolver, JAXSDESolver, AdaptiveSDESolver, solve_sde
 
 # JAX implementations (high performance)
 try:
@@ -44,8 +39,9 @@ try:
         JAXLatentFractionalNet,
         JAXMLP,
         create_jax_fsde_net,
-        create_jax_latent_fsde_net
+        create_jax_latent_fsde_net,
     )
+
     JAX_AVAILABLE = True
 except ImportError:
     JAX_AVAILABLE = False
@@ -57,8 +53,9 @@ try:
         TorchLatentFractionalNet,
         TorchMLP,
         create_torch_fsde_net,
-        create_torch_latent_fsde_net
+        create_torch_latent_fsde_net,
     )
+
     TORCH_AVAILABLE = True
 except ImportError:
     TORCH_AVAILABLE = False
@@ -69,89 +66,90 @@ from .hybrid_factory import (
     get_factory,
     create_fsde_net,
     create_latent_fsde_net,
-    benchmark_frameworks
+    benchmark_frameworks,
 )
 
 # Convenience imports
 __all__ = [
     # Base classes
-    'BaseNeuralFSDE',
-    
+    "BaseNeuralFSDE",
     # Core components
-    'FractionalBrownianMotionGenerator',
-    'generate_fbm_path',
-    'generate_fbm_increments',
-    'SDESolver',
-    'JAXSDESolver',
-    'AdaptiveSDESolver',
-    'solve_sde',
-    
+    "FractionalBrownianMotionGenerator",
+    "generate_fbm_path",
+    "generate_fbm_increments",
+    "SDESolver",
+    "JAXSDESolver",
+    "AdaptiveSDESolver",
+    "solve_sde",
     # Factory and utilities
-    'NeuralFSDEFactory',
-    'get_factory',
-    'create_fsde_net',
-    'create_latent_fsde_net',
-    'benchmark_frameworks',
+    "NeuralFSDEFactory",
+    "get_factory",
+    "create_fsde_net",
+    "create_latent_fsde_net",
+    "benchmark_frameworks",
 ]
 
 # Add framework-specific exports if available
 if JAX_AVAILABLE:
-    __all__.extend([
-        'JAXfSDENet',
-        'JAXLatentFractionalNet',
-        'JAXMLP',
-        'create_jax_fsde_net',
-        'create_jax_latent_fsde_net'
-    ])
+    __all__.extend(
+        [
+            "JAXfSDENet",
+            "JAXLatentFractionalNet",
+            "JAXMLP",
+            "create_jax_fsde_net",
+            "create_jax_latent_fsde_net",
+        ]
+    )
 
 if TORCH_AVAILABLE:
-    __all__.extend([
-        'TorchfSDENet',
-        'TorchLatentFractionalNet',
-        'TorchMLP',
-        'create_torch_fsde_net',
-        'create_torch_latent_fsde_net'
-    ])
+    __all__.extend(
+        [
+            "TorchfSDENet",
+            "TorchLatentFractionalNet",
+            "TorchMLP",
+            "create_torch_fsde_net",
+            "create_torch_latent_fsde_net",
+        ]
+    )
 
 # Version info
 __version__ = "1.0.0"
 __author__ = "Data Modelling and Generation Project"
 __description__ = "Hybrid Neural Fractional Stochastic Differential Equations"
 
+
 # Quick start example
 def quick_start_example():
     """
     Quick start example for using the neural fSDE system.
-    
+
     This demonstrates the basic usage pattern with automatic
     framework selection.
     """
     try:
         # Create a neural fSDE model (auto-selects best framework)
         model = create_fsde_net(
-            state_dim=1,
-            hidden_dim=32,
-            num_layers=3,
-            hurst_parameter=0.7
+            state_dim=1, hidden_dim=32, num_layers=3, hurst_parameter=0.7
         )
-        
+
         print(f"Created {model.framework} model: {model}")
-        
+
         # Simulate time series
         trajectory = model.simulate(n_samples=1000, dt=0.01)
         print(f"Generated trajectory shape: {trajectory.shape}")
-        
+
         # Get framework information
         factory = get_factory()
         info = factory.get_framework_info()
         print(f"Available frameworks: {info['available_frameworks']}")
         print(f"Recommended framework: {info['recommended_framework']}")
-        
+
         return model, trajectory
-        
+
     except Exception as e:
         print(f"Quick start failed: {e}")
         return None, None
+
 
 # Check availability on import
 def check_availability():
@@ -159,7 +157,7 @@ def check_availability():
     print("Neural fSDE System Status:")
     print(f"  JAX available: {JAX_AVAILABLE}")
     print(f"  PyTorch available: {TORCH_AVAILABLE}")
-    
+
     if JAX_AVAILABLE or TORCH_AVAILABLE:
         try:
             factory = get_factory()
@@ -171,6 +169,7 @@ def check_availability():
     else:
         print("  ⚠️  No frameworks available! Install JAX or PyTorch.")
 
+
 # Run availability check on import
 if __name__ == "__main__":
     check_availability()
@@ -179,5 +178,6 @@ if __name__ == "__main__":
 else:
     # Only check on import if verbose mode is enabled
     import os
-    if os.environ.get('NEURAL_FSDE_VERBOSE', '0') == '1':
+
+    if os.environ.get("NEURAL_FSDE_VERBOSE", "0") == "1":
         check_availability()

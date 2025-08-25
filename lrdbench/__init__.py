@@ -5,18 +5,13 @@ A comprehensive toolkit for benchmarking long-range dependence estimators
 on synthetic and real-world time series data.
 """
 
-__version__ = "1.3.0"
+__version__ = "1.5.1"
 __author__ = "LRDBench Development Team"
 __email__ = "lrdbench@example.com"
 
 # Core components
 from .analysis.benchmark import ComprehensiveBenchmark
-from .models.data_models import (
-    FBMModel,
-    FGNModel,
-    ARFIMAModel,
-    MRWModel
-)
+from .models.data_models import FBMModel, FGNModel, ARFIMAModel, MRWModel
 
 # Analytics components
 from .analytics import (
@@ -24,7 +19,7 @@ from .analytics import (
     PerformanceMonitor,
     ErrorAnalyzer,
     WorkflowAnalyzer,
-    AnalyticsDashboard
+    AnalyticsDashboard,
 )
 
 # Convenience functions
@@ -33,6 +28,7 @@ from .analytics.usage_tracker import get_usage_tracker, track_usage
 from .analytics.performance_monitor import get_performance_monitor, monitor_performance
 from .analytics.error_analyzer import get_error_analyzer, track_errors
 from .analytics.workflow_analyzer import get_workflow_analyzer, track_workflow
+
 
 # High-level API
 def enable_analytics(enable: bool = True, privacy_mode: bool = True):
@@ -49,11 +45,13 @@ def enable_analytics(enable: bool = True, privacy_mode: bool = True):
         tracker.enable_tracking = False
         print("❌ Analytics tracking disabled")
 
+
 def get_analytics_summary(days: int = 30) -> str:
     """
     Get a quick summary of analytics data
     """
     return quick_analytics_summary(days)
+
 
 def generate_analytics_report(days: int = 30, output_dir: str = None) -> str:
     """
@@ -62,28 +60,29 @@ def generate_analytics_report(days: int = 30, output_dir: str = None) -> str:
     dashboard = get_analytics_dashboard()
     return dashboard.generate_comprehensive_report(days, output_dir)
 
+
 # Main exports
 __all__ = [
-    'ComprehensiveBenchmark',
-    'FBMModel',
-    'FGNModel',
-    'ARFIMAModel',
-    'MRWModel',
-    'UsageTracker',
-    'PerformanceMonitor',
-    'ErrorAnalyzer',
-    'WorkflowAnalyzer',
-    'AnalyticsDashboard',
-    'enable_analytics',
-    'get_analytics_summary',
-    'generate_analytics_report',
-    'track_usage',
-    'monitor_performance',
-    'track_errors',
-    'track_workflow',
-    '__version__',
-    '__author__',
-    '__email__'
+    "ComprehensiveBenchmark",
+    "FBMModel",
+    "FGNModel",
+    "ARFIMAModel",
+    "MRWModel",
+    "UsageTracker",
+    "PerformanceMonitor",
+    "ErrorAnalyzer",
+    "WorkflowAnalyzer",
+    "AnalyticsDashboard",
+    "enable_analytics",
+    "get_analytics_summary",
+    "generate_analytics_report",
+    "track_usage",
+    "monitor_performance",
+    "track_errors",
+    "track_workflow",
+    "__version__",
+    "__author__",
+    "__email__",
 ]
 
 # Enable analytics by default (can be disabled by user)

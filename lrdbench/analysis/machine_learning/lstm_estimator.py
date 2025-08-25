@@ -15,12 +15,14 @@ try:
     import torch
     from torch import nn
     from torch.utils.data import Dataset, DataLoader
+
     TORCH_AVAILABLE = True
 except Exception:
     TORCH_AVAILABLE = False
 
 
 if TORCH_AVAILABLE:
+
     class _SequenceDataset(Dataset):
         def __init__(self, X: np.ndarray, y: np.ndarray):
             # X: (n_samples, seq_len, 1)
@@ -35,9 +37,16 @@ if TORCH_AVAILABLE:
 
 
 if TORCH_AVAILABLE:
+
     class _LSTMRegressor(nn.Module):
-        def __init__(self, input_size: int, hidden_size: int, num_layers: int,
-                     dropout: float = 0.0, bidirectional: bool = False):
+        def __init__(
+            self,
+            input_size: int,
+            hidden_size: int,
+            num_layers: int,
+            dropout: float = 0.0,
+            bidirectional: bool = False,
+        ):
             super().__init__()
             self.lstm = nn.LSTM(
                 input_size=input_size,
@@ -73,23 +82,31 @@ class LSTMEstimator(BaseMLEstimator):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if not TORCH_AVAILABLE:
-            raise ImportError("PyTorch is required for LSTMEstimator. Install with: pip install torch")
+            raise ImportError(
+                "PyTorch is required for LSTMEstimator. Install with: pip install torch"
+            )
         # Defaults
-        self.hidden_size = self.parameters.get('hidden_size', 64)
-        self.num_layers = self.parameters.get('num_layers', 2)
-        self.dropout = self.parameters.get('dropout', 0.1)
-        self.bidirectional = self.parameters.get('bidirectional', False)
-        self.learning_rate = self.parameters.get('learning_rate', 1e-3)
-        self.epochs = self.parameters.get('epochs', 30)
-        self.batch_size = self.parameters.get('batch_size', 32)
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.hidden_size = self.parameters.get("hidden_size", 64)
+        self.num_layers = self.parameters.get("num_layers", 2)
+        self.dropout = self.parameters.get("dropout", 0.1)
+        self.bidirectional = self.parameters.get("bidirectional", False)
+        self.learning_rate = self.parameters.get("learning_rate", 1e-3)
+        self.epochs = self.parameters.get("epochs", 30)
+        self.batch_size = self.parameters.get("batch_size", 32)
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # Internal torch model placeholder (created in train)
         self._torch_model: Optional[nn.Module] = None
 
     def _validate_parameters(self) -> None:
         # Minimal validation
-        if self.parameters.get('feature_extraction_method') not in (None, 'raw', 'statistical', 'spectral', 'wavelet'):
+        if self.parameters.get("feature_extraction_method") not in (
+            None,
+            "raw",
+            "statistical",
+            "spectral",
+            "wavelet",
+        ):
             raise ValueError("Invalid feature_extraction_method")
 
     def _create_model(self) -> Any:
@@ -110,7 +127,9 @@ class LSTMEstimator(BaseMLEstimator):
 
     def train(self, X: np.ndarray, y: np.ndarray) -> Dict[str, Any]:
         if not TORCH_AVAILABLE:
-            raise ImportError("PyTorch is required for LSTMEstimator. Install with: pip install torch")
+            raise ImportError(
+                "PyTorch is required for LSTMEstimator. Install with: pip install torch"
+            )
 
         # Use raw sequence; ignore Base feature extraction
         from sklearn.model_selection import train_test_split
@@ -159,6 +178,7 @@ class LSTMEstimator(BaseMLEstimator):
 
         # Evaluate on train/val
         model.eval()
+
         def _predict(loader):
             outs, gts = [], []
             with torch.no_grad():
@@ -183,14 +203,14 @@ class LSTMEstimator(BaseMLEstimator):
         self._torch_model = model
         self.model = model  # for compatibility with Base
         self.results = {
-            'train_mse': train_mse,
-            'test_mse': test_mse,
-            'train_mae': train_mae,
-            'test_mae': test_mae,
-            'train_r2': train_r2,
-            'test_r2': test_r2,
-            'n_features': X_seq.shape[1],
-            'n_samples': X_seq.shape[0]
+            "train_mse": train_mse,
+            "test_mse": test_mse,
+            "train_mae": train_mae,
+            "test_mae": test_mae,
+            "train_r2": train_r2,
+            "test_r2": test_r2,
+            "n_features": X_seq.shape[1],
+            "n_samples": X_seq.shape[0],
         }
         self.is_trained = True
         return self.results
@@ -211,11 +231,13 @@ class LSTMEstimator(BaseMLEstimator):
             pred = self._torch_model(x).cpu().numpy().reshape(-1)
         hurst_estimate = float(pred[0])
 
-        self.results.update({
-            'hurst_parameter': hurst_estimate,
-            'estimation_method': self.__class__.__name__,
-            'feature_extraction_method': 'raw'
-        })
+        self.results.update(
+            {
+                "hurst_parameter": hurst_estimate,
+                "estimation_method": self.__class__.__name__,
+                "feature_extraction_method": "raw",
+            }
+        )
         return self.results
 
     # Override save/load to handle torch state dict alongside metadata
@@ -223,32 +245,34 @@ class LSTMEstimator(BaseMLEstimator):
         if not self.is_trained or self._torch_model is None:
             raise ValueError("Model must be trained before saving")
         import os, joblib, torch
+
         meta = {
-            'scaler': self.scaler,
-            'parameters': self.parameters,
-            'results': self.results,
-            'model_meta': {
-                'hidden_size': self.hidden_size,
-                'num_layers': self.num_layers,
-                'dropout': self.dropout,
-                'bidirectional': self.bidirectional,
-            }
+            "scaler": self.scaler,
+            "parameters": self.parameters,
+            "results": self.results,
+            "model_meta": {
+                "hidden_size": self.hidden_size,
+                "num_layers": self.num_layers,
+                "dropout": self.dropout,
+                "bidirectional": self.bidirectional,
+            },
         }
         joblib.dump(meta, filepath)
-        torch.save(self._torch_model.state_dict(), filepath + '.pt')
+        torch.save(self._torch_model.state_dict(), filepath + ".pt")
 
     def load_model(self, filepath: str) -> None:
         import os, joblib, torch
+
         if not os.path.exists(filepath):
             raise FileNotFoundError(f"Model file not found: {filepath}")
         meta = joblib.load(filepath)
-        self.scaler = meta['scaler']
-        self.parameters = meta['parameters']
-        self.results = meta['results']
-        self.hidden_size = meta['model_meta']['hidden_size']
-        self.num_layers = meta['model_meta']['num_layers']
-        self.dropout = meta['model_meta']['dropout']
-        self.bidirectional = meta['model_meta']['bidirectional']
+        self.scaler = meta["scaler"]
+        self.parameters = meta["parameters"]
+        self.results = meta["results"]
+        self.hidden_size = meta["model_meta"]["hidden_size"]
+        self.num_layers = meta["model_meta"]["num_layers"]
+        self.dropout = meta["model_meta"]["dropout"]
+        self.bidirectional = meta["model_meta"]["bidirectional"]
 
         # Recreate model and load weights
         self._torch_model = _LSTMRegressor(
@@ -258,9 +282,9 @@ class LSTMEstimator(BaseMLEstimator):
             dropout=self.dropout,
             bidirectional=self.bidirectional,
         )
-        state_path = filepath + '.pt'
+        state_path = filepath + ".pt"
         if not os.path.exists(state_path):
             raise FileNotFoundError(f"Model weights not found: {state_path}")
-        self._torch_model.load_state_dict(torch.load(state_path, map_location='cpu'))
+        self._torch_model.load_state_dict(torch.load(state_path, map_location="cpu"))
         self.model = self._torch_model
         self.is_trained = True

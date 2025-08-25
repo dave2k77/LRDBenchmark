@@ -17,7 +17,7 @@ def test_fbm_generator():
     print("🔍 Testing fBm (Fractional Brownian Motion)...")
     
     try:
-        from models.data_models.fbm.fbm_model import FractionalBrownianMotion
+        from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
         
         # Test different H values
         for H in [0.3, 0.5, 0.7, 0.9]:
@@ -48,7 +48,7 @@ def test_fgn_generator():
     print("\n🔍 Testing fGn (Fractional Gaussian Noise)...")
     
     try:
-        from models.data_models.fgn.fgn_model import FractionalGaussianNoise
+        from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
         
         # Test different H values
         for H in [0.3, 0.5, 0.7, 0.9]:
@@ -74,7 +74,7 @@ def test_arfima_generator():
     print("\n🔍 Testing ARFIMA (Autoregressive Fractionally Integrated Moving Average)...")
     
     try:
-        from models.data_models.arfima.arfima_model import ARFIMAModel
+        from lrdbench.models.data_models.arfima.arfima_model import ARFIMAModel
         
         # Test different parameters (d must be in (-0.5, 0.5))
         test_params = [
@@ -107,7 +107,7 @@ def test_mrw_generator():
     print("\n🔍 Testing MRW (Multifractal Random Walk)...")
     
     try:
-        from models.data_models.mrw.mrw_model import MultifractalRandomWalk
+        from lrdbench.models.data_models.mrw.mrw_model import MultifractalRandomWalk
         
         # Test different parameters
         test_params = [
@@ -142,7 +142,7 @@ def test_neural_fsde_generator():
     try:
         # Try to import neural components
         try:
-            from models.data_models.neural_fsde.base_neural_fsde import BaseModel
+            from lrdbench.models.data_models.neural_fsde.base_neural_fsde import BaseModel
             neural_available = True
         except (ImportError, AttributeError) as e:
             neural_available = False

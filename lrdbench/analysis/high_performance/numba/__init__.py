@@ -20,17 +20,17 @@ from .mfdfa_numba import MFDFAEstimatorNumba
 from .multifractal_wavelet_leaders_numba import MultifractalWaveletLeadersEstimatorNumba
 
 __all__ = [
-    'DFAEstimatorNumba',
-    'RSEstimatorNumba',
-    'HiguchiEstimatorNumba',
-    'DMAEstimatorNumba',
-    'PeriodogramEstimatorNumba',
-    'WhittleEstimatorNumba',
-    'GPHEstimatorNumba',
-    'WaveletLogVarianceEstimatorNumba',
-    'WaveletVarianceEstimatorNumba',
-    'WaveletWhittleEstimatorNumba',
-    'CWTEstimatorNumba',
-    'MFDFAEstimatorNumba',
-    'MultifractalWaveletLeadersEstimatorNumba'
+    "DFAEstimatorNumba",
+    "RSEstimatorNumba",
+    "HiguchiEstimatorNumba",
+    "DMAEstimatorNumba",
+    "PeriodogramEstimatorNumba",
+    "WhittleEstimatorNumba",
+    "GPHEstimatorNumba",
+    "WaveletLogVarianceEstimatorNumba",
+    "WaveletVarianceEstimatorNumba",
+    "WaveletWhittleEstimatorNumba",
+    "CWTEstimatorNumba",
+    "MFDFAEstimatorNumba",
+    "MultifractalWaveletLeadersEstimatorNumba",
 ]

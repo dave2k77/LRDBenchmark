@@ -7,4 +7,4 @@ a self-similar Gaussian process characterized by the Hurst parameter H.
 
 from .fbm_model import FractionalBrownianMotion
 
-__all__ = ['FractionalBrownianMotion']
+__all__ = ["FractionalBrownianMotion"]

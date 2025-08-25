@@ -44,25 +44,31 @@ class FractionalGaussianNoise(BaseModel):
     def _autocovariance_fgn(self, H: float, sigma: float, n: int) -> np.ndarray:
         # γ(k) = (σ^2 / 2)(|k+1|^{2H} - 2|k|^{2H} + |k-1|^{2H}) for k >= 0
         k = np.arange(0, n)
-        gamma = (sigma ** 2) * 0.5 * (
-            np.power(k + 1, 2 * H)
-            - 2 * np.power(k, 2 * H)
-            + np.power(np.maximum(0, k - 1), 2 * H)
+        gamma = (
+            (sigma**2)
+            * 0.5
+            * (
+                np.power(k + 1, 2 * H)
+                - 2 * np.power(k, 2 * H)
+                + np.power(np.maximum(0, k - 1), 2 * H)
+            )
         )
         return gamma
 
     def _circulant_method(self, n: int, H: float, sigma: float) -> np.ndarray:
         # Build circulant embedding of covariance for length n
         gamma = self._autocovariance_fgn(H, sigma, n)
-        first_row = np.concatenate([gamma, gamma[1:n - 1][::-1]])
+        first_row = np.concatenate([gamma, gamma[1 : n - 1][::-1]])
 
         # Eigenvalues of the circulant matrix
         eigenvalues = np.fft.fft(first_row)
         eigenvalues = np.maximum(eigenvalues.real, 0.0)
 
         # Generate complex Gaussian noise with matching length
-        z = (np.random.normal(0, 1, len(eigenvalues))
-             + 1j * np.random.normal(0, 1, len(eigenvalues))) / np.sqrt(2)
+        z = (
+            np.random.normal(0, 1, len(eigenvalues))
+            + 1j * np.random.normal(0, 1, len(eigenvalues))
+        ) / np.sqrt(2)
 
         # Filter
         y = np.fft.ifft(z * np.sqrt(eigenvalues))
@@ -93,11 +99,8 @@ class FractionalGaussianNoise(BaseModel):
         sigma = self.parameters["sigma"]
         return {
             "hurst_parameter": H,
-            "variance": sigma ** 2,
+            "variance": sigma**2,
             "stationary": True,
             "gaussian": True,
             "long_range_dependence": H > 0.5,
         }
-
-
-

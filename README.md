@@ -90,6 +90,38 @@ results = benchmark.run_ml_classical_comparison()
 - **📊 [Examples](examples/)**: Usage examples and demonstrations
 - **🔬 [Model Theory](documentation/technical/model_theory.md)**: Mathematical foundations
 
+## 🌐 **Web Dashboard**
+
+**🚀 Interactive Web Interface**: Access LRDBenchmark through a modern web dashboard built with Streamlit.
+
+### **Features**
+- **📈 Interactive Data Generation**: Generate synthetic time series with configurable parameters
+- **🔬 Real-time Benchmarking**: Run comprehensive benchmarks with multiple estimators
+- **📊 Rich Visualizations**: Interactive plots and charts using Plotly
+- **📈 Analytics Dashboard**: Track usage and performance metrics
+- **📥 Results Export**: Download benchmark results in JSON format
+
+### **Quick Start**
+```bash
+# Navigate to web dashboard
+cd web_dashboard
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the dashboard
+streamlit run streamlit_app.py
+```
+
+### **Deploy Online**
+- **Streamlit Cloud**: Free hosting at [share.streamlit.io](https://share.streamlit.io)
+- **Local Development**: Run locally for development and testing
+- **Docker**: Containerized deployment option available
+
+### **Documentation**
+- **📖 [Dashboard README](web_dashboard/README.md)**: Complete dashboard documentation
+- **🧪 [Test Suite](web_dashboard/test_dashboard.py)**: Verify dashboard functionality
+
 ## 🧪 **Examples & Demos**
 
 ### **Quick Examples**

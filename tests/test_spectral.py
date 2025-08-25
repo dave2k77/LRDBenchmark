@@ -1,11 +1,11 @@
 import numpy as np
 import pytest
 
-from analysis.spectral.periodogram import PeriodogramEstimator
-from analysis.spectral.whittle import WhittleEstimator
-from analysis.spectral.gph import GPHEstimator
-from models.data_models.fbm.fbm_model import FractionalBrownianMotion
-from models.data_models.fgn.fgn_model import FractionalGaussianNoise
+from lrdbench.analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
+from lrdbench.analysis.spectral.whittle.whittle_estimator import WhittleEstimator
+from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
+from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
 
 
 def generate_fgn_from_fbm(H: float, n: int, seed: int = 123) -> np.ndarray:

@@ -12,7 +12,7 @@ import os
 
 # Add the project root to the path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from models.data_models.fbm.fbm_model import FractionalBrownianMotion
+from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
 
 
 class TestFractionalBrownianMotion:

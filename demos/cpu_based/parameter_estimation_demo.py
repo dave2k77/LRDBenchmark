@@ -22,28 +22,28 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import models and estimators
 try:
-    from models.data_models.fbm.fbm_model import FractionalBrownianMotion
-    from models.data_models.fgn.fgn_model import FractionalGaussianNoise
-    from models.data_models.arfima.arfima_model import ARFIMAModel
-    from models.data_models.mrw.mrw_model import MultifractalRandomWalk
+    from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+    from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
+    from lrdbench.models.data_models.arfima.arfima_model import ARFIMAModel
+    from lrdbench.models.data_models.mrw.mrw_model import MultifractalRandomWalk
     
     # Import temporal estimators
-    from analysis.temporal.dfa.dfa_estimator import DFAEstimator
-    from analysis.temporal.rs.rs_estimator import RSEstimator
-    from analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
-    from analysis.temporal.dma.dma_estimator import DMAEstimator
+    from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+    from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
+    from lrdbench.analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
+    from lrdbench.analysis.temporal.dma.dma_estimator import DMAEstimator
     # Import spectral estimators
-    from analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
-    from analysis.spectral.whittle.whittle_estimator import WhittleEstimator
-    from analysis.spectral.gph.gph_estimator import GPHEstimator
+    from lrdbench.analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
+    from lrdbench.analysis.spectral.whittle.whittle_estimator import WhittleEstimator
+    from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
     # Import wavelet estimators
-    from analysis.wavelet.variance.wavelet_variance_estimator import WaveletVarianceEstimator
-    from analysis.wavelet.log_variance.wavelet_log_variance_estimator import WaveletLogVarianceEstimator
-    from analysis.wavelet.whittle.wavelet_whittle_estimator import WaveletWhittleEstimator
-    from analysis.wavelet.cwt.cwt_estimator import CWTEstimator
+    from lrdbench.analysis.wavelet.variance.wavelet_variance_estimator import WaveletVarianceEstimator
+    from lrdbench.analysis.wavelet.log_variance.wavelet_log_variance_estimator import WaveletLogVarianceEstimator
+    from lrdbench.analysis.wavelet.whittle.wavelet_whittle_estimator import WaveletWhittleEstimator
+    from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
     # Import multifractal estimators
-    from analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
-    from analysis.multifractal.wavelet_leaders.multifractal_wavelet_leaders_estimator import MultifractalWaveletLeadersEstimator
+    from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
+    from lrdbench.analysis.multifractal.wavelet_leaders.multifractal_wavelet_leaders_estimator import MultifractalWaveletLeadersEstimator
     
     ESTIMATORS_AVAILABLE = True
 except ImportError as e:
