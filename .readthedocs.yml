@@ -24,6 +24,3 @@ python:
 formats:
   - pdf
   - epub
-
-# Set the default version that will be shown at the root of the site
-default_version: latest
