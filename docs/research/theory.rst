@@ -736,8 +736,8 @@ Autocorrelation Function Analysis
        autocorrelation_analysis_example()
        print("Autocorrelation analysis completed!")
 
-References
-==========
+Theoretical References
+=====================
 
 1. Beran, J. (1994). Statistics for Long-Memory Processes. Chapman & Hall.
 2. Mandelbrot, B. B., & Van Ness, J. W. (1968). Fractional Brownian motions, fractional noises and applications. SIAM Review, 10(4), 422-437.

@@ -1160,8 +1160,8 @@ Estimator Validation
        
        return validation_results
 
-References
-==========
+Validation References
+====================
 
 1. Beran, J. (1994). Statistics for Long-Memory Processes. Chapman & Hall.
 2. Efron, B., & Tibshirani, R. J. (1994). An Introduction to the Bootstrap. CRC Press.

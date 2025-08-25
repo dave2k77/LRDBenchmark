@@ -140,7 +140,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'LRDBench.tex', 'LRDBench Documentation',
-     'LRDBench Development Team', 'manual'),
+     'Davian Chin', 'manual'),
 ]
 
 # -- Options for manual page output ------------------------------------------
