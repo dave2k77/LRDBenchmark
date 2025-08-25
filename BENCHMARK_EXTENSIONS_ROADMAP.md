@@ -281,7 +281,7 @@ This document outlines potential extensions and enhancements for the LRDBench be
 ## 📞 **Contact & Resources**
 
 - **Development Team**: LRDBench Development Team
-- **Repository**: https://github.com/dave2k77/long-range-dependence-project-3
+- **Repository**: https://github.com/dave2k77/LRDBench
 - **Documentation**: See `documentation/` folder
 - **Issues**: Use GitHub issues for feature requests and bug reports
 
