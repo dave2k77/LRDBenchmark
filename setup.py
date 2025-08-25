@@ -29,7 +29,7 @@ setup(
     long_description_content_type="text/markdown",
     author="LRDBench Development Team",
     author_email="lrdbench@example.com",
-    url="https://github.com/dave2k77/long-range-dependence-project-3",
+    url="https://github.com/dave2k77/LRDBench",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
