@@ -281,7 +281,7 @@ This document outlines potential extensions and enhancements for the LRDBench be
 ## 📞 **Contact & Resources**
 
 - **Development Team**: LRDBench Development Team
-- **Repository**: https://github.com/dave2k77/LRDBench
+- **Repository**: https://github.com/dave2k77/LRDBenchmark
 - **Documentation**: See `documentation/` folder
 - **Issues**: Use GitHub issues for feature requests and bug reports
 

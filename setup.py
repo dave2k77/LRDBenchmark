@@ -29,7 +29,7 @@ setup(
     long_description_content_type="text/markdown",
     author="LRDBench Development Team",
     author_email="lrdbench@example.com",
-    url="https://github.com/dave2k77/LRDBench",
+    url="https://github.com/dave2k77/LRDBenchmark",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 5 - Production/Stable",

@@ -60,10 +60,10 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/dave2k77/LRDBench"
-Documentation = "https://github.com/dave2k77/LRDBench/tree/main/documentation"
-Repository = "https://github.com/dave2k77/LRDBench.git"
-Issues = "https://github.com/dave2k77/LRDBench/issues"
+Homepage = "https://github.com/dave2k77/LRDBenchmark"
+Documentation = "https://github.com/dave2k77/LRDBenchmark/tree/main/documentation"
+Repository = "https://github.com/dave2k77/LRDBenchmark.git"
+Issues = "https://github.com/dave2k77/LRDBenchmark/issues"
 
 [project.scripts]
 lrdbench = "lrdbench.cli:main"
