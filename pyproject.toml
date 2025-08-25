@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lrdbenchmark"
-version = "1.5.0"
+version = "1.5.1"
 description = "Long-Range Dependence Benchmarking Toolkit"
 readme = "README.md"
 license = {text = "MIT"}
@@ -61,7 +61,7 @@ docs = [
 
 [project.urls]
 Homepage = "https://github.com/dave2k77/LRDBenchmark"
-Documentation = "https://github.com/dave2k77/LRDBenchmark/tree/main/documentation"
+Documentation = "https://lrdbenchmark.readthedocs.io/"
 Repository = "https://github.com/dave2k77/LRDBenchmark.git"
 Issues = "https://github.com/dave2k77/LRDBenchmark/issues"
 
