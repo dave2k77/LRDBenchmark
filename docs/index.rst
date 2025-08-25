@@ -1,0 +1,175 @@
+.. LRDBench documentation master file, created by
+   sphinx-quickstart on Sun Aug 25 2024.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to LRDBench's documentation!
+====================================
+
+.. image:: https://img.shields.io/pypi/v/lrdbench.svg
+   :target: https://pypi.org/project/lrdbench/
+   :alt: PyPI version
+
+.. image:: https://img.shields.io/pypi/pyversions/lrdbench.svg
+   :target: https://pypi.org/project/lrdbench/
+   :alt: Python versions
+
+.. image:: https://img.shields.io/badge/License-MIT-blue.svg
+   :target: https://opensource.org/licenses/MIT
+   :alt: License
+
+.. image:: https://readthedocs.org/projects/lrdbench/badge/?version=latest
+   :target: https://lrdbench.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
+**LRDBench** is a comprehensive benchmarking framework for long-range dependence (LRD) analysis in time series data. It provides a unified platform for evaluating and comparing various estimators and models for detecting and quantifying long-range dependence patterns.
+
+Key Features
+-----------
+
+* **Comprehensive Estimator Suite**: Classical, machine learning, and neural network estimators
+* **Multiple Data Models**: FBM, FGN, ARFIMA, MRW with configurable parameters
+* **High Performance**: GPU-accelerated implementations with JAX and PyTorch backends
+* **Analytics System**: Built-in usage tracking and performance monitoring
+* **Extensible Architecture**: Easy integration of new estimators and models
+* **Production Ready**: Pre-trained models for deployment
+
+Quick Start
+----------
+
+Install LRDBench:
+
+.. code-block:: bash
+
+   pip install lrdbench
+
+Basic usage:
+
+.. code-block:: python
+
+   from lrdbench import FBMModel, ComprehensiveBenchmark
+   
+   # Generate synthetic data
+   model = FBMModel(H=0.7, sigma=1.0)
+   data = model.generate(1000, seed=42)
+   
+   # Run comprehensive benchmark
+   benchmark = ComprehensiveBenchmark()
+   results = benchmark.run_comprehensive_benchmark(data_length=1000)
+   
+   print(results)
+
+Installation
+-----------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Installation & Setup
+
+   installation
+   quickstart
+
+User Guide
+----------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User Guide
+
+   user_guide/getting_started
+   user_guide/data_models
+   user_guide/estimators
+   user_guide/benchmarking
+   user_guide/analytics
+   user_guide/examples
+
+Examples & Demos
+---------------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples & Demos
+
+   examples/comprehensive_demo
+
+API Reference
+------------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
+
+   api/data_models
+   api/estimators
+   api/benchmark
+   api/analytics
+
+Advanced Topics
+--------------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Advanced Topics
+
+   advanced/performance
+   advanced/extending
+   advanced/integration
+   advanced/troubleshooting
+
+Development
+----------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Development
+
+   development/contributing
+   development/architecture
+   development/testing
+   development/releasing
+
+Research & Publications
+----------------------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Research
+
+   research/theory
+   research/benchmarks
+   research/publications
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
+.. toctree::
+   :hidden:
+
+   installation
+   quickstart
+   user_guide/getting_started
+   user_guide/data_models
+   user_guide/estimators
+   user_guide/benchmarking
+   user_guide/analytics
+   user_guide/examples
+   examples/comprehensive_demo
+   api/data_models
+   api/estimators
+   api/benchmark
+   api/analytics
+   advanced/performance
+   advanced/extending
+   advanced/integration
+   advanced/troubleshooting
+   development/contributing
+   development/architecture
+   development/testing
+   development/releasing
+   research/theory
+   research/benchmarks
+   research/publications

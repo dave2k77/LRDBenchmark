@@ -1,0 +1,227 @@
+/* Custom styles for LRDBench documentation */
+
+/* Header styling */
+.wy-side-nav-search {
+    background-color: #2980B9;
+}
+
+.wy-side-nav-search input[type=text] {
+    border-color: #2980B9;
+}
+
+/* Code block styling */
+.highlight {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+}
+
+/* Admonition styling */
+.admonition {
+    border-radius: 4px;
+    border-left: 4px solid;
+}
+
+.admonition-note {
+    border-left-color: #2980B9;
+    background-color: #f0f8ff;
+}
+
+.admonition-warning {
+    border-left-color: #f39c12;
+    background-color: #fff8e1;
+}
+
+.admonition-tip {
+    border-left-color: #27ae60;
+    background-color: #f0fff4;
+}
+
+.admonition-important {
+    border-left-color: #e74c3c;
+    background-color: #fff5f5;
+}
+
+/* Button styling */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 4px;
+    border: 1px solid #2980B9;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #2980B9;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2980B9;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: #2980B9;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #1f5f8b;
+    color: white;
+}
+
+/* Table styling */
+.wy-table-responsive table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.wy-table-responsive th,
+.wy-table-responsive td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.wy-table-responsive th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.wy-table-responsive tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.wy-table-responsive tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Navigation styling */
+.wy-nav-side {
+    background-color: #343131;
+}
+
+.wy-menu-vertical li.current > a {
+    background-color: #2980B9;
+    color: white;
+}
+
+.wy-menu-vertical li.current > a:hover {
+    background-color: #1f5f8b;
+}
+
+/* Footer styling */
+.wy-nav-content-wrap {
+    background-color: white;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .wy-nav-side {
+        width: 100%;
+        position: relative;
+    }
+    
+    .wy-nav-content-wrap {
+        margin-left: 0;
+    }
+}
+
+/* Code copy button */
+.copybutton {
+    background-color: #2980B9;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    float: right;
+    margin: 4px;
+}
+
+.copybutton:hover {
+    background-color: #1f5f8b;
+}
+
+/* Math equation styling */
+.math {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Image styling */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Version selector */
+.rst-versions {
+    background-color: #343131;
+}
+
+.rst-versions .rst-current-version {
+    background-color: #2980B9;
+}
+
+/* Search styling */
+.wy-side-nav-search input[type=text] {
+    border-radius: 4px;
+}
+
+/* Breadcrumb styling */
+.wy-breadcrumbs {
+    background-color: #f8f9fa;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* TOC styling */
+.wy-menu-vertical li ul {
+    margin-left: 20px;
+}
+
+.wy-menu-vertical li ul li a {
+    padding-left: 20px;
+}
+
+/* Content area styling */
+.wy-nav-content {
+    max-width: 1200px;
+    padding: 20px;
+}
+
+/* Sidebar styling */
+.wy-nav-side {
+    width: 300px;
+}
+
+/* Mobile menu button */
+.wy-nav-top {
+    background-color: #2980B9;
+}
+
+.wy-nav-top i {
+    color: white;
+}
+
+/* Print styles */
+@media print {
+    .wy-nav-side,
+    .wy-nav-top,
+    .rst-versions {
+        display: none;
+    }
+    
+    .wy-nav-content-wrap {
+        margin-left: 0;
+    }
+    
+    .wy-nav-content {
+        padding: 0;
+    }
+}
