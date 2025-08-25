@@ -22,7 +22,7 @@ def get_long_description():
         return f.read()
 
 setup(
-    name="lrdbench",
+    name="lrdbenchmark",
     version=get_version(),
     description="Long-Range Dependence Benchmarking Toolkit",
     long_description=get_long_description(),
