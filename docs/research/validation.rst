@@ -522,25 +522,25 @@ Accuracy Metrics
 
 .. math::
 
-   \text{MAE} = \frac{1}{n} \sum_{i=1}^n |\hat{H}_i - H_i|
+   MAE = \frac{1}{n} \sum_{i=1}^n |\hat{H}_i - H_i|
 
 **2. Root Mean Square Error (RMSE)**:
 
 .. math::
 
-   \text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^n (\hat{H}_i - H_i)^2}
+   RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^n (\hat{H}_i - H_i)^2}
 
 **3. Mean Absolute Percentage Error (MAPE)**:
 
 .. math::
 
-   \text{MAPE} = \frac{100\%}{n} \sum_{i=1}^n \left|\frac{\hat{H}_i - H_i}{H_i}\right|
+   MAPE = \frac{100\%}{n} \sum_{i=1}^n \left|\frac{\hat{H}_i - H_i}{H_i}\right|
 
 **4. Symmetric Mean Absolute Percentage Error (SMAPE)**:
 
 .. math::
 
-   \text{SMAPE} = \frac{100\%}{n} \sum_{i=1}^n \frac{2|\hat{H}_i - H_i|}{|\hat{H}_i| + |H_i|}
+   SMAPE = \frac{100\%}{n} \sum_{i=1}^n \frac{2|\hat{H}_i - H_i|}{|\hat{H}_i| + |H_i|}
 
 Precision Metrics
 ----------------
@@ -549,19 +549,19 @@ Precision Metrics
 
 .. math::
 
-   \text{SE} = \sqrt{\frac{1}{n-1} \sum_{i=1}^n (\hat{H}_i - \bar{H})^2}
+   SE = \sqrt{\frac{1}{n-1} \sum_{i=1}^n (\hat{H}_i - \bar{H})^2}
 
 **2. Coefficient of Variation**:
 
 .. math::
 
-   \text{CV} = \frac{\text{SE}}{\bar{H}} \times 100\%
+   CV = \frac{SE}{\bar{H}} \times 100\%
 
 **3. Confidence Interval Width**:
 
 .. math::
 
-   \text{CI Width} = \hat{H}_{1-\alpha/2} - \hat{H}_{\alpha/2}
+   CI_{width} = \hat{H}_{1-\alpha/2} - \hat{H}_{\alpha/2}
 
 **Implementation**:
 

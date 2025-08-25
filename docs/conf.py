@@ -275,6 +275,14 @@ autodoc_mock_imports = [
 
 # -- Project-specific settings ----------------------------------------------
 
+# MathJax configuration for better LaTeX rendering
+mathjax_config = {
+    'TeX': {
+        'equationNumbers': {'autoNumber': 'AMS'},
+        'extensions': ['AMSmath.js', 'AMSsymbols.js']
+    }
+}
+
 # Add any custom CSS
 def setup(app):
     app.add_css_file('custom.css')
