@@ -11,13 +11,9 @@ build:
   tools:
     python: "3.9"
 
-# Install dependencies
+# Install only documentation dependencies (avoid heavy packages like torch, jax)
 python:
   install:
-    - method: pip
-      path: .
-      extra_requirements:
-        - docs
     - requirements: docs/requirements.txt
 
 # Build PDFs and EPUB

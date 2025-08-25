@@ -64,7 +64,6 @@ Installation & Setup
 
 .. toctree::
    :maxdepth: 2
-   :caption: Installation & Setup
 
    installation
    quickstart
@@ -74,7 +73,6 @@ API Reference
 
 .. toctree::
    :maxdepth: 2
-   :caption: API Reference
 
    api/data_models
    api/estimators
@@ -86,7 +84,6 @@ Research & Theory
 
 .. toctree::
    :maxdepth: 2
-   :caption: Research & Theory
 
    research/theory
    research/validation
@@ -96,7 +93,6 @@ Examples & Demos
 
 .. toctree::
    :maxdepth: 2
-   :caption: Examples & Demos
 
    examples/comprehensive_demo
 

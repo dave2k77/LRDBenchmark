@@ -17,8 +17,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'LRDBench'
-copyright = '2024, LRDBench Development Team'
-author = 'LRDBench Development Team'
+copyright = '2025, Davian Chin'
+author = 'Davian Chin'
 
 # The full version, including alpha/beta/rc tags
 release = '1.3.0'
@@ -146,7 +146,7 @@ latex_documents = [
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
-# (source start file, name, description, authors, manual section).
+# (source start file, name, description, authors, document section).
 man_pages = [
     (master_doc, 'lrdbench', 'LRDBench Documentation',
      [author], 1)
@@ -224,15 +224,53 @@ autodoc_default_options = {
     'exclude-members': '__weakref__'
 }
 
+# Mock imports for heavy dependencies to avoid installation issues on ReadTheDocs
 autodoc_mock_imports = [
+    # Deep Learning and ML frameworks
     'torch',
+    'torch.nn',
+    'torch.optim',
+    'torch.utils',
+    'torch.utils.data',
     'jax',
+    'jax.numpy',
     'jaxlib',
+    'jaxlib.xla_extension',
+    
+    # High Performance Computing
     'numba',
+    'numba.jit',
+    'numba.njit',
+    
+    # Wavelet Analysis
     'pywt',
+    'pywavelets',
+    
+    # External Libraries
     'hpfracc',
     'hpfracc.ml',
     'hpfracc.ml.backends',
+    'hpfracc.ml.models',
+    'hpfracc.ml.config',
+    
+    # Analytics and Monitoring
+    'psutil',
+    'networkx',
+    
+    # Visualization (optional - can be heavy)
+    'seaborn',
+    
+    # Development and Testing (not needed for docs)
+    'pytest',
+    'pytest_cov',
+    'black',
+    'flake8',
+    
+    # Build tools (not needed for docs)
+    'setuptools',
+    'wheel',
+    'twine',
+    'build',
 ]
 
 # -- Project-specific settings ----------------------------------------------
