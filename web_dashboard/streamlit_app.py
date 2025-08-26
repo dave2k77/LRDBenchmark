@@ -924,7 +924,10 @@ with tab5:
                                 contam_hurst = contam_result.get('hurst_parameter', None)
                                 
                                 if clean_hurst is not None and contam_hurst is not None:
-                                    robustness = 1 - abs(contam_hurst - clean_hurst) / clean_hurst
+                                    # Calculate robustness as the inverse of relative change
+                                    # Clamp between 0 and 1 to avoid negative or excessive values
+                                    relative_change = abs(contam_hurst - clean_hurst) / clean_hurst
+                                    robustness = max(0, min(1, 1 - relative_change))
                                     scenario_results[estimator_name] = {
                                         'clean_hurst': clean_hurst,
                                         'contaminated_hurst': contam_hurst,
