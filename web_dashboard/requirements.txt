@@ -18,14 +18,9 @@ numba>=0.56.0
 # Wavelet Analysis
 pywavelets>=1.1.0
 
-# Machine Learning and Neural Networks (for advanced features)
-torch>=1.9.0
-jax>=0.3.0
-jaxlib>=0.3.0
-
 # Additional utilities
 psutil>=5.8.0
 networkx>=2.6.0
 
-# Install local package in development mode
--e ..
+# Install LRDBenchmark from PyPI (for cloud deployment)
+lrdbenchmark>=1.5.1

@@ -10,10 +10,6 @@ import sys
 import os
 from datetime import datetime
 
-# Force Python to use our local development version
-local_lrdbench_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, local_lrdbench_path)
-
 # Import LRDBenchmark components
 try:
     from lrdbench import (
