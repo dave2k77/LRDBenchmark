@@ -964,7 +964,7 @@ with tab5:
                             'Clean H': f"{result['clean_hurst']:.3f}",
                             'Contaminated H': f"{result['contaminated_hurst']:.3f}",
                             'Change': f"{result['change']:.3f}",
-                            'Robustness': f"{result['robustness']:.1%}"
+                            'Robustness': result['robustness']  # Store as raw number, not percentage string
                         })
             
             if summary_data:
@@ -976,7 +976,7 @@ with tab5:
                 
                 # Pivot for visualization
                 robustness_pivot = df_summary.pivot(index='Estimator', columns='Scenario', values='Robustness')
-                robustness_pivot = robustness_pivot.apply(lambda x: pd.to_numeric(x.str.rstrip('%'), errors='coerce') / 100)
+                # No need to convert since we're storing raw numbers now
                 
                 fig_robustness = px.imshow(
                     robustness_pivot,
@@ -993,9 +993,7 @@ with tab5:
                 
                 with col1:
                     st.subheader("🥇 Most Robust Estimators")
-                    avg_robustness = df_summary.groupby('Estimator')['Robustness'].apply(
-                        lambda x: pd.to_numeric(x.str.rstrip('%'), errors='coerce').mean()
-                    ).sort_values(ascending=False)
+                    avg_robustness = df_summary.groupby('Estimator')['Robustness'].mean().sort_values(ascending=False)
                     
                     for i, (estimator, robustness) in enumerate(avg_robustness.head(3).items()):
                         st.metric(f"{i+1}. {estimator}", f"{robustness:.1%}")
