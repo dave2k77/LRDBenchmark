@@ -21,6 +21,8 @@ class NumpyEncoder(json.JSONEncoder):
             return float(obj)
         elif isinstance(obj, np.bool_):
             return bool(obj)
+        elif isinstance(obj, complex):
+            return {'real': obj.real, 'imag': obj.imag}
         elif hasattr(obj, 'tolist'):  # For pandas Series, etc.
             return obj.tolist()
         return super().default(obj)
