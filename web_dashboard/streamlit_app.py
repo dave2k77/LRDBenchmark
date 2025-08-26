@@ -10,6 +10,30 @@ import sys
 import os
 from datetime import datetime
 
+# Helper function to recursively convert NumPy types to JSON-serializable types
+def convert_numpy_types(obj):
+    """Recursively convert NumPy types to JSON-serializable types."""
+    if isinstance(obj, dict):
+        return {convert_numpy_types(k): convert_numpy_types(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_numpy_types(item) for item in obj]
+    elif isinstance(obj, tuple):
+        return tuple(convert_numpy_types(item) for item in obj)
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, np.integer):
+        return int(obj)
+    elif isinstance(obj, np.floating):
+        return float(obj)
+    elif isinstance(obj, np.bool_):
+        return bool(obj)
+    elif isinstance(obj, complex):
+        return {'real': obj.real, 'imag': obj.imag}
+    elif hasattr(obj, 'tolist'):  # For pandas Series, etc.
+        return obj.tolist()
+    else:
+        return obj
+
 # Custom JSON encoder to handle NumPy arrays and other non-serializable objects
 class NumpyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -569,7 +593,7 @@ with tab2:
                 
                 st.download_button(
                     label="📄 Download JSON Results",
-                    data=json.dumps(download_data, indent=2, cls=NumpyEncoder),
+                    data=json.dumps(convert_numpy_types(download_data), indent=2),
                     file_name=f"auto_optimization_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
                     mime="application/json"
                 )
@@ -820,7 +844,7 @@ with tab4:
                 
                 st.download_button(
                     label="📄 Download JSON Results",
-                    data=json.dumps(download_data, indent=2, cls=NumpyEncoder),
+                    data=json.dumps(convert_numpy_types(download_data), indent=2),
                     file_name=f"lrdbenchmark_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
                     mime="application/json"
                 )
