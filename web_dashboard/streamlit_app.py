@@ -18,21 +18,22 @@ try:
         enable_analytics, get_analytics_summary
     )
     LRDBENCH_AVAILABLE = True
-except ImportError:
-    st.error("⚠️ LRDBenchmark package not found. Please install with: `pip install lrdbenchmark`")
+    st.success("✅ LRDBenchmark core components loaded successfully!")
+except ImportError as e:
+    st.error(f"⚠️ LRDBenchmark package not found: {str(e)}")
+    st.error("Please install with: `pip install lrdbenchmark`")
     LRDBENCH_AVAILABLE = False
 
 # Import our revolutionary auto-optimized estimators
 AutoOptimizedEstimator = None  # Initialize to None for scope
 try:
     # Try to import auto-optimized estimators directly
-    # The path is already set above
-    
     from lrdbench.analysis.auto_optimized_estimator import AutoOptimizedEstimator
     from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
     AUTO_OPTIMIZATION_AVAILABLE = True
     st.success("✅ Auto-optimized estimators loaded successfully!")
 except ImportError as e:
+    st.warning(f"⚠️ Auto-optimization import error: {str(e)}")
     # Fallback to standard estimators
     try:
         from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
@@ -45,8 +46,8 @@ except ImportError as e:
         from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
         AUTO_OPTIMIZATION_AVAILABLE = False
         st.info("ℹ️ Using standard estimators (auto-optimization not available)")
-    except ImportError:
-        st.warning("⚠️ Auto-optimization system not available. Using standard estimators.")
+    except ImportError as fallback_error:
+        st.warning(f"⚠️ Standard estimators also failed: {str(fallback_error)}")
         AUTO_OPTIMIZATION_AVAILABLE = False
 
 # Page configuration
