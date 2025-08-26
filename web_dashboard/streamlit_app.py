@@ -17,6 +17,7 @@ try:
         ComprehensiveBenchmark,
         enable_analytics, get_analytics_summary
     )
+    from lrdbench.models.contamination.contamination_models import ContaminationModel, ContaminationConfig
     LRDBENCH_AVAILABLE = True
     st.success("✅ LRDBenchmark core components loaded successfully!")
 except ImportError as e:
@@ -146,20 +147,57 @@ seed = st.sidebar.number_input("Random Seed", 0, 9999, 42,
 
 st.sidebar.subheader("🔬 Benchmark Configuration")
 
+# Data contamination options
+st.sidebar.subheader("🧪 Data Contamination")
+
+contamination_enabled = st.sidebar.checkbox(
+    "Enable Data Contamination",
+    value=False,
+    help="Add realistic data contamination to test estimator robustness"
+)
+
+contamination_types = []
+if contamination_enabled:
+    contamination_types = st.sidebar.multiselect(
+        "Contamination Types",
+        [
+            "Linear Trend", "Polynomial Trend", "Exponential Trend", "Seasonal Trend",
+            "Gaussian Noise", "Colored Noise", "Impulsive Noise",
+            "Spikes", "Level Shifts", "Missing Data",
+            "Irregular Sampling", "Systematic Bias", "Random Measurement Error"
+        ],
+        default=["Gaussian Noise"],
+        help="Select types of contamination to apply"
+    )
+    
+    # Contamination intensity
+    contamination_intensity = st.sidebar.slider(
+        "Contamination Intensity",
+        0.01, 1.0, 0.1, 0.01,
+        help="Strength of contamination effects"
+    )
+
 # Estimator selection
-estimator_options = ["DFA", "RS", "DMA", "Higuchi", "GPH", "Periodogram", "Whittle", "All"]
+estimator_options = [
+    "DFA", "RS", "DMA", "Higuchi",  # Temporal
+    "GPH", "Periodogram", "Whittle",  # Spectral
+    "CWT", "Wavelet Variance", "Wavelet Log Variance", "Wavelet Whittle",  # Wavelet
+    "MFDFA",  # Multifractal
+    "All"
+]
 if AUTO_OPTIMIZATION_AVAILABLE:
     estimator_options = [f"🚀 {opt}" for opt in estimator_options]
 
 estimators = st.sidebar.multiselect(
     "Estimators to Use",
     estimator_options,
-    default=["🚀 DFA", "🚀 GPH"] if AUTO_OPTIMIZATION_AVAILABLE else ["DFA", "GPH"],
+    default=["🚀 DFA", "🚀 GPH", "🚀 CWT"] if AUTO_OPTIMIZATION_AVAILABLE else ["DFA", "GPH", "CWT"],
     help="Select which estimators to run (🚀 indicates auto-optimized versions)"
 )
 
 if "All" in estimators or "🚀 All" in estimators:
-    estimators = ["DFA", "RS", "DMA", "Higuchi", "GPH", "Periodogram", "Whittle"]
+    estimators = ["DFA", "RS", "DMA", "Higuchi", "GPH", "Periodogram", "Whittle", 
+                  "CWT", "Wavelet Variance", "Wavelet Log Variance", "Wavelet Whittle", "MFDFA"]
     if AUTO_OPTIMIZATION_AVAILABLE:
         estimators = [f"🚀 {opt}" for opt in estimators]
     # Remove the rocket emoji for processing
@@ -173,11 +211,12 @@ n_runs = st.sidebar.slider("Number of Runs", 1, 10, 3,
                           help="Number of benchmark runs for statistical analysis")
 
 # Main content area
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
     "📈 Data Generation", 
     "🚀 Auto-Optimization", 
     "🔬 Benchmarking", 
     "📊 Results", 
+    "🧪 Contamination Analysis",
     "📈 Analytics", 
     "ℹ️ About"
 ])
@@ -207,12 +246,72 @@ with tab1:
                     
                     data = model.generate(data_length, seed=seed)
                     
+                    # Apply contamination if enabled
+                    if contamination_enabled and contamination_types:
+                        contamination_model = ContaminationModel()
+                        contaminated_data = data.copy()
+                        
+                        for contam_type in contamination_types:
+                            if contam_type == "Linear Trend":
+                                contaminated_data = contamination_model.add_trend_linear(
+                                    contaminated_data, slope=contamination_intensity * 0.01
+                                )
+                            elif contam_type == "Polynomial Trend":
+                                contaminated_data = contamination_model.add_trend_polynomial(
+                                    contaminated_data, degree=2, coefficient=contamination_intensity * 0.001
+                                )
+                            elif contam_type == "Exponential Trend":
+                                contaminated_data = contamination_model.add_trend_exponential(
+                                    contaminated_data, rate=contamination_intensity * 0.01
+                                )
+                            elif contam_type == "Seasonal Trend":
+                                contaminated_data = contamination_model.add_trend_seasonal(
+                                    contaminated_data, period=100, amplitude=contamination_intensity * 0.5
+                                )
+                            elif contam_type == "Gaussian Noise":
+                                contaminated_data = contamination_model.add_noise_gaussian(
+                                    contaminated_data, std=contamination_intensity * 0.1
+                                )
+                            elif contam_type == "Colored Noise":
+                                contaminated_data = contamination_model.add_noise_colored(
+                                    contaminated_data, power=contamination_intensity * 1.0
+                                )
+                            elif contam_type == "Impulsive Noise":
+                                contaminated_data = contamination_model.add_noise_impulsive(
+                                    contaminated_data, probability=contamination_intensity * 0.01
+                                )
+                            elif contam_type == "Spikes":
+                                contaminated_data = contamination_model.add_artifact_spikes(
+                                    contaminated_data, probability=contamination_intensity * 0.01
+                                )
+                            elif contam_type == "Level Shifts":
+                                contaminated_data = contamination_model.add_artifact_level_shifts(
+                                    contaminated_data, probability=contamination_intensity * 0.005
+                                )
+                            elif contam_type == "Missing Data":
+                                contaminated_data = contamination_model.add_artifact_missing_data(
+                                    contaminated_data, probability=contamination_intensity * 0.02
+                                )
+                            elif contam_type == "Systematic Bias":
+                                contaminated_data = contamination_model.add_measurement_systematic(
+                                    contaminated_data, bias=contamination_intensity * 0.1
+                                )
+                            elif contam_type == "Random Measurement Error":
+                                contaminated_data = contamination_model.add_measurement_random(
+                                    contaminated_data, std=contamination_intensity * 0.05
+                                )
+                        
+                        data = contaminated_data
+                        st.success(f"✅ Generated {len(data)} data points using {model_type} with {len(contamination_types)} contamination types")
+                    else:
+                        st.success(f"✅ Generated {len(data)} data points using {model_type}")
+                    
                     # Store in session state
                     st.session_state.generated_data = data
                     st.session_state.true_H = true_H
                     st.session_state.model_type = model_type
-                    
-                    st.success(f"✅ Generated {len(data)} data points using {model_type}")
+                    st.session_state.contamination_applied = contamination_enabled and contamination_types
+                    st.session_state.contamination_types = contamination_types if contamination_enabled else []
                     
                 except Exception as e:
                     st.error(f"❌ Error generating data: {str(e)}")
@@ -222,6 +321,9 @@ with tab1:
             st.metric("Data Points", len(st.session_state.generated_data))
             st.metric("True H", f"{st.session_state.true_H:.3f}")
             st.metric("Model", st.session_state.model_type)
+            if st.session_state.get('contamination_applied', False):
+                st.metric("Contamination", f"{len(st.session_state.contamination_types)} types")
+                st.info(f"Applied: {', '.join(st.session_state.contamination_types)}")
     
     # Display generated data
     if 'generated_data' in st.session_state:
@@ -295,7 +397,8 @@ with tab2:
                     auto_estimators = {}
                     
                     # Create auto-optimized estimators for each type
-                    estimator_types = ["dfa", "rs", "dma", "higuchi", "gph", "periodogram", "whittle"]
+                    estimator_types = ["dfa", "rs", "dma", "higuchi", "gph", "periodogram", "whittle", 
+                                      "cwt", "wavelet_variance", "wavelet_log_variance", "wavelet_whittle", "mfdfa"]
                     
                     for estimator_type in estimator_types:
                           try:
@@ -509,6 +612,21 @@ with tab3:
                                     elif estimator_name == "Whittle":
                                         from lrdbench.analysis.spectral.whittle.whittle_estimator import WhittleEstimator
                                         estimator = WhittleEstimator()
+                                    elif estimator_name == "CWT":
+                                        from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
+                                        estimator = CWTEstimator()
+                                    elif estimator_name == "Wavelet Variance":
+                                        from lrdbench.analysis.wavelet.variance.wavelet_variance_estimator import WaveletVarianceEstimator
+                                        estimator = WaveletVarianceEstimator()
+                                    elif estimator_name == "Wavelet Log Variance":
+                                        from lrdbench.analysis.wavelet.log_variance.wavelet_log_variance_estimator import WaveletLogVarianceEstimator
+                                        estimator = WaveletLogVarianceEstimator()
+                                    elif estimator_name == "Wavelet Whittle":
+                                        from lrdbench.analysis.wavelet.whittle.wavelet_whittle_estimator import WaveletWhittleEstimator
+                                        estimator = WaveletWhittleEstimator()
+                                    elif estimator_name == "MFDFA":
+                                        from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
+                                        estimator = MFDFAEstimator()
                                     else:
                                         continue
                                     
@@ -696,6 +814,165 @@ with tab4:
                 st.json(benchmark_summary)
 
 with tab5:
+    st.header("🧪 Contamination Analysis")
+    
+    if 'generated_data' not in st.session_state:
+        st.warning("⚠️ Please generate data first in the 'Data Generation' tab.")
+    else:
+        st.success("✅ **Comprehensive Contamination Analysis System**")
+        
+        # Show current contamination status
+        if st.session_state.get('contamination_applied', False):
+            st.info(f"📊 **Current Data**: Contaminated with {len(st.session_state.contamination_types)} types")
+            st.info(f"🔍 **Applied Contaminations**: {', '.join(st.session_state.contamination_types)}")
+        else:
+            st.info("📊 **Current Data**: Clean (no contamination applied)")
+        
+        # Contamination robustness analysis
+        st.subheader("🔬 Contamination Robustness Analysis")
+        
+        if st.button("🧪 Run Contamination Robustness Test", type="primary"):
+            with st.spinner("Running comprehensive contamination robustness analysis..."):
+                try:
+                    # Get clean data (regenerate without contamination)
+                    if "FBM" in st.session_state.model_type:
+                        model = FBMModel(H=st.session_state.true_H, sigma=1.0)
+                    elif "FGN" in st.session_state.model_type:
+                        model = FGNModel(H=st.session_state.true_H, sigma=1.0)
+                    elif "ARFIMA" in st.session_state.model_type:
+                        model = ARFIMAModel(d=st.session_state.true_H - 0.5, sigma=1.0)
+                    elif "MRW" in st.session_state.model_type:
+                        model = MRWModel(H=st.session_state.true_H, lambda_param=0.1, sigma=1.0)
+                    
+                    clean_data = model.generate(len(st.session_state.generated_data), seed=42)
+                    
+                    # Test different contamination types
+                    contamination_model = ContaminationModel()
+                    contamination_results = {}
+                    
+                    # Define contamination scenarios
+                    contamination_scenarios = {
+                        "Gaussian Noise": lambda data: contamination_model.add_noise_gaussian(data, std=0.1),
+                        "Linear Trend": lambda data: contamination_model.add_trend_linear(data, slope=0.01),
+                        "Seasonal Trend": lambda data: contamination_model.add_trend_seasonal(data, period=100, amplitude=0.5),
+                        "Spikes": lambda data: contamination_model.add_artifact_spikes(data, probability=0.01),
+                        "Missing Data": lambda data: contamination_model.add_artifact_missing_data(data, probability=0.02),
+                        "Systematic Bias": lambda data: contamination_model.add_measurement_systematic(data, bias=0.1)
+                    }
+                    
+                    # Test estimators on clean and contaminated data
+                    estimators_to_test = ["DFA", "RS", "GPH", "CWT"]
+                    
+                    for scenario_name, contamination_func in contamination_scenarios.items():
+                        # Apply contamination
+                        contaminated_data = contamination_func(clean_data.copy())
+                        
+                        scenario_results = {}
+                        
+                        for estimator_name in estimators_to_test:
+                            try:
+                                # Create estimator
+                                if estimator_name == "DFA":
+                                    from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+                                    estimator = DFAEstimator()
+                                elif estimator_name == "RS":
+                                    from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
+                                    estimator = RSEstimator()
+                                elif estimator_name == "GPH":
+                                    from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
+                                    estimator = GPHEstimator()
+                                elif estimator_name == "CWT":
+                                    from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
+                                    estimator = CWTEstimator()
+                                
+                                # Test on clean data
+                                clean_result = estimator.estimate(clean_data)
+                                clean_hurst = clean_result.get('hurst_parameter', None)
+                                
+                                # Test on contaminated data
+                                contam_result = estimator.estimate(contaminated_data)
+                                contam_hurst = contam_result.get('hurst_parameter', None)
+                                
+                                if clean_hurst is not None and contam_hurst is not None:
+                                    robustness = 1 - abs(contam_hurst - clean_hurst) / clean_hurst
+                                    scenario_results[estimator_name] = {
+                                        'clean_hurst': clean_hurst,
+                                        'contaminated_hurst': contam_hurst,
+                                        'robustness': robustness,
+                                        'change': contam_hurst - clean_hurst
+                                    }
+                                
+                            except Exception as e:
+                                scenario_results[estimator_name] = {
+                                    'error': str(e)
+                                }
+                        
+                        contamination_results[scenario_name] = scenario_results
+                    
+                    # Store results
+                    st.session_state.contamination_results = contamination_results
+                    st.success("✅ Contamination robustness analysis completed!")
+                    
+                except Exception as e:
+                    st.error(f"❌ Error in contamination analysis: {str(e)}")
+        
+        # Display contamination results
+        if 'contamination_results' in st.session_state:
+            st.subheader("📊 Contamination Robustness Results")
+            
+            # Create summary table
+            summary_data = []
+            for scenario, results in st.session_state.contamination_results.items():
+                for estimator, result in results.items():
+                    if 'error' not in result:
+                        summary_data.append({
+                            'Scenario': scenario,
+                            'Estimator': estimator,
+                            'Clean H': f"{result['clean_hurst']:.3f}",
+                            'Contaminated H': f"{result['contaminated_hurst']:.3f}",
+                            'Change': f"{result['change']:.3f}",
+                            'Robustness': f"{result['robustness']:.1%}"
+                        })
+            
+            if summary_data:
+                df_summary = pd.DataFrame(summary_data)
+                st.dataframe(df_summary, use_container_width=True)
+                
+                # Robustness visualization
+                st.subheader("📈 Robustness Comparison")
+                
+                # Pivot for visualization
+                robustness_pivot = df_summary.pivot(index='Estimator', columns='Scenario', values='Robustness')
+                robustness_pivot = robustness_pivot.apply(lambda x: pd.to_numeric(x.str.rstrip('%'), errors='coerce') / 100)
+                
+                fig_robustness = px.imshow(
+                    robustness_pivot,
+                    title="🧪 Estimator Robustness to Contamination",
+                    color_continuous_scale='RdYlGn',
+                    aspect='auto'
+                )
+                fig_robustness.update_layout(height=400)
+                st.plotly_chart(fig_robustness, use_container_width=True)
+                
+                # Best and worst performers
+                st.subheader("🏆 Performance Summary")
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    st.subheader("🥇 Most Robust Estimators")
+                    avg_robustness = df_summary.groupby('Estimator')['Robustness'].apply(
+                        lambda x: pd.to_numeric(x.str.rstrip('%'), errors='coerce').mean()
+                    ).sort_values(ascending=False)
+                    
+                    for i, (estimator, robustness) in enumerate(avg_robustness.head(3).items()):
+                        st.metric(f"{i+1}. {estimator}", f"{robustness:.1%}")
+                
+                with col2:
+                    st.subheader("🥉 Most Sensitive Estimators")
+                    for i, (estimator, robustness) in enumerate(avg_robustness.tail(3).items()):
+                        st.metric(f"{i+1}. {estimator}", f"{robustness:.1%}")
+
+with tab6:
     st.header("📈 Analytics")
     
     # Always show current session info first
@@ -832,6 +1109,7 @@ with tab6:
     - **Extensible Architecture**: Easy integration of new estimators and models
     - **Production Ready**: Pre-trained models for deployment
     - **🚀 Auto-Optimization**: Revolutionary performance improvements with automatic optimization selection
+    - **🧪 Data Contamination**: Comprehensive contamination testing system for robustness analysis
     
     ### 📊 Supported Data Models
     
@@ -849,7 +1127,11 @@ with tab6:
     - **🚀 GPH**: Geweke-Porter-Hudak estimator (Auto-optimized)
     - **🚀 Periodogram**: Periodogram-based estimation (Auto-optimized)
     - **🚀 Whittle**: Whittle likelihood estimation (Auto-optimized)
-    - **Wavelet Variance**: Wavelet-based variance analysis
+    - **🚀 CWT**: Continuous Wavelet Transform (Auto-optimized)
+    - **🚀 Wavelet Variance**: Wavelet variance analysis (Auto-optimized)
+    - **🚀 Wavelet Log Variance**: Wavelet log variance analysis (Auto-optimized)
+    - **🚀 Wavelet Whittle**: Wavelet Whittle estimation (Auto-optimized)
+    - **🚀 MFDFA**: Multifractal Detrended Fluctuation Analysis (Auto-optimized)
     
     ### 🏆 Performance Achievements
     
