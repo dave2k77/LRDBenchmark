@@ -46,7 +46,7 @@ from lrdbench.analysis.benchmark import ComprehensiveBenchmark
 benchmark = ComprehensiveBenchmark()
 
 # Run different types of benchmarks
-results = benchmark.run_comprehensive_benchmark()  # All estimators
+results = benchmark.run_comprehensive_benchmark()  # All 12 estimators
 results = benchmark.run_classical_benchmark()      # Classical only
 results = benchmark.run_contamination_robustness_test()  # Contamination analysis
 ```

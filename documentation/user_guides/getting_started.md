@@ -141,9 +141,10 @@ Long-range dependence (LRD) is a property of time series where observations that
 - **Multifractal**: MFDFA
 
 #### 🚀 Auto-Optimized Estimators
-- All 12 estimators with revolutionary performance improvements
-- Automatic optimization selection (NUMBA, SciPy, Standard)
+- All 12 estimators with NUMBA/JAX performance optimizations
+- Automatic optimization selection (NUMBA → JAX → Standard)
 - Up to 850x speedup with NUMBA optimizations
+- Robust error handling and fallback mechanisms
 
 ## First Examples
 

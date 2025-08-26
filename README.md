@@ -18,7 +18,7 @@ LRDBench is designed for researchers, data scientists, and practitioners who nee
 - **Spectral Methods**: Periodogram, Whittle, GPH (3 estimators)
 - **Wavelet Methods**: CWT, Wavelet Variance, Wavelet Log Variance, Wavelet Whittle (4 estimators)
 - **Multifractal Methods**: MFDFA (1 estimator)
-- **🚀 Auto-Optimized**: All estimators with revolutionary performance improvements
+- **🚀 Auto-Optimized**: All estimators with NUMBA/JAX performance optimizations
 
 ### **📊 5 Stochastic Data Models**
 - **FBMModel**: Fractional Brownian Motion
@@ -39,6 +39,7 @@ LRDBench is designed for researchers, data scientists, and practitioners who nee
 - **Built-in Analytics**: Usage tracking and performance monitoring
 - **Robust Error Handling**: Graceful fallbacks and comprehensive reporting
 - **🧪 Data Contamination**: Comprehensive contamination testing system for robustness analysis
+- **🌐 Web Dashboard**: Interactive Streamlit interface with real-time benchmarking
 
 ## 🚀 **Quick Start**
 
@@ -102,10 +103,11 @@ results = benchmark.run_comprehensive_benchmark()
 
 ### **Features**
 - **📈 Interactive Data Generation**: Generate synthetic time series with configurable parameters
-- **🔬 Real-time Benchmarking**: Run comprehensive benchmarks with multiple estimators
+- **🔬 Real-time Benchmarking**: Run comprehensive benchmarks with all 12 estimators
+- **🧪 Data Contamination**: Add various contamination types and analyze robustness
 - **📊 Rich Visualizations**: Interactive plots and charts using Plotly
-- **📈 Analytics Dashboard**: Track usage and performance metrics
-- **📥 Results Export**: Download benchmark results in JSON format
+- **📈 Performance Analytics**: Track estimator performance and robustness metrics
+- **📥 Results Export**: Download benchmark results in JSON format with proper serialization
 
 ### **Quick Start**
 ```bash

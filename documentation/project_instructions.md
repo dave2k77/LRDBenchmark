@@ -43,15 +43,15 @@ lrdbench/
 - ✅ **Spectral (3)**: Periodogram, Whittle, GPH
 - ✅ **Wavelet (4)**: CWT, Wavelet Variance, Wavelet Log Variance, Wavelet Whittle
 - ✅ **Multifractal (1)**: MFDFA
-- ✅ **🚀 Auto-Optimized**: All 12 estimators with revolutionary performance improvements
-- ✅ **High-Performance**: JAX and Numba optimized versions
+- ✅ **🚀 Auto-Optimized**: All 12 estimators with NUMBA/JAX performance optimizations
+- ✅ **High-Performance**: JAX and Numba optimized versions with robust fallback chains
 
 ### 3. Core Features
-- ✅ **Comprehensive Benchmarking System** - Systematic evaluation of all estimators
+- ✅ **Comprehensive Benchmarking System** - Systematic evaluation of all 12 estimators
 - ✅ **🧪 Data Contamination System** - Comprehensive contamination testing with 13 types
-- ✅ **🚀 Auto-Optimization System** - Revolutionary performance improvements (up to 850x speedup)
-- ✅ **Web Dashboard** - Full-featured Streamlit dashboard with contamination analysis
-- ✅ **High-Performance Options** - GPU acceleration with JAX and Numba
+- ✅ **🚀 Auto-Optimization System** - NUMBA/JAX performance optimizations with robust fallback chains
+- ✅ **🌐 Web Dashboard** - Full-featured Streamlit dashboard with contamination analysis and JSON export
+- ✅ **High-Performance Options** - GPU acceleration with JAX and Numba optimizations
 
 ## Quality Standards
 

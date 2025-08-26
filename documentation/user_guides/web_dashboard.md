@@ -6,10 +6,10 @@ The LRDBenchmark Web Dashboard is a comprehensive, interactive web application b
 
 ## Features
 
-### 🚀 **Revolutionary Auto-Optimization System**
-- **Automatic Optimization Selection**: System chooses the fastest available implementation
+### 🚀 **Auto-Optimization System**
+- **Automatic Optimization Selection**: System chooses the fastest available implementation (NUMBA → JAX → Standard)
 - **NUMBA Optimizations**: Up to 850x speedup for critical estimators
-- **SciPy Optimizations**: 2-8x speedup for spectral methods
+- **JAX Optimizations**: GPU acceleration for large-scale computations
 - **Graceful Fallback**: Reliable operation even when optimizations fail
 - **Performance Monitoring**: Real-time execution time tracking
 
