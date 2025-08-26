@@ -14,23 +14,26 @@ from datetime import datetime
 def convert_numpy_types(obj):
     """Recursively convert NumPy types to JSON-serializable types."""
     if isinstance(obj, dict):
-        return {convert_numpy_types(k): convert_numpy_types(v) for k, v in obj.items()}
+        return {str(convert_numpy_types(k)): convert_numpy_types(v) for k, v in obj.items()}
     elif isinstance(obj, list):
         return [convert_numpy_types(item) for item in obj]
     elif isinstance(obj, tuple):
         return tuple(convert_numpy_types(item) for item in obj)
     elif isinstance(obj, np.ndarray):
-        return obj.tolist()
+        # Convert arrays to lists and recursively process elements (handles complex dtypes)
+        return convert_numpy_types(obj.tolist())
     elif isinstance(obj, np.integer):
         return int(obj)
     elif isinstance(obj, np.floating):
         return float(obj)
     elif isinstance(obj, np.bool_):
         return bool(obj)
+    elif isinstance(obj, np.complexfloating):
+        return {'real': float(obj.real), 'imag': float(obj.imag)}
     elif isinstance(obj, complex):
         return {'real': obj.real, 'imag': obj.imag}
     elif hasattr(obj, 'tolist'):  # For pandas Series, etc.
-        return obj.tolist()
+        return convert_numpy_types(obj.tolist())
     else:
         return obj
 
