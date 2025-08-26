@@ -24,16 +24,15 @@ lrdbench/
 ├── __init__.py                    # Main package with convenient imports
 ├── analysis/                      # All estimator implementations
 │   ├── benchmark.py              # ComprehensiveBenchmark class
+│   ├── auto_optimized_estimator.py # Revolutionary auto-optimization system
 │   ├── temporal/                 # Temporal domain estimators
 │   ├── spectral/                 # Spectral domain estimators
 │   ├── wavelet/                  # Wavelet domain estimators
-│   ├── multifractal/             # Multifractal estimators
-│   ├── machine_learning/         # ML estimators
-│   └── high_performance/         # JAX and Numba optimized versions
+│   └── multifractal/             # Multifractal estimators
 └── models/                       # Data models and utilities
     ├── data_models/              # Synthetic data generators
     ├── contamination/            # Data contamination models
-    └── pretrained_models/        # Pre-trained ML and neural models
+    └── pretrained_models/        # Pre-trained models
 ```
 
 ## 🔧 **Core Components**
@@ -49,8 +48,7 @@ benchmark = ComprehensiveBenchmark()
 # Run different types of benchmarks
 results = benchmark.run_comprehensive_benchmark()  # All estimators
 results = benchmark.run_classical_benchmark()      # Classical only
-results = benchmark.run_ml_benchmark()             # ML only
-results = benchmark.run_neural_benchmark()         # Neural only
+results = benchmark.run_contamination_robustness_test()  # Contamination analysis
 ```
 
 ### **Estimators**

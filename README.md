@@ -13,13 +13,12 @@ LRDBench is designed for researchers, data scientists, and practitioners who nee
 
 ## ✨ **Key Features**
 
-### **🔬 18 Built-in Estimators**
+### **🔬 12 Built-in Estimators**
 - **Temporal Methods**: DFA, DMA, Higuchi, R/S (4 estimators)
 - **Spectral Methods**: Periodogram, Whittle, GPH (3 estimators)
-- **Wavelet Methods**: Log Variance, Variance, Whittle, CWT (4 estimators)
-- **Multifractal Methods**: MFDFA, Wavelet Leaders (2 estimators)
-- **Machine Learning**: Random Forest, Gradient Boosting, SVR (3 estimators)
-- **Neural Networks**: CNN, Transformer (2 estimators)
+- **Wavelet Methods**: CWT, Wavelet Variance, Wavelet Log Variance, Wavelet Whittle (4 estimators)
+- **Multifractal Methods**: MFDFA (1 estimator)
+- **🚀 Auto-Optimized**: All estimators with revolutionary performance improvements
 
 ### **📊 5 Stochastic Data Models**
 - **FBMModel**: Fractional Brownian Motion
@@ -39,6 +38,7 @@ LRDBench is designed for researchers, data scientists, and practitioners who nee
 - **No Training Required**: Models ready to use after installation
 - **Built-in Analytics**: Usage tracking and performance monitoring
 - **Robust Error Handling**: Graceful fallbacks and comprehensive reporting
+- **🧪 Data Contamination**: Comprehensive contamination testing system for robustness analysis
 
 ## 🚀 **Quick Start**
 
@@ -73,19 +73,25 @@ print(summary)
 ```python
 # Generate data with contamination
 from lrdbench import FGNModel
+from lrdbench.models.contamination.contamination_models import ContaminationModel
+
 fgn = FGNModel(H=0.6, sigma=1.0)
 clean_data = fgn.generate(1000)
 
-# Add noise contamination
-contaminated_data = clean_data + 0.1 * np.random.randn(1000)
+# Add comprehensive contamination
+contamination_model = ContaminationModel()
+contaminated_data = contamination_model.add_noise_gaussian(clean_data, std=0.1)
+contaminated_data = contamination_model.add_trend_linear(contaminated_data, slope=0.01)
 
-# Run ML vs Classical comparison
-results = benchmark.run_ml_classical_comparison()
+# Run comprehensive benchmark with contamination analysis
+results = benchmark.run_comprehensive_benchmark()
 ```
 
 ## 📚 **Documentation**
 
 - **📖 [User Guide](documentation/user_guides/getting_started.md)**: Getting started tutorial
+- **🚀 [Web Dashboard](documentation/user_guides/web_dashboard.md)**: Complete web dashboard guide
+- **🧪 [Contamination System](documentation/api_reference/contamination.md)**: Data contamination documentation
 - **🔧 [API Reference](documentation/api_reference/README.md)**: Complete API documentation
 - **📊 [Examples](examples/)**: Usage examples and demonstrations
 - **🔬 [Model Theory](documentation/technical/model_theory.md)**: Mathematical foundations
