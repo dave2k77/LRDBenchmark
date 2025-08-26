@@ -165,6 +165,8 @@ if "All" in estimators or "🚀 All" in estimators:
     estimators = ["DFA", "RS", "DMA", "Higuchi", "GPH", "Periodogram", "Whittle"]
     if AUTO_OPTIMIZATION_AVAILABLE:
         estimators = [f"🚀 {opt}" for opt in estimators]
+    # Remove the rocket emoji for processing
+    estimators = [est.replace("🚀 ", "") for est in estimators]
 else:
     # Remove the rocket emoji for processing
     estimators = [est.replace("🚀 ", "") for est in estimators]
@@ -699,54 +701,67 @@ with tab4:
 with tab5:
     st.header("📈 Analytics")
     
-    if not ANALYTICS_ENABLED:
-        st.warning("⚠️ Analytics system is not available.")
-        st.info("📊 This is normal for development environments.")
-        
-        # Show basic session info instead
-        st.subheader("Current Session Info")
+    # Always show current session info first
+    st.subheader("📈 Current Session Info")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Generated Data", "Yes" if 'generated_data' in st.session_state else "No")
+    
+    with col2:
+        st.metric("Benchmark Results", "Yes" if 'benchmark_results' in st.session_state else "No")
+    
+    with col3:
+        if 'execution_time' in st.session_state:
+            st.metric("Last Execution", f"{st.session_state.execution_time:.2f}s")
+        else:
+            st.metric("Last Execution", "N/A")
+    
+    # Show additional session details if available
+    if 'generated_data' in st.session_state:
+        st.subheader("📊 Data Generation Details")
         col1, col2, col3 = st.columns(3)
-        
         with col1:
-            st.metric("Generated Data", "Yes" if 'generated_data' in st.session_state else "No")
-        
+            st.metric("Data Length", len(st.session_state.generated_data))
         with col2:
-            st.metric("Benchmark Results", "Yes" if 'benchmark_results' in st.session_state else "No")
-        
+            st.metric("True H", f"{st.session_state.true_H:.3f}")
         with col3:
-            if 'execution_time' in st.session_state:
-                st.metric("Last Execution", f"{st.session_state.execution_time:.2f}s")
+            st.metric("Model Type", st.session_state.model_type)
+    
+    if 'benchmark_results' in st.session_state:
+        st.subheader("🔬 Benchmark Details")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Runs", len(st.session_state.benchmark_results))
+        with col2:
+            st.metric("Total Execution Time", f"{st.session_state.execution_time:.2f}s")
+        with col3:
+            st.metric("Estimators Tested", len(st.session_state.benchmark_results[0].get('estimators_tested', [])))
+    
+    # Show auto-optimization results if available
+    if 'auto_optimization_results' in st.session_state:
+        st.subheader("🚀 Auto-Optimization Results")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Optimized Estimators", len(st.session_state.auto_optimization_results))
+        with col2:
+            if 'performance_data' in st.session_state:
+                avg_time = pd.DataFrame(st.session_state.performance_data)['Time (s)'].mean()
+                st.metric("Avg Execution Time", f"{avg_time:.4f}s")
             else:
-                st.metric("Last Execution", "N/A")
-        
-        # Show additional session details
-        if 'generated_data' in st.session_state:
-            st.subheader("Data Generation Details")
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.metric("Data Length", len(st.session_state.generated_data))
-            with col2:
-                st.metric("True H", f"{st.session_state.true_H:.3f}")
-            with col3:
-                st.metric("Model Type", st.session_state.model_type)
-        
-        if 'benchmark_results' in st.session_state:
-            st.subheader("Benchmark Details")
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.metric("Total Runs", len(st.session_state.benchmark_results))
-            with col2:
-                st.metric("Total Execution Time", f"{st.session_state.execution_time:.2f}s")
-            with col3:
-                st.metric("Estimators Tested", len(st.session_state.benchmark_results[0].get('estimators_tested', [])))
-        
-        # Get analytics summary
+                st.metric("Avg Execution Time", "N/A")
+        with col3:
+            if 'performance_data' in st.session_state:
+                df_perf = pd.DataFrame(st.session_state.performance_data)
+                numba_count = len(df_perf[df_perf['Optimization'] == 'NUMBA'])
+                st.metric("NUMBA Optimizations", numba_count)
+            else:
+                st.metric("NUMBA Optimizations", "N/A")
+    
+    # Get analytics summary
+    if ANALYTICS_ENABLED:
         try:
             analytics_summary = get_analytics_summary()
-            
-            # Debug: Show what we actually got
-            st.info(f"🔍 Debug: analytics_summary type: {type(analytics_summary)}")
-            st.info(f"🔍 Debug: analytics_summary content: {analytics_summary}")
             
             # Check if analytics_summary is a dictionary and has data
             if isinstance(analytics_summary, dict) and analytics_summary:
@@ -786,64 +801,10 @@ with tab5:
         
         except Exception as e:
             st.warning(f"⚠️ Analytics system error: {str(e)}")
-            st.info("📊 Showing session info instead.")
-        
-        # Always show current session info
-        st.subheader("📈 Current Session Info")
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.metric("Generated Data", "Yes" if 'generated_data' in st.session_state else "No")
-        
-        with col2:
-            st.metric("Benchmark Results", "Yes" if 'benchmark_results' in st.session_state else "No")
-        
-        with col3:
-            if 'execution_time' in st.session_state:
-                st.metric("Last Execution", f"{st.session_state.execution_time:.2f}s")
-            else:
-                st.metric("Last Execution", "N/A")
-        
-        # Show additional session details if available
-        if 'generated_data' in st.session_state:
-            st.subheader("📊 Data Generation Details")
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.metric("Data Length", len(st.session_state.generated_data))
-            with col2:
-                st.metric("True H", f"{st.session_state.true_H:.3f}")
-            with col3:
-                st.metric("Model Type", st.session_state.model_type)
-        
-        if 'benchmark_results' in st.session_state:
-            st.subheader("🔬 Benchmark Details")
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.metric("Total Runs", len(st.session_state.benchmark_results))
-            with col2:
-                st.metric("Total Execution Time", f"{st.session_state.execution_time:.2f}s")
-            with col3:
-                st.metric("Estimators Tested", len(st.session_state.benchmark_results[0].get('estimators_tested', [])))
-        
-        # Show auto-optimization results if available
-        if 'auto_optimization_results' in st.session_state:
-            st.subheader("🚀 Auto-Optimization Results")
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.metric("Optimized Estimators", len(st.session_state.auto_optimization_results))
-            with col2:
-                if 'performance_data' in st.session_state:
-                    avg_time = pd.DataFrame(st.session_state.performance_data)['Time (s)'].mean()
-                    st.metric("Avg Execution Time", f"{avg_time:.4f}s")
-                else:
-                    st.metric("Avg Execution Time", "N/A")
-            with col3:
-                if 'performance_data' in st.session_state:
-                    df_perf = pd.DataFrame(st.session_state.performance_data)
-                    numba_count = len(df_perf[df_perf['Optimization'] == 'NUMBA'])
-                    st.metric("NUMBA Optimizations", numba_count)
-                else:
-                    st.metric("NUMBA Optimizations", "N/A")
+            st.info("📊 Analytics system is available but encountered an error.")
+    else:
+        st.warning("⚠️ Analytics system is not available.")
+        st.info("📊 This is normal for development environments.")
 
 with tab6:
     st.header("ℹ️ About LRDBenchmark")

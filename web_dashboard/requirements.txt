@@ -1,0 +1,22 @@
+# Streamlit Web Dashboard Requirements
+# Core web framework
+streamlit>=1.28.0
+
+# Data manipulation and analysis
+numpy>=1.21.0
+pandas>=1.3.0
+
+# Visualization
+plotly>=5.15.0
+
+# LRDBenchmark package (should be installed separately)
+# lrdbenchmark>=1.5.1
+
+# Additional dependencies for enhanced functionality
+scipy>=1.7.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# Optional: For advanced features
+# jupyter>=1.0.0
+# ipywidgets>=7.6.0
