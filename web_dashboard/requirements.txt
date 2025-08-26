@@ -22,5 +22,6 @@ pywavelets>=1.1.0
 psutil>=5.8.0
 networkx>=2.6.0
 
-# Install LRDBenchmark from PyPI (for cloud deployment)
-lrdbenchmark>=1.5.1
+# Install LRDBenchmark from GitHub (includes auto_optimized_estimator)
+# If you prefer PyPI, publish a new version and replace this line accordingly
+git+https://github.com/dave2k77/LRDBenchmark@master
