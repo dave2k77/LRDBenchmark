@@ -23,5 +23,8 @@ psutil>=5.8.0
 networkx>=2.6.0
 
 # Install LRDBenchmark from GitHub (includes auto_optimized_estimator)
-# If you prefer PyPI, publish a new version and replace this line accordingly
+# This ensures the latest version with auto_optimized_estimator is installed
 git+https://github.com/dave2k77/LRDBenchmark@master
+
+# Alternative: Use PyPI version (when available)
+# lrdbenchmark>=1.5.1

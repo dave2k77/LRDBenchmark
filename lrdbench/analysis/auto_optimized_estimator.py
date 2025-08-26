@@ -137,6 +137,21 @@ class AutoOptimizedEstimator:
         elif self.estimator_type == 'whittle':
             from lrdbench.analysis.spectral.whittle.whittle_estimator_numba_optimized import NumbaOptimizedWhittleEstimator
             return NumbaOptimizedWhittleEstimator(**self.kwargs)
+        elif self.estimator_type == 'cwt':
+            from lrdbench.analysis.wavelet.cwt.cwt_estimator_numba_optimized import NumbaOptimizedCWTEstimator
+            return NumbaOptimizedCWTEstimator(**self.kwargs)
+        elif self.estimator_type == 'wavelet_variance':
+            from lrdbench.analysis.wavelet.variance.wavelet_variance_estimator_numba_optimized import NumbaOptimizedWaveletVarianceEstimator
+            return NumbaOptimizedWaveletVarianceEstimator(**self.kwargs)
+        elif self.estimator_type == 'wavelet_log_variance':
+            from lrdbench.analysis.wavelet.log_variance.wavelet_log_variance_estimator_numba_optimized import NumbaOptimizedWaveletLogVarianceEstimator
+            return NumbaOptimizedWaveletLogVarianceEstimator(**self.kwargs)
+        elif self.estimator_type == 'wavelet_whittle':
+            from lrdbench.analysis.wavelet.whittle.wavelet_whittle_estimator_numba_optimized import NumbaOptimizedWaveletWhittleEstimator
+            return NumbaOptimizedWaveletWhittleEstimator(**self.kwargs)
+        elif self.estimator_type == 'mfdfa':
+            from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator_numba_optimized import NumbaOptimizedMFDFAEstimator
+            return NumbaOptimizedMFDFAEstimator(**self.kwargs)
         else:
             raise ValueError(f"NUMBA optimization not available for {self.estimator_type}")
     
@@ -145,6 +160,9 @@ class AutoOptimizedEstimator:
         if self.estimator_type == 'dfa':
             from lrdbench.analysis.temporal.dfa.dfa_estimator_jax_optimized import JaxOptimizedDFAEstimator
             return JaxOptimizedDFAEstimator(**self.kwargs)
+        elif self.estimator_type in ['cwt', 'wavelet_variance', 'wavelet_log_variance', 'wavelet_whittle', 'mfdfa']:
+            # These estimators don't have JAX optimizations yet, so fall back to NUMBA
+            raise ValueError(f"JAX optimization not available for {self.estimator_type}")
         else:
             raise ValueError(f"JAX optimization not available for {self.estimator_type}")
     
@@ -171,6 +189,21 @@ class AutoOptimizedEstimator:
         elif self.estimator_type == 'whittle':
             from lrdbench.analysis.spectral.whittle.whittle_estimator import WhittleEstimator
             return WhittleEstimator(**self.kwargs)
+        elif self.estimator_type == 'cwt':
+            from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
+            return CWTEstimator(**self.kwargs)
+        elif self.estimator_type == 'wavelet_variance':
+            from lrdbench.analysis.wavelet.variance.wavelet_variance_estimator import WaveletVarianceEstimator
+            return WaveletVarianceEstimator(**self.kwargs)
+        elif self.estimator_type == 'wavelet_log_variance':
+            from lrdbench.analysis.wavelet.log_variance.wavelet_log_variance_estimator import WaveletLogVarianceEstimator
+            return WaveletLogVarianceEstimator(**self.kwargs)
+        elif self.estimator_type == 'wavelet_whittle':
+            from lrdbench.analysis.wavelet.whittle.wavelet_whittle_estimator import WaveletWhittleEstimator
+            return WaveletWhittleEstimator(**self.kwargs)
+        elif self.estimator_type == 'mfdfa':
+            from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
+            return MFDFAEstimator(**self.kwargs)
         else:
             raise ValueError(f"Unknown estimator type: {self.estimator_type}")
     

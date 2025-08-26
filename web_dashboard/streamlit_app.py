@@ -258,7 +258,7 @@ with tab1:
                                 )
                             elif contam_type == "Polynomial Trend":
                                 contaminated_data = contamination_model.add_trend_polynomial(
-                                    contaminated_data, degree=2, coefficient=contamination_intensity * 0.001
+                                    contaminated_data, degree=2
                                 )
                             elif contam_type == "Exponential Trend":
                                 contaminated_data = contamination_model.add_trend_exponential(
@@ -850,18 +850,48 @@ with tab5:
                     contamination_model = ContaminationModel()
                     contamination_results = {}
                     
-                    # Define contamination scenarios
-                    contamination_scenarios = {
-                        "Gaussian Noise": lambda data: contamination_model.add_noise_gaussian(data, std=0.1),
-                        "Linear Trend": lambda data: contamination_model.add_trend_linear(data, slope=0.01),
-                        "Seasonal Trend": lambda data: contamination_model.add_trend_seasonal(data, period=100, amplitude=0.5),
-                        "Spikes": lambda data: contamination_model.add_artifact_spikes(data, probability=0.01),
-                        "Missing Data": lambda data: contamination_model.add_artifact_missing_data(data, probability=0.02),
-                        "Systematic Bias": lambda data: contamination_model.add_measurement_systematic(data, bias=0.1)
-                    }
+                    # Use selected contamination types from sidebar, or default to all if none selected
+                    selected_contamination_types = st.session_state.get('contamination_types', [])
+                    if not selected_contamination_types:
+                        selected_contamination_types = ["Gaussian Noise", "Linear Trend", "Seasonal Trend", "Spikes", "Missing Data", "Systematic Bias"]
+                    
+                    # Define contamination scenarios based on selected types
+                    contamination_scenarios = {}
+                    contamination_intensity = st.session_state.get('contamination_intensity', 0.1)
+                    
+                    if "Gaussian Noise" in selected_contamination_types:
+                        contamination_scenarios["Gaussian Noise"] = lambda data: contamination_model.add_noise_gaussian(data, std=contamination_intensity * 0.1)
+                    if "Linear Trend" in selected_contamination_types:
+                        contamination_scenarios["Linear Trend"] = lambda data: contamination_model.add_trend_linear(data, slope=contamination_intensity * 0.01)
+                    if "Polynomial Trend" in selected_contamination_types:
+                        contamination_scenarios["Polynomial Trend"] = lambda data: contamination_model.add_trend_polynomial(data, degree=2)
+                    if "Exponential Trend" in selected_contamination_types:
+                        contamination_scenarios["Exponential Trend"] = lambda data: contamination_model.add_trend_exponential(data, rate=contamination_intensity * 0.01)
+                    if "Seasonal Trend" in selected_contamination_types:
+                        contamination_scenarios["Seasonal Trend"] = lambda data: contamination_model.add_trend_seasonal(data, period=100, amplitude=contamination_intensity * 0.5)
+                    if "Colored Noise" in selected_contamination_types:
+                        contamination_scenarios["Colored Noise"] = lambda data: contamination_model.add_noise_colored(data, power=contamination_intensity * 1.0)
+                    if "Impulsive Noise" in selected_contamination_types:
+                        contamination_scenarios["Impulsive Noise"] = lambda data: contamination_model.add_noise_impulsive(data, probability=contamination_intensity * 0.01)
+                    if "Spikes" in selected_contamination_types:
+                        contamination_scenarios["Spikes"] = lambda data: contamination_model.add_artifact_spikes(data, probability=contamination_intensity * 0.01)
+                    if "Level Shifts" in selected_contamination_types:
+                        contamination_scenarios["Level Shifts"] = lambda data: contamination_model.add_artifact_level_shifts(data, probability=contamination_intensity * 0.005)
+                    if "Missing Data" in selected_contamination_types:
+                        contamination_scenarios["Missing Data"] = lambda data: contamination_model.add_artifact_missing_data(data, probability=contamination_intensity * 0.02)
+                    if "Irregular Sampling" in selected_contamination_types:
+                        contamination_scenarios["Irregular Sampling"] = lambda data: contamination_model.add_sampling_irregular(data, probability=contamination_intensity * 0.02)
+                    if "Systematic Bias" in selected_contamination_types:
+                        contamination_scenarios["Systematic Bias"] = lambda data: contamination_model.add_measurement_systematic(data, bias=contamination_intensity * 0.1)
+                    if "Random Measurement Error" in selected_contamination_types:
+                        contamination_scenarios["Random Measurement Error"] = lambda data: contamination_model.add_measurement_random(data, std=contamination_intensity * 0.05)
                     
                     # Test estimators on clean and contaminated data
                     estimators_to_test = ["DFA", "RS", "GPH", "CWT"]
+                    
+                    # Show which contamination types will be tested
+                    st.info(f"🧪 Testing {len(contamination_scenarios)} contamination types: {', '.join(contamination_scenarios.keys())}")
+                    st.info(f"📊 Contamination intensity: {contamination_intensity:.2f}")
                     
                     for scenario_name, contamination_func in contamination_scenarios.items():
                         # Apply contamination
@@ -1080,7 +1110,7 @@ with tab6:
         st.warning("⚠️ Analytics system is not available.")
         st.info("📊 This is normal for development environments.")
 
-with tab6:
+with tab7:
     st.header("ℹ️ About LRDBenchmark")
     
     st.markdown("""
