@@ -10,6 +10,21 @@ import sys
 import os
 from datetime import datetime
 
+# Custom JSON encoder to handle NumPy arrays and other non-serializable objects
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.bool_):
+            return bool(obj)
+        elif hasattr(obj, 'tolist'):  # For pandas Series, etc.
+            return obj.tolist()
+        return super().default(obj)
+
 # Import LRDBenchmark components
 try:
     from lrdbench import (
@@ -552,7 +567,7 @@ with tab2:
                 
                 st.download_button(
                     label="📄 Download JSON Results",
-                    data=json.dumps(download_data, indent=2),
+                    data=json.dumps(download_data, indent=2, cls=NumpyEncoder),
                     file_name=f"auto_optimization_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
                     mime="application/json"
                 )
@@ -803,7 +818,7 @@ with tab4:
                 
                 st.download_button(
                     label="📄 Download JSON Results",
-                    data=json.dumps(download_data, indent=2),
+                    data=json.dumps(download_data, indent=2, cls=NumpyEncoder),
                     file_name=f"lrdbenchmark_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
                     mime="application/json"
                 )
