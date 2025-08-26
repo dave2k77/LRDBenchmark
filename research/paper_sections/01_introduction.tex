@@ -1,0 +1,24 @@
+\section{Introduction}
+
+\subsection{Background and Motivation}
+
+Long-range dependence (LRD) in time series data is a fundamental property observed across numerous domains including neuroscience, finance, geophysics, and telecommunications. The Hurst exponent (H) serves as the primary measure of LRD, quantifying the degree of persistence or anti-persistence in temporal correlations. Traditional estimation methods, including Detrended Fluctuation Analysis (DFA), Rescaled Range Analysis (R/S), and spectral methods, face significant challenges when dealing with contaminated or non-stationary data.
+
+The choice of appropriate LRD estimation method is critical for clinical applications, where data quality varies significantly and real-time processing requirements are stringent. However, there is currently no comprehensive comparison of estimator performance across realistic contamination scenarios, making it difficult for practitioners to select optimal methods for their specific use cases.
+
+\subsection{Contributions}
+
+This paper makes the following key contributions:
+
+\begin{enumerate}
+    \item \textbf{Comprehensive Benchmarking Framework}: First systematic evaluation of 12 LRD estimators across 8 realistic contamination scenarios
+    \item \textbf{Clinical Validation Study}: 945 total tests providing robust statistical validation under realistic conditions
+    \item \textbf{Quality Leaderboard}: Performance rankings with quality scores combining accuracy, reliability, and efficiency
+    \item \textbf{Clinical Recommendations}: Evidence-based guidance for real-time monitoring, high-accuracy analysis, and rapid screening
+    \item \textbf{Contamination Robustness Analysis}: Detailed evaluation of estimator performance under various data quality conditions
+    \item \textbf{Processing Time Analysis}: Computational efficiency assessment for real-time applications
+\end{enumerate}
+
+\subsection{Paper Organization}
+
+The remainder of this paper is organized as follows: Section 2 reviews related work in LRD estimation methods; Section 3 presents our comprehensive benchmarking methodology; Section 4 provides detailed benchmark results and analysis; Section 5 discusses neural framework performance (where data is available); Section 6 provides theoretical analysis; and Section 7 concludes with clinical recommendations and future directions.

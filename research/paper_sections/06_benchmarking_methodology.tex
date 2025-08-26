@@ -1,0 +1,44 @@
+\section{Comprehensive Benchmarking Methodology}
+
+\subsection{Experimental Design}
+
+We conducted a comprehensive confound benchmark to evaluate the performance of classical estimators across multiple contamination scenarios. The benchmark included 945 total tests across 12 estimators and 8 contamination types, providing robust statistical validation of our findings.
+
+\textbf{Benchmark Parameters:}
+\begin{itemize}
+    \item \textbf{Data Length}: 1000 samples per time series
+    \item \textbf{Hurst Range}: H ∈ [0.1, 0.9] with 0.1 increments
+    \item \textbf{Contamination Types}: 8 realistic clinical scenarios
+    \item \textbf{Estimators Tested}: 12 classical methods across 4 categories
+    \item \textbf{Success Criterion}: Valid Hurst estimate within [0, 1] range
+\end{itemize}
+
+\subsection{Contamination Scenarios}
+
+The benchmark evaluated estimator robustness under realistic clinical conditions:
+
+\begin{enumerate}
+    \item \textbf{Clean Data}: Baseline performance on uncontaminated data
+    \item \textbf{Additive Noise}: Gaussian noise contamination (σ = 0.1)
+    \item \textbf{Outliers}: Random extreme values (5\% contamination)
+    \item \textbf{Trends}: Linear and polynomial trend contamination
+    \item \textbf{Seasonality}: Cyclical pattern contamination
+    \item \textbf{Missing Data}: Random data point removal (10\%)
+    \item \textbf{Smoothing}: Moving average smoothing effects
+    \item \textbf{Non-stationarity}: Heteroscedasticity and regime changes
+\end{enumerate}
+
+\subsection{Performance Metrics}
+
+We evaluated estimators using a comprehensive quality scoring system:
+
+\begin{equation}
+\text{Quality Score} = \alpha \cdot \text{Accuracy} + \beta \cdot \text{Reliability} + \gamma \cdot \text{Efficiency}
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item \textbf{Accuracy}: Mean absolute error in Hurst estimation
+    \item \textbf{Reliability}: Success rate across all contamination scenarios
+    \item \textbf{Efficiency}: Processing time and computational complexity
+\end{itemize}

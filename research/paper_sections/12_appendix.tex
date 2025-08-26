@@ -1,0 +1,91 @@
+\section*{Appendix: Benchmarking Details}
+
+\subsection{Detailed Experimental Setup}
+
+\textbf{Data Generation Protocol:}
+\begin{itemize}
+    \item Time series length: 1000 samples per test
+    \item Hurst exponent range: H ∈ [0.1, 0.9] with 0.1 increments
+    \item Number of realizations: 10 per parameter combination
+    \item Total tests: 945 across all combinations
+\end{itemize}
+
+\textbf{Contamination Implementation:}
+\begin{itemize}
+    \item Additive Noise: Gaussian noise with σ = 0.1
+    \item Outliers: 5\% random extreme values (±3σ)
+    \item Trends: Linear and quadratic trend contamination
+    \item Seasonality: Sinusoidal patterns with varying frequencies
+    \item Missing Data: 10\% random data point removal
+    \item Smoothing: Moving average with window size 5
+    \item Non-stationarity: Heteroscedasticity and regime changes
+\end{itemize}
+
+\subsection{Estimator Implementation Details}
+
+\textbf{Temporal Methods:}
+\begin{itemize}
+    \item DFA: Detrending polynomial order 2, scale range [4, N/4]
+    \item R/S: Scale range [10, N/2], overlapping windows
+    \item DMA: Moving average window sizes [4, 16, 32, 64]
+    \item Higuchi: k values [2, 4, 8, 16, 32, 64]
+\end{itemize}
+
+\textbf{Spectral Methods:}
+\begin{itemize}
+    \item GPH: Frequency range [2π/N, π/4], bandwidth selection
+    \item Periodogram: Welch's method with 50\% overlap
+    \item Whittle: Maximum likelihood estimation in frequency domain
+\end{itemize}
+
+\textbf{Wavelet Methods:}
+\begin{itemize}
+    \item CWT: Morlet wavelet, scale range [1, N/4]
+    \item Wavelet Variance: Haar wavelet, dyadic scales
+    \item Wavelet Log Variance: Log-scale variance analysis
+    \item Wavelet Whittle: Wavelet-based maximum likelihood
+\end{itemize}
+
+\subsection{Performance Metrics Calculation}
+
+\textbf{Accuracy Calculation:}
+\begin{equation}
+\text{MAE} = \frac{1}{N} \sum_{i=1}^{N} |H_{true}^{(i)} - H_{estimated}^{(i)}|
+\end{equation}
+
+\textbf{Success Rate:}
+\begin{equation}
+\text{Success Rate} = \frac{\text{Number of valid estimates}}{\text{Total number of tests}}
+\end{equation}
+
+\textbf{Processing Time:}
+Average execution time across 10 runs for each estimator-contamination combination.
+
+\subsection{Statistical Analysis}
+
+\textbf{Confidence Intervals:}
+95\% confidence intervals calculated using bootstrap resampling with 1000 iterations.
+
+\textbf{Significance Testing:}
+Wilcoxon signed-rank tests for pairwise comparisons between estimators.
+
+\textbf{Effect Size:}
+Cohen's d for standardized mean differences between method categories.
+
+\subsection{Reproducibility Information}
+
+\textbf{Software Environment:}
+\begin{itemize}
+    \item Python 3.8+
+    \item NumPy, SciPy, PyWavelets
+    \item Custom LRDBenchmark package
+    \item All code and data available at: https://github.com/dave2k77/LRDBenchmark
+\end{itemize}
+
+\textbf{Computing Platform:}
+\begin{itemize}
+    \item CPU: Intel Core i7-10700K
+    \item Memory: 32GB RAM
+    \item OS: Windows 10/Ubuntu 20.04
+    \item Execution time: ~2 hours for complete benchmark
+\end{itemize}

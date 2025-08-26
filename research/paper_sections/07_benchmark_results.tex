@@ -1,0 +1,57 @@
+\section{Benchmark Results and Analysis}
+
+\subsection{Overall Performance Rankings}
+
+Table \ref{tab:quality_leaderboard} presents the comprehensive quality rankings for all 12 estimators:
+
+\begin{table}[h]
+\centering
+\caption{Quality Leaderboard: Comprehensive Performance Rankings}
+\label{tab:quality_leaderboard}
+\begin{tabular}{lcccccc}
+\toprule
+Rank & Estimator & Category & Quality Score & Error (\%) & Success Rate & Time (s) \\
+\midrule
+1 & CWT & Wavelet & \textbf{87.97} & 14.79 & 100\% & 0.009 \\
+2 & R/S & Temporal & \textbf{86.50} & 15.59 & 100\% & 0.080 \\
+3 & Wavelet Whittle & Wavelet & \textbf{84.40} & 14.18 & 88\% & 0.027 \\
+4 & DMA & Temporal & \textbf{84.04} & 12.73 & 88\% & 0.100 \\
+5 & Periodogram & Spectral & \textbf{83.60} & 16.52 & 88\% & 0.003 \\
+6 & DFA & Temporal & \textbf{83.45} & 11.93 & 88\% & 0.165 \\
+7 & Wavelet Log Variance & Wavelet & \textbf{80.80} & 29.33 & 100\% & 0.002 \\
+8 & GPH & Spectral & \textbf{79.22} & 25.29 & 88\% & 0.003 \\
+9 & Whittle & Spectral & \textbf{74.18} & 35.09 & 88\% & 0.012 \\
+10 & Wavelet Variance & Wavelet & \textbf{73.75} & 43.44 & 100\% & 0.002 \\
+11 & Higuchi & Temporal & \textbf{68.79} & 45.92 & 88\% & 0.010 \\
+12 & MFDFA & Multifractal & \textbf{62.91} & 38.64 & 100\% & 0.885 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Key Findings}
+
+\textbf{Top Performers:}
+\begin{itemize}
+    \item \textbf{CWT (Wavelet)}: Best overall performance (87.97 quality score) with 100\% success rate and 9ms processing time
+    \item \textbf{R/S (Temporal)}: Most robust estimator (86.50 quality score) with 100\% success rate across all conditions
+    \item \textbf{DFA (Temporal)}: Highest accuracy (11.93\% error rate) for detailed analysis
+\end{itemize}
+
+\textbf{Category Performance:}
+\begin{itemize}
+    \item \textbf{Wavelet Methods}: Best balance of speed and reliability (avg. 81.73 quality score)
+    \item \textbf{Temporal Methods}: Highest accuracy for detailed analysis (avg. 80.70 quality score)
+    \item \textbf{Spectral Methods}: Fastest processing for real-time applications (avg. 78.67 quality score)
+    \item \textbf{Multifractal Methods}: Research-grade analysis with high computational cost
+\end{itemize}
+
+\subsection{Clinical Application Insights}
+
+\textbf{Real-Time Monitoring:}
+CWT and R/S methods achieve 100\% success rate with sub-100ms processing, making them ideal for continuous EEG monitoring and real-time clinical decision support.
+
+\textbf{High-Accuracy Analysis:}
+DFA and DMA provide the lowest error rates (11.93\% and 12.73\% respectively) for detailed clinical analysis and validation studies.
+
+\textbf{Rapid Screening:}
+Wavelet methods offer the fastest processing times (2-27ms) suitable for rapid screening and preliminary analysis.

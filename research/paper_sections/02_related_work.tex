@@ -1,0 +1,21 @@
+\section{Related Work}
+
+\subsection{Classical LRD Estimation Methods}
+
+Long-range dependence estimation has been extensively studied since Hurst's seminal work on reservoir storage capacity. Classical methods can be categorized into four main groups:
+
+\textbf{Temporal Methods:} Detrended Fluctuation Analysis (DFA) introduced by Peng et al. [1994] provides robust estimation by analyzing the scaling behavior of detrended fluctuations. Rescaled Range Analysis (R/S) developed by Hurst [1951] measures the rescaled range of cumulative deviations. DMA (Detrending Moving Average) and Higuchi's method offer alternative temporal approaches with different detrending strategies.
+
+\textbf{Spectral Methods:} Geweke and Porter-Hudak [1984] introduced the GPH estimator based on the slope of the log-periodogram. The Whittle estimator provides maximum likelihood estimation in the frequency domain. Periodogram-based methods offer computational efficiency for large datasets.
+
+\textbf{Wavelet Methods:} Abry and Veitch [1998] pioneered wavelet-based LRD estimation, providing excellent time-frequency localization. Continuous Wavelet Transform (CWT) and various wavelet variance estimators offer robust performance under contamination.
+
+\textbf{Multifractal Methods:} Multifractal Detrended Fluctuation Analysis (MFDFA) extends DFA to capture multifractal scaling properties, though at increased computational cost.
+
+\subsection{Benchmarking and Performance Comparison}
+
+While individual methods have been extensively studied, comprehensive benchmarking across multiple contamination scenarios remains limited. Previous comparisons have typically focused on clean data or specific contamination types, lacking the systematic evaluation needed for clinical applications.
+
+\subsection{Machine Learning Approaches}
+
+Recent work has explored machine learning approaches to LRD estimation, including neural networks and deep learning methods. However, these approaches often lack the interpretability and theoretical foundations of classical methods, and their performance under realistic contamination scenarios has not been systematically evaluated.

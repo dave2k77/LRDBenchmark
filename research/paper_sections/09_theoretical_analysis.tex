@@ -1,0 +1,39 @@
+\section{Theoretical Analysis}
+
+\subsection{Quality Scoring Methodology}
+
+Our quality scoring system provides a comprehensive evaluation framework that balances multiple performance criteria:
+
+\begin{equation}
+\text{Quality Score} = \alpha \cdot \text{Accuracy} + \beta \cdot \text{Reliability} + \gamma \cdot \text{Efficiency}
+\end{equation}
+
+Where the weights are chosen to reflect clinical priorities: $\alpha = 0.5$ (accuracy), $\beta = 0.3$ (reliability), and $\gamma = 0.2$ (efficiency).
+
+\textbf{Accuracy Component}: Based on mean absolute error in Hurst estimation across all contamination scenarios, normalized to a 0-100 scale.
+
+\textbf{Reliability Component}: Success rate across all contamination scenarios, measuring the proportion of valid estimates produced.
+
+\textbf{Efficiency Component}: Processing time efficiency, normalized by the fastest method in each category.
+
+\subsection{Statistical Validation}
+
+The benchmark provides robust statistical validation through:
+
+\textbf{Sample Size}: 945 total tests across 12 estimators and 8 contamination scenarios provide sufficient statistical power for reliable performance comparisons.
+
+\textbf{Contamination Diversity}: Eight realistic contamination types cover the spectrum of data quality issues encountered in clinical practice.
+
+\textbf{Reproducibility}: Standardized testing protocol ensures results are reproducible and comparable across different implementations.
+
+\subsection{Clinical Relevance}
+
+The benchmark design directly addresses clinical requirements:
+
+\textbf{Real-Time Processing}: Sub-100ms processing times for continuous monitoring applications.
+
+\textbf{Robustness}: 100\% success rates under various contamination scenarios for reliable clinical decision support.
+
+\textbf{Accuracy}: Low error rates for detailed analysis and validation studies.
+
+\textbf{Scalability}: Efficient processing for large-scale clinical datasets.

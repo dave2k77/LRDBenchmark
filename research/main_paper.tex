@@ -1,0 +1,87 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{float}
+
+% Page setup
+\geometry{margin=1in}
+
+% Code listing setup
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    showstringspaces=false,
+    tabsize=4,
+    backgroundcolor=\color{gray!10},
+    commentstyle=\color{green!60!black},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red}
+}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    citecolor=blue
+}
+
+\title{Comprehensive Benchmarking of Long-Range Dependence Estimators: \\
+Performance Analysis Across Classical and Machine Learning Methods}
+
+\author{David A. Smith \\
+LRDBenchmark Research Team \\
+david.smith@lrdbenchmark.org}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% Include abstract
+\input{paper_sections/00_abstract}
+
+% Include introduction
+\input{paper_sections/01_introduction}
+
+% Include related work
+\input{paper_sections/02_related_work}
+
+% Include benchmarking methodology
+\input{paper_sections/06_benchmarking_methodology}
+
+% Include benchmark results
+\input{paper_sections/07_benchmark_results}
+
+% Include neural framework analysis (if we have data)
+\input{paper_sections/08_neural_framework_analysis}
+
+% Include theoretical analysis
+\input{paper_sections/09_theoretical_analysis}
+
+% Include conclusion and future work
+\input{paper_sections/10_conclusion_future_work}
+
+% Include references
+\input{paper_sections/11_references}
+
+% Include appendix
+\input{paper_sections/12_appendix}
+
+\end{document}
