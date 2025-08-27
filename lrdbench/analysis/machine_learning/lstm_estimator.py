@@ -250,65 +250,76 @@ class LSTMEstimator(BaseMLEstimator):
         # Check if we have a torch model (pretrained LSTM) or sklearn model (heuristic)
         if hasattr(self, '_torch_model') and self._torch_model is not None:
             # Use LSTM model
-            # Prepare single sequence using fitted scaler
-            if data.ndim == 1:
-                X_seq = self._prepare_sequences(data.reshape(1, -1), fit_scaler=False)
-            else:
-                X_seq = self._prepare_sequences(data, fit_scaler=False)
+            try:
+                # Prepare single sequence using fitted scaler
+                if data.ndim == 1:
+                    X_seq = self._prepare_sequences(data.reshape(1, -1), fit_scaler=False)
+                else:
+                    X_seq = self._prepare_sequences(data, fit_scaler=False)
 
-            x = torch.from_numpy(X_seq.astype(np.float32)).to(self.device)
-            self._torch_model.eval()
-            with torch.no_grad():
-                pred = self._torch_model(x).cpu().numpy().reshape(-1)
-            hurst_estimate = float(pred[0])
-            
-            # Calculate confidence interval
-            confidence_interval = self._calculate_confidence_interval(hurst_estimate)
+                x = torch.from_numpy(X_seq.astype(np.float32)).to(self.device)
+                self._torch_model.eval()
+                with torch.no_grad():
+                    pred = self._torch_model(x).cpu().numpy().reshape(-1)
+                hurst_estimate = float(pred[0])
+                
+                # Calculate confidence interval
+                confidence_interval = self._calculate_confidence_interval(hurst_estimate)
 
-            self.results.update(
-                {
-                    "hurst_parameter": hurst_estimate,
-                    "confidence_interval": confidence_interval,
-                    "method": f"{self.__class__.__name__} (LSTM)",
-                    "model_info": {
-                        "model_type": "LSTM",
-                        "is_pretrained": True,
-                        "hidden_size": self.hidden_size,
-                        "num_layers": self.num_layers,
-                        "bidirectional": self.bidirectional,
-                    },
-                }
-            )
+                self.results.update(
+                    {
+                        "hurst_parameter": hurst_estimate,
+                        "confidence_interval": confidence_interval,
+                        "method": f"{self.__class__.__name__} (LSTM)",
+                        "model_info": {
+                            "model_type": "LSTM",
+                            "is_pretrained": True,
+                            "hidden_size": self.hidden_size,
+                            "num_layers": self.num_layers,
+                            "bidirectional": self.bidirectional,
+                        },
+                    }
+                )
+            except Exception as e:
+                print(f"⚠️ LSTM estimation failed, falling back to heuristic: {str(e)}")
+                # Fallback to heuristic model
+                return self._estimate_with_heuristic(data)
         else:
             # Use heuristic model (sklearn-based)
-            # Extract features if raw time series data is provided
-            if data.ndim == 1 or (data.ndim == 2 and data.shape[1] > 100):
-                features = self.extract_features(data)
-            else:
-                features = data
+            return self._estimate_with_heuristic(data)
 
-            # Scale features
-            features_scaled = self.scaler.transform(features)
+        return self.results
 
-            # Make prediction
-            hurst_estimate = self.model.predict(features_scaled)
+    def _estimate_with_heuristic(self, data: np.ndarray) -> Dict[str, Any]:
+        """Fallback estimation using heuristic model."""
+        # Extract features if raw time series data is provided
+        if data.ndim == 1 or (data.ndim == 2 and data.shape[1] > 100):
+            features = self.extract_features(data)
+        else:
+            features = data
 
-            # Calculate confidence interval
-            confidence_interval = self._calculate_confidence_interval(hurst_estimate[0])
+        # Scale features
+        features_scaled = self.scaler.transform(features)
 
-            # Store results
-            self.results = {
-                "hurst_parameter": float(hurst_estimate[0]),
-                "confidence_interval": confidence_interval,
-                "r_squared": self.results.get("test_r2", None),
-                "p_value": None,  # ML models don't provide p-values
-                "method": f"{self.__class__.__name__} (Heuristic)",
-                "model_info": {
-                    "model_type": type(self.model).__name__,
-                    "is_pretrained": False,
-                    "feature_extraction": self.feature_extraction_method,
-                },
-            }
+        # Make prediction
+        hurst_estimate = self.model.predict(features_scaled)
+
+        # Calculate confidence interval
+        confidence_interval = self._calculate_confidence_interval(hurst_estimate[0])
+
+        # Store results
+        self.results = {
+            "hurst_parameter": float(hurst_estimate[0]),
+            "confidence_interval": confidence_interval,
+            "r_squared": self.results.get("test_r2", None),
+            "p_value": None,  # ML models don't provide p-values
+            "method": f"{self.__class__.__name__} (Heuristic)",
+            "model_info": {
+                "model_type": type(self.model).__name__,
+                "is_pretrained": False,
+                "feature_extraction": self.feature_extraction_method,
+            },
+        }
 
         return self.results
 
