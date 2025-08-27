@@ -9,6 +9,7 @@ estimation to support sequence models (train once, apply many).
 from typing import Any, Dict, Tuple, Optional
 import numpy as np
 from .base_ml_estimator import BaseMLEstimator
+from sklearn.preprocessing import StandardScaler
 
 try:
     import torch
@@ -88,6 +89,10 @@ class GRUEstimator(BaseMLEstimator):
         self.batch_size = self.parameters.get("batch_size", 32)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self._torch_model: Optional[nn.Module] = None
+        
+        # Initialize scaler if not already set
+        if not hasattr(self, 'scaler') or self.scaler is None:
+            self.scaler = StandardScaler()
 
     def _validate_parameters(self) -> None:
         if self.parameters.get("feature_extraction_method") not in (

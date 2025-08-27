@@ -9,6 +9,7 @@ estimation to support sequence models (train once, apply many).
 from typing import Any, Dict, Tuple, Optional
 import numpy as np
 from .base_ml_estimator import BaseMLEstimator
+from sklearn.preprocessing import StandardScaler
 
 # Optional torch import to avoid import errors if not installed
 try:
@@ -97,6 +98,10 @@ class LSTMEstimator(BaseMLEstimator):
 
         # Internal torch model placeholder (created in train)
         self._torch_model: Optional[nn.Module] = None
+        
+        # Initialize scaler if not already set
+        if not hasattr(self, 'scaler') or self.scaler is None:
+            self.scaler = StandardScaler()
 
     def _validate_parameters(self) -> None:
         # Minimal validation
