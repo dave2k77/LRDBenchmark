@@ -418,7 +418,7 @@ with tab1:
             height=400,
             showlegend=True
         )
-                    st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, width='stretch')
         
         # Statistics
         col1, col2, col3, col4 = st.columns(4)
