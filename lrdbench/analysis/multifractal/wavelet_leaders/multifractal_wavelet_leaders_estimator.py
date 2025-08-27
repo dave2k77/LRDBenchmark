@@ -229,10 +229,21 @@ class MultifractalWaveletLeadersEstimator(BaseEstimator):
             - 'q_values': List of q values used
             - 'structure_functions': Dictionary of Sq(j) for each q
         """
-        if len(data) < 2 * self.parameters["max_scale"]:
-            warnings.warn(
-                f"Data length ({len(data)}) may be too short for scale {self.parameters['max_scale']}"
-            )
+        # Adjust scales for data length
+        max_safe_scale = min(self.parameters["max_scale"], len(data) // 8)
+        if max_safe_scale < self.parameters["min_scale"]:
+            raise ValueError(f"Data length {len(data)} is too short for wavelet leaders analysis")
+        
+        # Update scales if needed
+        if max_safe_scale < self.parameters["max_scale"]:
+            safe_scales = [s for s in self.parameters["scales"] if s <= max_safe_scale]
+            if len(safe_scales) >= 3:
+                self.parameters["scales"] = np.array(safe_scales)
+                self.parameters["max_scale"] = max_safe_scale
+            else:
+                warnings.warn(
+                    f"Data length ({len(data)}) may be too short for reliable wavelet leaders analysis"
+                )
 
         scales = self.parameters["scales"]
         q_values = self.parameters["q_values"]

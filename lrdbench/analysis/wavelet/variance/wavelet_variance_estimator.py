@@ -89,10 +89,17 @@ class WaveletVarianceEstimator(BaseEstimator):
         Returns:
             Dict[str, Any]: Dictionary containing estimation results
         """
-        if len(data) < 2 ** max(self.scales):
+        # Adjust scales for data length
+        max_safe_scale = min(max(self.scales), int(np.log2(len(data))) - 1)
+        safe_scales = [s for s in self.scales if s <= max_safe_scale]
+        
+        if len(safe_scales) < 2:
             raise ValueError(
-                f"Data length {len(data)} is too short for scale {max(self.scales)}"
+                f"Data length {len(data)} is too short for available scales {self.scales}"
             )
+        
+        # Use safe scales
+        self.scales = safe_scales
 
         # Calculate wavelet variances for each scale
         self.wavelet_variances = {}

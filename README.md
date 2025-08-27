@@ -1,4 +1,4 @@
-# 🚀 **LRDBench: Long-Range Dependence Benchmarking Toolkit**
+# 🚀 **LRDBenchMark: Long-Range Dependence Benchmarking Toolkit**
 
 A comprehensive Python package for benchmarking long-range dependence estimators on synthetic and real-world time series data. LRDBench provides ready-to-use implementations of classical, machine learning, and neural network estimators with built-in analytics and performance monitoring.
 

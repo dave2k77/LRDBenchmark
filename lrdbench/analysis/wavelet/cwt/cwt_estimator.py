@@ -88,8 +88,16 @@ class CWTEstimator(BaseEstimator):
         Returns:
             Dict[str, Any]: Dictionary containing estimation results
         """
+        if len(data) < 50:
+            raise ValueError("Data length must be at least 50 for CWT analysis")
+        
+        # Adjust scales for shorter data
         if len(data) < 100:
-            raise ValueError("Data length must be at least 100 for CWT analysis")
+            # Use fewer scales for shorter data
+            max_scale = min(max(self.scales), len(data) // 4)
+            self.scales = [s for s in self.scales if s <= max_scale]
+            if len(self.scales) < 2:
+                raise ValueError("Insufficient scales available for data length")
 
         # Perform continuous wavelet transform
         self.wavelet_coeffs, frequencies = pywt.cwt(data, self.scales, self.wavelet)

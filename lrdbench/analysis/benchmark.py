@@ -11,6 +11,17 @@ from typing import Dict, List, Any, Optional, Tuple
 from pathlib import Path
 import json
 from datetime import datetime
+import warnings
+
+# Import advanced metrics
+from .advanced_metrics import (
+    ConvergenceAnalyzer,
+    MeanSignedErrorAnalyzer,
+    AdvancedPerformanceProfiler,
+    calculate_convergence_rate,
+    calculate_mean_signed_error,
+    profile_estimator_performance
+)
 
 # Import estimators
 from .temporal.rs.rs_estimator import RSEstimator
@@ -148,6 +159,11 @@ class ComprehensiveBenchmark:
 
         # Initialize all estimator categories
         self.all_estimators = self._initialize_all_estimators()
+        
+        # Initialize advanced metrics analyzers
+        self.convergence_analyzer = ConvergenceAnalyzer()
+        self.mse_analyzer = MeanSignedErrorAnalyzer()
+        self.advanced_profiler = AdvancedPerformanceProfiler()
 
         # Initialize data models
         self.data_models = self._initialize_data_models()
@@ -463,6 +479,35 @@ class ComprehensiveBenchmark:
             else:
                 error = None
 
+            # Advanced metrics analysis
+            advanced_metrics = {}
+            if true_params.get("H") is not None:
+                try:
+                    # Convergence analysis
+                    convergence_results = self.convergence_analyzer.analyze_convergence_rate(
+                        estimator, data, true_params.get("H")
+                    )
+                    advanced_metrics['convergence_rate'] = convergence_results.get('convergence_rate')
+                    advanced_metrics['convergence_achieved'] = convergence_results.get('convergence_achieved')
+                    advanced_metrics['stability_metric'] = convergence_results.get('stability_metric')
+                    
+                    # Mean signed error analysis (Monte Carlo)
+                    mse_results = self._calculate_monte_carlo_mse(estimator, data, true_params.get("H"))
+                    advanced_metrics['mean_signed_error'] = mse_results.get('mean_signed_error')
+                    advanced_metrics['bias_percentage'] = mse_results.get('bias_percentage')
+                    advanced_metrics['significant_bias'] = mse_results.get('significant_bias')
+                    
+                except Exception as e:
+                    warnings.warn(f"Advanced metrics calculation failed: {e}")
+                    advanced_metrics = {
+                        'convergence_rate': None,
+                        'convergence_achieved': None,
+                        'stability_metric': None,
+                        'mean_signed_error': None,
+                        'bias_percentage': None,
+                        'significant_bias': None
+                    }
+            
             test_result = {
                 "estimator": estimator_name,
                 "success": True,
@@ -475,6 +520,7 @@ class ComprehensiveBenchmark:
                 "intercept": result.get("intercept", None),
                 "slope": result.get("slope", None),
                 "std_error": result.get("std_error", None),
+                "advanced_metrics": advanced_metrics,
                 "full_result": result,
             }
 
@@ -497,6 +543,66 @@ class ComprehensiveBenchmark:
             }
 
         return test_result
+
+    def _calculate_monte_carlo_mse(
+        self, 
+        estimator, 
+        data: np.ndarray, 
+        true_value: float, 
+        n_simulations: int = 50
+    ) -> Dict[str, Any]:
+        """
+        Calculate mean signed error using Monte Carlo simulations.
+        
+        Parameters
+        ----------
+        estimator : BaseEstimator
+            Estimator instance
+        data : np.ndarray
+            Original dataset
+        true_value : float
+            True parameter value
+        n_simulations : int
+            Number of Monte Carlo simulations
+            
+        Returns
+        -------
+        dict
+            Mean signed error analysis results
+        """
+        estimates = []
+        
+        for i in range(n_simulations):
+            # Add small random noise to create variations
+            noise_level = 0.01 * np.std(data)
+            noisy_data = data + np.random.normal(0, noise_level, len(data))
+            
+            try:
+                result = estimator.estimate(noisy_data)
+                estimate = result.get('hurst_parameter', None)
+                if estimate is not None:
+                    estimates.append(estimate)
+            except:
+                continue
+        
+        if len(estimates) == 0:
+            return {
+                'mean_signed_error': None,
+                'bias_percentage': None,
+                'significant_bias': None
+            }
+        
+        # Create true values list (all same value)
+        true_values = [true_value] * len(estimates)
+        
+        # Calculate mean signed error
+        mse_results = self.mse_analyzer.calculate_mean_signed_error(estimates, true_values)
+        
+        return {
+            'mean_signed_error': mse_results.get('mean_signed_error'),
+            'bias_percentage': mse_results.get('bias_percentage'),
+            'significant_bias': mse_results.get('significant_bias')
+        }
 
     def run_comprehensive_benchmark(
         self,
@@ -670,6 +776,252 @@ class ComprehensiveBenchmark:
             save_results=save_results,
         )
 
+    def run_advanced_metrics_benchmark(
+        self,
+        data_length: int = 1000,
+        benchmark_type: str = "comprehensive",
+        n_monte_carlo: int = 100,
+        convergence_threshold: float = 1e-6,
+        save_results: bool = True,
+    ) -> Dict[str, Any]:
+        """
+        Run advanced metrics benchmark focusing on convergence and bias analysis.
+        
+        Parameters
+        ----------
+        data_length : int
+            Length of test data to generate
+        benchmark_type : str
+            Type of benchmark to run
+        n_monte_carlo : int
+            Number of Monte Carlo simulations for bias analysis
+        convergence_threshold : float
+            Threshold for convergence detection
+        save_results : bool
+            Whether to save results to file
+            
+        Returns
+        -------
+        dict
+            Advanced metrics benchmark results
+        """
+        print("🚀 Starting Advanced Metrics Benchmark")
+        print("=" * 60)
+        print(f"Benchmark Type: {benchmark_type.upper()}")
+        print(f"Monte Carlo Simulations: {n_monte_carlo}")
+        print(f"Convergence Threshold: {convergence_threshold}")
+        print("=" * 60)
+        
+        # Get estimators
+        estimators = self.get_estimators_by_type(benchmark_type, data_length)
+        print(f"Testing {len(estimators)} estimators...")
+        
+        # Initialize advanced profiler
+        advanced_profiler = AdvancedPerformanceProfiler(
+            convergence_threshold=convergence_threshold,
+            max_iterations=100
+        )
+        
+        all_results = {}
+        total_tests = 0
+        successful_tests = 0
+        
+        # Test with different data models
+        for model_name in self.data_models:
+            print(f"\n📊 Testing with {model_name} data model...")
+            
+            try:
+                # Generate clean data
+                data, params = self.generate_test_data(model_name, data_length=data_length)
+                print(f"   Generated {len(data)} clean data points")
+                
+                true_value = params.get("H", None)
+                if true_value is None:
+                    print(f"   ⚠️  No true H value available for {model_name}, skipping advanced metrics")
+                    continue
+                
+                model_results = []
+                
+                # Test all estimators with advanced profiling
+                for estimator_name in estimators:
+                    print(f"   🔍 Testing {estimator_name}...", end=" ")
+                    
+                    estimator = estimators[estimator_name]
+                    
+                    # Run advanced performance profiling
+                    profile_results = advanced_profiler.profile_estimator_performance(
+                        estimator, data, true_value, n_monte_carlo
+                    )
+                    
+                    # Extract key metrics
+                    basic_perf = profile_results['basic_performance']
+                    convergence_analysis = profile_results['convergence_analysis']
+                    bias_analysis = profile_results['bias_analysis']
+                    comprehensive_score = profile_results['comprehensive_score']
+                    
+                    if basic_perf['success']:
+                        print("✅")
+                        successful_tests += 1
+                        
+                        result = {
+                            "estimator": estimator_name,
+                            "success": True,
+                            "execution_time": basic_perf['execution_time'],
+                            "estimated_hurst": basic_perf['result'].get('hurst_parameter'),
+                            "true_hurst": true_value,
+                            "comprehensive_score": comprehensive_score,
+                            "convergence_analysis": convergence_analysis,
+                            "bias_analysis": bias_analysis,
+                            "full_result": basic_perf['result']
+                        }
+                    else:
+                        print(f"❌ ({basic_perf['error_message']})")
+                        result = {
+                            "estimator": estimator_name,
+                            "success": False,
+                            "execution_time": basic_perf['execution_time'],
+                            "error_message": basic_perf['error_message'],
+                            "comprehensive_score": 0.0
+                        }
+                    
+                    model_results.append(result)
+                    total_tests += 1
+                
+                all_results[model_name] = {
+                    "data_params": params,
+                    "estimator_results": model_results,
+                }
+                
+            except Exception as e:
+                print(f"   ❌ Error with {model_name}: {e}")
+                all_results[model_name] = {
+                    "data_params": None,
+                    "estimator_results": [],
+                    "error": str(e),
+                }
+        
+        # Compile summary
+        summary = {
+            "timestamp": datetime.now().isoformat(),
+            "benchmark_type": f"advanced_{benchmark_type}",
+            "n_monte_carlo": n_monte_carlo,
+            "convergence_threshold": convergence_threshold,
+            "total_tests": total_tests,
+            "successful_tests": successful_tests,
+            "success_rate": successful_tests / total_tests if total_tests > 0 else 0,
+            "data_models_tested": len(self.data_models),
+            "estimators_tested": len(estimators),
+            "results": all_results,
+        }
+        
+        # Save results if requested
+        if save_results:
+            self.save_advanced_results(summary)
+        
+        # Print advanced summary
+        self.print_advanced_summary(summary)
+        
+        return summary
+
+    def save_advanced_results(self, results: Dict[str, Any]) -> None:
+        """Save advanced benchmark results to files."""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # Save detailed results as JSON
+        json_file = self.output_dir / f"advanced_benchmark_{timestamp}.json"
+        with open(json_file, "w") as f:
+            json.dump(results, f, indent=2, default=str)
+        
+        # Save summary as CSV
+        csv_data = []
+        for model_name, model_data in results["results"].items():
+            if "estimator_results" in model_data:
+                for est_result in model_data["estimator_results"]:
+                    convergence_analysis = est_result.get("convergence_analysis", {})
+                    bias_analysis = est_result.get("bias_analysis", {})
+                    
+                    csv_data.append({
+                        "data_model": model_name,
+                        "estimator": est_result["estimator"],
+                        "success": est_result["success"],
+                        "execution_time": est_result["execution_time"],
+                        "estimated_hurst": est_result.get("estimated_hurst"),
+                        "true_hurst": est_result.get("true_hurst"),
+                        "comprehensive_score": est_result.get("comprehensive_score"),
+                        # Convergence metrics
+                        "convergence_rate": convergence_analysis.get("convergence_rate"),
+                        "convergence_achieved": convergence_analysis.get("convergence_achieved"),
+                        "convergence_iteration": convergence_analysis.get("convergence_iteration"),
+                        "stability_metric": convergence_analysis.get("stability_metric"),
+                        # Bias metrics
+                        "mean_signed_error": bias_analysis.get("mean_signed_error"),
+                        "mean_absolute_error": bias_analysis.get("mean_absolute_error"),
+                        "root_mean_squared_error": bias_analysis.get("root_mean_squared_error"),
+                        "bias_percentage": bias_analysis.get("bias_percentage"),
+                        "significant_bias": bias_analysis.get("significant_bias"),
+                        "t_statistic": bias_analysis.get("t_statistic"),
+                        "p_value": bias_analysis.get("p_value"),
+                    })
+        
+        if csv_data:
+            df = pd.DataFrame(csv_data)
+            csv_file = self.output_dir / f"advanced_benchmark_summary_{timestamp}.csv"
+            df.to_csv(csv_file, index=False)
+            print(f"\n💾 Advanced results saved to:")
+            print(f"   JSON: {json_file}")
+            print(f"   CSV: {csv_file}")
+
+    def print_advanced_summary(self, summary: Dict[str, Any]) -> None:
+        """Print advanced benchmark summary."""
+        print("\n" + "=" * 60)
+        print("📊 ADVANCED METRICS BENCHMARK SUMMARY")
+        print("=" * 60)
+        print(f"Benchmark Type: {summary.get('benchmark_type', 'Unknown').upper()}")
+        print(f"Monte Carlo Simulations: {summary['n_monte_carlo']}")
+        print(f"Convergence Threshold: {summary['convergence_threshold']}")
+        print(f"Total Tests: {summary['total_tests']}")
+        print(f"Successful: {summary['successful_tests']}")
+        print(f"Success Rate: {summary['success_rate']:.1%}")
+        print(f"Data Models: {summary['data_models_tested']}")
+        print(f"Estimators: {summary['estimators_tested']}")
+        
+        # Show top performers by comprehensive score
+        print("\n🏆 TOP PERFORMING ESTIMATORS (By Comprehensive Score):")
+        
+        # Aggregate results by estimator
+        estimator_scores = {}
+        
+        for model_name, model_data in summary["results"].items():
+            if "estimator_results" in model_data:
+                for est_result in model_data["estimator_results"]:
+                    if est_result["success"]:
+                        estimator_name = est_result["estimator"]
+                        score = est_result.get("comprehensive_score", 0.0)
+                        
+                        if estimator_name not in estimator_scores:
+                            estimator_scores[estimator_name] = []
+                        
+                        estimator_scores[estimator_name].append(score)
+        
+        if estimator_scores:
+            # Calculate average comprehensive score for each estimator
+            avg_scores = []
+            for estimator_name, scores in estimator_scores.items():
+                avg_score = np.mean(scores)
+                avg_scores.append({
+                    "estimator": estimator_name,
+                    "avg_comprehensive_score": avg_score,
+                    "data_models_tested": len(scores)
+                })
+            
+            # Sort by average comprehensive score (higher is better)
+            avg_scores.sort(key=lambda x: x["avg_comprehensive_score"], reverse=True)
+            
+            for i, score_data in enumerate(avg_scores[:5]):
+                print(f"   {i+1}. {score_data['estimator']}")
+                print(f"      Comprehensive Score: {score_data['avg_comprehensive_score']:.4f}")
+                print(f"      Data Models Tested: {score_data['data_models_tested']}")
+
     def save_results(self, results: Dict[str, Any]) -> None:
         """Save benchmark results to files."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -684,6 +1036,9 @@ class ComprehensiveBenchmark:
         for model_name, model_data in results["results"].items():
             if "estimator_results" in model_data:
                 for est_result in model_data["estimator_results"]:
+                    # Extract advanced metrics
+                    advanced_metrics = est_result.get("advanced_metrics", {})
+                    
                     csv_data.append(
                         {
                             "data_model": model_name,
@@ -698,6 +1053,13 @@ class ComprehensiveBenchmark:
                             "intercept": est_result["intercept"],
                             "slope": est_result["slope"],
                             "std_error": est_result["std_error"],
+                            # Advanced metrics
+                            "convergence_rate": advanced_metrics.get("convergence_rate"),
+                            "convergence_achieved": advanced_metrics.get("convergence_achieved"),
+                            "stability_metric": advanced_metrics.get("stability_metric"),
+                            "mean_signed_error": advanced_metrics.get("mean_signed_error"),
+                            "bias_percentage": advanced_metrics.get("bias_percentage"),
+                            "significant_bias": advanced_metrics.get("significant_bias"),
                         }
                     )
 
@@ -742,6 +1104,10 @@ class ComprehensiveBenchmark:
                                 "errors": [],
                                 "execution_times": [],
                                 "data_models": [],
+                                "convergence_rates": [],
+                                "mean_signed_errors": [],
+                                "bias_percentages": [],
+                                "stability_metrics": [],
                             }
 
                         estimator_performance[estimator_name]["errors"].append(
@@ -753,6 +1119,25 @@ class ComprehensiveBenchmark:
                         estimator_performance[estimator_name]["data_models"].append(
                             model_name
                         )
+                        
+                        # Add advanced metrics
+                        advanced_metrics = est_result.get("advanced_metrics", {})
+                        if advanced_metrics.get("convergence_rate") is not None:
+                            estimator_performance[estimator_name]["convergence_rates"].append(
+                                advanced_metrics["convergence_rate"]
+                            )
+                        if advanced_metrics.get("mean_signed_error") is not None:
+                            estimator_performance[estimator_name]["mean_signed_errors"].append(
+                                advanced_metrics["mean_signed_error"]
+                            )
+                        if advanced_metrics.get("bias_percentage") is not None:
+                            estimator_performance[estimator_name]["bias_percentages"].append(
+                                advanced_metrics["bias_percentage"]
+                            )
+                        if advanced_metrics.get("stability_metric") is not None:
+                            estimator_performance[estimator_name]["stability_metrics"].append(
+                                advanced_metrics["stability_metric"]
+                            )
 
         if estimator_performance:
             # Calculate average performance for each estimator
@@ -762,6 +1147,12 @@ class ComprehensiveBenchmark:
                 avg_time = np.mean(perf_data["execution_times"])
                 data_models_tested = len(perf_data["data_models"])
 
+                # Calculate advanced metrics averages
+                avg_convergence_rate = np.mean(perf_data["convergence_rates"]) if perf_data["convergence_rates"] else None
+                avg_mean_signed_error = np.mean(perf_data["mean_signed_errors"]) if perf_data["mean_signed_errors"] else None
+                avg_bias_percentage = np.mean(perf_data["bias_percentages"]) if perf_data["bias_percentages"] else None
+                avg_stability_metric = np.mean(perf_data["stability_metrics"]) if perf_data["stability_metrics"] else None
+
                 aggregated_performance.append(
                     {
                         "estimator": estimator_name,
@@ -770,6 +1161,10 @@ class ComprehensiveBenchmark:
                         "data_models_tested": data_models_tested,
                         "min_error": min(perf_data["errors"]),
                         "max_error": max(perf_data["errors"]),
+                        "avg_convergence_rate": avg_convergence_rate,
+                        "avg_mean_signed_error": avg_mean_signed_error,
+                        "avg_bias_percentage": avg_bias_percentage,
+                        "avg_stability_metric": avg_stability_metric,
                     }
                 )
 
@@ -784,6 +1179,16 @@ class ComprehensiveBenchmark:
                 print(
                     f"      Avg Time: {perf['avg_time']:.3f}s | Data Models: {perf['data_models_tested']}"
                 )
+                
+                # Display advanced metrics
+                if perf['avg_convergence_rate'] is not None:
+                    print(f"      Convergence Rate: {perf['avg_convergence_rate']:.4f}")
+                if perf['avg_mean_signed_error'] is not None:
+                    print(f"      Mean Signed Error: {perf['avg_mean_signed_error']:.4f}")
+                if perf['avg_bias_percentage'] is not None:
+                    print(f"      Bias: {perf['avg_bias_percentage']:.2f}%")
+                if perf['avg_stability_metric'] is not None:
+                    print(f"      Stability: {perf['avg_stability_metric']:.4f}")
 
                 # Show estimated H values for this estimator across data models
                 estimator_name = perf["estimator"]

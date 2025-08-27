@@ -95,6 +95,23 @@ except ImportError as e:
         st.warning(f"⚠️ Standard estimators also failed: {str(fallback_error)}")
         AUTO_OPTIMIZATION_AVAILABLE = False
 
+# Import ML estimators if available
+ML_ESTIMATORS_AVAILABLE = False
+try:
+    from lrdbench.analysis.machine_learning.cnn_estimator import CNNEstimator
+    from lrdbench.analysis.machine_learning.lstm_estimator import LSTMEstimator
+    from lrdbench.analysis.machine_learning.gru_estimator import GRUEstimator
+    from lrdbench.analysis.machine_learning.transformer_estimator import TransformerEstimator
+    from lrdbench.analysis.machine_learning.svr_estimator import SVREstimator
+    from lrdbench.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
+    from lrdbench.analysis.machine_learning.neural_network_estimator import NeuralNetworkEstimator
+    from lrdbench.analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
+    ML_ESTIMATORS_AVAILABLE = True
+    st.success("✅ ML estimators with pretrained models loaded successfully!")
+except ImportError as e:
+    st.warning(f"⚠️ ML estimators import error: {str(e)}")
+    ML_ESTIMATORS_AVAILABLE = False
+
 # Page configuration
 st.set_page_config(
     page_title="LRDBenchmark Dashboard",
@@ -227,23 +244,36 @@ estimator_options = [
     "GPH", "Periodogram", "Whittle",  # Spectral
     "CWT", "Wavelet Variance", "Wavelet Log Variance", "Wavelet Whittle",  # Wavelet
     "MFDFA",  # Multifractal
-    "All"
 ]
+
+# Add ML estimators if available
+if ML_ESTIMATORS_AVAILABLE:
+    ml_estimators = [
+        "🤖 CNN", "🤖 LSTM", "🤖 GRU", "🤖 Transformer",  # Deep Learning
+        "🤖 SVR", "🤖 RandomForest", "🤖 NeuralNetwork", "🤖 GradientBoosting"  # Traditional ML
+    ]
+    estimator_options.extend(ml_estimators)
+
+estimator_options.append("All")
+
 if AUTO_OPTIMIZATION_AVAILABLE:
-    estimator_options = [f"🚀 {opt}" for opt in estimator_options]
+    # Add rocket emoji to non-ML estimators
+    estimator_options = [f"🚀 {opt}" if not opt.startswith("🤖") else opt for opt in estimator_options]
 
 estimators = st.sidebar.multiselect(
     "Estimators to Use",
     estimator_options,
-    default=["🚀 DFA", "🚀 GPH", "🚀 CWT"] if AUTO_OPTIMIZATION_AVAILABLE else ["DFA", "GPH", "CWT"],
-    help="Select which estimators to run (🚀 indicates auto-optimized versions)"
+    default=["🚀 DFA", "🚀 GPH", "🤖 CNN", "🤖 RandomForest"] if AUTO_OPTIMIZATION_AVAILABLE and ML_ESTIMATORS_AVAILABLE else ["DFA", "GPH", "CNN", "RandomForest"] if ML_ESTIMATORS_AVAILABLE else ["🚀 DFA", "🚀 GPH"] if AUTO_OPTIMIZATION_AVAILABLE else ["DFA", "GPH"],
+    help="Select which estimators to run (🚀 = auto-optimized, 🤖 = ML with pretrained models)"
 )
 
 if "All" in estimators or "🚀 All" in estimators:
     estimators = ["DFA", "RS", "DMA", "Higuchi", "GPH", "Periodogram", "Whittle", 
                   "CWT", "Wavelet Variance", "Wavelet Log Variance", "Wavelet Whittle", "MFDFA"]
+    if ML_ESTIMATORS_AVAILABLE:
+        estimators.extend(["CNN", "LSTM", "GRU", "Transformer", "SVR", "RandomForest", "NeuralNetwork", "GradientBoosting"])
     if AUTO_OPTIMIZATION_AVAILABLE:
-        estimators = [f"🚀 {opt}" for opt in estimators]
+        estimators = [f"🚀 {opt}" if not opt.startswith("🤖") else opt for opt in estimators]
     # Remove the rocket emoji for processing
     estimators = [est.replace("🚀 ", "") for est in estimators]
 else:
@@ -671,6 +701,30 @@ with tab3:
                                     elif estimator_name == "MFDFA":
                                         from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
                                         estimator = MFDFAEstimator()
+                                    elif estimator_name == "🤖 CNN":
+                                        from lrdbench.analysis.machine_learning.cnn_estimator import CNNEstimator
+                                        estimator = CNNEstimator()
+                                    elif estimator_name == "🤖 LSTM":
+                                        from lrdbench.analysis.machine_learning.lstm_estimator import LSTMEstimator
+                                        estimator = LSTMEstimator()
+                                    elif estimator_name == "🤖 GRU":
+                                        from lrdbench.analysis.machine_learning.gru_estimator import GRUEstimator
+                                        estimator = GRUEstimator()
+                                    elif estimator_name == "🤖 Transformer":
+                                        from lrdbench.analysis.machine_learning.transformer_estimator import TransformerEstimator
+                                        estimator = TransformerEstimator()
+                                    elif estimator_name == "🤖 SVR":
+                                        from lrdbench.analysis.machine_learning.svr_estimator import SVREstimator
+                                        estimator = SVREstimator()
+                                    elif estimator_name == "🤖 RandomForest":
+                                        from lrdbench.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
+                                        estimator = RandomForestEstimator()
+                                    elif estimator_name == "🤖 NeuralNetwork":
+                                        from lrdbench.analysis.machine_learning.neural_network_estimator import NeuralNetworkEstimator
+                                        estimator = NeuralNetworkEstimator()
+                                    elif estimator_name == "🤖 GradientBoosting":
+                                        from lrdbench.analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
+                                        estimator = GradientBoostingEstimator()
                                     else:
                                         continue
                                     

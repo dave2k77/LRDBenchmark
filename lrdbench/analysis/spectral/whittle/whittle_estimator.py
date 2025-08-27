@@ -89,7 +89,8 @@ class WhittleEstimator(BaseEstimator):
         n = len(data)
 
         if self.nperseg is None:
-            self.nperseg = max(n // 8, 64)
+            # Ensure nperseg is not larger than data length
+            self.nperseg = min(max(n // 8, 64), n)
 
         # Compute periodogram
         if self.use_welch:
