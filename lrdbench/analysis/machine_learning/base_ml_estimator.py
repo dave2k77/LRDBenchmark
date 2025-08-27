@@ -385,17 +385,35 @@ class BaseMLEstimator(ABC):
             True if pretrained model was loaded successfully, False otherwise
         """
         try:
-            # Try to load from default pretrained model path
+            # Try to load from the path returned by _get_pretrained_model_path
             pretrained_path = self._get_pretrained_model_path()
             if os.path.exists(pretrained_path):
                 self.load_model(pretrained_path)
                 return True
             
-            # Try to load from alternative paths
+            # If the path doesn't exist, try additional alternative paths
+            class_name = self.__class__.__name__.lower()
+            filename_mapping = {
+                "randomforestestimator": "randomforest_pretrained.joblib",
+                "svrestimator": "svr_pretrained.joblib", 
+                "neuralnetworkestimator": "neuralnetwork_pretrained.joblib",
+                "gradientboostingestimator": "gradientboosting_pretrained.joblib",
+                "cnnestimator": "cnn_pretrained.joblib",
+                "lstmestimator": "lstm_pretrained.joblib",
+                "gruestimator": "gru_pretrained.joblib",
+                "transformerestimator": "transformer_pretrained.joblib"
+            }
+            
+            filename = filename_mapping.get(class_name, f"{class_name}_pretrained.joblib")
+            
+            # Try multiple possible paths
             alternative_paths = [
-                f"lrdbench/models/pretrained_models/{self.__class__.__name__.lower()}_pretrained.joblib",
-                f"models/pretrained_models/{self.__class__.__name__.lower()}_pretrained.joblib",
-                f"saved_models/{self.__class__.__name__.lower()}_pretrained.joblib",
+                f"lrdbench/models/pretrained_models/{filename}",
+                f"../lrdbench/models/pretrained_models/{filename}",
+                f"../../lrdbench/models/pretrained_models/{filename}",
+                f"models/pretrained_models/{filename}",
+                f"saved_models/{filename}",
+                os.path.join(os.path.dirname(__file__), "..", "..", "..", "models", "pretrained_models", filename),
             ]
             
             for path in alternative_paths:
@@ -419,9 +437,6 @@ class BaseMLEstimator(ABC):
         str
             Path to the pretrained model file
         """
-        # Default path structure
-        model_dir = "lrdbench/models/pretrained_models"
-        
         # Handle specific filename mappings
         class_name = self.__class__.__name__.lower()
         
@@ -442,8 +457,24 @@ class BaseMLEstimator(ABC):
             filename = filename_mapping[class_name]
         else:
             filename = f"{class_name}_pretrained.joblib"
-            
-        return os.path.join(model_dir, filename)
+        
+        # Try multiple possible paths for the model directory
+        possible_model_dirs = [
+            "lrdbench/models/pretrained_models",  # From project root
+            "../lrdbench/models/pretrained_models",  # From web_dashboard directory
+            "../../lrdbench/models/pretrained_models",  # From deeper subdirectories
+            "models/pretrained_models",  # Relative to current directory
+            os.path.join(os.path.dirname(__file__), "..", "..", "..", "models", "pretrained_models"),  # From estimator location
+        ]
+        
+        # Return the first path that exists, or the default if none exist
+        for model_dir in possible_model_dirs:
+            full_path = os.path.join(model_dir, filename)
+            if os.path.exists(full_path):
+                return full_path
+        
+        # If none exist, return the default path
+        return os.path.join(possible_model_dirs[0], filename)
 
     def _create_heuristic_model(self) -> bool:
         """
