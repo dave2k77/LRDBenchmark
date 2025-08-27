@@ -250,7 +250,7 @@ with tab2:
         
         # Performance table
         df_performance = pd.DataFrame(st.session_state.performance_data)
-        st.dataframe(df_performance, width='stretch')
+        st.dataframe(df_performance)
         
         # Performance visualization
         col1, col2 = st.columns(2)

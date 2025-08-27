@@ -545,7 +545,7 @@ with tab2:
             
             # Performance table
             df_performance = pd.DataFrame(st.session_state.performance_data)
-            st.dataframe(df_performance, width='stretch')
+            st.dataframe(df_performance)
             
             # Performance visualization
             col1, col2 = st.columns(2)
@@ -823,7 +823,7 @@ with tab4:
         
         if results_data:
             df_results = pd.DataFrame(results_data)
-            st.dataframe(df_results, width='stretch')
+            st.dataframe(df_results)
             
             # Results visualization
             st.subheader("Results Visualization")
@@ -1067,7 +1067,7 @@ with tab5:
             
             if summary_data:
                 df_summary = pd.DataFrame(summary_data)
-                st.dataframe(df_summary, width='stretch')
+                st.dataframe(df_summary)
                 
                 # Robustness visualization
                 st.subheader("📈 Robustness Comparison")
