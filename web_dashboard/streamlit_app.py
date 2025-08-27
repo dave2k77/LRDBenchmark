@@ -418,7 +418,7 @@ with tab1:
             height=400,
             showlegend=True
         )
-        st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
         
         # Statistics
         col1, col2, col3, col4 = st.columns(4)
@@ -438,7 +438,7 @@ with tab1:
             title="Data Distribution",
             labels={'x': 'Value', 'y': 'Count'}
         )
-        st.plotly_chart(fig_hist, use_container_width=True)
+        st.plotly_chart(fig_hist, width='stretch')
 
 with tab2:
     st.header("🚀 Auto-Optimization System")
@@ -545,7 +545,7 @@ with tab2:
             
             # Performance table
             df_performance = pd.DataFrame(st.session_state.performance_data)
-            st.dataframe(df_performance, use_container_width=True)
+            st.dataframe(df_performance, width='stretch')
             
             # Performance visualization
             col1, col2 = st.columns(2)
@@ -565,7 +565,7 @@ with tab2:
                     }
                 )
                 fig_time.update_layout(height=400)
-                st.plotly_chart(fig_time, use_container_width=True)
+                st.plotly_chart(fig_time, width='stretch')
             
             with col2:
                 # Hurst parameter comparison
@@ -584,7 +584,7 @@ with tab2:
                 fig_hurst.add_hline(y=0.7, line_dash="dash", line_color="red", 
                                   annotation_text="True H = 0.7")
                 fig_hurst.update_layout(height=400)
-                st.plotly_chart(fig_hurst, use_container_width=True)
+                st.plotly_chart(fig_hurst, width='stretch')
             
             # Optimization distribution
             st.subheader("🎯 Optimization Strategy Distribution")
@@ -600,7 +600,7 @@ with tab2:
                     'Standard': '#2ca02c'
                 }
             )
-            st.plotly_chart(fig_pie, use_container_width=True)
+            st.plotly_chart(fig_pie, width='stretch')
             
             # Performance summary
             st.subheader("🏆 Performance Summary")
@@ -823,7 +823,7 @@ with tab4:
         
         if results_data:
             df_results = pd.DataFrame(results_data)
-            st.dataframe(df_results, use_container_width=True)
+            st.dataframe(df_results, width='stretch')
             
             # Results visualization
             st.subheader("Results Visualization")
@@ -859,7 +859,7 @@ with tab4:
                 height=400
             )
             
-            st.plotly_chart(fig_comparison, use_container_width=True)
+            st.plotly_chart(fig_comparison, width='stretch')
             
             # Error analysis
             st.subheader("Error Analysis")
@@ -871,7 +871,7 @@ with tab4:
                     title="Estimation Error by Estimator",
                     labels={'x': 'Estimator', 'y': 'Absolute Error'}
                 )
-                st.plotly_chart(fig_error, use_container_width=True)
+                st.plotly_chart(fig_error, width='stretch')
                 
                 # Best estimator
                 best_estimator_idx = np.argmin(valid_errors)
@@ -1067,7 +1067,7 @@ with tab5:
             
             if summary_data:
                 df_summary = pd.DataFrame(summary_data)
-                st.dataframe(df_summary, use_container_width=True)
+                st.dataframe(df_summary, width='stretch')
                 
                 # Robustness visualization
                 st.subheader("📈 Robustness Comparison")
@@ -1083,7 +1083,7 @@ with tab5:
                     aspect='auto'
                 )
                 fig_robustness.update_layout(height=400)
-                st.plotly_chart(fig_robustness, use_container_width=True)
+                st.plotly_chart(fig_robustness, width='stretch')
                 
                 # Best and worst performers
                 st.subheader("🏆 Performance Summary")

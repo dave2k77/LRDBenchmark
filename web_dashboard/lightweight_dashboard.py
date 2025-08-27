@@ -166,7 +166,7 @@ with tab1:
             height=400,
             showlegend=True
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
         # Statistics
         col1, col2, col3, col4 = st.columns(4)
@@ -186,7 +186,7 @@ with tab1:
             title="Data Distribution",
             labels={'x': 'Value', 'y': 'Count'}
         )
-        st.plotly_chart(fig_hist, use_container_width=True)
+        st.plotly_chart(fig_hist, width='stretch')
 
 with tab2:
     st.header("🚀 Auto-Optimization System Demo")
@@ -250,7 +250,7 @@ with tab2:
         
         # Performance table
         df_performance = pd.DataFrame(st.session_state.performance_data)
-        st.dataframe(df_performance, use_container_width=True)
+        st.dataframe(df_performance, width='stretch')
         
         # Performance visualization
         col1, col2 = st.columns(2)
@@ -270,7 +270,7 @@ with tab2:
                 }
             )
             fig_time.update_layout(height=400)
-            st.plotly_chart(fig_time, use_container_width=True)
+            st.plotly_chart(fig_time, width='stretch')
         
         with col2:
             # Hurst parameter comparison
@@ -289,7 +289,7 @@ with tab2:
             fig_hurst.add_hline(y=0.7, line_dash="dash", line_color="red", 
                               annotation_text="True H = 0.7")
             fig_hurst.update_layout(height=400)
-            st.plotly_chart(fig_hurst, use_container_width=True)
+            st.plotly_chart(fig_hurst, width='stretch')
         
         # Optimization distribution
         st.subheader("🎯 Optimization Strategy Distribution")
