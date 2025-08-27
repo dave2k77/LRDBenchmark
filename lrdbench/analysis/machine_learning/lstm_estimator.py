@@ -117,6 +117,23 @@ class LSTMEstimator(BaseMLEstimator):
         # Ensure shape (n_samples, seq_len)
         if X.ndim == 1:
             X = X.reshape(1, -1)
+        
+        # Handle different sequence lengths by resizing to a standard length
+        target_length = 500  # Standard length for pretrained models
+        
+        if X.shape[1] != target_length:
+            # Resize sequences to target length
+            resized_X = []
+            for seq in X:
+                if len(seq) > target_length:
+                    # Truncate if too long
+                    resized_seq = seq[:target_length]
+                else:
+                    # Pad with zeros if too short
+                    resized_seq = np.pad(seq, (0, target_length - len(seq)), 'constant')
+                resized_X.append(resized_seq)
+            X = np.array(resized_X)
+        
         # Fit/transform with StandardScaler across sequence positions
         if fit_scaler:
             X_scaled = self.scaler.fit_transform(X)
