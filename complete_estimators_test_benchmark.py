@@ -73,6 +73,16 @@ def test_imports():
         except ImportError:
             print("⚠️  Neural estimators not available")
         
+        # Test enhanced neural estimators
+        try:
+            from lrdbench.analysis.machine_learning.enhanced_cnn_estimator import EnhancedCNNEstimator
+            from lrdbench.analysis.machine_learning.enhanced_lstm_estimator import EnhancedLSTMEstimator
+            from lrdbench.analysis.machine_learning.enhanced_gru_estimator import EnhancedGRUEstimator
+            from lrdbench.analysis.machine_learning.enhanced_transformer_estimator import EnhancedTransformerEstimator
+            print("✅ Enhanced neural estimators imported successfully")
+        except ImportError:
+            print("⚠️  Enhanced neural estimators not available")
+        
         # Test benchmark system
         from lrdbench.analysis.benchmark import ComprehensiveBenchmark
         print("✅ Benchmark system imported successfully")
@@ -103,6 +113,22 @@ def test_individual_estimators():
     from lrdbench.analysis.wavelet.whittle.wavelet_whittle_estimator import WaveletWhittleEstimator
     from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
     
+    # Try to import enhanced estimators
+    enhanced_estimators = []
+    try:
+        from lrdbench.analysis.machine_learning.enhanced_cnn_estimator import EnhancedCNNEstimator
+        from lrdbench.analysis.machine_learning.enhanced_lstm_estimator import EnhancedLSTMEstimator
+        from lrdbench.analysis.machine_learning.enhanced_gru_estimator import EnhancedGRUEstimator
+        from lrdbench.analysis.machine_learning.enhanced_transformer_estimator import EnhancedTransformerEstimator
+        enhanced_estimators = [
+            ("Enhanced CNN", EnhancedCNNEstimator),
+            ("Enhanced LSTM", EnhancedLSTMEstimator),
+            ("Enhanced GRU", EnhancedGRUEstimator),
+            ("Enhanced Transformer", EnhancedTransformerEstimator),
+        ]
+    except ImportError:
+        print("   ⚠️  Enhanced estimators not available")
+    
     estimators_to_test = [
         ("R/S", RSEstimator),
         ("DFA", DFAEstimator),
@@ -116,7 +142,7 @@ def test_individual_estimators():
         ("Wavelet Log Variance", WaveletLogVarianceEstimator),
         ("Wavelet Whittle", WaveletWhittleEstimator),
         ("MFDFA", MFDFAEstimator),
-    ]
+    ] + enhanced_estimators
     
     results = {}
     

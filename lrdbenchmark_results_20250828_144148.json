@@ -1,0 +1,211 @@
+{
+  "timestamp": "2025-08-28T14:41:48.515521",
+  "model_type": "Fractional Brownian Motion (FBM)",
+  "true_H": 0.7,
+  "data_length": 1000,
+  "n_runs": 3,
+  "execution_time": 0.9015254974365234,
+  "benchmark_results": {
+    "timestamp": "2025-08-28T14:37:43.009835",
+    "data_length": 1000,
+    "true_H": 0.7,
+    "estimators_tested": [
+      "\ud83e\udd16 CNN",
+      "\ud83e\udd16 LSTM",
+      "\ud83e\udd16 GRU",
+      "\ud83e\udd16 Transformer",
+      "\ud83e\udd16 SVR",
+      "\ud83e\udd16 RandomForest",
+      "\ud83e\udd16 NeuralNetwork",
+      "\ud83e\udd16 GradientBoosting"
+    ],
+    "results": {
+      "\ud83e\udd16 CNN": {
+        "success": true,
+        "estimated_hurst": 0.4797278294734017,
+        "true_hurst": 0.7,
+        "error": 0.22027217052659825,
+        "execution_time": 0.00021505355834960938,
+        "full_result": {
+          "hurst_parameter": 0.4797278294734017,
+          "confidence_interval": [
+            0.2837278294734017,
+            0.6757278294734017
+          ],
+          "std_error": 0.1,
+          "method": "CNN (Statistical Fallback)",
+          "model_info": {
+            "model_type": "CNN1D",
+            "conv_channels": [
+              32,
+              64,
+              128
+            ],
+            "fc_layers": [
+              256,
+              128,
+              64
+            ],
+            "dropout_rate": 0.3
+          }
+        }
+      },
+      "\ud83e\udd16 LSTM": {
+        "success": true,
+        "estimated_hurst": 0.5253602524546955,
+        "true_hurst": 0.7,
+        "error": 0.17463974754530442,
+        "execution_time": 0.05788254737854004,
+        "full_result": {
+          "hurst_parameter": 0.5253602524546955,
+          "confidence_interval": [
+            0.47282422720922596,
+            0.577896277700165
+          ],
+          "r_squared": -26185440.0,
+          "p_value": null,
+          "method": "LSTMEstimator (Heuristic)",
+          "model_info": {
+            "model_type": "RandomForestRegressor",
+            "is_pretrained": false,
+            "feature_extraction": "statistical"
+          }
+        }
+      },
+      "\ud83e\udd16 GRU": {
+        "success": true,
+        "estimated_hurst": 0.5253602524546955,
+        "true_hurst": 0.7,
+        "error": 0.17463974754530442,
+        "execution_time": 0.06012439727783203,
+        "full_result": {
+          "hurst_parameter": 0.5253602524546955,
+          "confidence_interval": [
+            0.47282422720922596,
+            0.577896277700165
+          ],
+          "r_squared": -389166528.0,
+          "p_value": null,
+          "method": "GRUEstimator (Heuristic)",
+          "model_info": {
+            "model_type": "RandomForestRegressor",
+            "is_pretrained": false,
+            "feature_extraction": "statistical"
+          }
+        }
+      },
+      "\ud83e\udd16 Transformer": {
+        "success": true,
+        "estimated_hurst": 0.0,
+        "true_hurst": 0.7,
+        "error": 0.7,
+        "execution_time": 0.00045990943908691406,
+        "full_result": {
+          "hurst_parameter": 0.0,
+          "confidence_interval": [
+            0,
+            0.196
+          ],
+          "std_error": 0.1,
+          "method": "Transformer (Spectral Fallback)",
+          "model_info": {
+            "model_type": "TimeSeriesTransformer",
+            "d_model": 128,
+            "nhead": 8,
+            "num_layers": 6,
+            "dim_feedforward": 512,
+            "dropout": 0.1
+          }
+        }
+      },
+      "\ud83e\udd16 SVR": {
+        "success": true,
+        "estimated_hurst": 0.7246464741303339,
+        "true_hurst": 0.7,
+        "error": 0.02464647413033394,
+        "execution_time": 0.04795241355895996,
+        "full_result": {
+          "hurst_parameter": 0.7246464741303339,
+          "confidence_interval": [
+            0.6521818267173005,
+            0.7971111215433673
+          ],
+          "r_squared": null,
+          "p_value": null,
+          "method": "SVREstimator (ML)",
+          "model_info": {
+            "model_type": "SVR",
+            "is_pretrained": true,
+            "feature_extraction": "statistical"
+          }
+        }
+      },
+      "\ud83e\udd16 RandomForest": {
+        "success": true,
+        "estimated_hurst": 0.6981875960242161,
+        "true_hurst": 0.7,
+        "error": 0.0018124039757838606,
+        "execution_time": 0.1241445541381836,
+        "full_result": {
+          "hurst_parameter": 0.6981875960242161,
+          "confidence_interval": [
+            0.6283688364217945,
+            0.7680063556266377
+          ],
+          "r_squared": null,
+          "p_value": null,
+          "method": "RandomForestEstimator (ML)",
+          "model_info": {
+            "model_type": "RandomForestRegressor",
+            "is_pretrained": true,
+            "feature_extraction": "statistical"
+          }
+        }
+      },
+      "\ud83e\udd16 NeuralNetwork": {
+        "success": true,
+        "estimated_hurst": 0.7034618551683551,
+        "true_hurst": 0.7,
+        "error": 0.003461855168355177,
+        "execution_time": 0.04908323287963867,
+        "full_result": {
+          "hurst_parameter": 0.7034618551683551,
+          "confidence_interval": [
+            0.6331156696515197,
+            0.7738080406851906
+          ],
+          "r_squared": null,
+          "p_value": null,
+          "method": "NeuralNetworkEstimator (ML)",
+          "model_info": {
+            "model_type": "MLPRegressor",
+            "is_pretrained": true,
+            "feature_extraction": "statistical"
+          }
+        }
+      },
+      "\ud83e\udd16 GradientBoosting": {
+        "success": true,
+        "estimated_hurst": 0.6853898561417946,
+        "true_hurst": 0.7,
+        "error": 0.01461014385820536,
+        "execution_time": 0.050563812255859375,
+        "full_result": {
+          "hurst_parameter": 0.6853898561417946,
+          "confidence_interval": [
+            0.6168508705276151,
+            0.7539288417559741
+          ],
+          "r_squared": null,
+          "p_value": null,
+          "method": "GradientBoostingEstimator (ML)",
+          "model_info": {
+            "model_type": "GradientBoostingRegressor",
+            "is_pretrained": true,
+            "feature_extraction": "statistical"
+          }
+        }
+      }
+    }
+  }
+}
