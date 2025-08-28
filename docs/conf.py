@@ -43,6 +43,7 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinx.ext.autosummary',
     'sphinx.ext.extlinks',
+    'sphinx.ext.imgmath',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -323,13 +324,29 @@ autodoc_mock_imports = [
 
 # -- Project-specific settings ----------------------------------------------
 
-# MathJax configuration for better LaTeX rendering
-mathjax_config = {
-    'TeX': {
+# Math rendering configuration
+# Use modern math rendering with MathJax 3
+math_renderer = 'mathjax'
+mathjax_path = 'https://polyfill.io/v3/polyfill.min.js?features=es6'
+mathjax_options = {
+    'tex': {
+        'inlineMath': [['$', '$'], ['\\(', '\\)']],
+        'displayMath': [['$$', '$$'], ['\\[', '\\]']],
+        'processEscapes': True,
+        'processEnvironments': True,
         'equationNumbers': {'autoNumber': 'AMS'},
-        'extensions': ['AMSmath.js', 'AMSsymbols.js']
+        'extensions': ['AMSmath.js', 'AMSsymbols.js', 'noErrors.js', 'noUndefined.js']
+    },
+    'svg': {
+        'fontCache': 'global'
     }
 }
+
+# Additional math rendering options
+imgmath_image_format = 'svg'
+imgmath_font_size = 14
+imgmath_dvipng_args = ['-gamma', '1.5', '-D', '110', '-bg', 'Transparent']
+imgmath_latex_preamble = r'\usepackage{amsmath} \usepackage{amssymb} \usepackage{amsfonts}'
 
 # Add any custom CSS
 def setup(app):

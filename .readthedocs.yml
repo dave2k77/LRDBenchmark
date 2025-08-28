@@ -11,12 +11,25 @@ build:
   tools:
     python: "3.9"
 
-# Install only documentation dependencies (avoid heavy packages like torch, jax)
+# Install documentation dependencies and the package for proper API generation
 python:
   install:
     - requirements: docs/requirements.txt
+    - path: .
+  setup_py_install: true   # Install the package itself for proper API docs
+  pip_install: true        # Use pip install
 
 # Build PDFs and EPUB
 formats:
   - pdf
   - epub
+
+# Additional configuration for enhanced ML and neural network documentation
+# This ensures proper handling of complex imports and type hints
+
+# Environment variables for better documentation building
+environment:
+  PYTHONPATH: "."
+  SPHINX_DEBUG: "1"
+  SPHINX_MATH_RENDERER: "mathjax"
+  SPHINX_MATHJAX_CONFIG: "mathjax"

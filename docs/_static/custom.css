@@ -151,6 +151,46 @@
     margin: 20px 0;
 }
 
+/* Enhanced math rendering */
+.MathJax {
+    font-size: 110%;
+}
+
+.MathJax_Display {
+    text-align: center;
+    margin: 1em 0;
+}
+
+.MathJax_Display > .MathJax {
+    text-align: center;
+}
+
+/* Inline math */
+.math:not(.math-display) {
+    display: inline;
+    text-align: left;
+    margin: 0;
+}
+
+/* Display math */
+.math-display {
+    display: block;
+    text-align: center;
+    margin: 1em 0;
+}
+
+/* LaTeX equation styling */
+div.math {
+    text-align: center;
+    margin: 1em 0;
+}
+
+span.math {
+    display: inline;
+    text-align: left;
+    margin: 0;
+}
+
 /* Image styling */
 img {
     max-width: 100%;
