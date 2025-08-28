@@ -657,8 +657,13 @@ with tab3:
                                 'results': {}
                             }
                             
+                            # Debug: Print selected estimators
+                            st.write(f"🔍 Debug: Selected estimators: {estimators}")
+                            st.write(f"🔍 Debug: Number of estimators: {len(estimators)}")
+                            
                             # Test each selected estimator
                             for estimator_name in estimators:
+                                st.write(f"🔍 Debug: Processing estimator: {estimator_name}")
                                 try:
                                     # Import and create estimator
                                     if estimator_name == "DFA":
