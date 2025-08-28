@@ -11,6 +11,7 @@ from scipy import stats
 from typing import Dict, Any, List, Tuple, Optional
 import sys
 import os
+import warnings
 
 # Try to import NUMBA, fall back gracefully if not available
 try:
@@ -137,101 +138,177 @@ class NumbaOptimizedHiguchiEstimator(BaseEstimator):
         dict
             Dictionary containing estimation results
         """
+        if len(data) < 10:
+            raise ValueError("Data length must be at least 10 for Higuchi method")
+
         n = len(data)
-
-        # Determine k values
-        if self.parameters["k_values"] is not None:
-            k_values = np.array(self.parameters["k_values"], dtype=np.int32)
-        else:
-            min_k = self.parameters["min_k"]
-            max_k = self.parameters["max_k"] or n // 2
-
-            # Create k values with approximately equal spacing in log space
-            k_values = np.unique(
-                np.logspace(
-                    np.log10(min_k),
-                    np.log10(max_k),
-                    num=min(20, max_k - min_k + 1),
-                    dtype=int,
-                )
-            ).astype(np.int32)
-
-        # Use NUMBA-optimized calculation if available
-        if NUMBA_AVAILABLE:
-            l_values = _numba_calculate_higuchi_dimension(data, k_values)
-        else:
-            # Fallback to standard implementation
-            l_values = self._calculate_higuchi_dimension_standard(data, k_values)
-
-        # Filter out non-positive or non-finite L values
-        valid_mask = np.isfinite(l_values) & (l_values > 0)
-        valid_k_values = k_values[valid_mask]
-        valid_l_values = l_values[valid_mask]
-
-        if len(valid_l_values) < 3:
-            raise ValueError("Insufficient valid data points for Higuchi analysis")
-
-        # Linear regression in log-log space
-        log_k = np.log(valid_k_values.astype(float))
-        log_l = np.log(valid_l_values.astype(float))
-
-        slope, intercept, r_value, p_value, std_err = stats.linregress(
-            log_k, log_l
+        
+        # Step 1: Calculate the mean and create Y vector (cumulative sum of differences)
+        X_mean = np.mean(data)
+        Y = np.zeros(n)
+        for i in range(n):
+            Y[i] = np.sum(data[:i+1] - X_mean)
+        
+        # Step 2: Generate k values according to the research paper algorithm
+        k_values = []
+        n_k = 10  # Number of k values as specified in the paper
+        
+        for idx in range(1, n_k + 1):
+            if idx > 4:
+                # For idx > 4: m = floor(2^(idx+5)/4)
+                m = int(2**((idx + 5) / 4))
+            else:
+                # For idx <= 4: m = idx
+                m = idx
+            
+            # Ensure m is not too large
+            if m >= n // 2:
+                break
+                
+            k_values.append(m)
+        
+        if len(k_values) < 3:
+            raise ValueError("Insufficient k values generated for Higuchi analysis")
+        
+        # Step 3: Calculate curve lengths for each k value
+        curve_lengths = []
+        for k in k_values:
+            try:
+                length = self._calculate_curve_length_higuchi(Y, k)
+                if np.isfinite(length) and length > 0:
+                    curve_lengths.append(length)
+                else:
+                    curve_lengths.append(np.nan)
+            except Exception:
+                curve_lengths.append(np.nan)
+        
+        # Step 4: Calculate normalized statistics S according to the paper
+        S_values = []
+        for i, k in enumerate(k_values):
+            if i < len(curve_lengths) and np.isfinite(curve_lengths[i]):
+                # S_idx = (N-1) * L_k / m² (equation 51-52 from the paper)
+                S = (n - 1) * curve_lengths[i] / (k * k)
+                S_values.append(S)
+            else:
+                S_values.append(np.nan)
+        
+        # Step 5: Filter valid points and perform linear regression
+        S_values = np.array(S_values)
+        k_values = np.array(k_values)
+        valid_mask = (
+            np.isfinite(S_values)
+            & (S_values > 0)
+            & np.isfinite(k_values)
+            & (k_values > 1)
         )
-
-        # Hurst parameter is related to the slope
-        # For Higuchi method: H = 2 - slope
-        H = 2 - slope
-
+        valid_k = np.array(k_values)[valid_mask]
+        valid_S = np.array(S_values)[valid_mask]
+        
+        if len(valid_S) < 3:
+            raise ValueError(
+                f"Insufficient valid Higuchi points (need >=3, got {len(valid_S)})"
+            )
+        
+        # Step 6: Linear regression in log-log space
+        log_k = np.log(valid_k.astype(float))
+        log_S = np.log(valid_S.astype(float))
+        
+        slope, intercept, r_value, p_value, std_err = stats.linregress(
+            log_k, log_S
+        )
+        
+        # Step 7: Calculate Hurst parameter according to the paper
+        # From the paper: H = β_HM + 2 where β_HM is the slope
+        # This means: H = slope + 2
+        H = slope + 2
+        
+        # Validate Hurst parameter range
+        if H < -0.5 or H > 1.5:
+            warnings.warn(f"Estimated Hurst parameter H={H:.6f} is outside typical range [-0.5, 1.5]")
+        
+        # Ensure H is within reasonable bounds
+        H = np.clip(H, -1.0, 2.0)
+        
+        # Calculate confidence interval
+        n_points = len(valid_S)
+        t_critical = stats.t.ppf(0.975, n_points - 2)  # 95% CI
+        ci_lower = H - t_critical * std_err
+        ci_upper = H + t_critical * std_err
+        
         # Store results
         self.results = {
             "hurst_parameter": H,
+            "slope": slope,
             "intercept": intercept,
             "r_squared": r_value**2,
             "p_value": p_value,
             "std_error": std_err,
-            "k_values": valid_k_values.tolist(),
-            "l_values": valid_l_values.tolist(),
+            "confidence_interval": (ci_lower, ci_upper),
+            "k_values": valid_k.tolist(),
+            "curve_lengths": [curve_lengths[i] for i in range(len(k_values)) if valid_mask[i]],
+            "S_values": valid_S.tolist(),
             "log_k": log_k,
-            "log_l": log_l,
-            "slope": slope,
-            "n_points": len(valid_l_values),
+            "log_S": log_S,
+            "n_points": len(valid_S),
+            "method": "Higuchi NUMBA-Optimized (Research Paper Implementation)"
         }
-
+        
         return self.results
 
-    def _calculate_higuchi_dimension_standard(self, data: np.ndarray, k_values: np.ndarray) -> np.ndarray:
+    def _calculate_curve_length_higuchi(self, Y: np.ndarray, k: int) -> float:
         """
-        Standard Higuchi dimension calculation (fallback when NUMBA is not available).
+        Calculate curve length using the correct Higuchi method from the research paper.
+        
+        Parameters
+        ----------
+        Y : np.ndarray
+            Cumulative sum vector Y
+        k : int
+            Time interval k
+            
+        Returns
+        -------
+        float
+            Average curve length L_k
         """
-        n = len(data)
-        l_values = np.full(len(k_values), np.nan)
+        n = len(Y)
         
-        for i, k in enumerate(k_values):
-            if k > n:
-                continue
-                
-            # Calculate L(k)
-            l_sum = 0.0
-            count = 0
-            
-            for m in range(k):
-                # Calculate sum for this m
-                sum_val = 0.0
-                for j in range(1, int((n - m) / k)):
-                    idx1 = m + (j - 1) * k
-                    idx2 = m + j * k
-                    if idx2 < n:
-                        sum_val += abs(data[idx2] - data[idx1])
-                
-                if sum_val > 0:
-                    l_sum += sum_val
-                    count += 1
-            
-            if count > 0:
-                l_values[i] = l_sum / count
+        # Calculate k segments: k = floor(N/m) where m is the time interval
+        num_segments = n // k
         
-        return l_values
+        if num_segments < 2:
+            return np.nan
+        
+        # Calculate L_k according to the paper:
+        # L_k = average over i of (average over j of |Y_{j+m} - Y_j|)
+        # where i ranges from 1 to k-1, and j ranges from (i-1)*m+1 to i*m
+        
+        total_length = 0.0
+        valid_segments = 0
+        
+        for i in range(1, num_segments):
+            # For segment i, calculate average of |Y_{j+k} - Y_j|
+            segment_length = 0.0
+            segment_count = 0
+            
+            start_idx = (i - 1) * k
+            end_idx = i * k
+            
+            for j in range(start_idx, end_idx):
+                if j + k < n:
+                    diff = abs(Y[j + k] - Y[j])
+                    segment_length += diff
+                    segment_count += 1
+            
+            if segment_count > 0:
+                segment_length /= segment_count
+                total_length += segment_length
+                valid_segments += 1
+        
+        if valid_segments == 0:
+            return np.nan
+        
+        return total_length / valid_segments
 
 
 def benchmark_higuchi_performance():

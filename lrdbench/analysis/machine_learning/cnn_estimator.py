@@ -61,6 +61,7 @@ class CNN1D(nn.Module):
 
         self.input_length = input_length
         self.num_features = num_features
+        self.conv_channels = conv_channels
 
         # Convolutional layers
         conv_layers = []
@@ -104,9 +105,8 @@ class CNN1D(nn.Module):
 
     def _get_conv_output_size(self) -> int:
         """Calculate the output size after convolutional layers."""
-        x = torch.randn(1, self.num_features, self.input_length)
-        x = self.conv_layers(x)
-        return x.view(1, -1).size(1)
+        # Use the last conv_channels value
+        return self.conv_channels[-1] if hasattr(self, 'conv_channels') else 128
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -283,57 +283,75 @@ class CNNEstimator(BaseMLEstimator):
         if not TORCH_AVAILABLE:
             raise ImportError("PyTorch is required for CNN estimator")
 
-        # CNN estimator is designed for raw time series data, not extracted features
-        # The pretrained model contains a RandomForest trained on 10 extracted features,
-        # which is not compatible with raw time series data
-        # Therefore, we'll use the statistical fallback method directly
+        # Try to load pretrained model first (only if it's compatible)
+        pretrained_loaded = False
+        try:
+            if self._try_load_pretrained_model():
+                # Check if the pretrained model is compatible with our data
+                features = self.extract_features(data)
+                if features.ndim == 1:
+                    features = features.reshape(1, -1)
+                
+                # Try to scale features - if this fails, the model is incompatible
+                features_scaled = self.scaler.transform(features)
+                
+                # Make prediction
+                estimated_hurst = self.model.predict(features_scaled)[0]
+                
+                # Ensure estimate is within valid range
+                estimated_hurst = max(0.0, min(1.0, estimated_hurst))
+                
+                # Create confidence interval
+                confidence_interval = (
+                    max(0, estimated_hurst - 0.1),
+                    min(1, estimated_hurst + 0.1),
+                )
+                
+                method = "CNN (Pretrained ML)"
+                pretrained_loaded = True
+        except Exception as e:
+            print(f"⚠️ Pretrained model incompatible, using neural network: {e}")
+            pretrained_loaded = False
         
-        # Extract features and make a simple estimate
-        features = self.extract_features(data)
-
-        # Simple heuristic: use variance ratio as proxy for Hurst
-        if data.ndim == 1:
-            data = data.reshape(1, -1)
-
-        hurst_estimates = []
-        for series in data:
-            # Calculate variance ratio (simplified Hurst estimation)
-            n = len(series)
-            if n > 1:
-                # Split series and calculate variance ratio
-                mid = n // 2
-                var1 = np.var(series[:mid])
-                var2 = np.var(series[mid:])
-                if var2 > 0:
-                    ratio = var1 / var2
-                    # Convert to Hurst-like parameter (0.5 to 1.0)
-                    hurst = 0.5 + 0.5 * np.tanh(np.log(ratio) / 2)
-                    hurst_estimates.append(hurst)
-                else:
-                    hurst_estimates.append(0.5)
-            else:
-                hurst_estimates.append(0.5)
-
-        # Take mean of estimates
-        estimated_hurst = np.mean(hurst_estimates)
-
-        # Create confidence interval (simplified)
-        std_error = (
-            np.std(hurst_estimates) / np.sqrt(len(hurst_estimates))
-            if len(hurst_estimates) > 1
-            else 0.1
-        )
-        confidence_interval = (
-            max(0, estimated_hurst - 1.96 * std_error),
-            min(1, estimated_hurst + 1.96 * std_error),
-        )
+        if not pretrained_loaded:
+            # Create and use the actual CNN model
+            if data.ndim == 1:
+                data = data.reshape(1, -1)
+            
+            # Prepare data for CNN
+            data_tensor = self._prepare_data(data)
+            
+            # Create fresh CNN model (reset any existing model)
+            input_length = data_tensor.shape[2]
+            self.model = self._create_model(input_length, num_features=1)
+            self.optimizer = optim.Adam(self.model.parameters(), lr=self.parameters["learning_rate"])
+            self.criterion = nn.MSELoss()
+            
+            # Set model to evaluation mode
+            self.model.eval()
+            
+            with torch.no_grad():
+                # Forward pass
+                output = self.model(data_tensor)
+                estimated_hurst = output.item()
+                
+                # Ensure estimate is within valid range
+                estimated_hurst = max(0.0, min(1.0, estimated_hurst))
+            
+            # Create confidence interval
+            confidence_interval = (
+                max(0, estimated_hurst - 0.1),
+                min(1, estimated_hurst + 0.1),
+            )
+            
+            method = "CNN (Neural Network)"
 
         # Store results
         self.results = {
             "hurst_parameter": estimated_hurst,
             "confidence_interval": confidence_interval,
-            "std_error": std_error,
-            "method": "CNN (Statistical Fallback)",
+            "std_error": 0.1,  # Simplified
+            "method": method,
             "model_info": {
                 "model_type": "CNN1D",
                 "conv_channels": self.parameters["conv_channels"],

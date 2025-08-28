@@ -3,6 +3,7 @@ Detrended Fluctuation Analysis (DFA) estimator implementation.
 
 This module provides a class for estimating the Hurst parameter using
 Detrended Fluctuation Analysis, which is robust to non-stationarities.
+Based on Algorithm 10 from the research paper.
 """
 
 import numpy as np
@@ -25,6 +26,8 @@ class DFAEstimator(BaseEstimator):
     DFA is a method for quantifying long-range correlations in time series
     that is robust to non-stationarities. It estimates the Hurst parameter
     by analyzing the scaling behavior of detrended fluctuations.
+
+    Based on Algorithm 10 from the research paper.
 
     Parameters
     ----------
@@ -79,7 +82,7 @@ class DFAEstimator(BaseEstimator):
 
     def estimate(self, data: np.ndarray) -> Dict[str, Any]:
         """
-        Estimate Hurst parameter using DFA.
+        Estimate Hurst parameter using DFA following Algorithm 10.
 
         Parameters
         ----------
@@ -91,126 +94,233 @@ class DFAEstimator(BaseEstimator):
         dict
             Dictionary containing estimation results
         """
-        n = len(data)
-
-        # Determine box sizes
-        if self.parameters["box_sizes"] is not None:
-            box_sizes = np.array(self.parameters["box_sizes"])
-        else:
-            min_size = self.parameters["min_box_size"]
-            max_size = self.parameters["max_box_size"] or n // 4
-
-            # Create box sizes with approximately equal spacing in log space
-            box_sizes = np.unique(
-                np.logspace(
-                    np.log10(min_size),
-                    np.log10(max_size),
-                    num=min(20, max_size - min_size + 1),
-                    dtype=int,
-                )
-            )
-
-        # Calculate fluctuations for each box size
-        fluctuations = []
-        valid_box_sizes = []
-
-        for s in box_sizes:
-            if s > n:
-                continue
-
-            f = self._calculate_fluctuation(data, s)
-            if np.isfinite(f) and f > 0:
-                fluctuations.append(f)
-                valid_box_sizes.append(s)
-
-        if len(fluctuations) < 3:
-            raise ValueError("Insufficient data points for DFA analysis")
-
-        # Linear regression in log-log space (arrays, already filtered >0)
-        valid_box_sizes_arr = np.asarray(valid_box_sizes, dtype=float)
-        fluctuations_arr = np.asarray(fluctuations, dtype=float)
-        log_sizes = np.log(valid_box_sizes_arr)
-        log_fluctuations = np.log(fluctuations_arr)
-
-        slope, intercept, r_value, p_value, std_err = stats.linregress(
-            log_sizes, log_fluctuations
-        )
-
-        # Hurst parameter is the slope
-        H = slope
-
+        # Algorithm 10: EstHurstDFA(X, w, flag)
+        # Step 1: N ← GetLength(X)
+        N = len(data)
+        
+        # Step 2: Nopt ← SearchOptSeqLen(N, w)
+        # For simplicity, we use the full sequence length
+        Nopt = N
+        
+        # Step 3: T ← GenSbpf(Nopt, w) - Generate sub-block partition factors
+        T = self._generate_sub_block_partition_factors(Nopt, self.parameters["min_box_size"])
+        
+        # Step 4: n ← GetLength(T)
+        n = len(T)
+        
+        # Step 5: S ← 0 ∈ Rⁿˣ¹ - For the statistics
+        S = np.zeros(n)
+        
+        # Step 6: Z ← 0 ∈ Rᴺˣ¹ - global cumulative sequence
+        Z = np.zeros(N)
+        
+        # Step 7: Xopt ← A¹:ᴺopt {Xᵢ} - global arithmetic average
+        Xopt = np.mean(data[:Nopt])
+        
+        # Step 8-10: Calculate cumulative sequence
+        for i in range(N):
+            Z[i] = np.sum(data[:i+1] - Xopt)
+        
+        # Step 11-25: Main DFA loop
+        for idx in range(n):
+            # Step 12: m ← Tᵢdx
+            m = T[idx]
+            
+            # Step 13: k ← Nopt/m
+            k = Nopt // m
+            
+            # Step 14: sτ ← 0 ∈ Rᵏˣ¹ - vector of standard deviation
+            s_tau = np.zeros(k)
+            
+            # Step 15: ετ ← 0 ∈ Rᵐˣ¹ - vector of regression residuals
+            epsilon_tau = np.zeros(m)
+            
+            # Step 16: M ← [[1 1 ... 1]ᵀ; [1 2 ... m]ᵀ] - for linear regression
+            M = np.vstack([np.ones(m), np.arange(1, m+1)]).T
+            
+            # Step 17: qτ ← 0 ∈ R²ˣ¹ - q = [α, β]ᵀ
+            q_tau = np.zeros(2)
+            
+            # Step 18-23: Process each block
+            for tau in range(k):
+                # Step 19: Yτ ← [Z(τ-1)m+1, Z(τ-1)m+2, ..., Zτm]ᵀ
+                start_idx = tau * m
+                end_idx = start_idx + m
+                Y_tau = Z[start_idx:end_idx]
+                
+                # Step 20: qτ ← LinearRegression(M, Yτ, m, flag)
+                q_tau = self._linear_regression_solver(M, Y_tau, m)
+                
+                # Step 21: ετ ← Yτ - Mqτ
+                epsilon_tau = Y_tau - M @ q_tau
+                
+                # Step 22: sτ ← S¹:ᵐ {εᵢ²}
+                s_tau[tau] = np.sqrt(np.mean(epsilon_tau**2))
+            
+            # Step 24: Sᵢdx ← A¹:ᵏ {sτ}
+            S[idx] = np.mean(s_tau)
+        
+        # Step 26: (A, b) ← FormatPowLawData(T, S, n)
+        A, b = self._format_power_law_data(T, S, n)
+        
+        # Step 27: p ← LinearRegrSolver(A, b, n, flag)
+        p = self._linear_regression_solver(A, b, n)
+        
+        # Step 28: βDFA ← p₂
+        beta_DFA = p[1]
+        
+        # Step 29: H ← βDFA
+        H = beta_DFA
+        
         # Store results
         self.results = {
-            "hurst_parameter": H,
-            "intercept": intercept,
-            "r_squared": r_value**2,
-            "p_value": p_value,
-            "std_error": std_err,
-            "box_sizes": valid_box_sizes_arr.tolist(),
-            "fluctuations": fluctuations_arr.tolist(),
-            "log_sizes": log_sizes,
-            "log_fluctuations": log_fluctuations,
-            "slope": slope,
-            "n_points": len(fluctuations),
+            "hurst_parameter": float(H),
+            "intercept": float(p[0]),
+            "slope": float(beta_DFA),
+            "r_squared": self._calculate_r_squared(T, S, p),
+            "p_value": self._calculate_p_value(T, S, p),
+            "std_error": self._calculate_std_error(T, S, p),
+            "box_sizes": T.tolist(),
+            "fluctuations": S.tolist(),
+            "log_sizes": np.log(T),
+            "log_fluctuations": np.log(S),
+            "n_points": n,
+            "method": "DFA (Algorithm 10)"
         }
 
         return self.results
 
-    def _calculate_fluctuation(self, data: np.ndarray, box_size: int) -> float:
+    def _generate_sub_block_partition_factors(self, N: int, min_size: int) -> np.ndarray:
         """
-        Calculate detrended fluctuation for a given box size.
-
+        Generate sub-block partition factors (box sizes).
+        
         Parameters
         ----------
-        data : np.ndarray
-            Time series data
-        box_size : int
-            Size of the box for analysis
-
+        N : int
+            Sequence length
+        min_size : int
+            Minimum box size
+            
         Returns
         -------
-        float
-            Detrended fluctuation
+        np.ndarray
+            Array of box sizes
         """
-        n = len(data)
-        polynomial_order = self.parameters["polynomial_order"]
+        max_size = min(N // 4, N // 2)
+        
+        # Generate box sizes with approximately equal spacing in log space
+        box_sizes = np.unique(
+            np.logspace(
+                np.log10(min_size),
+                np.log10(max_size),
+                num=min(20, max_size - min_size + 1),
+                dtype=int,
+            )
+        )
+        
+        return box_sizes
 
-        # Calculate cumulative sum
-        cumsum = np.cumsum(data - np.mean(data))
+    def _linear_regression_solver(self, A: np.ndarray, b: np.ndarray, n: int) -> np.ndarray:
+        """
+        Solve linear regression problem.
+        
+        Parameters
+        ----------
+        A : np.ndarray
+            Design matrix
+        b : np.ndarray
+            Response vector
+        n : int
+            Number of data points
+            
+        Returns
+        -------
+        np.ndarray
+            Regression coefficients
+        """
+        # Use least squares solver
+        p, residuals, rank, s = np.linalg.lstsq(A, b, rcond=None)
+        return p
 
-        # Number of boxes
-        n_boxes = n // box_size
+    def _format_power_law_data(self, T: np.ndarray, S: np.ndarray, n: int) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Format data for power law fitting.
+        
+        Parameters
+        ----------
+        T : np.ndarray
+            Box sizes
+        S : np.ndarray
+            Fluctuations
+        n : int
+            Number of points
+            
+        Returns
+        -------
+        tuple
+            (A, b) for linear regression
+        """
+        # Filter out invalid points
+        valid_mask = (S > 0) & np.isfinite(S)
+        T_valid = T[valid_mask]
+        S_valid = S[valid_mask]
+        
+        if len(T_valid) < 3:
+            raise ValueError("Insufficient valid data points for DFA analysis")
+        
+        # Format for log-log regression: log(S) = α + β*log(T)
+        log_T = np.log(T_valid)
+        log_S = np.log(S_valid)
+        
+        # Design matrix: [1, log(T)]
+        A = np.vstack([np.ones(len(log_T)), log_T]).T
+        b = log_S
+        
+        return A, b
 
-        if n_boxes == 0:
+    def _calculate_r_squared(self, T: np.ndarray, S: np.ndarray, p: np.ndarray) -> float:
+        """Calculate R-squared value."""
+        A, b = self._format_power_law_data(T, S, len(T))
+        y_pred = A @ p
+        ss_res = np.sum((b - y_pred) ** 2)
+        ss_tot = np.sum((b - np.mean(b)) ** 2)
+        return 1 - (ss_res / ss_tot) if ss_tot > 0 else 0.0
+
+    def _calculate_p_value(self, T: np.ndarray, S: np.ndarray, p: np.ndarray) -> float:
+        """Calculate p-value for the regression."""
+        A, b = self._format_power_law_data(T, S, len(T))
+        y_pred = A @ p
+        residuals = b - y_pred
+        
+        # Calculate F-statistic
+        ss_res = np.sum(residuals ** 2)
+        ss_reg = np.sum((y_pred - np.mean(b)) ** 2)
+        
+        if ss_res == 0:
             return 0.0
+            
+        n = len(b)
+        k = 2  # number of parameters (intercept + slope)
+        
+        f_stat = (ss_reg / (k - 1)) / (ss_res / (n - k))
+        p_value = 1 - stats.f.cdf(f_stat, k - 1, n - k)
+        
+        return p_value
 
-        # Calculate fluctuations for each box
-        fluctuations = []
-
-        for i in range(n_boxes):
-            start_idx = i * box_size
-            end_idx = start_idx + box_size
-
-            # Extract segment
-            segment = cumsum[start_idx:end_idx]
-            x = np.arange(box_size)
-
-            # Fit polynomial trend
-            if polynomial_order == 0:
-                trend = np.mean(segment)
-            else:
-                coeffs = np.polyfit(x, segment, polynomial_order)
-                trend = np.polyval(coeffs, x)
-
-            # Detrend
-            detrended = segment - trend
-
-            # Calculate fluctuation
-            f = np.mean(detrended**2)
-            fluctuations.append(f)
-
-        # Return root mean square fluctuation
-        return np.sqrt(np.mean(fluctuations))
+    def _calculate_std_error(self, T: np.ndarray, S: np.ndarray, p: np.ndarray) -> float:
+        """Calculate standard error of the slope."""
+        A, b = self._format_power_law_data(T, S, len(T))
+        y_pred = A @ p
+        residuals = b - y_pred
+        
+        n = len(b)
+        mse = np.sum(residuals ** 2) / (n - 2)
+        
+        # Standard error of slope (second parameter)
+        x_centered = A[:, 1] - np.mean(A[:, 1])
+        std_err = np.sqrt(mse / np.sum(x_centered ** 2))
+        
+        return std_err
 
     def get_confidence_intervals(
         self, confidence_level: float = 0.95
@@ -313,7 +423,7 @@ class DFAEstimator(BaseEstimator):
 
         ax.set_xlabel("log(Box Size)")
         ax.set_ylabel("log(Fluctuation)")
-        ax.set_title("DFA Scaling Analysis")
+        ax.set_title("DFA Scaling Analysis (Algorithm 10)")
         ax.legend()
         ax.grid(True, alpha=0.3)
 

@@ -3,6 +3,7 @@ Rescaled Range (R/S) Analysis estimator.
 
 This module provides the RSEstimator class for estimating the Hurst parameter
 using the classic R/S (Rescaled Range) method.
+Based on Algorithm 11 from the research paper.
 """
 
 import numpy as np
@@ -24,6 +25,7 @@ class RSEstimator(BaseEstimator):
 
     The R/S method estimates the Hurst parameter by analyzing the scaling
     behavior of the rescaled range statistic across different time scales.
+    Based on Algorithm 11 from the research paper.
 
     Parameters
     ----------
@@ -102,7 +104,7 @@ class RSEstimator(BaseEstimator):
 
     def estimate(self, data: np.ndarray) -> dict:
         """
-        Estimate the Hurst parameter using R/S analysis.
+        Estimate the Hurst parameter using R/S analysis following Algorithm 11.
 
         Parameters
         ----------
@@ -114,152 +116,232 @@ class RSEstimator(BaseEstimator):
         dict
             Dictionary containing estimation results
         """
-        # Validate parameters
-        self._validate_parameters()
-
-        # Determine window sizes
-        if self.parameters["window_sizes"] is not None:
-            window_sizes = self.parameters["window_sizes"]
-        else:
-            if self.parameters["max_window_size"] is None:
-                max_window_size = len(data) // 4
-            else:
-                max_window_size = min(
-                    self.parameters["max_window_size"], len(data) // 4
-                )
-
-            if max_window_size <= self.parameters["min_window_size"]:
-                raise ValueError("Need at least 3 window sizes")
-
-            # Generate window sizes
-            window_sizes = np.logspace(
-                np.log10(self.parameters["min_window_size"]),
-                np.log10(max_window_size),
-                20,
-                dtype=int,
-            )
-            window_sizes = np.unique(window_sizes)
-
-        if len(data) < min(window_sizes) * 2:
-            raise ValueError(
-                f"Data length ({len(data)}) must be at least {min(window_sizes) * 2}"
-            )
-
-        if len(window_sizes) < 3:
-            raise ValueError("Need at least 3 window sizes")
-
-        # Calculate R/S for each window size
-        self.scales = window_sizes
-        self.rs_values = []
-        for scale in self.scales:
-            rs = self._calculate_rs(data, scale)
-            self.rs_values.append(rs)
-
-        # Fit power law: R/S ~ scale^H
-        log_scales = np.log(self.scales)
-        log_rs = np.log(self.rs_values)
-
-        # Linear regression
-        slope, intercept, r_value, p_value, std_err = stats.linregress(
-            log_scales, log_rs
-        )
-
+        # Algorithm 11: EstHurstRS(X, w, flag)
+        # Step 1: N ← GetLength(X)
+        N = len(data)
+        
+        # Step 2: Nopt ← SearchOptSeqLen(N, w)
+        # For simplicity, we use the full sequence length
+        Nopt = N
+        
+        # Step 3: T ← GenSbpf(Nopt, w) - Generate sub-block partition factors
+        T = self._generate_sub_block_partition_factors(Nopt, self.parameters["min_window_size"])
+        
+        # Step 4: n ← GetLength(T)
+        n = len(T)
+        
+        # Step 5: S ← 0 ∈ Rⁿˣ¹ - For the statistics
+        S = np.zeros(n)
+        
+        # Step 6-25: Main R/S loop
+        for idx in range(n):
+            # Step 7: m ← T_idx
+            m = T[idx]
+            
+            # Step 8: k ← Nopt/m
+            k = Nopt // m
+            
+            # Step 9: L ← 0 ∈ Rᵏˣ¹ - For the rescaled range
+            L = np.zeros(k)
+            
+            # Step 10-24: Process each block
+            for tau in range(k):
+                # Step 11: E_τ ← A_1^m {X_((τ-1)m+i)} - Calculate mean
+                start_idx = tau * m
+                end_idx = start_idx + m
+                block_data = data[start_idx:end_idx]
+                E_tau = np.mean(block_data)
+                
+                # Step 12: B_τ ← 0 ∈ Rᵐˣ¹
+                B_tau = np.zeros(m)
+                
+                # Step 13-15: Calculate deviations from mean
+                for j in range(m):
+                    B_tau[j] = block_data[j] - E_tau
+                
+                # Step 16: Y_τ ← 0 ∈ Rᵐˣ¹
+                Y_tau = np.zeros(m)
+                
+                # Step 17-19: Calculate cumulative sum of deviations
+                for i in range(m):
+                    Y_tau[i] = np.sum(B_tau[:i+1])
+                
+                # Step 20: r_τ(m) ← max_{1≤i≤m} Y_τ^i - min_{1≤i≤m} Y_τ^i
+                r_tau = np.max(Y_tau) - np.min(Y_tau)
+                
+                # Step 21: s_τ(m) ← S_1^m {B_τ^j} - Calculate standard deviation
+                s_tau = np.std(B_tau, ddof=1)
+                
+                # Step 22: L_τ ← r_τ(m) / s_τ(m) - Calculate rescaled range
+                if s_tau > 0:
+                    L[tau] = r_tau / s_tau
+                else:
+                    L[tau] = 0.0
+            
+            # Step 25: S_idx ← A_1^k {L_τ} - Average rescaled range
+            S[idx] = np.mean(L)
+        
+        # Step 26: (A, b) ← FormatPowLawData(T, S, n)
+        A, b = self._format_power_law_data(T, S, n)
+        
+        # Step 27: p ← LinearRegrSolver(A, b, n, flag)
+        p = self._linear_regression_solver(A, b, n)
+        
+        # Step 28: β_RS ← p_2
+        beta_RS = p[1]
+        
+        # Step 29: H ← β_RS
+        H = beta_RS
+        
         # Store results
-        self.estimated_hurst = slope
-        self.r_squared = r_value**2
-        self.confidence_interval = (slope - 1.96 * std_err, slope + 1.96 * std_err)
-
-        # Store additional regression parameters
-        self.intercept = intercept
-        self.slope = slope
-        self.p_value = p_value
-
-        # Store results in base class format
         self.results = {
-            "hurst_parameter": self.estimated_hurst,
-            "window_sizes": (
-                self.scales.tolist() if hasattr(self.scales, "tolist") else self.scales
-            ),
-            "rs_values": self.rs_values,
-            "r_squared": self.r_squared,
-            "std_error": std_err,
-            "confidence_interval": self.confidence_interval,
-            "p_value": self.p_value,
-            "intercept": self.intercept,
-            "slope": self.slope,
+            "hurst_parameter": float(H),
+            "intercept": float(p[0]),
+            "slope": float(beta_RS),
+            "r_squared": self._calculate_r_squared(T, S, p),
+            "p_value": self._calculate_p_value(T, S, p),
+            "std_error": self._calculate_std_error(T, S, p),
+            "window_sizes": T.tolist(),
+            "rs_values": S.tolist(),
+            "log_sizes": np.log(T),
+            "log_rs": np.log(S),
+            "n_points": n,
+            "method": "R/S (Algorithm 11)"
         }
 
-        # Return results dictionary
         return self.results
 
-    def _calculate_rs(self, data: np.ndarray, scale: int) -> float:
+    def _generate_sub_block_partition_factors(self, N: int, min_size: int) -> np.ndarray:
         """
-        Calculate the R/S statistic for a given scale.
-
+        Generate sub-block partition factors (window sizes).
+        
         Parameters
         ----------
-        data : np.ndarray
-            Time series data
-        scale : int
-            Window size (scale)
-
+        N : int
+            Sequence length
+        min_size : int
+            Minimum window size
+            
         Returns
         -------
-        float
-            R/S statistic
+        np.ndarray
+            Array of window sizes
         """
-        n = len(data)
-        num_windows = n // scale
+        max_size = min(N // 4, N // 2)
+        
+        # Generate window sizes with approximately equal spacing in log space
+        window_sizes = np.unique(
+            np.logspace(
+                np.log10(min_size),
+                np.log10(max_size),
+                num=min(20, max_size - min_size + 1),
+                dtype=int,
+            )
+        )
+        
+        return window_sizes
 
-        if num_windows == 0:
+    def _linear_regression_solver(self, A: np.ndarray, b: np.ndarray, n: int) -> np.ndarray:
+        """
+        Solve linear regression problem.
+        
+        Parameters
+        ----------
+        A : np.ndarray
+            Design matrix
+        b : np.ndarray
+            Response vector
+        n : int
+            Number of data points
+            
+        Returns
+        -------
+        np.ndarray
+            Regression coefficients
+        """
+        # Use least squares solver
+        p, residuals, rank, s = np.linalg.lstsq(A, b, rcond=None)
+        return p
+
+    def _format_power_law_data(self, T: np.ndarray, S: np.ndarray, n: int) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Format data for power law fitting.
+        
+        Parameters
+        ----------
+        T : np.ndarray
+            Window sizes
+        S : np.ndarray
+            R/S values
+        n : int
+            Number of points
+            
+        Returns
+        -------
+        tuple
+            (A, b) for linear regression
+        """
+        # Filter out invalid points
+        valid_mask = (S > 0) & np.isfinite(S)
+        T_valid = T[valid_mask]
+        S_valid = S[valid_mask]
+        
+        if len(T_valid) < 3:
+            raise ValueError("Insufficient valid data points for R/S analysis")
+        
+        # Format for log-log regression: log(R/S) = α + β*log(T)
+        log_T = np.log(T_valid)
+        log_S = np.log(S_valid)
+        
+        # Design matrix: [1, log(T)]
+        A = np.vstack([np.ones(len(log_T)), log_T]).T
+        b = log_S
+        
+        return A, b
+
+    def _calculate_r_squared(self, T: np.ndarray, S: np.ndarray, p: np.ndarray) -> float:
+        """Calculate R-squared value."""
+        A, b = self._format_power_law_data(T, S, len(T))
+        y_pred = A @ p
+        ss_res = np.sum((b - y_pred) ** 2)
+        ss_tot = np.sum((b - np.mean(b)) ** 2)
+        return 1 - (ss_res / ss_tot) if ss_tot > 0 else 0.0
+
+    def _calculate_p_value(self, T: np.ndarray, S: np.ndarray, p: np.ndarray) -> float:
+        """Calculate p-value for the regression."""
+        A, b = self._format_power_law_data(T, S, len(T))
+        y_pred = A @ p
+        residuals = b - y_pred
+        
+        # Calculate F-statistic
+        ss_res = np.sum(residuals ** 2)
+        ss_reg = np.sum((y_pred - np.mean(b)) ** 2)
+        
+        if ss_res == 0:
             return 0.0
+            
+        n = len(b)
+        k = 2  # number of parameters (intercept + slope)
+        
+        f_stat = (ss_reg / (k - 1)) / (ss_res / (n - k))
+        p_value = 1 - stats.f.cdf(f_stat, k - 1, n - k)
+        
+        return p_value
 
-        rs_values = []
-
-        for i in range(num_windows):
-            start_idx = i * scale
-            end_idx = start_idx + scale
-            window = data[start_idx:end_idx]
-
-            # Calculate mean
-            mean_val = np.mean(window)
-
-            # Calculate cumulative deviation
-            dev = window - mean_val
-            cum_dev = np.cumsum(dev)
-
-            # Calculate range
-            R = np.max(cum_dev) - np.min(cum_dev)
-
-            # Calculate standard deviation (sample std)
-            S = np.std(window, ddof=1)
-
-            # Avoid division by zero
-            if S > 0:
-                rs_values.append(R / S)
-
-        # Return mean R/S value
-        if not rs_values:
-            raise ValueError("No valid R/S values calculated")
-        return np.mean(rs_values)
-
-    def _calculate_rs_statistic(self, data: np.ndarray, scale: int) -> float:
-        """
-        Calculate the R/S statistic for a given scale (alias for _calculate_rs).
-
-        Parameters
-        ----------
-        data : np.ndarray
-            Time series data
-        scale : int
-            Window size (scale)
-
-        Returns
-        -------
-        float
-            R/S statistic
-        """
-        return self._calculate_rs(data, scale)
+    def _calculate_std_error(self, T: np.ndarray, S: np.ndarray, p: np.ndarray) -> float:
+        """Calculate standard error of the slope."""
+        A, b = self._format_power_law_data(T, S, len(T))
+        y_pred = A @ p
+        residuals = b - y_pred
+        
+        n = len(b)
+        mse = np.sum(residuals ** 2) / (n - 2)
+        
+        # Standard error of slope (second parameter)
+        x_centered = A[:, 1] - np.mean(A[:, 1])
+        std_err = np.sqrt(mse / np.sum(x_centered ** 2))
+        
+        return std_err
 
     def get_confidence_intervals(
         self, confidence_level: float = 0.95
@@ -305,21 +387,10 @@ class RSEstimator(BaseEstimator):
         if not self.results:
             raise ValueError("No estimation results available. Run estimate() first.")
 
-        # Calculate p-value from R-squared and degrees of freedom
-        n = len(self.results["window_sizes"])
-        if n > 2:
-            # F-statistic = (R²/(k-1)) / ((1-R²)/(n-k)) where k=2 (slope + intercept)
-            f_stat = (self.results["r_squared"] / 1) / (
-                (1 - self.results["r_squared"]) / (n - 2)
-            )
-            p_value = 1 - stats.f.cdf(f_stat, 1, n - 2)
-        else:
-            p_value = 1.0
-
         return {
             "r_squared": self.results["r_squared"],
             "std_error": self.results["std_error"],
-            "p_value": p_value,
+            "p_value": self.results["p_value"],
             "n_windows": len(self.results["window_sizes"]),
         }
 
@@ -372,7 +443,7 @@ class RSEstimator(BaseEstimator):
 
             ax.set_xlabel("Window Size")
             ax.set_ylabel("R/S Value")
-            ax.set_title("R/S Scaling Analysis")
+            ax.set_title("R/S Scaling Analysis (Algorithm 11)")
             ax.grid(True, alpha=0.3)
 
             plt.tight_layout()
@@ -429,7 +500,7 @@ class RSEstimator(BaseEstimator):
 
         # Plot 1: R/S vs Scale (log-log)
         ax1.loglog(
-            self.results["scales"],
+            self.results["window_sizes"],
             self.results["rs_values"],
             "bo-",
             label="R/S values",
@@ -437,13 +508,13 @@ class RSEstimator(BaseEstimator):
         )
 
         # Plot fitted line
-        log_scales = self.results["log_scales"]
+        log_scales = self.results["log_sizes"]
         log_rs_fitted = (
             self.results["intercept"] + self.results["hurst_parameter"] * log_scales
         )
         rs_fitted = np.exp(log_rs_fitted)
         ax1.loglog(
-            self.results["scales"],
+            self.results["window_sizes"],
             rs_fitted,
             "r--",
             label=f'Fitted line (H={self.results["hurst_parameter"]:.3f})',
@@ -451,7 +522,7 @@ class RSEstimator(BaseEstimator):
 
         ax1.set_xlabel("Scale")
         ax1.set_ylabel("R/S")
-        ax1.set_title("R/S Analysis")
+        ax1.set_title("R/S Analysis (Algorithm 11)")
         ax1.legend()
         ax1.grid(True, alpha=0.3)
 
@@ -494,7 +565,7 @@ class RSEstimator(BaseEstimator):
         lower, upper = self.get_confidence_interval()
 
         return {
-            "method": "R/S Analysis",
+            "method": "R/S Analysis (Algorithm 11)",
             "hurst_parameter": self.results["hurst_parameter"],
             "confidence_interval_95": (lower, upper),
             "r_squared": self.results["r_squared"],
