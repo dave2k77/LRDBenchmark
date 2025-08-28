@@ -1,7 +1,7 @@
 Comprehensive LRDBench Demonstration
 ===================================
 
-This document provides comprehensive examples demonstrating all major features of LRDBench, from basic usage to advanced analysis workflows.
+This document provides comprehensive examples demonstrating all major features of lrdbenchmark, from basic usage to advanced analysis workflows.
 
 Basic Data Generation and Analysis
 =================================
@@ -11,14 +11,14 @@ Simple Hurst Parameter Estimation
 
 .. code-block:: python
 
-   from lrdbench import FBMModel, FGNModel, ComprehensiveBenchmark
+   from lrdbenchmark import FBMModel, FGNModel, ComprehensiveBenchmark
    import matplotlib.pyplot as plt
    import numpy as np
 
    def basic_analysis_demo():
        """Demonstrate basic data generation and analysis."""
        
-       print("=== BASIC LRDBENCH ANALYSIS ===")
+       print("=== BASIC LRDBENCHMARK ANALYSIS ===")
        
        # 1. Generate data with known Hurst parameters
        models = {
@@ -70,7 +70,7 @@ Data Model Comparison
 
 .. code-block:: python
 
-   from lrdbench import FBMModel, FGNModel, ARFIMAModel, MRWModel
+   from lrdbenchmark import FBMModel, FGNModel, ARFIMAModel, MRWModel
    import matplotlib.pyplot as plt
    import numpy as np
 
@@ -143,7 +143,7 @@ Comprehensive Estimator Comparison
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark, FBMModel
+   from lrdbenchmark import ComprehensiveBenchmark, FBMModel
    import pandas as pd
    import matplotlib.pyplot as plt
    import numpy as np
@@ -276,9 +276,9 @@ ML Estimator Training and Evaluation
 
 .. code-block:: python
 
-   from lrdbench import FBMModel, FGNModel, ARFIMAModel
-   from lrdbench.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
-   from lrdbench.analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
+   from lrdbenchmark import FBMModel, FGNModel, ARFIMAModel
+   from lrdbenchmark.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
+   from lrdbenchmark.analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
    from sklearn.model_selection import train_test_split
    import numpy as np
    import matplotlib.pyplot as plt
@@ -413,9 +413,9 @@ Comprehensive Analytics Demo
 
 .. code-block:: python
 
-   from lrdbench import enable_analytics, get_analytics_summary
-   from lrdbench.analytics import AnalyticsDashboard
-   from lrdbench import FBMModel, FGNModel, ComprehensiveBenchmark
+   from lrdbenchmark import enable_analytics, get_analytics_summary
+   from lrdbenchmark.analytics import AnalyticsDashboard
+   from lrdbenchmark import FBMModel, FGNModel, ComprehensiveBenchmark
    import time
 
    def analytics_demo():
@@ -511,9 +511,9 @@ Financial Time Series Analysis
    import numpy as np
    import pandas as pd
    import matplotlib.pyplot as plt
-   from lrdbench import ComprehensiveBenchmark
-   from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
-   from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
+   from lrdbenchmark import ComprehensiveBenchmark
+   from lrdbenchmark.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+   from lrdbenchmark.analysis.spectral.gph.gph_estimator import GPHEstimator
 
    def financial_analysis_demo():
        """Demonstrate LRDBench for financial time series analysis."""
@@ -715,7 +715,7 @@ End-to-End Analysis Pipeline
        
        # Step 1: Data Generation
        print("Step 1: Generating synthetic data...")
-       from lrdbench import FBMModel, FGNModel, ARFIMAModel
+       from lrdbenchmark import FBMModel, FGNModel, ARFIMAModel
        
        models = {
            'FBM': FBMModel(H=0.7, sigma=1.0),
@@ -748,7 +748,7 @@ End-to-End Analysis Pipeline
        
        # Step 3: Comprehensive Benchmarking
        print("\nStep 3: Running comprehensive benchmark...")
-       from lrdbench import ComprehensiveBenchmark
+       from lrdbenchmark import ComprehensiveBenchmark
        
        benchmark = ComprehensiveBenchmark()
        benchmark_results = benchmark.run_comprehensive_benchmark(

@@ -532,7 +532,7 @@ Monte Carlo Simulation Example
 .. code-block:: python
 
    import numpy as np
-   from lrdbench import FBMModel, ComprehensiveBenchmark
+   from lrdbenchmark import FBMModel, ComprehensiveBenchmark
    import matplotlib.pyplot as plt
 
    def monte_carlo_validation_example():
@@ -621,7 +621,7 @@ Power Spectral Density Analysis
 
    import numpy as np
    from scipy import signal
-   from lrdbench import FBMModel, FGNModel
+   from lrdbenchmark import FBMModel, FGNModel
    import matplotlib.pyplot as plt
 
    def power_spectral_density_example():
@@ -682,7 +682,7 @@ Autocorrelation Function Analysis
 .. code-block:: python
 
    import numpy as np
-   from lrdbench import FBMModel
+   from lrdbenchmark import FBMModel
    import matplotlib.pyplot as plt
 
    def autocorrelation_analysis_example():

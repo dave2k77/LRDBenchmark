@@ -42,7 +42,7 @@ For estimator :math:`\hat{H}` and true value :math:`H_0`:
 .. code-block:: python
 
    import numpy as np
-   from lrdbench import FBMModel, ComprehensiveBenchmark
+   from lrdbenchmark import FBMModel, ComprehensiveBenchmark
    
    def monte_carlo_validation(H_values, sample_sizes, n_realizations=100):
        """Perform Monte Carlo validation."""
@@ -614,7 +614,7 @@ Ratio of estimator variance to Cramér-Rao lower bound.
 
    import time
    import numpy as np
-   from lrdbench import FBMModel, ComprehensiveBenchmark
+   from lrdbenchmark import FBMModel, ComprehensiveBenchmark
    import matplotlib.pyplot as plt
 
    def efficiency_analysis_example():
@@ -720,7 +720,7 @@ Data Quality Checks
    from statsmodels.tsa.stattools import adfuller, kpss
    from scipy import stats
    import numpy as np
-   from lrdbench import FBMModel, FGNModel
+   from lrdbenchmark import FBMModel, FGNModel
 
    def data_quality_checks_example():
        """Demonstrate data quality checks for time series."""
@@ -783,7 +783,7 @@ Estimator Validation
 .. code-block:: python
 
    import numpy as np
-   from lrdbench import FBMModel, ComprehensiveBenchmark
+   from lrdbenchmark import FBMModel, ComprehensiveBenchmark
    import matplotlib.pyplot as plt
 
    def estimator_validation_example():
@@ -875,7 +875,7 @@ Comprehensive Validation Workflow
 
 .. code-block:: python
 
-   from lrdbench import FBMModel, FGNModel, ComprehensiveBenchmark
+   from lrdbenchmark import FBMModel, FGNModel, ComprehensiveBenchmark
    import numpy as np
    import pandas as pd
    import matplotlib.pyplot as plt
