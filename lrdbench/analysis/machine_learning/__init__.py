@@ -24,6 +24,12 @@ from .lstm_estimator import LSTMEstimator
 from .gru_estimator import GRUEstimator
 from .transformer_estimator import TransformerEstimator
 
+# Enhanced neural network estimators
+from .enhanced_cnn_estimator import EnhancedCNNEstimator
+from .enhanced_lstm_estimator import EnhancedLSTMEstimator
+from .enhanced_gru_estimator import EnhancedGRUEstimator
+from .enhanced_transformer_estimator import EnhancedTransformerEstimator
+
 __all__ = [
     "BaseMLEstimator",
     "NeuralNetworkEstimator",
@@ -34,4 +40,9 @@ __all__ = [
     "LSTMEstimator",
     "GRUEstimator",
     "TransformerEstimator",
+    # Enhanced estimators
+    "EnhancedCNNEstimator",
+    "EnhancedLSTMEstimator",
+    "EnhancedGRUEstimator",
+    "EnhancedTransformerEstimator",
 ]
