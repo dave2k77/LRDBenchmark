@@ -8,9 +8,7 @@ sphinx-autodoc-typehints>=1.12.0
 sphinx-copybutton>=0.4.0
 sphinx-tabs>=3.0.0
 
-# Math rendering support
-sphinx.ext.mathjax
-sphinx.ext.imgmath
+# Math rendering support is built into Sphinx - no additional packages needed
 
 # For API documentation (lightweight core packages)
 numpy>=1.20.0
@@ -24,10 +22,7 @@ scikit-learn>=1.0.0
 # documentation to be generated with proper type hints and imports.
 
 # Additional documentation tools for enhanced ML/neural network docs
-sphinx-autodoc-typehints>=1.12.0
-sphinx-copybutton>=0.4.0
-sphinx-tabs>=3.0.0
-sphinx-rtd-theme>=1.0.0
+# (These are already included above, no duplicates needed)
 
 # For better type hint handling in enhanced estimators
 typing-extensions>=4.0.0
