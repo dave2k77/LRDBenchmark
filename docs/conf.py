@@ -16,13 +16,13 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'LRDBenchmark'
+project = 'lrdbenchmark'
 copyright = '2025, Davian Chin'
 author = 'Davian Chin'
 
 # The full version, including alpha/beta/rc tags
-release = '1.5.1'
-version = '1.5.1'
+release = '1.6.1'
+version = '1.6.1'
 
 # -- General configuration ---------------------------------------------------
 
@@ -192,6 +192,8 @@ intersphinx_mapping = {
     'pandas': ('https://pandas.pydata.org/docs/', None),
     'matplotlib': ('https://matplotlib.org/stable/', None),
     'sklearn': ('https://scikit-learn.org/stable/', None),
+    'torch': ('https://pytorch.org/docs/stable/', None),
+    'jax': ('https://jax.readthedocs.io/en/latest/', None),
 }
 
 # -- Options for todo extension ----------------------------------------------
@@ -229,9 +231,55 @@ autodoc_mock_imports = [
     # Deep Learning and ML frameworks
     'torch',
     'torch.nn',
+    'torch.nn.functional',
     'torch.optim',
     'torch.utils',
     'torch.utils.data',
+    'torch.nn.modules',
+    'torch.nn.modules.activation',
+    'torch.nn.modules.conv',
+    'torch.nn.modules.linear',
+    'torch.nn.modules.rnn',
+    'torch.nn.modules.transformer',
+    'torch.nn.modules.dropout',
+    'torch.nn.modules.normalization',
+    'torch.nn.modules.pooling',
+    'torch.nn.modules.embedding',
+    'torch.nn.modules.loss',
+    'torch.nn.modules.upsampling',
+    'torch.nn.modules.vision',
+    'torch.nn.modules.sparse',
+    'torch.nn.modules.distance',
+    'torch.nn.modules.flatten',
+    'torch.nn.modules.fold',
+    'torch.nn.modules.padding',
+    'torch.nn.modules.adaptive',
+    'torch.nn.modules.attention',
+    'torch.nn.modules.channelshuffle',
+    'torch.nn.modules.containers',
+    
+    # Enhanced ML and Neural Network specific modules
+    'torch.nn.modules.activation',
+    'torch.nn.modules.conv',
+    'torch.nn.modules.linear',
+    'torch.nn.modules.rnn',
+    'torch.nn.modules.transformer',
+    'torch.nn.modules.dropout',
+    'torch.nn.modules.normalization',
+    'torch.nn.modules.pooling',
+    'torch.nn.modules.embedding',
+    'torch.nn.modules.loss',
+    'torch.nn.modules.upsampling',
+    'torch.nn.modules.vision',
+    'torch.nn.modules.sparse',
+    'torch.nn.modules.distance',
+    'torch.nn.modules.flatten',
+    'torch.nn.modules.fold',
+    'torch.nn.modules.padding',
+    'torch.nn.modules.adaptive',
+    'torch.nn.modules.attention',
+    'torch.nn.modules.channelshuffle',
+    
     'jax',
     'jax.numpy',
     'jaxlib',

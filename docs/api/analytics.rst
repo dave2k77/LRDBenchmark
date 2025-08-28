@@ -1,12 +1,12 @@
 Analytics API
 ============
 
-LRDBench provides a comprehensive analytics system for tracking usage, monitoring performance, analyzing errors, and understanding user workflows.
+lrdbenchmark provides a comprehensive analytics system for tracking usage, monitoring performance, analyzing errors, and understanding user workflows.
 
 Analytics Dashboard
 -----------------
 
-.. autoclass:: lrdbench.analytics.dashboard.AnalyticsDashboard
+.. autoclass:: lrdbenchmark.analytics.dashboard.AnalyticsDashboard
    :members:
    :undoc-members:
    :show-inheritance:
@@ -21,7 +21,7 @@ Analytics Dashboard
 Usage Tracking
 -------------
 
-.. autoclass:: lrdbench.analytics.usage_tracker.UsageTracker
+.. autoclass:: lrdbenchmark.analytics.usage_tracker.UsageTracker
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,12 +31,12 @@ Usage Tracking
    .. automethod:: track_benchmark_run
    .. automethod:: get_usage_summary
 
-.. autoclass:: lrdbench.analytics.usage_tracker.UsageEvent
+.. autoclass:: lrdbenchmark.analytics.usage_tracker.UsageEvent
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: lrdbench.analytics.usage_tracker.UsageSummary
+.. autoclass:: lrdbenchmark.analytics.usage_tracker.UsageSummary
    :members:
    :undoc-members:
    :show-inheritance:
@@ -44,7 +44,7 @@ Usage Tracking
 Performance Monitoring
 ---------------------
 
-.. autoclass:: lrdbench.analytics.performance_monitor.PerformanceMonitor
+.. autoclass:: lrdbenchmark.analytics.performance_monitor.PerformanceMonitor
    :members:
    :undoc-members:
    :show-inheritance:
@@ -54,12 +54,12 @@ Performance Monitoring
    .. automethod:: stop_monitoring
    .. automethod:: get_performance_summary
 
-.. autoclass:: lrdbench.analytics.performance_monitor.PerformanceMetrics
+.. autoclass:: lrdbenchmark.analytics.performance_monitor.PerformanceMetrics
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: lrdbench.analytics.performance_monitor.PerformanceSummary
+.. autoclass:: lrdbenchmark.analytics.performance_monitor.PerformanceSummary
    :members:
    :undoc-members:
    :show-inheritance:
@@ -67,7 +67,7 @@ Performance Monitoring
 Error Analysis
 -------------
 
-.. autoclass:: lrdbench.analytics.error_analyzer.ErrorAnalyzer
+.. autoclass:: lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer
    :members:
    :undoc-members:
    :show-inheritance:
@@ -77,12 +77,12 @@ Error Analysis
    .. automethod:: get_error_summary
    .. automethod:: get_improvement_recommendations
 
-.. autoclass:: lrdbench.analytics.error_analyzer.ErrorEvent
+.. autoclass:: lrdbenchmark.analytics.error_analyzer.ErrorEvent
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: lrdbench.analytics.error_analyzer.ErrorSummary
+.. autoclass:: lrdbenchmark.analytics.error_analyzer.ErrorSummary
    :members:
    :undoc-members:
    :show-inheritance:
@@ -90,7 +90,7 @@ Error Analysis
 Workflow Analysis
 ----------------
 
-.. autoclass:: lrdbench.analytics.workflow_analyzer.WorkflowAnalyzer
+.. autoclass:: lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer
    :members:
    :undoc-members:
    :show-inheritance:
@@ -129,15 +129,15 @@ Basic Analytics Setup
 
 .. code-block:: python
 
-   from lrdbench import enable_analytics, get_analytics_summary
-   from lrdbench.analytics import AnalyticsDashboard
+   from lrdbenchmark import enable_analytics, get_analytics_summary
+   from lrdbenchmark.analytics import AnalyticsDashboard
 
    # Enable analytics system
    print("Enabling LRDBench analytics system...")
    enable_analytics()
 
    # Your analysis code here
-   from lrdbench import FBMModel, FGNModel, ComprehensiveBenchmark
+   from lrdbenchmark import FBMModel, FGNModel, ComprehensiveBenchmark
    import time
 
    print("Running analysis with analytics tracking...")
@@ -188,7 +188,7 @@ Usage Tracking with Decorators
 
 .. code-block:: python
 
-   from lrdbench import track_usage, FBMModel
+   from lrdbenchmark import track_usage, FBMModel
    
    @track_usage
    def analyze_fbm_data(H=0.7, length=1000):
@@ -208,7 +208,7 @@ Performance Monitoring
 
 .. code-block:: python
 
-   from lrdbench import monitor_performance, ComprehensiveBenchmark
+   from lrdbenchmark import monitor_performance, ComprehensiveBenchmark
    
    @monitor_performance
    def run_benchmark_analysis():
@@ -224,7 +224,7 @@ Performance Monitoring
    results = run_benchmark_analysis()
    
    # Get performance summary
-   from lrdbench.analytics import PerformanceMonitor
+   from lrdbenchmark.analytics import PerformanceMonitor
    monitor = PerformanceMonitor()
    perf_summary = monitor.get_performance_summary()
    print(f"Average execution time: {perf_summary.avg_execution_time:.2f}s")

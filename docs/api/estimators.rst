@@ -1,12 +1,12 @@
 Estimators API
 =============
 
-LRDBench provides a comprehensive suite of estimators for detecting and quantifying long-range dependence in time series data.
+lrdbenchmark provides a comprehensive suite of 18 estimators for detecting and quantifying long-range dependence in time series data.
 
 Base Estimator
 -------------
 
-.. autoclass:: lrdbench.analysis.estimators.base_estimator.BaseEstimator
+.. autoclass:: lrdbenchmark.analysis.estimators.base_estimator.BaseEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -17,7 +17,7 @@ Temporal Estimators
 Detrended Fluctuation Analysis (DFA)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.temporal.dfa.dfa_estimator.DFAEstimator
+.. autoclass:: lrdbenchmark.analysis.temporal.dfa.dfa_estimator.DFAEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -28,7 +28,7 @@ Detrended Fluctuation Analysis (DFA)
 Detrended Moving Average (DMA)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.temporal.dma.dma_estimator.DMAEstimator
+.. autoclass:: lrdbenchmark.analysis.temporal.dma.dma_estimator.DMAEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ Detrended Moving Average (DMA)
 Higuchi Method
 ~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.temporal.higuchi.higuchi_estimator.HiguchiEstimator
+.. autoclass:: lrdbenchmark.analysis.temporal.higuchi.higuchi_estimator.HiguchiEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -50,7 +50,7 @@ Higuchi Method
 R/S Analysis
 ~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.temporal.rs.rs_estimator.RSEstimator
+.. autoclass:: lrdbenchmark.analysis.temporal.rs.rs_estimator.RSEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -64,7 +64,7 @@ Spectral Estimators
 Geweke-Porter-Hudak (GPH)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.spectral.gph.gph_estimator.GPHEstimator
+.. autoclass:: lrdbenchmark.analysis.spectral.gph.gph_estimator.GPHEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -75,7 +75,7 @@ Geweke-Porter-Hudak (GPH)
 Periodogram
 ~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.spectral.periodogram.periodogram_estimator.PeriodogramEstimator
+.. autoclass:: lrdbenchmark.analysis.spectral.periodogram.periodogram_estimator.PeriodogramEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -86,7 +86,7 @@ Periodogram
 Whittle Estimator
 ~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.spectral.whittle.whittle_estimator.WhittleEstimator
+.. autoclass:: lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -318,9 +318,9 @@ Basic Estimator Usage
 
 .. code-block:: python
 
-   from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
-   from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
-   from lrdbench import FBMModel
+   from lrdbenchmark.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+   from lrdbenchmark.analysis.spectral.gph.gph_estimator import GPHEstimator
+   from lrdbenchmark import FBMModel
    
    # Generate test data with known Hurst parameter
    model = FBMModel(H=0.7, sigma=1.0)
@@ -353,12 +353,12 @@ Multiple Estimators Comparison
 
 .. code-block:: python
 
-   from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
-   from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
-   from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
-   from lrdbench.analysis.wavelet.variance.wavelet_variance_estimator import WaveletVarianceEstimator
-   from lrdbench.analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
-   from lrdbench import FBMModel, FGNModel
+   from lrdbenchmark.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+   from lrdbenchmark.analysis.temporal.rs.rs_estimator import RSEstimator
+   from lrdbenchmark.analysis.spectral.gph.gph_estimator import GPHEstimator
+   from lrdbenchmark.analysis.wavelet.variance.wavelet_variance_estimator import WaveletVarianceEstimator
+   from lrdbenchmark.analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
+   from lrdbenchmark import FBMModel, FGNModel
    import pandas as pd
    
    # Define estimators to test
@@ -571,13 +571,90 @@ Parameter Tuning
    print(f"DFA (custom): H = {H_dfa:.3f}")
    print(f"GPH (custom): H = {H_gph:.3f}")
 
+Enhanced ML and Neural Network Estimators
+----------------------------------------
+
+lrdbenchmark v1.6.0+ includes enhanced machine learning and neural network estimators with pre-trained models:
+
+.. autoclass:: lrdbenchmark.analysis.machine_learning.enhanced_cnn_estimator.EnhancedCNNEstimator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: lrdbenchmark.analysis.machine_learning.enhanced_lstm_estimator.EnhancedLSTMEstimator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: lrdbenchmark.analysis.machine_learning.enhanced_gru_estimator.EnhancedGRUEstimator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: lrdbenchmark.analysis.machine_learning.enhanced_transformer_estimator.EnhancedTransformerEstimator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: lrdbenchmark.analysis.machine_learning.random_forest_estimator.RandomForestEstimator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: lrdbenchmark.analysis.machine_learning.svr_estimator.SVREstimator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: lrdbenchmark.analysis.machine_learning.gradient_boosting_estimator.GradientBoostingEstimator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Usage Example:
+
+.. code-block:: python
+
+   from lrdbenchmark import (
+       CNNEstimator, LSTMEstimator, GRUEstimator, TransformerEstimator,
+       RandomForestEstimator, SVREstimator, GradientBoostingEstimator
+   )
+   
+   # Enhanced neural estimators with pre-trained models
+   cnn = CNNEstimator()
+   lstm = LSTMEstimator()
+   gru = GRUEstimator()
+   transformer = TransformerEstimator()
+   
+   # Traditional ML estimators
+   rf = RandomForestEstimator()
+   svr = SVREstimator()
+   gb = GradientBoostingEstimator()
+   
+   # Estimate Hurst parameter
+   H_cnn = cnn.estimate(data)
+   H_lstm = lstm.estimate(data)
+   H_gru = gru.estimate(data)
+   H_transformer = transformer.estimate(data)
+   H_rf = rf.estimate(data)
+   H_svr = svr.estimate(data)
+   H_gb = gb.estimate(data)
+   
+   print(f"Enhanced CNN: H = {H_cnn:.3f}")
+   print(f"Enhanced LSTM: H = {H_lstm:.3f}")
+   print(f"Enhanced GRU: H = {H_gru:.3f}")
+   print(f"Enhanced Transformer: H = {H_transformer:.3f}")
+   print(f"Random Forest: H = {H_rf:.3f}")
+   print(f"SVR: H = {H_svr:.3f}")
+   print(f"Gradient Boosting: H = {H_gb:.3f}")
+
 Error Handling
 -------------
 
 .. code-block:: python
 
-   from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
-   from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
+   from lrdbenchmark.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+   from lrdbenchmark.analysis.spectral.gph.gph_estimator import GPHEstimator
    
    # Test with insufficient data
    short_data = [1, 2, 3, 4, 5]  # Too short for most estimators
@@ -602,9 +679,9 @@ Performance Comparison
 .. code-block:: python
 
    import time
-   from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
-   from lrdbench.analysis.high_performance.jax.dfa_jax import DFAJAXEstimator
-   from lrdbench import FBMModel
+   from lrdbenchmark.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+   from lrdbenchmark.analysis.high_performance.jax.dfa_jax import DFAJAXEstimator
+   from lrdbenchmark import FBMModel
    
    # Generate test data
    model = FBMModel(H=0.7, sigma=1.0)

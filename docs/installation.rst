@@ -1,7 +1,7 @@
 Installation Guide
 =================
 
-This guide will help you install LRDBenchmark and its dependencies.
+This guide will help you install lrdbenchmark and its dependencies.
 
 Requirements
 -----------
@@ -13,13 +13,13 @@ Requirements
 Basic Installation
 -----------------
 
-Install LRDBenchmark from PyPI:
+Install lrdbenchmark from PyPI:
 
 .. code-block:: bash
 
    pip install lrdbenchmark
 
-This will install LRDBenchmark with all required dependencies.
+This will install lrdbenchmark with all required dependencies including enhanced ML and neural network estimators.
 
 Installation with Optional Dependencies
 -------------------------------------
@@ -28,14 +28,14 @@ For GPU acceleration and additional features:
 
 .. code-block:: bash
 
-   # Install with GPU support (PyTorch + CUDA)
-   pip install lrdbenchmark[gpu]
+   # Install with dashboard support (Streamlit + Plotly)
+   pip install lrdbenchmark[dashboard]
    
-   # Install with JAX backend
-   pip install lrdbenchmark[jax]
+   # Install with development dependencies
+   pip install lrdbenchmark[dev]
    
-   # Install with all optional dependencies
-   pip install lrdbenchmark[all]
+   # Install with documentation dependencies
+   pip install lrdbenchmark[docs]
 
 Development Installation
 -----------------------
@@ -51,6 +51,9 @@ To install LRDBenchmark in development mode:
    # Install in development mode
    pip install -e .
    
+   # Install with dashboard support
+   pip install -e .[dashboard]
+   
    # Install development dependencies
    pip install -r requirements-dev.txt
 
@@ -65,7 +68,7 @@ Using conda:
    conda create -n lrdbenchmark python=3.9
    conda activate lrdbenchmark
    
-   # Install LRDBenchmark
+   # Install lrdbenchmark
    pip install lrdbenchmark
 
 Docker Installation
@@ -96,8 +99,12 @@ After installation, verify that LRDBenchmark is working correctly:
 
 .. code-block:: python
 
-   import lrdbench
-   print(f"LRDBenchmark version: {lrdbench.__version__}")
+   import lrdbenchmark
+   print(f"lrdbenchmark version: {lrdbenchmark.__version__}")
+   
+   # Test enhanced ML and neural network estimators
+   from lrdbenchmark import CNNEstimator, LSTMEstimator
+   print("Enhanced estimators imported successfully!")
    
    # Test basic functionality
    from lrdbench import FBMModel

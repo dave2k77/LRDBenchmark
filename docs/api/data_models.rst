@@ -1,12 +1,12 @@
 Data Models API
 ==============
 
-LRDBench provides several synthetic data models for generating time series with known long-range dependence properties.
+lrdbenchmark provides several synthetic data models for generating time series with known long-range dependence properties.
 
 Base Model
 ---------
 
-.. autoclass:: lrdbench.models.data_models.base_model.BaseModel
+.. autoclass:: lrdbenchmark.models.data_models.base_model.BaseModel
    :members:
    :undoc-members:
    :show-inheritance:
@@ -14,7 +14,7 @@ Base Model
 Fractional Brownian Motion (FBM)
 -------------------------------
 
-.. autoclass:: lrdbench.models.data_models.fbm.fbm_model.FractionalBrownianMotion
+.. autoclass:: lrdbenchmark.models.data_models.fbm.fbm_model.FractionalBrownianMotion
    :members:
    :undoc-members:
    :show-inheritance:
@@ -25,7 +25,7 @@ Fractional Brownian Motion (FBM)
 Fractional Gaussian Noise (FGN)
 ------------------------------
 
-.. autoclass:: lrdbench.models.data_models.fgn.fgn_model.FractionalGaussianNoise
+.. autoclass:: lrdbenchmark.models.data_models.fgn.fgn_model.FractionalGaussianNoise
    :members:
    :undoc-members:
    :show-inheritance:
@@ -36,7 +36,7 @@ Fractional Gaussian Noise (FGN)
 ARFIMA Model
 ------------
 
-.. autoclass:: lrdbench.models.data_models.arfima.arfima_model.ARFIMAModel
+.. autoclass:: lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel
    :members:
    :undoc-members:
    :show-inheritance:
@@ -47,7 +47,7 @@ ARFIMA Model
 Multifractal Random Walk (MRW)
 -----------------------------
 
-.. autoclass:: lrdbench.models.data_models.mrw.mrw_model.MultifractalRandomWalk
+.. autoclass:: lrdbenchmark.models.data_models.mrw.mrw_model.MultifractalRandomWalk
    :members:
    :undoc-members:
    :show-inheritance:
@@ -58,11 +58,11 @@ Multifractal Random Walk (MRW)
 Convenience Aliases
 ------------------
 
-For easier usage, LRDBench provides shortened aliases for all data models:
+For easier usage, lrdbenchmark provides shortened aliases for all data models:
 
 .. code-block:: python
 
-   from lrdbench import FBMModel, FGNModel, ARFIMAModel, MRWModel
+   from lrdbenchmark import FBMModel, FGNModel, ARFIMAModel, MRWModel
    
    # These are equivalent to the full class names
    fbm = FBMModel(H=0.7, sigma=1.0)
@@ -73,10 +73,10 @@ For easier usage, LRDBench provides shortened aliases for all data models:
 Convenience Functions
 --------------------
 
-.. autofunction:: lrdbench.models.data_models.create_fbm_model
-.. autofunction:: lrdbench.models.data_models.create_fgn_model
-.. autofunction:: lrdbench.models.data_models.create_arfima_model
-.. autofunction:: lrdbench.models.data_models.create_mrw_model
+.. autofunction:: lrdbenchmark.models.data_models.create_fbm_model
+.. autofunction:: lrdbenchmark.models.data_models.create_fgn_model
+.. autofunction:: lrdbenchmark.models.data_models.create_arfima_model
+.. autofunction:: lrdbenchmark.models.data_models.create_mrw_model
 
 Usage Examples
 -------------
@@ -86,7 +86,7 @@ Basic Usage
 
 .. code-block:: python
 
-   from lrdbench import FBMModel, FGNModel
+   from lrdbenchmark import FBMModel, FGNModel
    
    # Generate FBM data
    fbm_model = FBMModel(H=0.7, sigma=1.0)

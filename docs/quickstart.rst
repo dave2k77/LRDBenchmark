@@ -1,7 +1,7 @@
 Quick Start Guide
 ================
 
-This guide will get you up and running with LRDBenchmark in minutes.
+This guide will get you up and running with lrdbenchmark in minutes.
 
 Basic Usage
 ----------
@@ -11,7 +11,7 @@ Generate synthetic data and run a benchmark:
 .. code-block:: python
 
    import numpy as np
-   from lrdbench import FBMModel, ComprehensiveBenchmark
+   from lrdbenchmark import FBMModel, ComprehensiveBenchmark
    
    # Generate Fractional Brownian Motion data
    model = FBMModel(H=0.7, sigma=1.0)
@@ -31,7 +31,7 @@ LRDBenchmark provides several synthetic data models:
 
 .. code-block:: python
 
-   from lrdbench import FBMModel, FGNModel, ARFIMAModel, MRWModel
+   from lrdbenchmark import FBMModel, FGNModel, ARFIMAModel, MRWModel
    
    # Fractional Brownian Motion
    fbm = FBMModel(H=0.7, sigma=1.0)
@@ -56,8 +56,8 @@ Use specific estimators directly:
 
 .. code-block:: python
 
-   from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
-   from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
+   from lrdbenchmark.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+   from lrdbenchmark.analysis.spectral.gph.gph_estimator import GPHEstimator
    
    # Detrended Fluctuation Analysis
    dfa = DFAEstimator()
@@ -77,7 +77,7 @@ Track usage and performance:
 
 .. code-block:: python
 
-   from lrdbench import enable_analytics, get_analytics_summary
+   from lrdbenchmark import enable_analytics, get_analytics_summary
    
    # Enable analytics
    enable_analytics()
@@ -90,6 +90,49 @@ Track usage and performance:
    summary = get_analytics_summary()
    print(summary)
 
+Enhanced ML and Neural Network Estimators
+----------------------------------------
+
+Use the new enhanced estimators with pre-trained models:
+
+.. code-block:: python
+
+   from lrdbenchmark import (
+       CNNEstimator, LSTMEstimator, GRUEstimator, TransformerEstimator,
+       RandomForestEstimator, SVREstimator, GradientBoostingEstimator
+   )
+   
+   # Enhanced CNN with residual connections and attention
+   cnn = CNNEstimator()
+   H_cnn = cnn.estimate(data)
+   
+   # Enhanced LSTM with bidirectional architecture
+   lstm = LSTMEstimator()
+   H_lstm = lstm.estimate(data)
+   
+   # Enhanced GRU with attention mechanisms
+   gru = GRUEstimator()
+   H_gru = gru.estimate(data)
+   
+   # Enhanced Transformer with self-attention
+   transformer = TransformerEstimator()
+   H_transformer = transformer.estimate(data)
+   
+   # Traditional ML estimators
+   rf = RandomForestEstimator()
+   H_rf = rf.estimate(data)
+   
+   svr = SVREstimator()
+   H_svr = svr.estimate(data)
+   
+   gb = GradientBoostingEstimator()
+   H_gb = gb.estimate(data)
+   
+   print(f"CNN H estimate: {H_cnn:.3f}")
+   print(f"LSTM H estimate: {H_lstm:.3f}")
+   print(f"GRU H estimate: {H_gru:.3f}")
+   print(f"Transformer H estimate: {H_transformer:.3f}")
+
 Advanced Usage
 -------------
 
@@ -97,7 +140,7 @@ Custom benchmark configuration:
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    
    # Configure benchmark
    benchmark = ComprehensiveBenchmark()

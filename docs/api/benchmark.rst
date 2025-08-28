@@ -1,12 +1,12 @@
 Benchmark API
 ============
 
-LRDBench provides a comprehensive benchmarking framework for evaluating and comparing different estimators of long-range dependence.
+lrdbenchmark provides a comprehensive benchmarking framework for evaluating and comparing all 18 estimators of long-range dependence.
 
 Comprehensive Benchmark
 ---------------------
 
-.. autoclass:: lrdbench.analysis.benchmark.ComprehensiveBenchmark
+.. autoclass:: lrdbenchmark.analysis.benchmark.ComprehensiveBenchmark
    :members:
    :undoc-members:
    :show-inheritance:
@@ -20,12 +20,12 @@ Comprehensive Benchmark
 Benchmark Results
 ----------------
 
-.. autoclass:: lrdbench.analysis.benchmark.BenchmarkResult
+.. autoclass:: lrdbenchmark.analysis.benchmark.BenchmarkResult
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: lrdbench.analysis.benchmark.EstimatorResult
+.. autoclass:: lrdbenchmark.analysis.benchmark.EstimatorResult
    :members:
    :undoc-members:
    :show-inheritance:
@@ -33,7 +33,7 @@ Benchmark Results
 Benchmark Configuration
 ----------------------
 
-.. autoclass:: lrdbench.analysis.benchmark.BenchmarkConfig
+.. autoclass:: lrdbenchmark.analysis.benchmark.BenchmarkConfig
    :members:
    :undoc-members:
    :show-inheritance:
@@ -46,7 +46,7 @@ Basic Benchmark
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    import pandas as pd
 
    # Create benchmark instance
@@ -93,7 +93,7 @@ Classical Estimators Only
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    
    benchmark = ComprehensiveBenchmark()
    

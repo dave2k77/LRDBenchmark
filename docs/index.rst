@@ -27,7 +27,7 @@ Welcome to LRDBenchmark's documentation!
 Key Features
 -----------
 
-* **Comprehensive Estimator Suite**: Classical, machine learning, and neural network estimators
+* **Comprehensive Estimator Suite**: 18 total estimators including classical, enhanced machine learning, and neural network estimators
 * **Multiple Data Models**: FBM, FGN, ARFIMA, MRW with configurable parameters
 * **High Performance**: GPU-accelerated implementations with JAX and PyTorch backends
 * **Analytics System**: Built-in usage tracking and performance monitoring
