@@ -365,15 +365,18 @@ class EnhancedTransformerEstimator(BaseMLEstimator):
         torch.Tensor
             Prepared tensor for transformer
         """
-        if data.ndim == 1:
-            data = data.reshape(1, -1)
-
-        # Convert to torch tensor
-        data_tensor = torch.FloatTensor(data)  # (batch, seq_len)
-
-        # Add feature dimension if needed
-        if data_tensor.dim() == 2:
-            data_tensor = data_tensor.unsqueeze(-1)  # (batch, seq_len, features)
+        # Ensure data is 1D
+        if data.ndim > 1:
+            data = data.flatten()
+        
+        # Normalize the data
+        data_normalized = (data - np.mean(data)) / (np.std(data) + 1e-8)
+        
+        # Reshape for transformer: (seq_len, features)
+        data_reshaped = data_normalized.reshape(-1, 1)
+        
+        # Convert to torch tensor and add batch dimension
+        data_tensor = torch.FloatTensor(data_reshaped).unsqueeze(0)  # (batch=1, seq_len, features=1)
 
         return data_tensor.to(self.device)
 
@@ -398,10 +401,16 @@ class EnhancedTransformerEstimator(BaseMLEstimator):
         y = []
         
         for data, label in zip(data_list, labels):
-            # For Transformer, we want (seq_len, features) format
-            if data.ndim == 1:
-                data = data.reshape(-1, 1)  # (seq_len, 1)
-            X.append(data)
+            # Ensure data is 1D
+            if data.ndim > 1:
+                data = data.flatten()
+            
+            # Normalize the data
+            data_normalized = (data - np.mean(data)) / (np.std(data) + 1e-8)
+            
+            # Reshape for Transformer: (seq_len, features)
+            data_reshaped = data_normalized.reshape(-1, 1)  # (seq_len, 1)
+            X.append(data_reshaped)
             y.append(label)
 
         # Split data
@@ -615,14 +624,21 @@ class EnhancedTransformerEstimator(BaseMLEstimator):
             True if pretrained model was loaded successfully, False otherwise
         """
         try:
-            # Check if we have a trained neural network model
-            model_path = os.path.join(self.parameters["model_save_path"], "enhanced_transformer_model.pth")
+            # Check multiple possible paths for the pretrained model
+            possible_paths = [
+                os.path.join(self.parameters["model_save_path"], "enhanced_transformer_model.pth"),
+                "models/enhanced_transformer/enhanced_transformer_model.pth",
+                "../models/enhanced_transformer/enhanced_transformer_model.pth",
+                "../../models/enhanced_transformer/enhanced_transformer_model.pth",
+                os.path.join(os.path.dirname(__file__), "..", "..", "..", "models", "enhanced_transformer", "enhanced_transformer_model.pth"),
+            ]
             
-            if os.path.exists(model_path):
-                # Load trained model
-                self._load_model(model_path)
-                print(f"✅ Loaded pretrained PyTorch model: {model_path}")
-                return True
+            for model_path in possible_paths:
+                if os.path.exists(model_path):
+                    # Load trained model
+                    self._load_model(model_path)
+                    print(f"✅ Loaded pretrained PyTorch model: {model_path}")
+                    return True
             
             # If no PyTorch model found, try the base class method for scikit-learn models
             return super()._try_load_pretrained_model()

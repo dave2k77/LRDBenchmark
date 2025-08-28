@@ -340,11 +340,15 @@ class EnhancedCNNEstimator(BaseMLEstimator):
         torch.Tensor
             Prepared tensor for CNN
         """
-        if data.ndim == 1:
-            data = data.reshape(1, -1)
-
-        # Convert to torch tensor and add channel dimension
-        data_tensor = torch.FloatTensor(data).unsqueeze(1)  # (batch, channels, length)
+        # Ensure data is 1D
+        if data.ndim > 1:
+            data = data.flatten()
+        
+        # Normalize the data
+        data_normalized = (data - np.mean(data)) / (np.std(data) + 1e-8)
+        
+        # Reshape for CNN: (batch=1, channels=1, length)
+        data_tensor = torch.FloatTensor(data_normalized).unsqueeze(0).unsqueeze(0)  # (batch, channels, length)
 
         return data_tensor.to(self.device)
 
@@ -369,9 +373,16 @@ class EnhancedCNNEstimator(BaseMLEstimator):
         y = []
         
         for data, label in zip(data_list, labels):
-            if data.ndim == 1:
-                data = data.reshape(1, -1)
-            X.append(data)
+            # Ensure data is 1D
+            if data.ndim > 1:
+                data = data.flatten()
+            
+            # Normalize the data
+            data_normalized = (data - np.mean(data)) / (np.std(data) + 1e-8)
+            
+            # Reshape for CNN: (channels=1, length)
+            data_reshaped = data_normalized.reshape(1, -1)  # (channels=1, length)
+            X.append(data_reshaped)
             y.append(label)
 
         # Split data
@@ -585,14 +596,21 @@ class EnhancedCNNEstimator(BaseMLEstimator):
             True if pretrained model was loaded successfully, False otherwise
         """
         try:
-            # Check if we have a trained neural network model
-            model_path = os.path.join(self.parameters["model_save_path"], "enhanced_cnn_model.pth")
+            # Check multiple possible paths for the pretrained model
+            possible_paths = [
+                os.path.join(self.parameters["model_save_path"], "enhanced_cnn_model.pth"),
+                "models/enhanced_cnn/enhanced_cnn_model.pth",
+                "../models/enhanced_cnn/enhanced_cnn_model.pth",
+                "../../models/enhanced_cnn/enhanced_cnn_model.pth",
+                os.path.join(os.path.dirname(__file__), "..", "..", "..", "models", "enhanced_cnn", "enhanced_cnn_model.pth"),
+            ]
             
-            if os.path.exists(model_path):
-                # Load trained model
-                self._load_model(model_path)
-                print(f"✅ Loaded pretrained PyTorch model: {model_path}")
-                return True
+            for model_path in possible_paths:
+                if os.path.exists(model_path):
+                    # Load trained model
+                    self._load_model(model_path)
+                    print(f"✅ Loaded pretrained PyTorch model: {model_path}")
+                    return True
             
             # If no PyTorch model found, try the base class method for scikit-learn models
             return super()._try_load_pretrained_model()

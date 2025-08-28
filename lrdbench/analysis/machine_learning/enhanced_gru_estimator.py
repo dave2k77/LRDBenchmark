@@ -559,14 +559,21 @@ class EnhancedGRUEstimator(BaseMLEstimator):
             True if pretrained model was loaded successfully, False otherwise
         """
         try:
-            # Check if we have a trained neural network model
-            model_path = os.path.join(self.parameters["model_save_path"], "enhanced_gru_model.pth")
+            # Check multiple possible paths for the pretrained model
+            possible_paths = [
+                os.path.join(self.parameters["model_save_path"], "enhanced_gru_model.pth"),
+                "models/enhanced_gru/enhanced_gru_model.pth",
+                "../models/enhanced_gru/enhanced_gru_model.pth",
+                "../../models/enhanced_gru/enhanced_gru_model.pth",
+                os.path.join(os.path.dirname(__file__), "..", "..", "..", "models", "enhanced_gru", "enhanced_gru_model.pth"),
+            ]
             
-            if os.path.exists(model_path):
-                # Load trained model
-                self._load_model(model_path)
-                print(f"✅ Loaded pretrained PyTorch model: {model_path}")
-                return True
+            for model_path in possible_paths:
+                if os.path.exists(model_path):
+                    # Load trained model
+                    self._load_model(model_path)
+                    print(f"✅ Loaded pretrained PyTorch model: {model_path}")
+                    return True
             
             # If no PyTorch model found, try the base class method for scikit-learn models
             return super()._try_load_pretrained_model()
