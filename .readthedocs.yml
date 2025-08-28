@@ -16,7 +16,6 @@ python:
   install:
     - requirements: docs/requirements.txt
     - path: .
-  system_packages: true  # Install system packages if needed for math rendering
 
 # Build PDFs and EPUB
 formats:
@@ -30,5 +29,3 @@ formats:
 environment:
   PYTHONPATH: "."
   SPHINX_DEBUG: "1"
-  SPHINX_MATH_RENDERER: "mathjax"
-  SPHINX_MATHJAX_CONFIG: "mathjax"
