@@ -568,26 +568,52 @@ class EnhancedGRUEstimator(BaseMLEstimator):
                 os.path.join(os.path.dirname(__file__), "..", "..", "..", "models", "enhanced_gru", "enhanced_gru_model.pth"),
             ]
             
-            print(f"🔍 Checking paths for GRU model...")
-            for i, model_path in enumerate(possible_paths):
-                exists = os.path.exists(model_path)
-                print(f"  Path {i+1}: {model_path} - {'✅ EXISTS' if exists else '❌ NOT FOUND'}")
-                if exists:
-                    try:
-                        # Load trained model
-                        self._load_model(model_path)
-                        print(f"✅ Successfully loaded pretrained PyTorch model: {model_path}")
-                        return True
-                    except Exception as load_error:
-                        print(f"⚠️ Failed to load model from {model_path}: {load_error}")
-                        continue
-            
-            print(f"🔍 No PyTorch models found, trying scikit-learn models...")
-            # If no PyTorch model found, try the base class method for scikit-learn models
-            return super()._try_load_pretrained_model()
+            # Try to import streamlit for logging, fallback to print if not available
+            try:
+                import streamlit as st
+                st.write(f"🔍 Checking paths for GRU model...")
+                for i, model_path in enumerate(possible_paths):
+                    exists = os.path.exists(model_path)
+                    st.write(f"  Path {i+1}: {model_path} - {'✅ EXISTS' if exists else '❌ NOT FOUND'}")
+                    if exists:
+                        try:
+                            # Load trained model
+                            self._load_model(model_path)
+                            st.write(f"✅ Successfully loaded pretrained PyTorch model: {model_path}")
+                            return True
+                        except Exception as load_error:
+                            st.write(f"⚠️ Failed to load model from {model_path}: {load_error}")
+                            continue
+                
+                st.write(f"🔍 No PyTorch models found, trying scikit-learn models...")
+                # If no PyTorch model found, try the base class method for scikit-learn models
+                return super()._try_load_pretrained_model()
+            except ImportError:
+                # Fallback to print if streamlit not available
+                print(f"🔍 Checking paths for GRU model...")
+                for i, model_path in enumerate(possible_paths):
+                    exists = os.path.exists(model_path)
+                    print(f"  Path {i+1}: {model_path} - {'✅ EXISTS' if exists else '❌ NOT FOUND'}")
+                    if exists:
+                        try:
+                            # Load trained model
+                            self._load_model(model_path)
+                            print(f"✅ Successfully loaded pretrained PyTorch model: {model_path}")
+                            return True
+                        except Exception as load_error:
+                            print(f"⚠️ Failed to load model from {model_path}: {load_error}")
+                            continue
+                
+                print(f"🔍 No PyTorch models found, trying scikit-learn models...")
+                # If no PyTorch model found, try the base class method for scikit-learn models
+                return super()._try_load_pretrained_model()
             
         except Exception as e:
-            print(f"⚠️ Could not load pretrained model for {self.__class__.__name__}: {e}")
+            try:
+                import streamlit as st
+                st.write(f"⚠️ Could not load pretrained model for {self.__class__.__name__}: {e}")
+            except ImportError:
+                print(f"⚠️ Could not load pretrained model for {self.__class__.__name__}: {e}")
             return False
 
     def estimate(self, data: np.ndarray) -> Dict[str, Any]:

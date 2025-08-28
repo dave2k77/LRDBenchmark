@@ -568,26 +568,52 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
                 os.path.join(os.path.dirname(__file__), "..", "..", "..", "models", "enhanced_lstm", "enhanced_lstm_model.pth"),
             ]
             
-            print(f"🔍 Checking paths for LSTM model...")
-            for i, model_path in enumerate(possible_paths):
-                exists = os.path.exists(model_path)
-                print(f"  Path {i+1}: {model_path} - {'✅ EXISTS' if exists else '❌ NOT FOUND'}")
-                if exists:
-                    try:
-                        # Load trained model
-                        self._load_model(model_path)
-                        print(f"✅ Successfully loaded pretrained PyTorch model: {model_path}")
-                        return True
-                    except Exception as load_error:
-                        print(f"⚠️ Failed to load model from {model_path}: {load_error}")
-                        continue
-            
-            print(f"🔍 No PyTorch models found, trying scikit-learn models...")
-            # If no PyTorch model found, try the base class method for scikit-learn models
-            return super()._try_load_pretrained_model()
+            # Try to import streamlit for logging, fallback to print if not available
+            try:
+                import streamlit as st
+                st.write(f"🔍 Checking paths for LSTM model...")
+                for i, model_path in enumerate(possible_paths):
+                    exists = os.path.exists(model_path)
+                    st.write(f"  Path {i+1}: {model_path} - {'✅ EXISTS' if exists else '❌ NOT FOUND'}")
+                    if exists:
+                        try:
+                            # Load trained model
+                            self._load_model(model_path)
+                            st.write(f"✅ Successfully loaded pretrained PyTorch model: {model_path}")
+                            return True
+                        except Exception as load_error:
+                            st.write(f"⚠️ Failed to load model from {model_path}: {load_error}")
+                            continue
+                
+                st.write(f"🔍 No PyTorch models found, trying scikit-learn models...")
+                # If no PyTorch model found, try the base class method for scikit-learn models
+                return super()._try_load_pretrained_model()
+            except ImportError:
+                # Fallback to print if streamlit not available
+                print(f"🔍 Checking paths for LSTM model...")
+                for i, model_path in enumerate(possible_paths):
+                    exists = os.path.exists(model_path)
+                    print(f"  Path {i+1}: {model_path} - {'✅ EXISTS' if exists else '❌ NOT FOUND'}")
+                    if exists:
+                        try:
+                            # Load trained model
+                            self._load_model(model_path)
+                            print(f"✅ Successfully loaded pretrained PyTorch model: {model_path}")
+                            return True
+                        except Exception as load_error:
+                            print(f"⚠️ Failed to load model from {model_path}: {load_error}")
+                            continue
+                
+                print(f"🔍 No PyTorch models found, trying scikit-learn models...")
+                # If no PyTorch model found, try the base class method for scikit-learn models
+                return super()._try_load_pretrained_model()
             
         except Exception as e:
-            print(f"⚠️ Could not load pretrained model for {self.__class__.__name__}: {e}")
+            try:
+                import streamlit as st
+                st.write(f"⚠️ Could not load pretrained model for {self.__class__.__name__}: {e}")
+            except ImportError:
+                print(f"⚠️ Could not load pretrained model for {self.__class__.__name__}: {e}")
             return False
 
     def estimate(self, data: np.ndarray) -> Dict[str, Any]:
@@ -611,10 +637,28 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
             raise ImportError("PyTorch is required for Enhanced LSTM estimator")
 
         # Try to load pretrained model first
+        try:
+            import streamlit as st
+            st.write(f"🔍 LSTM: Attempting to load pretrained model...")
+        except ImportError:
+            pass
+            
         if self._try_load_pretrained_model():
+            try:
+                import streamlit as st
+                st.write(f"✅ LSTM: Pretrained model loaded successfully!")
+            except ImportError:
+                pass
+                
             # Check if we loaded a PyTorch model or scikit-learn model
             if hasattr(self.model, 'forward') and callable(getattr(self.model, 'forward', None)):
                 # We have a PyTorch model
+                try:
+                    import streamlit as st
+                    st.write(f"🤖 LSTM: Using PyTorch neural network model")
+                except ImportError:
+                    pass
+                    
                 data_tensor = self._prepare_data(data)
                 
                 # Make prediction
@@ -631,6 +675,12 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
                 method = "Enhanced LSTM (Trained Neural Network)"
             else:
                 # We have a scikit-learn model
+                try:
+                    import streamlit as st
+                    st.write(f"📊 LSTM: Using scikit-learn ML model")
+                except ImportError:
+                    pass
+                    
                 features = self.extract_features(data)
                 if features.ndim == 1:
                     features = features.reshape(1, -1)
@@ -650,6 +700,12 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
                 method = "Enhanced LSTM (Pretrained ML)"
         else:
             # Create and use untrained model (fallback)
+            try:
+                import streamlit as st
+                st.write(f"⚠️ LSTM: No pretrained model found, using untrained neural network")
+            except ImportError:
+                pass
+                
             data_tensor = self._prepare_data(data)
             
             # Create fresh model
