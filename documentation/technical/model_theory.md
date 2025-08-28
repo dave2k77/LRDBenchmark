@@ -59,7 +59,7 @@ $$ρ(k) \approx H^{2H-1}k^{2H-2}$$
 
 #### Power Spectral Density
 
-The power spectral density of fBm is:
+The power spectral density of `fBm` is:
 
 $$S(f) = σ²|f|^{-2H-1}$$
 
@@ -70,22 +70,22 @@ $$S(f) = σ²|f|^{-2H-1}$$
 The Davies-Harte method uses the spectral representation:
 
 1. **Spectral Density**: $S(f) = σ²(2 sin(πf/n))^{1-2H}$
-2. **Complex Noise**: Generate Z(f) ~ CN(0, 1)
-3. **Filtering**: Y(f) = √S(f) Z(f)
-4. **Inverse FFT**: B_H(t) = FFT^(-1)(Y(f))
+2. **Complex Noise**: Generate $Z(f) \sim CN(0, 1)$
+3. **Filtering**: $Y(f) = \sqrt{S(f)} Z(f)$
+4. **Inverse FFT**: $B_H(t) = FFT^{-1}(Y(f))$
 
 #### Cholesky Decomposition
 
-1. **Covariance Matrix**: C(i,j) = σ²/2(|i|^(2H) + |j|^(2H) - |i-j|^(2H))
-2. **Cholesky Decomposition**: C = LL^T
-3. **Generation**: B_H = LZ where Z ~ N(0, I)
+1. **Covariance Matrix**: $C(i,j) = σ²/2(|i|^{2H} + |j|^{2H} - |i-j|^{2H}$
+2. **Cholesky Decomposition**: $C = LL^T$
+3. **Generation**: $B_H = LZ$ where $Z \sim N(0, I)$
 
 #### Circulant Embedding
 
-1. **Autocovariance**: γ(k) = σ²/2(|k+1|^(2H) - 2|k|^(2H) + |k-1|^(2H))
-2. **Circulant Matrix**: Construct circulant matrix from γ(k)
-3. **Eigenvalue Decomposition**: C = QΛQ^T
-4. **Generation**: B_H = Q√ΛZ
+1. **Autocovariance**: $γ(k) = σ²/2(|k+1|^{2H} - 2|k|^{2H} + |k-1|^{2H})$
+2. **Circulant Matrix**: Construct circulant matrix from $γ(k)$
+3. **Eigenvalue Decomposition**: $C = QΛQ^T$
+4. **Generation**: $B_H = Q\sqrt{Λ}Z$
 
 ### Implementation
 
@@ -105,37 +105,38 @@ data = fbm.generate(1000, seed=42)
 
 Fractional Gaussian Noise is the increments of fBm:
 
-X(t) = B_H(t+1) - B_H(t)
+$$X(t) = B_H(t+1) - B_H(t)$$
 
 ### Properties
 
 #### Stationarity
 
-fGn is a stationary process with:
+`fGn` is a stationary process with:
 
-- **Mean**: E[X(t)] = 0
-- **Variance**: Var(X(t)) = σ²
-- **Autocorrelation**: ρ(k) = (1/2)(|k+1|^(2H) - 2|k|^(2H) + |k-1|^(2H))
+- **Mean**: $E[X(t)] = 0$
+- **Variance**: $\operatorname{Var}(X(t)) = σ²$
+- **Autocorrelation**: $ρ(k) = (1/2)(|k+1|^{2H} - 2|k|^{2H} + |k-1|^{2H})$
 
 #### Long-Range Dependence
 
-For H > 0.5, fGn exhibits long-range dependence with:
+For $ H > 0.5$, `fGn` exhibits long-range dependence with:
 
-- **Persistent**: H > 0.5 (positive correlations)
-- **Anti-persistent**: H < 0.5 (negative correlations)
-- **Independent**: H = 0.5 (white noise)
+- **Persistent**: $ H > 0.5$ (positive correlations)
+- **Anti-persistent**: $H < 0.5$ (negative correlations)
+- **Independent**: $H = 0.5$ (white noise)
 
 #### Power Spectral Density
 
-The power spectral density of fGn is:
+The power spectral density of `fGn` is:
 
-S(f) = σ²(2 sin(πf))^(1-2H)
+$S(f) = σ²(2 sin(πf))^{1-2H}$
 
 ### Implementation
 
 **Location**: `lrdbench.models.data_models.fgn.fgn_model.FractionalGaussianNoise`
 
 **Usage**:
+
 ```python
 from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
 
@@ -149,13 +150,13 @@ data = fgn.generate(1000, seed=42)
 
 ARFIMA (AutoRegressive Fractionally Integrated Moving Average) models are defined as:
 
-φ(B)(1-B)^d X_t = θ(B)ε_t
+$$φ(B)(1-B)^d X_t = θ(B)ε_t$$
 
 where:
-- φ(B) = 1 - φ₁B - φ₂B² - ... - φ_p B^p (AR polynomial)
-- θ(B) = 1 + θ₁B + θ₂B² + ... + θ_q B^q (MA polynomial)
-- (1-B)^d is the fractional differencing operator
-- ε_t ~ N(0, σ²) is white noise
+- $φ(B) = 1 - φ₁B - φ₂B² - ... - φ_p B^p$ (AR polynomial)
+- $θ(B) = 1 + θ₁B + θ₂B² + ... + θ_q B^q$ (MA polynomial)
+- $(1-B)^d$ is the fractional differencing operator
+- $ε_t ~ N(0, σ²)$ is white noise
 
 ### Mathematical Properties
 
@@ -163,23 +164,23 @@ where:
 
 The fractional differencing operator (1-B)^d is defined as:
 
-(1-B)^d = Σ_{k=0}^∞ (-1)^k (d choose k) B^k
+$$(1-B)^d = Σ_{k=0}^∞ (-1)^k $$ (d choose k) B^k
 
-where (d choose k) = Γ(d+1)/(Γ(k+1)Γ(d-k+1)) is the generalized binomial coefficient.
+where $d \choose k$ = $\frac{Γ(d+1)}{(Γ(k+1)Γ(d-k+1))}$ is the generalized binomial coefficient.
 
 #### Long-Memory Property
 
-For 0 < d < 0.5, the process exhibits long-memory with:
+For $0 < d < 0.5$, the process exhibits long-memory with:
 
-- **Autocorrelation**: ρ(k) ≈ ck^(2d-1) for large k
-- **Power Spectrum**: S(f) ≈ c|f|^(-2d) for small f
-- **Hurst Parameter**: H = d + 0.5
+- **Autocorrelation**: $ρ(k) ≈ ck^(2d-1)$ for large $k$
+- **Power Spectrum**: $S(f) ≈ c|f|^(-2d)$ for small $f$
+- **Hurst Parameter**: $H = d + 0.5$
 
 #### Stationarity and Invertibility
 
-- **Stationary**: for -0.5 < d < 0.5
-- **Invertible**: for -0.5 < d < 0.5
-- **Long-memory**: for 0 < d < 0.5
+- **Stationary**: for $-0.5 < d < 0.5$
+- **Invertible**: for $-0.5 < d < 0.5$
+- **Long-memory**: for $0 < d < 0.5$
 
 ### Implementation
 
@@ -194,8 +195,8 @@ data = arfima.generate(1000, seed=42)
 ```
 
 **Performance Features**:
-- **FFT-based fractional differencing**: O(n log n) complexity
-- **Efficient AR/MA filtering**: Using scipy.signal.lfilter
+- **FFT-based fractional differencing**: $O(n \log n)$ complexity
+- **Efficient AR/MA filtering**: Using `scipy.signal.lfilter`
 - **Spectral method as default**: Optimal performance for most cases
 
 ## Multifractal Random Walk (MRW)
@@ -204,13 +205,13 @@ data = arfima.generate(1000, seed=42)
 
 Multifractal Random Walk is a non-Gaussian process that exhibits multifractal scaling properties. It is defined as:
 
-X(t) = Σ_{i=1}^t ε_i exp(ω_i)
+$$X(t) = Σ_{i=1}^t ε_i exp(ω_i)$$
 
 where:
-- ε_i ~ N(0, σ²) are Gaussian innovations
-- ω_i is a multifractal process with:
-  - E[ω_i] = -λ²/2 (ensures E[X(t)] = 0)
-  - Cov(ω_i, ω_j) = λ² log_2(|i-j|+1) for i ≠ j
+- $ε_i ~ N(0, σ²)$ are Gaussian innovations
+- $ω_i$ is a multifractal process with:
+  - $E[ω_i] = -λ²/2$ (ensures $E[X(t)] = 0$)
+  - $Cov(ω_i, ω_j) = λ² log_2(|i-j|+1)$ for $i ≠ j$
 
 ### Mathematical Properties
 
@@ -218,7 +219,7 @@ where:
 
 The multifractal spectrum f(α) describes the distribution of local Hölder exponents:
 
-f(α) = 1 - (α - H)²/(2λ²)
+$$f(α) = 1 - (α - H)²/(2λ²)$$
 
 where:
 - α is the local Hölder exponent
@@ -227,13 +228,13 @@ where:
 
 #### Scaling Properties
 
-The q-th order structure function scales as:
+The $q-th$ order structure function scales as:
 
-S_q(τ) = E[|X(t+τ) - X(t)|^q] ≈ τ^ζ(q)
+$$S_q(τ) = \mathbb{E}[|X(t+τ) - X(t)|^q] ≈ τ^{ζ(q)}$$
 
 where the scaling exponents ζ(q) are:
 
-ζ(q) = qH - λ²q(q-1)/2
+$$ζ(q) = qH - λ²q(q-1)/2$$
 
 #### Non-Gaussian Properties
 
@@ -255,20 +256,20 @@ data = mrw.generate(1000, seed=42)
 
 ## Model Relationships
 
-### fBm ↔ fGn
+### `fBm` ↔ `fGn`
 
-- **fGn to fBm**: B_H(t) = Σ_{i=1}^t X_i where X_i ~ fGn
-- **fBm to fGn**: X_t = B_H(t) - B_H(t-1)
+- **`fGn` to `fBm`**: $B_H(t) = Σ_{i=1}^t X_i$ where $X_i ~ fGn$
+- **`fBm` to `fGn`**: $X_t = B_H(t) - B_H(t-1)$
 
-### ARFIMA ↔ fGn
+### `ARFIMA` ↔ `fGn`
 
-- **ARFIMA to fGn**: For d = H - 0.5, ARFIMA(d) ≈ fGn(H)
-- **fGn to ARFIMA**: fGn(H) can be approximated by ARFIMA(d = H - 0.5)
+- **`ARFIMA` to `fGn`**: For $d = H - 0.5$, $ARFIMA(d) ≈ fGn(H)$
+- **`fGn` to `ARFIMA`**: `fGn(H)` can be approximated by `ARFIMA(d = H - 0.5)`
 
-### MRW ↔ fBm
+### `MRW` ↔ `fBm`
 
-- **MRW to fBm**: For λ → 0, MRW → fBm
-- **fBm to MRW**: fBm is the Gaussian limit of MRW
+- **`MRW` to `fBm`**: For λ → 0, `MRW` → `fBm`
+- **`fBm` to `MRW`**:`fBm` is the Gaussian limit of `MRW`
 
 ## Mathematical Properties
 
@@ -276,26 +277,26 @@ data = mrw.generate(1000, seed=42)
 
 All models exhibit self-similarity:
 
-- **fBm**: B_H(at) = a^H B_H(t)
-- **fGn**: X(at) = a^(H-1) X(t)
-- **ARFIMA**: X(at) = a^(d-0.5) X(t)
-- **MRW**: X(at) = a^H X(t) (in distribution)
+- **`fBm`**: $B_H(at) = a^H B_H(t)$
+- **`fGn`**: $X(at) = a^{H-1} X(t)$
+- **`ARFIMA`**: $X(at) = a^{d-0.5} X(t)$
+- **`MRW`**: $X(at) = a^H X(t)$ (in distribution)
 
 ### Long-Range Dependence
 
 Long-range dependence is quantified by the Hurst parameter H:
 
-- **fBm/fGn**: Direct parameter H
-- **ARFIMA**: H = d + 0.5
-- **MRW**: Direct parameter H
+- **`fBm`/`fGn`**: Direct parameter H
+- **`ARFIMA`**: $H = d + 0.5$
+- **`MRW`**: Direct parameter H
 
 ### Power Law Scaling
 
 All models exhibit power law scaling:
 
-- **Autocorrelation**: ρ(k) ≈ ck^(2H-2)
-- **Power Spectrum**: S(f) ≈ c|f|^(-2H-1)
-- **Structure Function**: S_q(τ) ≈ τ^ζ(q)
+- **Autocorrelation**: $ρ(k) ≈ ck^{2H-2}$
+- **Power Spectrum**: S(f) ≈ c|f|^{-2H-1}
+- **Structure Function**: $S_q(τ) ≈ τ^{ζ(q)}$
 
 ## Implementation Details
 

@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lrdbench"
-version = "1.6.0"
+name = "lrdbenchmark"
+version = "1.6.1"
 description = "Long-Range Dependence Benchmarking Toolkit with Enhanced ML and Neural Network Estimators"
 readme = "README.md"
 license = {text = "MIT"}
@@ -65,19 +65,20 @@ dashboard = [
 
 [project.urls]
 Homepage = "https://github.com/dave2k77/LRDBenchmark"
-Documentation = "https://lrdbench.readthedocs.io/"
+Documentation = "https://lrdbenchmark.readthedocs.io/"
 Repository = "https://github.com/dave2k77/LRDBenchmark.git"
 Issues = "https://github.com/dave2k77/LRDBenchmark/issues"
+Download = "https://pypi.org/project/lrdbenchmark/"
+Source = "https://github.com/dave2k77/LRDBenchmark"
 
-[project.scripts]
-lrdbench = "lrdbench.cli:main"
+
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["lrdbench*"]
+include = ["lrdbenchmark*"]
 
 [tool.setuptools.package-data]
-lrdbench = ["py.typed"]
+lrdbenchmark = ["py.typed"]
 
 
 

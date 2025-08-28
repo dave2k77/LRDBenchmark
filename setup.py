@@ -14,7 +14,7 @@ def get_version():
         match = re.search(r'version = "([^"]+)"', content)
         if match:
             return match.group(1)
-    return "1.6.0"  # fallback
+    return "1.6.1"  # fallback
 
 def get_long_description():
     """Read README.md for long description"""
@@ -22,7 +22,7 @@ def get_long_description():
         return f.read()
 
 setup(
-    name="lrdbench",
+    name="lrdbenchmark",
     version=get_version(),
     description="Long-Range Dependence Benchmarking Toolkit with Enhanced ML and Neural Network Estimators",
     long_description=get_long_description(),
@@ -30,6 +30,13 @@ setup(
     author="LRDBench Development Team",
     author_email="lrdbench@example.com",
     url="https://github.com/dave2k77/LRDBenchmark",
+    project_urls={
+        "Documentation": "https://lrdbenchmark.readthedocs.io/",
+        "Repository": "https://github.com/dave2k77/LRDBenchmark.git",
+        "Issues": "https://github.com/dave2k77/LRDBenchmark/issues",
+        "Download": "https://pypi.org/project/lrdbenchmark/",
+        "Source": "https://github.com/dave2k77/LRDBenchmark",
+    },
     packages=find_packages(),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -83,11 +90,7 @@ setup(
             "plotly>=5.15.0",
         ],
     },
-    entry_points={
-        "console_scripts": [
-            "lrdbench=lrdbench.cli:main",
-        ],
-    },
+
     include_package_data=True,
     zip_safe=False,
 )
