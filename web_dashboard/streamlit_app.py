@@ -986,7 +986,7 @@ with tab5:
                         contamination_scenarios["Random Measurement Error"] = lambda data: contamination_model.add_measurement_random(data, std=contamination_intensity * 0.05)
                     
                     # Test estimators on clean and contaminated data
-                    estimators_to_test = ["DFA", "RS", "GPH", "CWT"]
+                    estimators_to_test = ["DFA", "RS", "GPH", "CWT", "Periodogram"]  # Added Periodogram as it had best MAE
                     if ML_ESTIMATORS_AVAILABLE:
                         estimators_to_test.extend(["CNN", "LSTM", "RandomForest", "SVR"])
                     
@@ -1015,6 +1015,9 @@ with tab5:
                                 elif estimator_name == "CWT":
                                     from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
                                     estimator = CWTEstimator()
+                                elif estimator_name == "Periodogram":
+                                    from lrdbench.analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
+                                    estimator = PeriodogramEstimator()
                                 elif estimator_name == "CNN":
                                     from lrdbench.analysis.machine_learning import CNNEstimator
                                     estimator = CNNEstimator()
