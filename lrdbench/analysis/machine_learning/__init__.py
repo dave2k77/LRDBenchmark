@@ -19,16 +19,12 @@ from .neural_network_estimator import NeuralNetworkEstimator
 from .random_forest_estimator import RandomForestEstimator
 from .svr_estimator import SVREstimator
 from .gradient_boosting_estimator import GradientBoostingEstimator
-from .cnn_estimator import CNNEstimator
-from .lstm_estimator import LSTMEstimator
-from .gru_estimator import GRUEstimator
-from .transformer_estimator import TransformerEstimator
 
-# Enhanced neural network estimators
-from .enhanced_cnn_estimator import EnhancedCNNEstimator
-from .enhanced_lstm_estimator import EnhancedLSTMEstimator
-from .enhanced_gru_estimator import EnhancedGRUEstimator
-from .enhanced_transformer_estimator import EnhancedTransformerEstimator
+# Enhanced neural network estimators (replacing old ones)
+from .enhanced_cnn_estimator import EnhancedCNNEstimator as CNNEstimator
+from .enhanced_lstm_estimator import EnhancedLSTMEstimator as LSTMEstimator
+from .enhanced_gru_estimator import EnhancedGRUEstimator as GRUEstimator
+from .enhanced_transformer_estimator import EnhancedTransformerEstimator as TransformerEstimator
 
 __all__ = [
     "BaseMLEstimator",
@@ -36,13 +32,9 @@ __all__ = [
     "RandomForestEstimator",
     "SVREstimator",
     "GradientBoostingEstimator",
+    # Enhanced estimators (aliased to original names)
     "CNNEstimator",
     "LSTMEstimator",
     "GRUEstimator",
     "TransformerEstimator",
-    # Enhanced estimators
-    "EnhancedCNNEstimator",
-    "EnhancedLSTMEstimator",
-    "EnhancedGRUEstimator",
-    "EnhancedTransformerEstimator",
 ]

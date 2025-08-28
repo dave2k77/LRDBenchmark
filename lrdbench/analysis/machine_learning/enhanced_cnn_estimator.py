@@ -642,7 +642,16 @@ class EnhancedCNNEstimator(BaseMLEstimator):
                 method = "Enhanced CNN (Trained Neural Network)"
             else:
                 # We have a scikit-learn model
-                features = self.extract_features(data)
+                # Ensure we extract features properly for scikit-learn models
+                if self.parameters.get("feature_extraction_method", "statistical") == "raw":
+                    # If using raw features, we need to ensure the data matches the expected dimensions
+                    if data.ndim == 1:
+                        data = data.reshape(1, -1)
+                    features = data
+                else:
+                    # Extract features using the configured method
+                    features = self.extract_features(data)
+                
                 if features.ndim == 1:
                     features = features.reshape(1, -1)
                 

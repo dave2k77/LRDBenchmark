@@ -98,14 +98,10 @@ except ImportError as e:
 # Import ML estimators if available
 ML_ESTIMATORS_AVAILABLE = False
 try:
-    from lrdbench.analysis.machine_learning.enhanced_cnn_estimator import EnhancedCNNEstimator as CNNEstimator
-    from lrdbench.analysis.machine_learning.enhanced_lstm_estimator import EnhancedLSTMEstimator as LSTMEstimator
-    from lrdbench.analysis.machine_learning.enhanced_gru_estimator import EnhancedGRUEstimator as GRUEstimator
-    from lrdbench.analysis.machine_learning.enhanced_transformer_estimator import EnhancedTransformerEstimator as TransformerEstimator
-    from lrdbench.analysis.machine_learning.svr_estimator import SVREstimator
-    from lrdbench.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
-    from lrdbench.analysis.machine_learning.neural_network_estimator import NeuralNetworkEstimator
-    from lrdbench.analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
+    from lrdbench.analysis.machine_learning import (
+        CNNEstimator, LSTMEstimator, GRUEstimator, TransformerEstimator,
+        SVREstimator, RandomForestEstimator, NeuralNetworkEstimator, GradientBoostingEstimator
+    )
     ML_ESTIMATORS_AVAILABLE = True
     st.success("✅ ML estimators with pretrained models loaded successfully!")
 except ImportError as e:
@@ -702,28 +698,28 @@ with tab3:
                                         from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
                                         estimator = MFDFAEstimator()
                                     elif estimator_name == "CNN":
-                                        from lrdbench.analysis.machine_learning.enhanced_cnn_estimator import EnhancedCNNEstimator as CNNEstimator
+                                        from lrdbench.analysis.machine_learning import CNNEstimator
                                         estimator = CNNEstimator()
                                     elif estimator_name == "LSTM":
-                                        from lrdbench.analysis.machine_learning.enhanced_lstm_estimator import EnhancedLSTMEstimator as LSTMEstimator
+                                        from lrdbench.analysis.machine_learning import LSTMEstimator
                                         estimator = LSTMEstimator()
                                     elif estimator_name == "GRU":
-                                        from lrdbench.analysis.machine_learning.enhanced_gru_estimator import EnhancedGRUEstimator as GRUEstimator
+                                        from lrdbench.analysis.machine_learning import GRUEstimator
                                         estimator = GRUEstimator()
                                     elif estimator_name == "Transformer":
-                                        from lrdbench.analysis.machine_learning.enhanced_transformer_estimator import EnhancedTransformerEstimator as TransformerEstimator
+                                        from lrdbench.analysis.machine_learning import TransformerEstimator
                                         estimator = TransformerEstimator()
                                     elif estimator_name == "SVR":
-                                        from lrdbench.analysis.machine_learning.svr_estimator import SVREstimator
+                                        from lrdbench.analysis.machine_learning import SVREstimator
                                         estimator = SVREstimator()
                                     elif estimator_name == "RandomForest":
-                                        from lrdbench.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
+                                        from lrdbench.analysis.machine_learning import RandomForestEstimator
                                         estimator = RandomForestEstimator()
                                     elif estimator_name == "NeuralNetwork":
-                                        from lrdbench.analysis.machine_learning.neural_network_estimator import NeuralNetworkEstimator
+                                        from lrdbench.analysis.machine_learning import NeuralNetworkEstimator
                                         estimator = NeuralNetworkEstimator()
                                     elif estimator_name == "GradientBoosting":
-                                        from lrdbench.analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
+                                        from lrdbench.analysis.machine_learning import GradientBoostingEstimator
                                         estimator = GradientBoostingEstimator()
                                     else:
                                         continue
@@ -1015,16 +1011,16 @@ with tab5:
                                     from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
                                     estimator = CWTEstimator()
                                 elif estimator_name == "CNN":
-                                    from lrdbench.analysis.machine_learning.enhanced_cnn_estimator import EnhancedCNNEstimator as CNNEstimator
+                                    from lrdbench.analysis.machine_learning import CNNEstimator
                                     estimator = CNNEstimator()
                                 elif estimator_name == "LSTM":
-                                    from lrdbench.analysis.machine_learning.enhanced_lstm_estimator import EnhancedLSTMEstimator as LSTMEstimator
+                                    from lrdbench.analysis.machine_learning import LSTMEstimator
                                     estimator = LSTMEstimator()
                                 elif estimator_name == "RandomForest":
-                                    from lrdbench.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
+                                    from lrdbench.analysis.machine_learning import RandomForestEstimator
                                     estimator = RandomForestEstimator()
                                 elif estimator_name == "SVR":
-                                    from lrdbench.analysis.machine_learning.svr_estimator import SVREstimator
+                                    from lrdbench.analysis.machine_learning import SVREstimator
                                     estimator = SVREstimator()
                                 
                                 # Test on clean data
