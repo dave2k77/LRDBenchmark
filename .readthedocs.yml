@@ -16,8 +16,7 @@ python:
   install:
     - requirements: docs/requirements.txt
     - path: .
-  setup_py_install: true   # Install the package itself for proper API docs
-  pip_install: true        # Use pip install
+  system_packages: true  # Install system packages if needed for math rendering
 
 # Build PDFs and EPUB
 formats:
