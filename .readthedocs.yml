@@ -24,8 +24,3 @@ formats:
 
 # Additional configuration for enhanced ML and neural network documentation
 # This ensures proper handling of complex imports and type hints
-
-# Environment variables for better documentation building
-environment:
-  PYTHONPATH: "."
-  SPHINX_DEBUG: "1"
