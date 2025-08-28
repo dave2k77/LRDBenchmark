@@ -585,9 +585,9 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
                             st.write(f"⚠️ Failed to load model from {model_path}: {load_error}")
                             continue
                 
-                st.write(f"🔍 No PyTorch models found, trying scikit-learn models...")
-                # If no PyTorch model found, try the base class method for scikit-learn models
-                return super()._try_load_pretrained_model()
+                st.write(f"🔍 No PyTorch models found, will create untrained PyTorch model")
+                # Don't fall back to scikit-learn - we want to use PyTorch models
+                return False
             except ImportError:
                 # Fallback to print if streamlit not available
                 print(f"🔍 Checking paths for LSTM model...")
@@ -604,9 +604,9 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
                             print(f"⚠️ Failed to load model from {model_path}: {load_error}")
                             continue
                 
-                print(f"🔍 No PyTorch models found, trying scikit-learn models...")
-                # If no PyTorch model found, try the base class method for scikit-learn models
-                return super()._try_load_pretrained_model()
+                print(f"🔍 No PyTorch models found, will create untrained PyTorch model")
+                # Don't fall back to scikit-learn - we want to use PyTorch models
+                return False
             
         except Exception as e:
             try:

@@ -612,8 +612,8 @@ class EnhancedCNNEstimator(BaseMLEstimator):
                     print(f"✅ Loaded pretrained PyTorch model: {model_path}")
                     return True
             
-            # If no PyTorch model found, try the base class method for scikit-learn models
-            return super()._try_load_pretrained_model()
+            # If no PyTorch model found, will create untrained PyTorch model
+            return False
             
         except Exception as e:
             print(f"⚠️ Could not load pretrained model for {self.__class__.__name__}: {e}")

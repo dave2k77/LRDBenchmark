@@ -585,9 +585,9 @@ class EnhancedGRUEstimator(BaseMLEstimator):
                             st.write(f"⚠️ Failed to load model from {model_path}: {load_error}")
                             continue
                 
-                st.write(f"🔍 No PyTorch models found, trying scikit-learn models...")
-                # If no PyTorch model found, try the base class method for scikit-learn models
-                return super()._try_load_pretrained_model()
+                st.write(f"🔍 No PyTorch models found, will create untrained PyTorch model")
+                # Don't fall back to scikit-learn - we want to use PyTorch models
+                return False
             except ImportError:
                 # Fallback to print if streamlit not available
                 print(f"🔍 Checking paths for GRU model...")
@@ -604,9 +604,9 @@ class EnhancedGRUEstimator(BaseMLEstimator):
                             print(f"⚠️ Failed to load model from {model_path}: {load_error}")
                             continue
                 
-                print(f"🔍 No PyTorch models found, trying scikit-learn models...")
-                # If no PyTorch model found, try the base class method for scikit-learn models
-                return super()._try_load_pretrained_model()
+                print(f"🔍 No PyTorch models found, will create untrained PyTorch model")
+                # Don't fall back to scikit-learn - we want to use PyTorch models
+                return False
             
         except Exception as e:
             try:
@@ -637,10 +637,28 @@ class EnhancedGRUEstimator(BaseMLEstimator):
             raise ImportError("PyTorch is required for Enhanced GRU estimator")
 
         # Try to load pretrained model first
+        try:
+            import streamlit as st
+            st.write(f"🔍 GRU: Attempting to load pretrained model...")
+        except ImportError:
+            pass
+            
         if self._try_load_pretrained_model():
+            try:
+                import streamlit as st
+                st.write(f"✅ GRU: Pretrained model loaded successfully!")
+            except ImportError:
+                pass
+                
             # Check if we loaded a PyTorch model or scikit-learn model
             if hasattr(self.model, 'forward') and callable(getattr(self.model, 'forward', None)):
                 # We have a PyTorch model
+                try:
+                    import streamlit as st
+                    st.write(f"🤖 GRU: Using PyTorch neural network model")
+                except ImportError:
+                    pass
+                    
                 data_tensor = self._prepare_data(data)
                 
                 # Make prediction
@@ -657,6 +675,12 @@ class EnhancedGRUEstimator(BaseMLEstimator):
                 method = "Enhanced GRU (Trained Neural Network)"
             else:
                 # We have a scikit-learn model
+                try:
+                    import streamlit as st
+                    st.write(f"📊 GRU: Using scikit-learn ML model")
+                except ImportError:
+                    pass
+                    
                 features = self.extract_features(data)
                 if features.ndim == 1:
                     features = features.reshape(1, -1)
@@ -676,6 +700,12 @@ class EnhancedGRUEstimator(BaseMLEstimator):
                 method = "Enhanced GRU (Pretrained ML)"
         else:
             # Create and use untrained model (fallback)
+            try:
+                import streamlit as st
+                st.write(f"⚠️ GRU: No pretrained model found, using untrained neural network")
+            except ImportError:
+                pass
+                
             data_tensor = self._prepare_data(data)
             
             # Create fresh model
