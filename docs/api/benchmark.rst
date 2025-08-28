@@ -114,7 +114,7 @@ Machine Learning Estimators
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    
    benchmark = ComprehensiveBenchmark()
    
@@ -138,7 +138,7 @@ Neural Network Estimators
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    
    benchmark = ComprehensiveBenchmark()
    
@@ -162,7 +162,7 @@ Custom Configuration
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark, BenchmarkConfig
+   from lrdbenchmark import ComprehensiveBenchmark, BenchmarkConfig
    
    # Create custom configuration
    config = BenchmarkConfig(
@@ -191,7 +191,7 @@ Parallel Processing
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    import multiprocessing as mp
    
    # Set number of processes
@@ -211,7 +211,7 @@ Custom Data Models
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark, FBMModel, FGNModel
+   from lrdbenchmark import ComprehensiveBenchmark, FBMModel, FGNModel
    
    # Create custom data models
    custom_models = {
@@ -234,8 +234,8 @@ Custom Estimators
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
-   from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+   from lrdbenchmark import ComprehensiveBenchmark
+   from lrdbenchmark.analysis.temporal.dfa.dfa_estimator import DFAEstimator
    
    # Create custom estimator
    custom_dfa = DFAEstimator(
@@ -266,7 +266,7 @@ Statistical Analysis
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    import pandas as pd
    
    benchmark = ComprehensiveBenchmark()
@@ -295,7 +295,7 @@ Visualization
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    import matplotlib.pyplot as plt
    import seaborn as sns
    
@@ -334,7 +334,7 @@ Performance Comparison
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    import time
    
    benchmark = ComprehensiveBenchmark()
@@ -362,7 +362,7 @@ Error Analysis
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    import numpy as np
    
    benchmark = ComprehensiveBenchmark()
@@ -403,7 +403,7 @@ Confidence Intervals
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    import scipy.stats as stats
    
    benchmark = ComprehensiveBenchmark()
@@ -450,7 +450,7 @@ Export Results
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    import json
    import pandas as pd
    
@@ -478,7 +478,7 @@ Generate Reports
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark
+   from lrdbenchmark import ComprehensiveBenchmark
    
    benchmark = ComprehensiveBenchmark()
    results = benchmark.run_comprehensive_benchmark(data_length=1000, n_runs=10)

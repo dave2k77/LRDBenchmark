@@ -194,7 +194,7 @@ Plot results and data:
 .. code-block:: python
 
    import matplotlib.pyplot as plt
-   from lrdbench import FBMModel
+   from lrdbenchmark import FBMModel
    
    # Generate data with different H values
    H_values = [0.3, 0.5, 0.7, 0.9]

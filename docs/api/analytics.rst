@@ -234,7 +234,7 @@ Error Tracking
 
 .. code-block:: python
 
-   from lrdbench import track_errors, ComprehensiveBenchmark
+   from lrdbenchmark import track_errors, ComprehensiveBenchmark
    
    @track_errors
    def run_estimator_analysis():
@@ -268,7 +268,7 @@ Workflow Tracking
 
 .. code-block:: python
 
-   from lrdbench import track_workflow, FBMModel, ComprehensiveBenchmark
+   from lrdbenchmark import track_workflow, FBMModel, ComprehensiveBenchmark
    
    @track_workflow
    def complete_analysis_workflow():
@@ -459,7 +459,7 @@ Real-time Analytics Monitoring
    monitor_thread.start()
    
    # Your analysis code here
-   from lrdbench import FBMModel, ComprehensiveBenchmark
+   from lrdbenchmark import FBMModel, ComprehensiveBenchmark
    
    for i in range(5):
        model = FBMModel(H=0.5 + i*0.1, sigma=1.0)
@@ -478,7 +478,7 @@ Analytics Integration with Benchmarks
 
 .. code-block:: python
 
-   from lrdbench import ComprehensiveBenchmark, enable_analytics
+   from lrdbenchmark import ComprehensiveBenchmark, enable_analytics
    from lrdbench.analytics import AnalyticsDashboard
    
    # Enable analytics

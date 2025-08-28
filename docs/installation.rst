@@ -107,7 +107,7 @@ After installation, verify that LRDBenchmark is working correctly:
    print("Enhanced estimators imported successfully!")
    
    # Test basic functionality
-   from lrdbench import FBMModel
+   from lrdbenchmark import FBMModel
    model = FBMModel(H=0.7)
    data = model.generate(100)
    print(f"Generated {len(data)} samples")

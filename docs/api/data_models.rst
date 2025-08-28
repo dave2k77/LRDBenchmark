@@ -101,7 +101,7 @@ Multiple Realizations
 
 .. code-block:: python
 
-   from lrdbench import FBMModel
+   from lrdbenchmark import FBMModel
    import numpy as np
    
    # Generate multiple realizations
@@ -119,7 +119,7 @@ Parameter Sweeps
 
 .. code-block:: python
 
-   from lrdbench import FBMModel
+   from lrdbenchmark import FBMModel
    import matplotlib.pyplot as plt
    
    # Generate data with different H values
@@ -146,7 +146,7 @@ Model Comparison
 
 .. code-block:: python
 
-   from lrdbench import FBMModel, FGNModel, ARFIMAModel, MRWModel
+   from lrdbenchmark import FBMModel, FGNModel, ARFIMAModel, MRWModel
    import matplotlib.pyplot as plt
    
    # Generate data from different models
@@ -178,7 +178,7 @@ Error Handling
 
 .. code-block:: python
 
-   from lrdbench import FBMModel
+   from lrdbenchmark import FBMModel
    
    try:
        # Invalid H value

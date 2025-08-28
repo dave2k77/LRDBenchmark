@@ -47,7 +47,7 @@ Basic usage:
 
 .. code-block:: python
 
-   from lrdbench import FBMModel, ComprehensiveBenchmark
+   from lrdbenchmark import FBMModel, ComprehensiveBenchmark
    
    # Generate synthetic data
    model = FBMModel(H=0.7, sigma=1.0)

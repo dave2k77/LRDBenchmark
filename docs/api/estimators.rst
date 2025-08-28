@@ -100,7 +100,7 @@ Wavelet Estimators
 Continuous Wavelet Transform (CWT)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.wavelet.cwt.cwt_estimator.CWTEstimator
+.. autoclass:: lrdbenchmark.analysis.wavelet.cwt.cwt_estimator.CWTEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -111,7 +111,7 @@ Continuous Wavelet Transform (CWT)
 Wavelet Variance
 ~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.wavelet.variance.wavelet_variance_estimator.WaveletVarianceEstimator
+.. autoclass:: lrdbenchmark.analysis.wavelet.variance.wavelet_variance_estimator.WaveletVarianceEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -122,7 +122,7 @@ Wavelet Variance
 Wavelet Log-Variance
 ~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.wavelet.log_variance.wavelet_log_variance_estimator.WaveletLogVarianceEstimator
+.. autoclass:: lrdbenchmark.analysis.wavelet.log_variance.wavelet_log_variance_estimator.WaveletLogVarianceEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -133,7 +133,7 @@ Wavelet Log-Variance
 Wavelet Whittle
 ~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.wavelet.whittle.wavelet_whittle_estimator.WaveletWhittleEstimator
+.. autoclass:: lrdbenchmark.analysis.wavelet.whittle.wavelet_whittle_estimator.WaveletWhittleEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -147,7 +147,7 @@ Multifractal Estimators
 Multifractal Detrended Fluctuation Analysis (MFDFA)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator.MFDFAEstimator
+.. autoclass:: lrdbenchmark.analysis.multifractal.mfdfa.mfdfa_estimator.MFDFAEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -158,7 +158,7 @@ Multifractal Detrended Fluctuation Analysis (MFDFA)
 Multifractal Wavelet Leaders
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.multifractal.wavelet_leaders.multifractal_wavelet_leaders_estimator.MultifractalWaveletLeadersEstimator
+.. autoclass:: lrdbenchmark.analysis.multifractal.wavelet_leaders.multifractal_wavelet_leaders_estimator.MultifractalWaveletLeadersEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -172,7 +172,7 @@ Machine Learning Estimators
 Base ML Estimator
 ~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.machine_learning.base_ml_estimator.BaseMLEstimator
+.. autoclass:: lrdbenchmark.analysis.machine_learning.base_ml_estimator.BaseMLEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -183,7 +183,7 @@ Base ML Estimator
 Random Forest Estimator
 ~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.machine_learning.random_forest_estimator.RandomForestEstimator
+.. autoclass:: lrdbenchmark.analysis.machine_learning.random_forest_estimator.RandomForestEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -194,7 +194,7 @@ Random Forest Estimator
 Gradient Boosting Estimator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.machine_learning.gradient_boosting_estimator.GradientBoostingEstimator
+.. autoclass:: lrdbenchmark.analysis.machine_learning.gradient_boosting_estimator.GradientBoostingEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -205,7 +205,7 @@ Gradient Boosting Estimator
 Support Vector Regression (SVR)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.machine_learning.svr_estimator.SVREstimator
+.. autoclass:: lrdbenchmark.analysis.machine_learning.svr_estimator.SVREstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -219,7 +219,7 @@ Neural Network Estimators
 Base Neural Network Estimator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.machine_learning.neural_network_estimator.NeuralNetworkEstimator
+.. autoclass:: lrdbenchmark.analysis.machine_learning.neural_network_estimator.NeuralNetworkEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -230,7 +230,7 @@ Base Neural Network Estimator
 CNN Estimator
 ~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.machine_learning.cnn_estimator.CNNEstimator
+.. autoclass:: lrdbenchmark.analysis.machine_learning.cnn_estimator.CNNEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -241,7 +241,7 @@ CNN Estimator
 LSTM Estimator
 ~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.machine_learning.lstm_estimator.LSTMEstimator
+.. autoclass:: lrdbenchmark.analysis.machine_learning.lstm_estimator.LSTMEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -252,7 +252,7 @@ LSTM Estimator
 GRU Estimator
 ~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.machine_learning.gru_estimator.GRUEstimator
+.. autoclass:: lrdbenchmark.analysis.machine_learning.gru_estimator.GRUEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -263,7 +263,7 @@ GRU Estimator
 Transformer Estimator
 ~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.machine_learning.transformer_estimator.TransformerEstimator
+.. autoclass:: lrdbenchmark.analysis.machine_learning.transformer_estimator.TransformerEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -277,17 +277,17 @@ High Performance Estimators
 JAX-based Estimators
 ~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.high_performance.jax.dfa_jax.DFAJAXEstimator
+.. autoclass:: lrdbenchmark.analysis.high_performance.jax.dfa_jax.DFAJAXEstimator
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: lrdbench.analysis.high_performance.jax.gph_jax.GPHJAXEstimator
+.. autoclass:: lrdbenchmark.analysis.high_performance.jax.gph_jax.GPHJAXEstimator
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: lrdbench.analysis.high_performance.jax.rs_jax.RSJAXEstimator
+.. autoclass:: lrdbenchmark.analysis.high_performance.jax.rs_jax.RSJAXEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -295,17 +295,17 @@ JAX-based Estimators
 Numba-based Estimators
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: lrdbench.analysis.high_performance.numba.dfa_numba.DFANumbaEstimator
+.. autoclass:: lrdbenchmark.analysis.high_performance.numba.dfa_numba.DFANumbaEstimator
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: lrdbench.analysis.high_performance.numba.gph_numba.GPHNumbaEstimator
+.. autoclass:: lrdbenchmark.analysis.high_performance.numba.gph_numba.GPHNumbaEstimator
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: lrdbench.analysis.high_performance.numba.rs_numba.RSNumbaEstimator
+.. autoclass:: lrdbenchmark.analysis.high_performance.numba.rs_numba.RSNumbaEstimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -419,10 +419,10 @@ Machine Learning Estimators
 
 .. code-block:: python
 
-   from lrdbench.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
-   from lrdbench.analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
-   from lrdbench.analysis.machine_learning.cnn_estimator import CNNEstimator
-   from lrdbench import FBMModel, FGNModel, ARFIMAModel
+   from lrdbenchmark.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
+from lrdbenchmark.analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
+from lrdbenchmark.analysis.machine_learning.cnn_estimator import CNNEstimator
+   from lrdbenchmark import FBMModel, FGNModel, ARFIMAModel
    import numpy as np
    from sklearn.model_selection import train_test_split
    
@@ -519,9 +519,9 @@ High Performance Estimators
 
 .. code-block:: python
 
-   from lrdbench.analysis.high_performance.jax.dfa_jax import DFAJAXEstimator
-   from lrdbench.analysis.high_performance.numba.rs_numba import RSNumbaEstimator
-   from lrdbench import FBMModel
+   from lrdbenchmark.analysis.high_performance.jax.dfa_jax import DFAJAXEstimator
+   from lrdbenchmark.analysis.high_performance.numba.rs_numba import RSNumbaEstimator
+   from lrdbenchmark import FBMModel
    import numpy as np
    
    # Generate large dataset
@@ -543,9 +543,9 @@ Parameter Tuning
 
 .. code-block:: python
 
-   from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
-   from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
-   from lrdbench import FBMModel
+   from lrdbenchmark.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+   from lrdbenchmark.analysis.spectral.gph.gph_estimator import GPHEstimator
+   from lrdbenchmark import FBMModel
    
    # Generate test data
    model = FBMModel(H=0.7, sigma=1.0)
@@ -571,82 +571,8 @@ Parameter Tuning
    print(f"DFA (custom): H = {H_dfa:.3f}")
    print(f"GPH (custom): H = {H_gph:.3f}")
 
-Enhanced ML and Neural Network Estimators
-----------------------------------------
-
-lrdbenchmark v1.6.0+ includes enhanced machine learning and neural network estimators with pre-trained models:
-
-.. autoclass:: lrdbenchmark.analysis.machine_learning.enhanced_cnn_estimator.EnhancedCNNEstimator
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. autoclass:: lrdbenchmark.analysis.machine_learning.enhanced_lstm_estimator.EnhancedLSTMEstimator
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. autoclass:: lrdbenchmark.analysis.machine_learning.enhanced_gru_estimator.EnhancedGRUEstimator
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. autoclass:: lrdbenchmark.analysis.machine_learning.enhanced_transformer_estimator.EnhancedTransformerEstimator
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. autoclass:: lrdbenchmark.analysis.machine_learning.random_forest_estimator.RandomForestEstimator
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. autoclass:: lrdbenchmark.analysis.machine_learning.svr_estimator.SVREstimator
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. autoclass:: lrdbenchmark.analysis.machine_learning.gradient_boosting_estimator.GradientBoostingEstimator
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Usage Example:
-
-.. code-block:: python
-
-   from lrdbenchmark import (
-       CNNEstimator, LSTMEstimator, GRUEstimator, TransformerEstimator,
-       RandomForestEstimator, SVREstimator, GradientBoostingEstimator
-   )
-   
-   # Enhanced neural estimators with pre-trained models
-   cnn = CNNEstimator()
-   lstm = LSTMEstimator()
-   gru = GRUEstimator()
-   transformer = TransformerEstimator()
-   
-   # Traditional ML estimators
-   rf = RandomForestEstimator()
-   svr = SVREstimator()
-   gb = GradientBoostingEstimator()
-   
-   # Estimate Hurst parameter
-   H_cnn = cnn.estimate(data)
-   H_lstm = lstm.estimate(data)
-   H_gru = gru.estimate(data)
-   H_transformer = transformer.estimate(data)
-   H_rf = rf.estimate(data)
-   H_svr = svr.estimate(data)
-   H_gb = gb.estimate(data)
-   
-   print(f"Enhanced CNN: H = {H_cnn:.3f}")
-   print(f"Enhanced LSTM: H = {H_lstm:.3f}")
-   print(f"Enhanced GRU: H = {H_gru:.3f}")
-   print(f"Enhanced Transformer: H = {H_transformer:.3f}")
-   print(f"Random Forest: H = {H_rf:.3f}")
-   print(f"SVR: H = {H_svr:.3f}")
-   print(f"Gradient Boosting: H = {H_gb:.3f}")
+# Note: All estimators are documented above in their respective sections
+# No duplicate documentation needed
 
 Error Handling
 -------------
