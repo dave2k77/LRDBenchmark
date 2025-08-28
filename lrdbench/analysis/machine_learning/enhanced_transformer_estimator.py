@@ -418,13 +418,15 @@ class EnhancedTransformerEstimator(BaseMLEstimator):
             X, y, test_size=0.2, random_state=self.parameters["random_state"]
         )
 
-        # Create datasets
+        # Create datasets - ensure proper tensor shapes
+        # X_train and X_val are lists of (seq_len, 1) arrays
+        # We need to stack them into (batch_size, seq_len, 1) tensors
         train_dataset = TensorDataset(
-            torch.FloatTensor(np.array(X_train)),
+            torch.stack([torch.FloatTensor(x) for x in X_train]),
             torch.FloatTensor(y_train)
         )
         val_dataset = TensorDataset(
-            torch.FloatTensor(np.array(X_val)),
+            torch.stack([torch.FloatTensor(x) for x in X_val]),
             torch.FloatTensor(y_val)
         )
 
