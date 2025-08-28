@@ -14,7 +14,7 @@ def get_version():
         match = re.search(r'version = "([^"]+)"', content)
         if match:
             return match.group(1)
-    return "1.5.1"  # fallback
+    return "1.6.0"  # fallback
 
 def get_long_description():
     """Read README.md for long description"""
@@ -24,7 +24,7 @@ def get_long_description():
 setup(
     name="lrdbench",
     version=get_version(),
-    description="Long-Range Dependence Benchmarking Toolkit",
+    description="Long-Range Dependence Benchmarking Toolkit with Enhanced ML and Neural Network Estimators",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     author="LRDBench Development Team",
@@ -47,6 +47,7 @@ setup(
         "Topic :: Scientific/Engineering :: Physics",
         "Topic :: Scientific/Engineering :: Information Analysis",
         "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
     python_requires=">=3.8",
     install_requires=[
@@ -76,6 +77,10 @@ setup(
             "sphinx>=4.0",
             "sphinx-rtd-theme>=0.5",
             "myst-parser>=0.15",
+        ],
+        "dashboard": [
+            "streamlit>=1.28.0",
+            "plotly>=5.15.0",
         ],
     },
     entry_points={

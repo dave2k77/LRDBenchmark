@@ -5,13 +5,24 @@ A comprehensive toolkit for benchmarking long-range dependence estimators
 on synthetic and real-world time series data.
 """
 
-__version__ = "1.5.1"
+__version__ = "1.6.0"
 __author__ = "LRDBench Development Team"
 __email__ = "lrdbench@example.com"
 
 # Core components
 from .analysis.benchmark import ComprehensiveBenchmark
 from .models.data_models import FBMModel, FGNModel, ARFIMAModel, MRWModel
+
+# Machine Learning and Neural Network Estimators
+from .analysis.machine_learning import (
+    CNNEstimator,
+    LSTMEstimator,
+    GRUEstimator,
+    TransformerEstimator,
+    RandomForestEstimator,
+    SVREstimator,
+    GradientBoostingEstimator,
+)
 
 # Analytics components
 from .analytics import (
@@ -68,6 +79,15 @@ __all__ = [
     "FGNModel",
     "ARFIMAModel",
     "MRWModel",
+    # Enhanced ML and Neural Network Estimators
+    "CNNEstimator",
+    "LSTMEstimator",
+    "GRUEstimator",
+    "TransformerEstimator",
+    "RandomForestEstimator",
+    "SVREstimator",
+    "GradientBoostingEstimator",
+    # Analytics
     "UsageTracker",
     "PerformanceMonitor",
     "ErrorAnalyzer",

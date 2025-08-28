@@ -18,9 +18,9 @@ This document provides the mathematical foundations and theoretical background f
 
 Fractional Brownian Motion is a self-similar Gaussian process with stationary increments. For a Hurst parameter H ∈ (0, 1), fBm is defined as a Gaussian process B_H(t) with:
 
-1. **Zero mean**: E[B_H(t)] = 0
-2. **Covariance function**: E[B_H(t)B_H(s)] = (σ²/2)(|t|^(2H) + |s|^(2H) - |t-s|^(2H))
-3. **Self-similarity**: B_H(at) = a^H B_H(t) for all a > 0
+1. **Zero mean**: $E[B_H(t)] = 0$
+2. **Covariance function**: $E[B_H(t)B_H(s)] = ({\sigma}²/2)(|t|^{2H} + |s|^{2H} - |t-s|^{2H})$
+3. **Self-similarity**: $B_H(at) = a^H B_H(t)$ $\forall a > 0$
 4. **Stationary increments**: B_H(t) - B_H(s) has the same distribution as B_H(t-s)
 
 ### Mathematical Properties

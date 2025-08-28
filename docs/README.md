@@ -115,6 +115,33 @@ When contributing to the documentation:
 3. Include code examples where appropriate
 4. Test your changes locally before submitting
 5. Update the table of contents if adding new pages
+6. Document all enhanced ML and neural network estimators
+
+## New Features in v1.6.0
+
+### Enhanced ML and Neural Network Estimators
+
+LRDBench v1.6.0 introduces four new enhanced neural network estimators:
+
+- **CNN Estimator**: Convolutional Neural Network with residual connections
+- **LSTM Estimator**: Long Short-Term Memory with bidirectional architecture  
+- **GRU Estimator**: Gated Recurrent Unit with attention mechanisms
+- **Transformer Estimator**: Multi-head self-attention architecture
+
+### Key Improvements
+
+- **Pre-trained Models**: All neural estimators come with pre-trained PyTorch models
+- **Adaptive Input Sizes**: Automatic handling of different sequence lengths
+- **Enhanced Training**: Comprehensive training curriculum with early stopping
+- **Production Ready**: Immediate use without additional training
+- **Robust Fallbacks**: Graceful handling when models are not available
+
+### Documentation Updates
+
+- Complete API reference for all 18 estimators
+- Enhanced neural models guide
+- Performance benchmarks and comparisons
+- Usage examples and best practices
 
 ## Troubleshooting
 
@@ -138,3 +165,4 @@ When contributing to the documentation:
 - Check the Sphinx documentation: https://www.sphinx-doc.org/
 - ReadTheDocs documentation: https://docs.readthedocs.io/
 - Open an issue on GitHub for documentation-specific problems
+- Review the enhanced neural models guide: [ENHANCED_NEURAL_MODELS.md](../../ENHANCED_NEURAL_MODELS.md)

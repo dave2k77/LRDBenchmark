@@ -13,11 +13,13 @@ LRDBench is designed for researchers, data scientists, and practitioners who nee
 
 ## ✨ **Key Features**
 
-### **🔬 12 Built-in Estimators**
+### **🔬 18 Built-in Estimators**
 - **Temporal Methods**: DFA, DMA, Higuchi, R/S (4 estimators)
 - **Spectral Methods**: Periodogram, Whittle, GPH (3 estimators)
 - **Wavelet Methods**: CWT, Wavelet Variance, Wavelet Log Variance, Wavelet Whittle (4 estimators)
 - **Multifractal Methods**: MFDFA (1 estimator)
+- **🤖 Machine Learning**: Random Forest, SVR, Gradient Boosting (3 estimators)
+- **🧠 Neural Networks**: CNN, LSTM, GRU, Transformer (4 estimators)
 - **🚀 Auto-Optimized**: All estimators with NUMBA/JAX performance optimizations
 
 ### **📊 5 Stochastic Data Models**
@@ -69,6 +71,29 @@ summary = lrdbench.get_analytics_summary()
 print(summary)
 ```
 
+### **Enhanced ML and Neural Network Estimators**
+
+```python
+# Import enhanced estimators directly
+from lrdbench import CNNEstimator, LSTMEstimator, GRUEstimator, TransformerEstimator
+
+# Use CNN estimator
+cnn_estimator = CNNEstimator()
+hurst_cnn = cnn_estimator.estimate(data)
+
+# Use LSTM estimator
+lstm_estimator = LSTMEstimator()
+hurst_lstm = lstm_estimator.estimate(data)
+
+# Use GRU estimator
+gru_estimator = GRUEstimator()
+hurst_gru = gru_estimator.estimate(data)
+
+# Use Transformer estimator
+transformer_estimator = TransformerEstimator()
+hurst_transformer = transformer_estimator.estimate(data)
+```
+
 ### **Advanced Usage**
 
 ```python
@@ -94,6 +119,7 @@ results = benchmark.run_comprehensive_benchmark()
 - **🚀 [Web Dashboard](documentation/user_guides/web_dashboard.md)**: Complete web dashboard guide
 - **🧪 [Contamination System](documentation/api_reference/contamination.md)**: Data contamination documentation
 - **🔧 [API Reference](documentation/api_reference/README.md)**: Complete API documentation
+- **🤖 [Enhanced Neural Models](ENHANCED_NEURAL_MODELS.md)**: Complete guide to ML and neural estimators
 - **📊 [Examples](examples/)**: Usage examples and demonstrations
 - **🔬 [Model Theory](documentation/technical/model_theory.md)**: Mathematical foundations
 
@@ -103,7 +129,7 @@ results = benchmark.run_comprehensive_benchmark()
 
 ### **Features**
 - **📈 Interactive Data Generation**: Generate synthetic time series with configurable parameters
-- **🔬 Real-time Benchmarking**: Run comprehensive benchmarks with all 12 estimators
+- **🔬 Real-time Benchmarking**: Run comprehensive benchmarks with all 18 estimators
 - **🧪 Data Contamination**: Add various contamination types and analyze robustness
 - **📊 Rich Visualizations**: Interactive plots and charts using Plotly
 - **📈 Performance Analytics**: Track estimator performance and robustness metrics
@@ -136,6 +162,7 @@ streamlit run streamlit_app.py
 - **Basic Usage**: `examples/quick_start_demo.py`
 - **Comprehensive API**: `examples/comprehensive_api_demo.py`
 - **Benchmark Examples**: `examples/benchmark_examples.py`
+- **Enhanced ML Estimators**: `examples/enhanced_ml_estimators_demo.py`
 
 ### **Advanced Demos**
 - **CPU-based**: `demos/cpu_based/`
@@ -189,6 +216,7 @@ LRDBench has been extensively tested and optimized:
 - **Estimation**: < 100ms for most estimators
 - **Memory Usage**: Optimized for large datasets
 - **GPU Acceleration**: Available for JAX-based methods
+- **Neural Networks**: Pre-trained models for immediate use
 
 ## 🤝 **Contributing**
 

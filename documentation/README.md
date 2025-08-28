@@ -31,6 +31,7 @@ This directory contains comprehensive documentation for LRDBench, a framework fo
 - [Complete API Reference](api_reference/COMPLETE_API_REFERENCE.md)
 - [API Reference Overview](api_reference/README.md)
 - [Model Theory](technical/model_theory.md)
+- [Enhanced Neural Models](../../ENHANCED_NEURAL_MODELS.md)
 - [Project Instructions](project_instructions.md)
 
 ## Package Structure
@@ -44,7 +45,7 @@ lrdbench/
 │   ├── spectral/                 # Spectral domain estimators
 │   ├── wavelet/                  # Wavelet domain estimators
 │   ├── multifractal/             # Multifractal estimators
-│   ├── machine_learning/         # ML estimators
+│   ├── machine_learning/         # ML and neural network estimators
 │   └── high_performance/         # JAX and Numba optimized versions
 └── models/                       # Data models and utilities
     ├── data_models/              # Synthetic data generators
@@ -62,8 +63,8 @@ lrdbench/
 
 ### Estimators (18 total)
 - **Classical (13)**: R/S, DFA, DMA, Higuchi, GPH, Whittle, Periodogram, CWT, Wavelet Variance, Wavelet Log Variance, Wavelet Whittle, MFDFA, Wavelet Leaders
-- **ML (3)**: Random Forest, Gradient Boosting, SVR
-- **Neural (2)**: CNN, Transformer
+- **🤖 Machine Learning (3)**: Random Forest, Gradient Boosting, SVR
+- **🧠 Neural Networks (4)**: CNN, LSTM, GRU, Transformer
 
 ### Core Features
 - **Comprehensive Benchmarking**: Systematic evaluation of all estimators
@@ -71,6 +72,7 @@ lrdbench/
 - **Adaptive Wavelet Scaling**: Automatic scale optimization
 - **Pre-trained Models**: Production-ready ML and neural models
 - **High-Performance Options**: GPU acceleration with JAX
+- **Enhanced Neural Models**: State-of-the-art deep learning estimators
 
 ## Installation and Usage
 
@@ -86,6 +88,18 @@ from lrdbench.analysis.benchmark import ComprehensiveBenchmark
 # Run comprehensive benchmark
 benchmark = ComprehensiveBenchmark()
 results = benchmark.run_comprehensive_benchmark()
+```
+
+### Enhanced ML and Neural Network Estimators
+
+```python
+# Import enhanced estimators directly
+from lrdbench import CNNEstimator, LSTMEstimator, GRUEstimator, TransformerEstimator
+
+# Use any of the enhanced estimators
+cnn_estimator = CNNEstimator()
+result = cnn_estimator.estimate(data)
+print(f"Hurst parameter: {result['hurst_parameter']:.3f}")
 ```
 
 ## Contributing to Documentation
@@ -105,14 +119,16 @@ When adding new features or models, please update the relevant documentation sec
 - Include references to relevant literature
 - Maintain consistent formatting and structure
 - Use the new `lrdbench` package import paths
+- Document all enhanced ML and neural network estimators
 
 ## Getting Help
 
 - **API Reference**: [Complete API Reference](api_reference/COMPLETE_API_REFERENCE.md)
 - **Examples**: [Demo Scripts](../../demos/)
+- **Enhanced Models**: [Enhanced Neural Models](../../ENHANCED_NEURAL_MODELS.md)
 - **Project Overview**: [Main README](../../README.md)
 - **Issues**: Create an issue on GitHub for bugs or questions
 
 ---
 
-**LRDBench provides comprehensive tools for long-range dependence estimation with production-ready components and extensive documentation.**
+**LRDBench provides comprehensive tools for long-range dependence estimation with production-ready components, enhanced ML/neural estimators, and extensive documentation.**
