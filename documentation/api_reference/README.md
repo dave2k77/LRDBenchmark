@@ -1,6 +1,6 @@
 # 📚 **LRDBench API Reference**
 
-Welcome to the comprehensive API reference for LRDBench, a framework for long-range dependence estimation.
+Welcome to the comprehensive API reference for LRDBench, a framework for long-range dependence estimation with enhanced ML and neural network estimators.
 
 ## 🚀 **Quick Start**
 
@@ -28,11 +28,13 @@ lrdbench/
 │   ├── temporal/                 # Temporal domain estimators
 │   ├── spectral/                 # Spectral domain estimators
 │   ├── wavelet/                  # Wavelet domain estimators
-│   └── multifractal/             # Multifractal estimators
+│   ├── multifractal/             # Multifractal estimators
+│   ├── machine_learning/         # Enhanced ML and neural network estimators
+│   └── high_performance/         # JAX and Numba optimized versions
 └── models/                       # Data models and utilities
     ├── data_models/              # Synthetic data generators
     ├── contamination/            # Data contamination models
-    └── pretrained_models/        # Pre-trained models
+    └── pretrained_models/        # Pre-trained ML and neural models
 ```
 
 ## 🔧 **Core Components**
@@ -46,13 +48,13 @@ from lrdbench.analysis.benchmark import ComprehensiveBenchmark
 benchmark = ComprehensiveBenchmark()
 
 # Run different types of benchmarks
-results = benchmark.run_comprehensive_benchmark()  # All 12 estimators
+results = benchmark.run_comprehensive_benchmark()  # All 18 estimators
 results = benchmark.run_classical_benchmark()      # Classical only
 results = benchmark.run_contamination_robustness_test()  # Contamination analysis
 ```
 
 ### **Estimators**
-All estimators can be imported directly:
+All estimators can be imported directly from the main package:
 
 ```python
 # Classical estimators
@@ -73,14 +75,16 @@ from lrdbench.analysis.wavelet.whittle.wavelet_whittle_estimator import WaveletW
 from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
 from lrdbench.analysis.multifractal.wavelet_leaders.multifractal_wavelet_leaders_estimator import MultifractalWaveletLeadersEstimator
 
-# Machine Learning estimators
-from lrdbench.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
-from lrdbench.analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
-from lrdbench.analysis.machine_learning.svr_estimator import SVREstimator
-
-# Neural Network estimators
-from lrdbench.analysis.machine_learning.cnn_estimator import CNNEstimator
-from lrdbench.analysis.machine_learning.transformer_estimator import TransformerEstimator
+# Enhanced ML and Neural Network estimators (NEW!)
+from lrdbench import (
+    CNNEstimator,           # Enhanced CNN with residual connections
+    LSTMEstimator,          # Enhanced LSTM with bidirectional architecture
+    GRUEstimator,           # Enhanced GRU with attention mechanisms
+    TransformerEstimator,   # Enhanced Transformer with self-attention
+    RandomForestEstimator,  # Enhanced Random Forest
+    SVREstimator,           # Enhanced SVR
+    GradientBoostingEstimator  # Enhanced Gradient Boosting
+)
 ```
 
 ### **Data Models**
@@ -97,21 +101,29 @@ fbm = FractionalBrownianMotion(H=0.7, sigma=1.0)
 data = fbm.generate(1000, seed=42)
 ```
 
-### **Pre-trained Models**
-Production-ready models that don't require training:
+### **Enhanced Neural Network Models**
+Production-ready neural estimators with pre-trained models:
 
 ```python
-from lrdbench.models.pretrained_models.cnn_pretrained import CNNPretrainedModel
-from lrdbench.models.pretrained_models.transformer_pretrained import TransformerPretrainedModel
-from lrdbench.models.pretrained_models.ml_pretrained import (
-    RandomForestPretrainedModel, 
-    SVREstimatorPretrainedModel, 
-    GradientBoostingPretrainedModel
-)
+# All enhanced estimators are available directly
+from lrdbench import CNNEstimator, LSTMEstimator, GRUEstimator, TransformerEstimator
 
-# Use pre-trained models immediately
-cnn_model = CNNPretrainedModel(input_length=500)
-result = cnn_model.estimate(data)
+# Use immediately with pre-trained models
+cnn_estimator = CNNEstimator()
+result = cnn_estimator.estimate(data)
+print(f"Hurst parameter: {result['hurst_parameter']:.3f}")
+
+# LSTM estimator
+lstm_estimator = LSTMEstimator()
+result = lstm_estimator.estimate(data)
+
+# GRU estimator
+gru_estimator = GRUEstimator()
+result = gru_estimator.estimate(data)
+
+# Transformer estimator
+transformer_estimator = TransformerEstimator()
+result = transformer_estimator.estimate(data)
 ```
 
 ## 📊 **Usage Examples**
@@ -123,7 +135,7 @@ from lrdbench.analysis.benchmark import ComprehensiveBenchmark
 benchmark = ComprehensiveBenchmark()
 results = benchmark.run_comprehensive_benchmark(
     data_length=1000,
-    benchmark_type='classical',
+    benchmark_type='comprehensive',
     contamination_type='additive_gaussian',
     contamination_level=0.1
 )
@@ -136,6 +148,22 @@ from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
 rs_estimator = RSEstimator()
 result = rs_estimator.estimate(data)
 print(f"Hurst parameter: {result['hurst_parameter']}")
+```
+
+### **Enhanced Neural Network Estimators**
+```python
+# Import enhanced estimators
+from lrdbench import CNNEstimator, LSTMEstimator
+
+# Use CNN estimator
+cnn_estimator = CNNEstimator()
+result = cnn_estimator.estimate(data)
+print(f"CNN Hurst: {result['hurst_parameter']:.3f}")
+
+# Use LSTM estimator
+lstm_estimator = LSTMEstimator()
+result = lstm_estimator.estimate(data)
+print(f"LSTM Hurst: {result['hurst_parameter']:.3f}")
 ```
 
 ### **Data Generation**
@@ -175,14 +203,16 @@ data = arfima.generate(1000, seed=42)
 - **MFDFA**: Multifractal Detrended Fluctuation Analysis
 - **Wavelet Leaders**: Multifractal Wavelet Leaders
 
-### **Machine Learning (3)**
-- **Random Forest**: Random Forest Regression
-- **Gradient Boosting**: Gradient Boosting Regression
-- **SVR**: Support Vector Regression
+### **🤖 Machine Learning (3)**
+- **Random Forest**: Enhanced Random Forest Regression
+- **Gradient Boosting**: Enhanced Gradient Boosting Regression
+- **SVR**: Enhanced Support Vector Regression
 
-### **Neural Networks (2)**
-- **CNN**: Convolutional Neural Network
-- **Transformer**: Transformer Encoder
+### **🧠 Enhanced Neural Networks (4)**
+- **CNN**: Enhanced Convolutional Neural Network with residual connections
+- **LSTM**: Enhanced Long Short-Term Memory with bidirectional architecture
+- **GRU**: Enhanced Gated Recurrent Unit with attention mechanisms
+- **Transformer**: Enhanced Transformer with multi-head self-attention
 
 ## 🔍 **Detailed Documentation**
 
@@ -191,22 +221,33 @@ For detailed information about each component, see the specific documentation fi
 - [**Estimators**](estimators/) - Detailed API for each estimator type
 - [**Models**](models/) - Data model implementations and usage
 - [**Benchmark**](estimators/benchmark.md) - Comprehensive benchmarking system
+- [**Enhanced Neural Models**](../../ENHANCED_NEURAL_MODELS.md) - Complete guide to ML and neural estimators
 
 ## 💡 **Best Practices**
 
 1. **Use the ComprehensiveBenchmark** for systematic evaluation
-2. **Pre-trained models** are ready for production use
-3. **Adaptive wavelet scaling** automatically adjusts to data length
-4. **Contamination testing** helps assess robustness
+2. **Enhanced neural estimators** are ready for production use with pre-trained models
+3. **Adaptive input handling** automatically adjusts to different sequence lengths
+4. **Contamination testing** helps assess robustness across all estimator types
 5. **Check success rates** before relying on results
+6. **Import enhanced estimators directly** from the main package for simplicity
 
 ## 🚨 **Common Issues**
 
-- **Import errors**: Ensure you're using `from lrdbench.analysis...` not `from analysis...`
+- **Import errors**: Use `from lrdbench import CNNEstimator` for enhanced estimators
 - **Data length**: Wavelet estimators require sufficient data length
-- **Dependencies**: Install optional dependencies for full functionality
+- **Dependencies**: Install PyTorch for neural estimators, scikit-learn for ML estimators
 - **Memory**: Large datasets may require chunked processing
+- **Model loading**: Enhanced estimators automatically handle pre-trained model loading
+
+## 🆕 **What's New in v1.6.0**
+
+- **18 Total Estimators**: Increased from 12 to 18 with enhanced ML and neural methods
+- **Simplified Imports**: Enhanced estimators available directly from main package
+- **Pre-trained Models**: All neural estimators work immediately without training
+- **Adaptive Architecture**: Automatic handling of different input sizes
+- **Production Ready**: Enhanced estimators designed for real-world applications
 
 ---
 
-**For questions or issues, please refer to the main project documentation or create an issue on GitHub.**
+**For questions or issues, please refer to the main project documentation, enhanced neural models guide, or create an issue on GitHub.**

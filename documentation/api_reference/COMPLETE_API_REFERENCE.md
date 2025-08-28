@@ -21,6 +21,22 @@ lrdbench/
     └── pretrained_models/        # Pre-trained ML and neural models
 ```
 
+## 🆕 **New Features in v1.6.0**
+
+### **Enhanced ML and Neural Network Estimators**
+- **18 Total Estimators**: Increased from 12 to 18 with enhanced ML and neural methods
+- **Simplified Imports**: Enhanced estimators available directly from main package
+- **Pre-trained Models**: All neural estimators work immediately without training
+- **Adaptive Architecture**: Automatic handling of different input sizes
+- **Production Ready**: Enhanced estimators designed for real-world applications
+
+### **Key Improvements**
+- **Residual Connections**: Enhanced CNN with skip connections for better gradient flow
+- **Bidirectional Architecture**: LSTM and GRU with forward/backward processing
+- **Multi-Head Attention**: Advanced attention mechanisms for sequence modeling
+- **Robust Fallbacks**: Graceful handling when models are not available
+- **Enhanced Training**: Comprehensive training curriculum with early stopping
+
 ## 🚀 **Quick Import Guide**
 
 ```python
@@ -42,9 +58,16 @@ from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
 from lrdbench.analysis.temporal.dma.dma_estimator import DMAEstimator
 from lrdbench.analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
 
-# Pre-trained models
-from lrdbench.models.pretrained_models.cnn_pretrained import CNNPretrainedModel
-from lrdbench.models.pretrained_models.transformer_pretrained import TransformerPretrainedModel
+# Enhanced ML and Neural Network estimators (NEW!)
+from lrdbench import (
+    CNNEstimator,           # Enhanced CNN with residual connections
+    LSTMEstimator,          # Enhanced LSTM with bidirectional architecture
+    GRUEstimator,           # Enhanced GRU with attention mechanisms
+    TransformerEstimator,   # Enhanced Transformer with self-attention
+    RandomForestEstimator,  # Enhanced Random Forest
+    SVREstimator,           # Enhanced SVR
+    GradientBoostingEstimator  # Enhanced Gradient Boosting
+)
 ```
 
 ---
@@ -602,13 +625,13 @@ def __init__(self, wavelet: str = 'db4', scales: Optional[List[float]] = None,
 #### **Methods**
 Same interface as MFDFA estimator.
 
-### **Machine Learning Estimators**
+### **🤖 Enhanced Machine Learning Estimators**
 
 #### **Base ML Estimator**
 
 **Location:** `lrdbench.analysis.machine_learning.base_ml_estimator.BaseMLEstimator`
 
-**Purpose:** Base class for all machine learning estimators.
+**Purpose:** Base class for all enhanced machine learning estimators with improved feature extraction and model management.
 
 #### **Abstract Methods**
 ```python
@@ -717,13 +740,13 @@ def __init__(self, kernel: str = 'rbf', C: float = 1.0, epsilon: float = 0.1,
 #### **Methods**
 Same interface as Random Forest estimator.
 
-### **Neural Network Estimators**
+### **🧠 Enhanced Neural Network Estimators**
 
-#### **1. CNN Estimator**
+#### **1. Enhanced CNN Estimator**
 
-**Location:** `lrdbench.analysis.machine_learning.cnn_estimator.CNNEstimator`
+**Location:** `lrdbench.analysis.machine_learning.enhanced_cnn_estimator.EnhancedCNNEstimator`
 
-**Purpose:** Convolutional Neural Network for Hurst parameter estimation.
+**Purpose:** Enhanced Convolutional Neural Network with residual connections and attention mechanisms for Hurst parameter estimation.
 
 #### **Constructor**
 ```python
@@ -781,11 +804,65 @@ def estimate(self, data: np.ndarray) -> Dict[str, Any]
 - `confidence_interval` (Tuple[float, float]): Prediction interval
 - `model_output` (np.ndarray): Raw model output
 
-#### **2. Transformer Estimator**
+#### **2. Enhanced LSTM Estimator**
 
-**Location:** `lrdbench.analysis.machine_learning.transformer_estimator.TransformerEstimator`
+**Location:** `lrdbench.analysis.machine_learning.enhanced_lstm_estimator.EnhancedLSTMEstimator`
 
-**Purpose:** Transformer-based estimator for Hurst parameter estimation.
+**Purpose:** Enhanced Long Short-Term Memory with bidirectional architecture and multi-head attention for Hurst parameter estimation.
+
+#### **Constructor**
+```python
+def __init__(self, hidden_size: int = 128, num_layers: int = 3, bidirectional: bool = True,
+             use_attention: bool = True, attention_heads: int = 8, dropout_rate: float = 0.2,
+             learning_rate: float = 0.001, batch_size: int = 32, random_state: Optional[int] = None)
+```
+
+**Parameters:**
+- `hidden_size` (int): Size of LSTM hidden states
+- `num_layers` (int): Number of LSTM layers
+- `bidirectional` (bool): Use bidirectional LSTM
+- `use_attention` (bool): Enable attention mechanism
+- `attention_heads` (int): Number of attention heads
+- `dropout_rate` (float): Dropout rate for regularization
+- `learning_rate` (float): Learning rate for optimization
+- `batch_size` (int): Batch size for training
+- `random_state` (int, optional): Random seed
+
+#### **Methods**
+Same interface as CNN estimator.
+
+#### **3. Enhanced GRU Estimator**
+
+**Location:** `lrdbench.analysis.machine_learning.enhanced_gru_estimator.EnhancedGRUEstimator`
+
+**Purpose:** Enhanced Gated Recurrent Unit with attention mechanisms and deep stacking for Hurst parameter estimation.
+
+#### **Constructor**
+```python
+def __init__(self, hidden_size: int = 128, num_layers: int = 3, bidirectional: bool = True,
+             use_attention: bool = True, attention_heads: int = 8, dropout_rate: float = 0.2,
+             learning_rate: float = 0.001, batch_size: int = 32, random_state: Optional[int] = None)
+```
+
+**Parameters:**
+- `hidden_size` (int): Size of GRU hidden states
+- `num_layers` (int): Number of GRU layers
+- `bidirectional` (bool): Use bidirectional GRU
+- `use_attention` (bool): Enable attention mechanism
+- `attention_heads` (int): Number of attention heads
+- `dropout_rate` (float): Dropout rate for regularization
+- `learning_rate` (float): Learning rate for optimization
+- `batch_size` (int): Batch size for training
+- `random_state` (int, optional): Random seed
+
+#### **Methods**
+Same interface as CNN estimator.
+
+#### **4. Enhanced Transformer Estimator**
+
+**Location:** `lrdbench.analysis.machine_learning.enhanced_transformer_estimator.EnhancedTransformerEstimator`
+
+**Purpose:** Enhanced Transformer with multi-head self-attention architecture and positional encoding for Hurst parameter estimation.
 
 #### **Constructor**
 ```python

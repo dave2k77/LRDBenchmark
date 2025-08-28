@@ -180,11 +180,11 @@ The benchmark automatically tests with these synthetic data models:
 - **Wavelet**: CWT, Wavelet Variance, Wavelet Log Variance, Wavelet Whittle
 - **Multifractal**: MFDFA, Wavelet Leaders
 
-### **ML Estimators (3 total)**
+### **🤖 Enhanced ML Estimators (3 total)**
 - Random Forest, Gradient Boosting, SVR
 
-### **Neural Estimators (2 total)**
-- CNN, Transformer
+### **🧠 Enhanced Neural Estimators (4 total)**
+- CNN, LSTM, GRU, Transformer
 
 ## 💾 **Result Saving**
 
@@ -266,9 +266,10 @@ print(f"Neural: {neural_results['success_rate']:.1%}")
 ### **Performance Tips**
 
 - **Wavelet estimators** work best with longer data (>500 points)
-- **ML estimators** are fastest for large datasets
-- **Neural estimators** provide best accuracy but slower execution
+- **Enhanced ML estimators** are fastest for large datasets with improved feature extraction
+- **Enhanced neural estimators** provide best accuracy with pre-trained models and adaptive architectures
 - **Classical estimators** offer good balance of speed and accuracy
+- **All 18 estimators** are available for comprehensive analysis
 
 ## 📚 **Examples**
 

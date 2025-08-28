@@ -16,12 +16,12 @@ This document provides the mathematical foundations and theoretical background f
 
 ### Definition
 
-Fractional Brownian Motion is a self-similar Gaussian process with stationary increments. For a Hurst parameter H ∈ (0, 1), fBm is defined as a Gaussian process B_H(t) with:
+Fractional Brownian Motion is a self-similar Gaussian process with stationary increments. For a Hurst parameter $H \in (0, 1)$, `fBm` is defined as a Gaussian process $B_H(t)$ with:
 
 1. **Zero mean**: $E[B_H(t)] = 0$
 2. **Covariance function**: $E[B_H(t)B_H(s)] = ({\sigma}²/2)(|t|^{2H} + |s|^{2H} - |t-s|^{2H})$
 3. **Self-similarity**: $B_H(at) = a^H B_H(t)$ $\forall a > 0$
-4. **Stationary increments**: B_H(t) - B_H(s) has the same distribution as B_H(t-s)
+4. **Stationary increments**: $B_H(t) - B_H(s)$ has the same distribution as $B_H(t-s)$
 
 ### Mathematical Properties
 
@@ -29,39 +29,39 @@ Fractional Brownian Motion is a self-similar Gaussian process with stationary in
 
 The self-similarity property states that:
 
-B_H(at) = a^H B_H(t)
+$$B_H(at) = a^H B_H(t)$$
 
-This means that scaling the time axis by a factor a scales the process by a^H.
+This means that scaling the time axis by a factor a scales the process by $a^H$.
 
 #### Variance Scaling
 
-The variance of fBm scales as:
+The variance of `fBm` scales as:
 
-Var(B_H(t)) = σ²|t|^(2H)
+$$\operatorname{Var}(B_H(t)) = σ²|t|^{2H}$$
 
 #### Long-Range Dependence
 
-For H > 0.5, fBm exhibits long-range dependence:
+For$ H > 0.5$, `fBm` exhibits long-range dependence:
 
-- **Persistent**: H > 0.5 (positive correlations)
-- **Anti-persistent**: H < 0.5 (negative correlations)
-- **Independent**: H = 0.5 (standard Brownian motion)
+- **Persistent**: $ H > 0.5$ (positive correlations)
+- **Anti-persistent**: $H < 0.5$ (negative correlations)
+- **Independent**: $H = 0.5$ (standard Brownian motion)
 
 #### Autocorrelation Function
 
-The autocorrelation function of fBm increments (fGn) is:
+The autocorrelation function of `fBm` increments (`fGn`) is:
 
-ρ(k) = (1/2)(|k+1|^(2H) - 2|k|^(2H) + |k-1|^(2H))
+$$ρ(k) = (1/2)(|k+1|^{2H} - 2|k|^{2H} + |k-1|^{2H})$$
 
 For large k, this behaves as:
 
-ρ(k) ≈ H(2H-1)k^(2H-2)
+$$ρ(k) \approx H^{2H-1}k^{2H-2}$$
 
 #### Power Spectral Density
 
 The power spectral density of fBm is:
 
-S(f) = σ²|f|^(-2H-1)
+$$S(f) = σ²|f|^{-2H-1}$$
 
 ### Generation Methods
 
@@ -69,7 +69,7 @@ S(f) = σ²|f|^(-2H-1)
 
 The Davies-Harte method uses the spectral representation:
 
-1. **Spectral Density**: S(f) = σ²(2 sin(πf/n))^(1-2H)
+1. **Spectral Density**: $S(f) = σ²(2 sin(πf/n))^{1-2H}$
 2. **Complex Noise**: Generate Z(f) ~ CN(0, 1)
 3. **Filtering**: Y(f) = √S(f) Z(f)
 4. **Inverse FFT**: B_H(t) = FFT^(-1)(Y(f))

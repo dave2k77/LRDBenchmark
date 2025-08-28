@@ -130,10 +130,16 @@ from lrdbench import ComprehensiveBenchmark
 benchmark = ComprehensiveBenchmark()
 
 # Run contamination robustness analysis
+estimators = ['DFA', 'RS', 'GPH', 'CWT', 'Periodogram']
+
+# Enhanced ML and Neural Network estimators (NEW!)
+if hasattr(lrdbench, 'CNNEstimator'):
+    estimators.extend(['CNN', 'LSTM', 'GRU', 'Transformer', 'RandomForest', 'SVR'])
+
 results = benchmark.run_contamination_robustness_test(
     data=data,
     contamination_types=['gaussian_noise', 'linear_trend', 'spikes'],
-    estimators=['DFA', 'RS', 'GPH', 'CWT']
+    estimators=estimators
 )
 ```
 
@@ -156,6 +162,7 @@ The contamination system is fully integrated into the LRDBenchmark web dashboard
 ### Dashboard Features
 
 - **13 Contamination Types**: All contamination methods available
+- **18 Total Estimators**: Complete coverage including enhanced ML and neural methods
 - **Intensity Controls**: Adjustable contamination strength
 - **Real-time Application**: Apply contamination during data generation
 - **Robustness Testing**: Automated testing across multiple scenarios
@@ -189,8 +196,12 @@ for contam_func in contamination_types:
 ### 3. Robustness Comparison
 ```python
 # Compare estimators across contamination scenarios
-estimators = ['DFA', 'RS', 'GPH', 'CWT', 'Wavelet Variance']
+estimators = ['DFA', 'RS', 'GPH', 'CWT', 'Wavelet Variance', 'Periodogram']
 contamination_scenarios = ['clean', 'noise', 'trend', 'spikes']
+
+# Enhanced ML and Neural Network estimators (NEW!)
+if hasattr(lrdbench, 'CNNEstimator'):
+    estimators.extend(['CNN', 'LSTM', 'GRU', 'Transformer', 'RandomForest', 'SVR'])
 
 robustness_matrix = benchmark.compare_robustness(
     data=data,
