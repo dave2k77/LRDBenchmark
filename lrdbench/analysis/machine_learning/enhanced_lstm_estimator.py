@@ -280,7 +280,7 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
 
     def _prepare_data(self, data: np.ndarray) -> torch.Tensor:
         """
-        Prepare data for LSTM input.
+        Prepare data for LSTM input with enhanced preprocessing.
 
         Parameters
         ----------
@@ -292,21 +292,21 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
         torch.Tensor
             Prepared tensor for LSTM
         """
-        if data.ndim == 1:
-            data = data.reshape(1, -1)
-
-        # Convert to torch tensor
-        data_tensor = torch.FloatTensor(data)  # (batch, seq_len)
-
-        # Add feature dimension if needed
-        if data_tensor.dim() == 2:
-            data_tensor = data_tensor.unsqueeze(-1)  # (batch, seq_len, features)
-
+        # Ensure data is 1D
+        if data.ndim > 1:
+            data = data.flatten()
+        
+        # Normalize data to improve training stability
+        data_normalized = (data - np.mean(data)) / (np.std(data) + 1e-8)
+        
+        # Reshape for LSTM: (batch_size, seq_len, features)
+        data_tensor = torch.FloatTensor(data_normalized).unsqueeze(0).unsqueeze(-1)
+        
         return data_tensor.to(self.device)
 
     def _create_training_data(self, data_list: List[np.ndarray], labels: List[float]) -> Tuple[DataLoader, DataLoader]:
         """
-        Create training and validation data loaders.
+        Create training and validation data loaders with enhanced preprocessing.
 
         Parameters
         ----------
@@ -320,15 +320,21 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
         Tuple[DataLoader, DataLoader]
             Training and validation data loaders
         """
-        # Prepare data
+        # Prepare data with enhanced preprocessing
         X = []
         y = []
         
         for data, label in zip(data_list, labels):
-            # For LSTM, we want (seq_len, features) format
-            if data.ndim == 1:
-                data = data.reshape(-1, 1)  # (seq_len, 1)
-            X.append(data)
+            # Normalize each time series
+            if data.ndim > 1:
+                data = data.flatten()
+            
+            # Apply normalization
+            data_normalized = (data - np.mean(data)) / (np.std(data) + 1e-8)
+            
+            # Reshape for LSTM: (seq_len, features)
+            data_reshaped = data_normalized.reshape(-1, 1)
+            X.append(data_reshaped)
             y.append(label)
 
         # Split data
@@ -346,16 +352,21 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
             torch.FloatTensor(y_val)
         )
 
-        # Create data loaders
+        # Create data loaders with improved batch size handling
+        batch_size = min(self.parameters["batch_size"], len(X_train))
+        val_batch_size = min(self.parameters["batch_size"], len(X_val))
+        
         train_loader = DataLoader(
             train_dataset, 
-            batch_size=self.parameters["batch_size"], 
-            shuffle=True
+            batch_size=batch_size, 
+            shuffle=True,
+            drop_last=True
         )
         val_loader = DataLoader(
             val_dataset, 
-            batch_size=self.parameters["batch_size"], 
-            shuffle=False
+            batch_size=val_batch_size, 
+            shuffle=False,
+            drop_last=False
         )
 
         return train_loader, val_loader
@@ -391,7 +402,9 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
             self.model.parameters(), 
             lr=self.parameters["learning_rate"]
         )
+        # Enhanced loss function combining MSE and MAE for better training
         self.criterion = nn.MSELoss()
+        self.mae_criterion = nn.L1Loss()
 
         # Learning rate scheduler
         if self.parameters["learning_rate_scheduler"]:
@@ -420,7 +433,11 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
                 
                 self.optimizer.zero_grad()
                 outputs = self.model(batch_X).squeeze()
-                loss = self.criterion(outputs, batch_y)
+                
+                # Enhanced loss combining MSE and MAE for better training stability
+                mse_loss = self.criterion(outputs, batch_y)
+                mae_loss = self.mae_criterion(outputs, batch_y)
+                loss = mse_loss + 0.1 * mae_loss  # Weighted combination
                 
                 loss.backward()
                 
@@ -532,6 +549,32 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
         
         print(f"Model loaded from: {model_path}")
 
+    def _try_load_pretrained_model(self) -> bool:
+        """
+        Try to load a pretrained PyTorch model for enhanced LSTM.
+        
+        Returns
+        -------
+        bool
+            True if pretrained model was loaded successfully, False otherwise
+        """
+        try:
+            # Check if we have a trained neural network model
+            model_path = os.path.join(self.parameters["model_save_path"], "enhanced_lstm_model.pth")
+            
+            if os.path.exists(model_path):
+                # Load trained model
+                self._load_model(model_path)
+                print(f"✅ Loaded pretrained PyTorch model: {model_path}")
+                return True
+            
+            # If no PyTorch model found, try the base class method for scikit-learn models
+            return super()._try_load_pretrained_model()
+            
+        except Exception as e:
+            print(f"⚠️ Could not load pretrained model for {self.__class__.__name__}: {e}")
+            return False
+
     def estimate(self, data: np.ndarray) -> Dict[str, Any]:
         """
         Estimate Hurst parameter using enhanced LSTM.
@@ -554,36 +597,9 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
 
         # Try to load pretrained model first
         if self._try_load_pretrained_model():
-            # Use the pretrained model for prediction
-            features = self.extract_features(data)
-            if features.ndim == 1:
-                features = features.reshape(1, -1)
-            
-            # Scale features
-            features_scaled = self.scaler.transform(features)
-            
-            # Make prediction
-            estimated_hurst = self.model.predict(features_scaled)[0]
-            
-            # Ensure estimate is within valid range
-            estimated_hurst = max(0.0, min(1.0, estimated_hurst))
-            
-            # Create confidence interval
-            confidence_interval = (
-                max(0, estimated_hurst - 0.1),
-                min(1, estimated_hurst + 0.1),
-            )
-            
-            method = "Enhanced LSTM (Pretrained ML)"
-        else:
-            # Check if we have a trained neural network model
-            model_path = os.path.join(self.parameters["model_save_path"], "enhanced_lstm_model.pth")
-            
-            if os.path.exists(model_path):
-                # Load trained model
-                self._load_model(model_path)
-                
-                # Prepare data
+            # Check if we loaded a PyTorch model or scikit-learn model
+            if hasattr(self.model, 'forward') and callable(getattr(self.model, 'forward', None)):
+                # We have a PyTorch model
                 data_tensor = self._prepare_data(data)
                 
                 # Make prediction
@@ -599,28 +615,44 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
                 
                 method = "Enhanced LSTM (Trained Neural Network)"
             else:
-                # Create and use untrained model (fallback)
-                if data.ndim == 1:
-                    data = data.reshape(1, -1)
+                # We have a scikit-learn model
+                features = self.extract_features(data)
+                if features.ndim == 1:
+                    features = features.reshape(1, -1)
                 
-                data_tensor = self._prepare_data(data)
-                
-                # Create fresh model
-                input_size = data_tensor.shape[-1]
-                self.model = self._create_model(input_size=input_size)
+                # Scale features
+                features_scaled = self.scaler.transform(features)
                 
                 # Make prediction
-                with torch.no_grad():
-                    output = self.model(data_tensor)
-                    estimated_hurst = output.item()
-                    estimated_hurst = max(0.0, min(1.0, estimated_hurst))
+                estimated_hurst = self.model.predict(features_scaled)[0]
+                estimated_hurst = max(0.0, min(1.0, estimated_hurst))
                 
                 confidence_interval = (
                     max(0, estimated_hurst - 0.1),
                     min(1, estimated_hurst + 0.1),
                 )
                 
-                method = "Enhanced LSTM (Untrained Neural Network)"
+                method = "Enhanced LSTM (Pretrained ML)"
+        else:
+            # Create and use untrained model (fallback)
+            data_tensor = self._prepare_data(data)
+            
+            # Create fresh model
+            input_size = data_tensor.shape[-1]
+            self.model = self._create_model(input_size=input_size)
+            
+            # Make prediction
+            with torch.no_grad():
+                output = self.model(data_tensor)
+                estimated_hurst = output.item()
+                estimated_hurst = max(0.0, min(1.0, estimated_hurst))
+            
+            confidence_interval = (
+                max(0, estimated_hurst - 0.1),
+                min(1, estimated_hurst + 0.1),
+            )
+            
+            method = "Enhanced LSTM (Untrained Neural Network)"
 
         # Store results
         self.results = {

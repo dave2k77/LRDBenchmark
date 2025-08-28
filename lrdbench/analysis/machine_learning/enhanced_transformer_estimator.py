@@ -605,6 +605,32 @@ class EnhancedTransformerEstimator(BaseMLEstimator):
         
         print(f"Model loaded from: {model_path}")
 
+    def _try_load_pretrained_model(self) -> bool:
+        """
+        Try to load a pretrained PyTorch model for enhanced Transformer.
+        
+        Returns
+        -------
+        bool
+            True if pretrained model was loaded successfully, False otherwise
+        """
+        try:
+            # Check if we have a trained neural network model
+            model_path = os.path.join(self.parameters["model_save_path"], "enhanced_transformer_model.pth")
+            
+            if os.path.exists(model_path):
+                # Load trained model
+                self._load_model(model_path)
+                print(f"✅ Loaded pretrained PyTorch model: {model_path}")
+                return True
+            
+            # If no PyTorch model found, try the base class method for scikit-learn models
+            return super()._try_load_pretrained_model()
+            
+        except Exception as e:
+            print(f"⚠️ Could not load pretrained model for {self.__class__.__name__}: {e}")
+            return False
+
     def estimate(self, data: np.ndarray) -> Dict[str, Any]:
         """
         Estimate Hurst parameter using enhanced transformer.
@@ -627,36 +653,9 @@ class EnhancedTransformerEstimator(BaseMLEstimator):
 
         # Try to load pretrained model first
         if self._try_load_pretrained_model():
-            # Use the pretrained model for prediction
-            features = self.extract_features(data)
-            if features.ndim == 1:
-                features = features.reshape(1, -1)
-            
-            # Scale features
-            features_scaled = self.scaler.transform(features)
-            
-            # Make prediction
-            estimated_hurst = self.model.predict(features_scaled)[0]
-            
-            # Ensure estimate is within valid range
-            estimated_hurst = max(0.0, min(1.0, estimated_hurst))
-            
-            # Create confidence interval
-            confidence_interval = (
-                max(0, estimated_hurst - 0.1),
-                min(1, estimated_hurst + 0.1),
-            )
-            
-            method = "Enhanced Transformer (Pretrained ML)"
-        else:
-            # Check if we have a trained neural network model
-            model_path = os.path.join(self.parameters["model_save_path"], "enhanced_transformer_model.pth")
-            
-            if os.path.exists(model_path):
-                # Load trained model
-                self._load_model(model_path)
-                
-                # Prepare data
+            # Check if we loaded a PyTorch model or scikit-learn model
+            if hasattr(self.model, 'forward') and callable(getattr(self.model, 'forward', None)):
+                # We have a PyTorch model
                 data_tensor = self._prepare_data(data)
                 
                 # Make prediction
@@ -672,28 +671,47 @@ class EnhancedTransformerEstimator(BaseMLEstimator):
                 
                 method = "Enhanced Transformer (Trained Neural Network)"
             else:
-                # Create and use untrained model (fallback)
-                if data.ndim == 1:
-                    data = data.reshape(1, -1)
+                # We have a scikit-learn model
+                features = self.extract_features(data)
+                if features.ndim == 1:
+                    features = features.reshape(1, -1)
                 
-                data_tensor = self._prepare_data(data)
-                
-                # Create fresh model
-                input_dim = data_tensor.shape[-1]
-                self.model = self._create_model(input_dim=input_dim)
+                # Scale features
+                features_scaled = self.scaler.transform(features)
                 
                 # Make prediction
-                with torch.no_grad():
-                    output = self.model(data_tensor)
-                    estimated_hurst = output.item()
-                    estimated_hurst = max(0.0, min(1.0, estimated_hurst))
+                estimated_hurst = self.model.predict(features_scaled)[0]
+                estimated_hurst = max(0.0, min(1.0, estimated_hurst))
                 
                 confidence_interval = (
                     max(0, estimated_hurst - 0.1),
                     min(1, estimated_hurst + 0.1),
                 )
                 
-                method = "Enhanced Transformer (Untrained Neural Network)"
+                method = "Enhanced Transformer (Pretrained ML)"
+        else:
+            # Create and use untrained model (fallback)
+            if data.ndim == 1:
+                data = data.reshape(1, -1)
+            
+            data_tensor = self._prepare_data(data)
+            
+            # Create fresh model
+            input_dim = data_tensor.shape[-1]
+            self.model = self._create_model(input_dim=input_dim)
+            
+            # Make prediction
+            with torch.no_grad():
+                output = self.model(data_tensor)
+                estimated_hurst = output.item()
+                estimated_hurst = max(0.0, min(1.0, estimated_hurst))
+            
+            confidence_interval = (
+                max(0, estimated_hurst - 0.1),
+                min(1, estimated_hurst + 0.1),
+            )
+            
+            method = "Enhanced Transformer (Untrained Neural Network)"
 
         # Store results
         self.results = {
