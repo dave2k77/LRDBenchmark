@@ -274,11 +274,11 @@ if "All" in estimators or "🚀 All" in estimators:
         estimators.extend(["CNN", "LSTM", "GRU", "Transformer", "SVR", "RandomForest", "NeuralNetwork", "GradientBoosting"])
     if AUTO_OPTIMIZATION_AVAILABLE:
         estimators = [f"🚀 {opt}" if not opt.startswith("🤖") else opt for opt in estimators]
-    # Remove the rocket emoji for processing
-    estimators = [est.replace("🚀 ", "") for est in estimators]
+    # Remove both rocket and robot emojis for processing
+    estimators = [est.replace("🚀 ", "").replace("🤖 ", "") for est in estimators]
 else:
-    # Remove the rocket emoji for processing
-    estimators = [est.replace("🚀 ", "") for est in estimators]
+    # Remove both rocket and robot emojis for processing
+    estimators = [est.replace("🚀 ", "").replace("🤖 ", "") for est in estimators]
 
 # Number of runs
 n_runs = st.sidebar.slider("Number of Runs", 1, 10, 3,
@@ -701,28 +701,28 @@ with tab3:
                                     elif estimator_name == "MFDFA":
                                         from lrdbench.analysis.multifractal.mfdfa.mfdfa_estimator import MFDFAEstimator
                                         estimator = MFDFAEstimator()
-                                    elif estimator_name == "🤖 CNN":
+                                    elif estimator_name == "CNN":
                                         from lrdbench.analysis.machine_learning.enhanced_cnn_estimator import EnhancedCNNEstimator as CNNEstimator
                                         estimator = CNNEstimator()
-                                    elif estimator_name == "🤖 LSTM":
+                                    elif estimator_name == "LSTM":
                                         from lrdbench.analysis.machine_learning.enhanced_lstm_estimator import EnhancedLSTMEstimator as LSTMEstimator
                                         estimator = LSTMEstimator()
-                                    elif estimator_name == "🤖 GRU":
+                                    elif estimator_name == "GRU":
                                         from lrdbench.analysis.machine_learning.enhanced_gru_estimator import EnhancedGRUEstimator as GRUEstimator
                                         estimator = GRUEstimator()
-                                    elif estimator_name == "🤖 Transformer":
+                                    elif estimator_name == "Transformer":
                                         from lrdbench.analysis.machine_learning.enhanced_transformer_estimator import EnhancedTransformerEstimator as TransformerEstimator
                                         estimator = TransformerEstimator()
-                                    elif estimator_name == "🤖 SVR":
+                                    elif estimator_name == "SVR":
                                         from lrdbench.analysis.machine_learning.svr_estimator import SVREstimator
                                         estimator = SVREstimator()
-                                    elif estimator_name == "🤖 RandomForest":
+                                    elif estimator_name == "RandomForest":
                                         from lrdbench.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
                                         estimator = RandomForestEstimator()
-                                    elif estimator_name == "🤖 NeuralNetwork":
+                                    elif estimator_name == "NeuralNetwork":
                                         from lrdbench.analysis.machine_learning.neural_network_estimator import NeuralNetworkEstimator
                                         estimator = NeuralNetworkEstimator()
-                                    elif estimator_name == "🤖 GradientBoosting":
+                                    elif estimator_name == "GradientBoosting":
                                         from lrdbench.analysis.machine_learning.gradient_boosting_estimator import GradientBoostingEstimator
                                         estimator = GradientBoostingEstimator()
                                     else:
@@ -986,6 +986,8 @@ with tab5:
                     
                     # Test estimators on clean and contaminated data
                     estimators_to_test = ["DFA", "RS", "GPH", "CWT"]
+                    if ML_ESTIMATORS_AVAILABLE:
+                        estimators_to_test.extend(["CNN", "LSTM", "RandomForest", "SVR"])
                     
                     # Show which contamination types will be tested
                     st.info(f"🧪 Testing {len(contamination_scenarios)} contamination types: {', '.join(contamination_scenarios.keys())}")
@@ -1012,6 +1014,18 @@ with tab5:
                                 elif estimator_name == "CWT":
                                     from lrdbench.analysis.wavelet.cwt.cwt_estimator import CWTEstimator
                                     estimator = CWTEstimator()
+                                elif estimator_name == "CNN":
+                                    from lrdbench.analysis.machine_learning.enhanced_cnn_estimator import EnhancedCNNEstimator as CNNEstimator
+                                    estimator = CNNEstimator()
+                                elif estimator_name == "LSTM":
+                                    from lrdbench.analysis.machine_learning.enhanced_lstm_estimator import EnhancedLSTMEstimator as LSTMEstimator
+                                    estimator = LSTMEstimator()
+                                elif estimator_name == "RandomForest":
+                                    from lrdbench.analysis.machine_learning.random_forest_estimator import RandomForestEstimator
+                                    estimator = RandomForestEstimator()
+                                elif estimator_name == "SVR":
+                                    from lrdbench.analysis.machine_learning.svr_estimator import SVREstimator
+                                    estimator = SVREstimator()
                                 
                                 # Test on clean data
                                 clean_result = estimator.estimate(clean_data)
