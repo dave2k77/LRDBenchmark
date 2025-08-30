@@ -8,14 +8,12 @@ sphinx:
   configuration: docs/conf.py
   fail_on_warning: false
 
-# Build documentation with Python 3.9
-python:
-  version: "3.9"
-  install:
-    - method: pip
-      path: .
-      extra_requirements:
-        - docs
+# Install the package and documentation dependencies
+install:
+  - method: pip
+    path: .
+    extra_requirements:
+      - docs
 
 # Set the OS to Ubuntu 20.04
 build:
