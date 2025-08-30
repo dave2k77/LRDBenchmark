@@ -354,85 +354,14 @@ The multifractal spectrum :math:`f(\alpha)` is obtained via Legendre transform:
 Validation Techniques
 =====================
 
-Monte Carlo Simulations
------------------------
+For comprehensive coverage of validation techniques, statistical tests, and quality assurance methods, see the dedicated :doc:`Validation Guide <../research/validation>`.
 
-**Purpose**: Validate estimator performance on synthetic data with known parameters.
-
-**Methodology**:
-
-1. **Data Generation**: Generate :math:`N` realizations of synthetic data with known :math:`H`
-2. **Estimation**: Apply estimators to each realization
-3. **Statistics**: Calculate bias, variance, and mean squared error
-4. **Confidence Intervals**: Construct empirical confidence intervals
-
-**Mathematical Formulation**:
-For estimator :math:`\hat{H}` and true value :math:`H_0`:
-
-- **Bias**: :math:`\text{Bias} = \mathbb{E}[\hat{H}] - H_0`
-- **Variance**: :math:`\text{Var}[\hat{H}] = \mathbb{E}[(\hat{H} - \mathbb{E}[\hat{H}])^2]`
-- **MSE**: :math:`\text{MSE} = \mathbb{E}[(\hat{H} - H_0)^2] = \text{Bias}^2 + \text{Var}[\hat{H}]`
-
-Bootstrap Methods
------------------
-
-**Purpose**: Estimate confidence intervals and standard errors for estimators.
-
-**Methodology**:
-
-1. **Resampling**: Generate bootstrap samples by resampling with replacement
-2. **Estimation**: Apply estimator to each bootstrap sample
-3. **Statistics**: Calculate empirical distribution of estimates
-4. **Confidence Intervals**: Use percentiles or bias-corrected methods
-
-**Mathematical Formulation**:
-For bootstrap samples :math:`\{\hat{H}_1^*, \ldots, \hat{H}_B^*\}`:
-
-- **Bootstrap Mean**: :math:`\bar{H}^* = \frac{1}{B} \sum_{b=1}^B \hat{H}_b^*`
-- **Bootstrap Variance**: :math:`s^2 = \frac{1}{B-1} \sum_{b=1}^B (\hat{H}_b^* - \bar{H}^*)^2`
-- **Confidence Interval**: :math:`[\hat{H}_{\alpha/2}^*, \hat{H}_{1-\alpha/2}^*]`
-
-Cross-Validation
-----------------
-
-**Purpose**: Assess estimator performance and prevent overfitting.
-
-**Methodology**:
-
-1. **Data Splitting**: Divide data into training and validation sets
-2. **Parameter Tuning**: Optimize parameters on training set
-3. **Validation**: Evaluate performance on validation set
-4. **Cross-Validation**: Repeat with different splits
-
-**Mathematical Formulation**:
-For k-fold cross-validation with estimator :math:`f` and loss function :math:`L`:
-
-.. math::
-
-   \text{CV} = \frac{1}{k} \sum_{i=1}^k L(y_i, f^{-i}(x_i))
-
-where :math:`f^{-i}` is the estimator trained on all folds except fold :math:`i`.
-
-Robustness Analysis
--------------------
-
-**Purpose**: Assess estimator performance under various data conditions.
-
-**Methodology**:
-
-1. **Contamination**: Add noise, outliers, or trends to data
-2. **Estimation**: Apply estimators to contaminated data
-3. **Comparison**: Compare results with uncontaminated estimates
-4. **Robustness Metrics**: Calculate breakdown points and influence functions
-
-**Mathematical Formulation**:
-For contamination level :math:`\epsilon` and contamination distribution :math:`G`:
-
-.. math::
-
-   F_\epsilon = (1-\epsilon)F + \epsilon G
-
-where :math:`F` is the original distribution and :math:`F_\epsilon` is the contaminated distribution.
+This includes:
+- Monte Carlo validation methods
+- Bootstrap techniques
+- Cross-validation approaches
+- Robustness analysis
+- Statistical testing procedures
 
 Performance Metrics
 ===================
@@ -527,92 +456,9 @@ Practical Examples
 ==================
 
 Monte Carlo Simulation Example
-------------------------------
+-----------------------------
 
-.. code-block:: python
-
-   import numpy as np
-   from lrdbenchmark import FBMModel, ComprehensiveBenchmark
-   import matplotlib.pyplot as plt
-
-   def monte_carlo_validation_example():
-       """Demonstrate Monte Carlo validation for estimator performance."""
-       
-       # Define parameter space
-       H_values = np.linspace(0.3, 0.9, 13)  # 13 different H values
-       sample_sizes = [500, 1000, 2000]
-       n_realizations = 50
-       
-       # Initialize results storage
-       results = {
-           'dfa': {'bias': [], 'variance': [], 'mse': []},
-           'gph': {'bias': [], 'variance': [], 'mse': []},
-           'rs': {'bias': [], 'variance': [], 'mse': []}
-       }
-       
-       print("Running Monte Carlo validation...")
-       
-       for H in H_values:
-           print(f"Testing H = {H:.2f}")
-           
-           for n in sample_sizes:
-               estimates = {'dfa': [], 'gph': [], 'rs': []}
-               
-               for i in range(n_realizations):
-                   # Generate synthetic data
-                   model = FBMModel(H=H, sigma=1.0)
-                   data = model.generate(n, seed=i)
-                   
-                   # Apply estimators
-                   benchmark = ComprehensiveBenchmark()
-                   result = benchmark.run_classical_benchmark(
-                       data_length=n,
-                       estimators=['dfa', 'gph', 'rs']
-                   )
-                   
-                   # Collect estimates
-                   for estimator_name in estimates.keys():
-                       if estimator_name in result.estimators:
-                           estimates[estimator_name].append(
-                               result.estimators[estimator_name].mean_estimate
-                           )
-               
-               # Calculate statistics
-               for estimator_name in estimates.keys():
-                   if estimates[estimator_name]:
-                       est_array = np.array(estimates[estimator_name])
-                       bias = np.mean(est_array) - H
-                       variance = np.var(est_array)
-                       mse = bias**2 + variance
-                       
-                       results[estimator_name]['bias'].append(bias)
-                       results[estimator_name]['variance'].append(variance)
-                       results[estimator_name]['mse'].append(mse)
-       
-       # Plot results
-       fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-       
-       for i, metric in enumerate(['bias', 'variance', 'mse']):
-           for estimator_name in results.keys():
-               if results[estimator_name][metric]:
-                   axes[i].plot(H_values, results[estimator_name][metric], 
-                               label=estimator_name.upper(), marker='o')
-           
-           axes[i].set_xlabel('True Hurst Parameter (H)')
-           axes[i].set_ylabel(metric.capitalize())
-           axes[i].set_title(f'{metric.capitalize()} vs True H')
-           axes[i].legend()
-           axes[i].grid(True)
-       
-       plt.tight_layout()
-       plt.show()
-       
-       return results
-
-   # Run the example
-   if __name__ == "__main__":
-       results = monte_carlo_validation_example()
-       print("Monte Carlo validation completed!")
+For Monte Carlo validation examples and implementation details, see the dedicated :doc:`Validation Guide <../research/validation>`.
 
 Power Spectral Density Analysis
 -------------------------------

@@ -20,7 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Documentation Guide" href="README.html" /> 
+    <link rel="next" title="Installation Guide" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,7 +43,6 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="README.html">Documentation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
 </ul>
@@ -126,63 +125,21 @@
 - <strong>ML estimators significantly outperform</strong> classical methods (MSE: 0.061 vs 0.245)
 - <strong>All estimators working correctly</strong> with unified interfaces and graceful fallbacks
 - <strong>Top performers</strong>: DFA (32.5% error), DMA (39.8% error), Random Forest (74.8% error)</p>
-<section id="key-features">
-<h2>Key Features<a class="headerlink" href="#key-features" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p><strong>Comprehensive Estimator Suite</strong>: 18 total estimators including classical, enhanced machine learning, and neural network estimators</p></li>
-<li><p><strong>Multiple Data Models</strong>: FBM, FGN, ARFIMA, MRW with configurable parameters</p></li>
-<li><p><strong>High Performance</strong>: GPU-accelerated implementations with JAX and PyTorch backends</p></li>
-<li><p><strong>Analytics System</strong>: Built-in usage tracking and performance monitoring</p></li>
-<li><p><strong>Extensible Architecture</strong>: Easy integration of new estimators and models</p></li>
-<li><p><strong>Production Ready</strong>: Pre-trained models for deployment</p></li>
-<li><p><strong>Unified Framework</strong>: All estimators work seamlessly with graceful fallbacks</p></li>
-</ul>
-</section>
-<section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
-<p>Install LRDBenchmark:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>lrdbenchmark
-</pre></div>
-</div>
-<p>Basic usage:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">FBMModel</span><span class="p">,</span> <span class="n">ComprehensiveBenchmark</span>
-
-<span class="c1"># Generate synthetic data</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">FBMModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="c1"># Run comprehensive benchmark</span>
-<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span><span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Simple Benchmark: Classical vs. ML:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleBenchmark</span>
-
-<span class="c1"># Run focused benchmark comparing classical and ML estimators</span>
-<span class="n">benchmark</span> <span class="o">=</span> <span class="n">SimpleBenchmark</span><span class="p">()</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_benchmark</span><span class="p">()</span>
-<span class="n">analysis</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">analyze_results</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-
-<span class="c1"># Results show ML estimators significantly outperform classical methods</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ML MSE: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;ml_mse&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Classical MSE: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;classical_mse&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
+<p><strong>LRDBenchmark</strong> provides a comprehensive benchmarking framework for long-range dependence (LRD) analysis in time series data. It offers a unified platform for evaluating and comparing various estimators and models for detecting and quantifying long-range dependence patterns.</p>
+<p><strong>Key Features:</strong>
+* <strong>Comprehensive Estimator Suite</strong>: 18 total estimators including classical, enhanced machine learning, and neural network estimators
+* <strong>Multiple Data Models</strong>: FBM, FGN, ARFIMA, MRW with configurable parameters
+* <strong>High Performance</strong>: GPU-accelerated implementations with JAX and PyTorch backends
+* <strong>Analytics System</strong>: Built-in usage tracking and performance monitoring
+* <strong>Extensible Architecture</strong>: Easy integration of new estimators and models
+* <strong>Production Ready</strong>: Pre-trained models for deployment
+* <strong>Unified Framework</strong>: All estimators work seamlessly with graceful fallbacks</p>
+<p><strong>Quick Start:</strong>
+Install with <cite>pip install lrdbenchmark</cite> and see the Quick Start Guide for detailed examples.</p>
 <section id="installation-setup">
 <h2>Installation &amp; Setup<a class="headerlink" href="#installation-setup" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="README.html">Documentation Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="README.html#building-the-documentation">Building the Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#documentation-structure">Documentation Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#readthedocs-io-integration">ReadTheDocs.io Integration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#contributing-to-documentation">Contributing to Documentation</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#basic-installation">Basic Installation</a></li>
@@ -288,13 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="research/theory.html#multifractal-estimators">Multifractal Estimators</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="research/theory.html#validation-techniques">Validation Techniques</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="research/theory.html#monte-carlo-simulations">Monte Carlo Simulations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="research/theory.html#bootstrap-methods">Bootstrap Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="research/theory.html#cross-validation">Cross-Validation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="research/theory.html#robustness-analysis">Robustness Analysis</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="research/theory.html#validation-techniques">Validation Techniques</a></li>
 <li class="toctree-l1"><a class="reference internal" href="research/theory.html#performance-metrics">Performance Metrics</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="research/theory.html#accuracy-metrics">Accuracy Metrics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="research/theory.html#precision-metrics">Precision Metrics</a></li>
@@ -419,7 +370,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="README.html" class="btn btn-neutral float-right" title="Documentation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -32,9 +32,9 @@ Our latest benchmark shows:
 - **All estimators working correctly** with unified interfaces and graceful fallbacks
 - **Top performers**: DFA (32.5% error), DMA (39.8% error), Random Forest (74.8% error)
 
-Key Features
-------------
+**LRDBenchmark** provides a comprehensive benchmarking framework for long-range dependence (LRD) analysis in time series data. It offers a unified platform for evaluating and comparing various estimators and models for detecting and quantifying long-range dependence patterns.
 
+**Key Features:**
 * **Comprehensive Estimator Suite**: 18 total estimators including classical, enhanced machine learning, and neural network estimators
 * **Multiple Data Models**: FBM, FGN, ARFIMA, MRW with configurable parameters
 * **High Performance**: GPU-accelerated implementations with JAX and PyTorch backends
@@ -43,45 +43,8 @@ Key Features
 * **Production Ready**: Pre-trained models for deployment
 * **Unified Framework**: All estimators work seamlessly with graceful fallbacks
 
-Quick Start
------------
-
-Install LRDBenchmark:
-
-.. code-block:: bash
-
-   pip install lrdbenchmark
-
-Basic usage:
-
-.. code-block:: python
-
-   from lrdbenchmark import FBMModel, ComprehensiveBenchmark
-   
-   # Generate synthetic data
-   model = FBMModel(H=0.7, sigma=1.0)
-   data = model.generate(1000, seed=42)
-   
-   # Run comprehensive benchmark
-   benchmark = ComprehensiveBenchmark()
-   results = benchmark.run_comprehensive_benchmark(data_length=1000)
-   
-   print(results)
-
-Simple Benchmark: Classical vs. ML:
-
-.. code-block:: python
-
-   from lrdbenchmark import SimpleBenchmark
-   
-   # Run focused benchmark comparing classical and ML estimators
-   benchmark = SimpleBenchmark()
-   results = benchmark.run_benchmark()
-   analysis = benchmark.analyze_results(results)
-   
-   # Results show ML estimators significantly outperform classical methods
-   print(f"ML MSE: {analysis['ml_mse']:.6f}")
-   print(f"Classical MSE: {analysis['classical_mse']:.6f}")
+**Quick Start:**
+Install with `pip install lrdbenchmark` and see the Quick Start Guide for detailed examples.
 
 Installation & Setup
 --------------------
@@ -89,7 +52,6 @@ Installation & Setup
 .. toctree::
    :maxdepth: 2
 
-   README
    installation
    quickstart
 

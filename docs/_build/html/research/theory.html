@@ -44,7 +44,6 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../README.html">Documentation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start Guide</a></li>
 </ul>
@@ -107,13 +106,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#validation-techniques">Validation Techniques</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#monte-carlo-simulations">Monte Carlo Simulations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#bootstrap-methods">Bootstrap Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#cross-validation">Cross-Validation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#robustness-analysis">Robustness Analysis</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="#validation-techniques">Validation Techniques</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#performance-metrics">Performance Metrics</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#accuracy-metrics">Accuracy Metrics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#precision-metrics">Precision Metrics</a></li>
@@ -460,74 +453,13 @@ The qth order fluctuation function is:</p>
 </section>
 <section id="validation-techniques">
 <h1>Validation Techniques<a class="headerlink" href="#validation-techniques" title="Link to this heading"></a></h1>
-<section id="monte-carlo-simulations">
-<h2>Monte Carlo Simulations<a class="headerlink" href="#monte-carlo-simulations" title="Link to this heading"></a></h2>
-<p><strong>Purpose</strong>: Validate estimator performance on synthetic data with known parameters.</p>
-<p><strong>Methodology</strong>:</p>
-<ol class="arabic simple">
-<li><p><strong>Data Generation</strong>: Generate <span class="math">N</span> realizations of synthetic data with known <span class="math">H</span></p></li>
-<li><p><strong>Estimation</strong>: Apply estimators to each realization</p></li>
-<li><p><strong>Statistics</strong>: Calculate bias, variance, and mean squared error</p></li>
-<li><p><strong>Confidence Intervals</strong>: Construct empirical confidence intervals</p></li>
-</ol>
-<p><strong>Mathematical Formulation</strong>:
-For estimator <span class="math">\hat{H}</span> and true value <span class="math">H_0</span>:</p>
-<ul class="simple">
-<li><p><strong>Bias</strong>: <span class="math">\text{Bias} = \mathbb{E}[\hat{H}] - H_0</span></p></li>
-<li><p><strong>Variance</strong>: <span class="math">\text{Var}[\hat{H}] = \mathbb{E}[(\hat{H} - \mathbb{E}[\hat{H}])^2]</span></p></li>
-<li><p><strong>MSE</strong>: <span class="math">\text{MSE} = \mathbb{E}[(\hat{H} - H_0)^2] = \text{Bias}^2 + \text{Var}[\hat{H}]</span></p></li>
-</ul>
-</section>
-<section id="bootstrap-methods">
-<h2>Bootstrap Methods<a class="headerlink" href="#bootstrap-methods" title="Link to this heading"></a></h2>
-<p><strong>Purpose</strong>: Estimate confidence intervals and standard errors for estimators.</p>
-<p><strong>Methodology</strong>:</p>
-<ol class="arabic simple">
-<li><p><strong>Resampling</strong>: Generate bootstrap samples by resampling with replacement</p></li>
-<li><p><strong>Estimation</strong>: Apply estimator to each bootstrap sample</p></li>
-<li><p><strong>Statistics</strong>: Calculate empirical distribution of estimates</p></li>
-<li><p><strong>Confidence Intervals</strong>: Use percentiles or bias-corrected methods</p></li>
-</ol>
-<p><strong>Mathematical Formulation</strong>:
-For bootstrap samples <span class="math">\{\hat{H}_1^*, \ldots, \hat{H}_B^*\}</span>:</p>
-<ul class="simple">
-<li><p><strong>Bootstrap Mean</strong>: <span class="math">\bar{H}^* = \frac{1}{B} \sum_{b=1}^B \hat{H}_b^*</span></p></li>
-<li><p><strong>Bootstrap Variance</strong>: <span class="math">s^2 = \frac{1}{B-1} \sum_{b=1}^B (\hat{H}_b^* - \bar{H}^*)^2</span></p></li>
-<li><p><strong>Confidence Interval</strong>: <span class="math">[\hat{H}_{\alpha/2}^*, \hat{H}_{1-\alpha/2}^*]</span></p></li>
-</ul>
-</section>
-<section id="cross-validation">
-<h2>Cross-Validation<a class="headerlink" href="#cross-validation" title="Link to this heading"></a></h2>
-<p><strong>Purpose</strong>: Assess estimator performance and prevent overfitting.</p>
-<p><strong>Methodology</strong>:</p>
-<ol class="arabic simple">
-<li><p><strong>Data Splitting</strong>: Divide data into training and validation sets</p></li>
-<li><p><strong>Parameter Tuning</strong>: Optimize parameters on training set</p></li>
-<li><p><strong>Validation</strong>: Evaluate performance on validation set</p></li>
-<li><p><strong>Cross-Validation</strong>: Repeat with different splits</p></li>
-</ol>
-<p><strong>Mathematical Formulation</strong>:
-For k-fold cross-validation with estimator <span class="math">f</span> and loss function <span class="math">L</span>:</p>
-<div class="math">
-<p><span class="math">\text{CV} = \frac{1}{k} \sum_{i=1}^k L(y_i, f^{-i}(x_i))</span></p>
-</div><p>where <span class="math">f^{-i}</span> is the estimator trained on all folds except fold <span class="math">i</span>.</p>
-</section>
-<section id="robustness-analysis">
-<h2>Robustness Analysis<a class="headerlink" href="#robustness-analysis" title="Link to this heading"></a></h2>
-<p><strong>Purpose</strong>: Assess estimator performance under various data conditions.</p>
-<p><strong>Methodology</strong>:</p>
-<ol class="arabic simple">
-<li><p><strong>Contamination</strong>: Add noise, outliers, or trends to data</p></li>
-<li><p><strong>Estimation</strong>: Apply estimators to contaminated data</p></li>
-<li><p><strong>Comparison</strong>: Compare results with uncontaminated estimates</p></li>
-<li><p><strong>Robustness Metrics</strong>: Calculate breakdown points and influence functions</p></li>
-</ol>
-<p><strong>Mathematical Formulation</strong>:
-For contamination level <span class="math">\epsilon</span> and contamination distribution <span class="math">G</span>:</p>
-<div class="math">
-<p><span class="math">F_\epsilon = (1-\epsilon)F + \epsilon G</span></p>
-</div><p>where <span class="math">F</span> is the original distribution and <span class="math">F_\epsilon</span> is the contaminated distribution.</p>
-</section>
+<p>For comprehensive coverage of validation techniques, statistical tests, and quality assurance methods, see the dedicated <a class="reference internal" href="validation.html"><span class="doc">Validation Guide</span></a>.</p>
+<p>This includes:
+- Monte Carlo validation methods
+- Bootstrap techniques
+- Cross-validation approaches
+- Robustness analysis
+- Statistical testing procedures</p>
 </section>
 <section id="performance-metrics">
 <h1>Performance Metrics<a class="headerlink" href="#performance-metrics" title="Link to this heading"></a></h1>
@@ -615,90 +547,7 @@ Tests fit of observed frequencies to expected frequencies.</p>
 <h1>Practical Examples<a class="headerlink" href="#practical-examples" title="Link to this heading"></a></h1>
 <section id="monte-carlo-simulation-example">
 <h2>Monte Carlo Simulation Example<a class="headerlink" href="#monte-carlo-simulation-example" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">FBMModel</span><span class="p">,</span> <span class="n">ComprehensiveBenchmark</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">monte_carlo_validation_example</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Demonstrate Monte Carlo validation for estimator performance.&quot;&quot;&quot;</span>
-
-    <span class="c1"># Define parameter space</span>
-    <span class="n">H_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>  <span class="c1"># 13 different H values</span>
-    <span class="n">sample_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">]</span>
-    <span class="n">n_realizations</span> <span class="o">=</span> <span class="mi">50</span>
-
-    <span class="c1"># Initialize results storage</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;dfa&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bias&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;variance&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;mse&#39;</span><span class="p">:</span> <span class="p">[]},</span>
-        <span class="s1">&#39;gph&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bias&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;variance&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;mse&#39;</span><span class="p">:</span> <span class="p">[]},</span>
-        <span class="s1">&#39;rs&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bias&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;variance&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;mse&#39;</span><span class="p">:</span> <span class="p">[]}</span>
-    <span class="p">}</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running Monte Carlo validation...&quot;</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">H</span> <span class="ow">in</span> <span class="n">H_values</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Testing H = </span><span class="si">{</span><span class="n">H</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sample_sizes</span><span class="p">:</span>
-            <span class="n">estimates</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dfa&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;gph&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;rs&#39;</span><span class="p">:</span> <span class="p">[]}</span>
-
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_realizations</span><span class="p">):</span>
-                <span class="c1"># Generate synthetic data</span>
-                <span class="n">model</span> <span class="o">=</span> <span class="n">FBMModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-                <span class="n">data</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
-
-                <span class="c1"># Apply estimators</span>
-                <span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_classical_benchmark</span><span class="p">(</span>
-                    <span class="n">data_length</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
-                    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dfa&#39;</span><span class="p">,</span> <span class="s1">&#39;gph&#39;</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">]</span>
-                <span class="p">)</span>
-
-                <span class="c1"># Collect estimates</span>
-                <span class="k">for</span> <span class="n">estimator_name</span> <span class="ow">in</span> <span class="n">estimates</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">estimator_name</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">estimators</span><span class="p">:</span>
-                        <span class="n">estimates</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                            <span class="n">result</span><span class="o">.</span><span class="n">estimators</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">]</span><span class="o">.</span><span class="n">mean_estimate</span>
-                        <span class="p">)</span>
-
-            <span class="c1"># Calculate statistics</span>
-            <span class="k">for</span> <span class="n">estimator_name</span> <span class="ow">in</span> <span class="n">estimates</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">estimates</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">]:</span>
-                    <span class="n">est_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">estimates</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">])</span>
-                    <span class="n">bias</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">est_array</span><span class="p">)</span> <span class="o">-</span> <span class="n">H</span>
-                    <span class="n">variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">est_array</span><span class="p">)</span>
-                    <span class="n">mse</span> <span class="o">=</span> <span class="n">bias</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">variance</span>
-
-                    <span class="n">results</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">][</span><span class="s1">&#39;bias&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bias</span><span class="p">)</span>
-                    <span class="n">results</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">][</span><span class="s1">&#39;variance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
-                    <span class="n">results</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">][</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
-
-    <span class="c1"># Plot results</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">metric</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;bias&#39;</span><span class="p">,</span> <span class="s1">&#39;variance&#39;</span><span class="p">,</span> <span class="s1">&#39;mse&#39;</span><span class="p">]):</span>
-        <span class="k">for</span> <span class="n">estimator_name</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">][</span><span class="n">metric</span><span class="p">]:</span>
-                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">H_values</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">][</span><span class="n">metric</span><span class="p">],</span>
-                            <span class="n">label</span><span class="o">=</span><span class="n">estimator_name</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
-
-        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;True Hurst Parameter (H)&#39;</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">metric</span><span class="o">.</span><span class="n">capitalize</span><span class="p">())</span>
-        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">metric</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s1"> vs True H&#39;</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">results</span>
-
-<span class="c1"># Run the example</span>
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">monte_carlo_validation_example</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Monte Carlo validation completed!&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
+<p>For Monte Carlo validation examples and implementation details, see the dedicated <a class="reference internal" href="validation.html"><span class="doc">Validation Guide</span></a>.</p>
 </section>
 <section id="power-spectral-density-analysis">
 <h2>Power Spectral Density Analysis<a class="headerlink" href="#power-spectral-density-analysis" title="Link to this heading"></a></h2>
