@@ -1,0 +1,33 @@
+name: lrdbenchmark
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - scipy
+  - scikit-learn
+  - pandas
+  - matplotlib
+  - seaborn
+  - jax
+  - jaxlib
+  - numba
+  - pytorch
+  - pywavelets
+  - psutil
+  - networkx
+  - pytest
+  - pytest-cov
+  - black
+  - flake8
+  - mypy
+  - sphinx
+  - sphinx-rtd-theme
+  - pip
+  - pip:
+    - optuna
+    - numpyro
+    - cupy-cuda12x
+    - hpfracc
