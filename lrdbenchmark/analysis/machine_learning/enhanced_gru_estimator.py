@@ -42,12 +42,13 @@ class AdaptiveGRU(nn.Module):
     def __init__(
         self,
         input_size: int = 1,
-        hidden_size: int = 128,
-        num_layers: int = 3,
+        hidden_size: int = 64,  # Reduced from 128 for memory efficiency
+        num_layers: int = 2,    # Reduced from 3 for memory efficiency
         dropout_rate: float = 0.3,
         bidirectional: bool = True,
         use_attention: bool = True,
-        attention_heads: int = 8,
+        attention_heads: int = 4,  # Reduced from 8 for memory efficiency
+        use_gradient_checkpointing: bool = True,  # New: gradient checkpointing
     ):
         """
         Initialize the adaptive GRU model.
@@ -77,6 +78,7 @@ class AdaptiveGRU(nn.Module):
         self.bidirectional = bidirectional
         self.use_attention = use_attention
         self.num_directions = 2 if bidirectional else 1
+        self.use_gradient_checkpointing = use_gradient_checkpointing
 
         # GRU layers
         self.gru = nn.GRU(
@@ -97,6 +99,13 @@ class AdaptiveGRU(nn.Module):
             )
         else:
             self.attention = None
+
+        # Enable gradient checkpointing if requested
+        if use_gradient_checkpointing:
+            # Use standard checkpoint for compatibility
+            self._use_checkpoint = True
+        else:
+            self._use_checkpoint = False
 
         # Output layers
         gru_output_size = hidden_size * self.num_directions
@@ -128,13 +137,25 @@ class AdaptiveGRU(nn.Module):
         torch.Tensor
             Output tensor of shape (batch_size, 1)
         """
-        # GRU forward pass
-        gru_out, hidden = self.gru(x)
+        # GRU forward pass with optional checkpointing
+        if self._use_checkpoint:
+            gru_out = torch.utils.checkpoint.checkpoint(
+                lambda x: self.gru(x)[0], x, use_reentrant=False
+            )
+        else:
+            gru_out, _ = self.gru(x)  # Ignore hidden states for now
         # gru_out shape: (batch_size, seq_len, hidden_size * num_directions)
 
-        # Attention mechanism
+        # Attention mechanism with optional checkpointing
         if self.attention is not None:
-            attn_out, _ = self.attention(gru_out, gru_out, gru_out)
+            if self._use_checkpoint:
+                attn_out = torch.utils.checkpoint.checkpoint(
+                    lambda q, k, v: self.attention(q, k, v)[0],
+                    gru_out, gru_out, gru_out,
+                    use_reentrant=False
+                )
+            else:
+                attn_out, _ = self.attention(gru_out, gru_out, gru_out)
             # attn_out shape: (batch_size, seq_len, hidden_size * num_directions)
         else:
             attn_out = gru_out
@@ -189,15 +210,15 @@ class EnhancedGRUEstimator(BaseMLEstimator):
 
         # Set default parameters
         default_params = {
-            "hidden_size": 128,
-            "num_layers": 3,
+            "hidden_size": 64,  # Reduced for memory efficiency
+            "num_layers": 2,    # Reduced for memory efficiency
             "dropout_rate": 0.3,
             "learning_rate": 0.001,
-            "batch_size": 32,
+            "batch_size": 16,   # Reduced for memory efficiency
             "epochs": 200,
             "bidirectional": True,
             "use_attention": True,
-            "attention_heads": 8,
+            "attention_heads": 4,  # Reduced for memory efficiency
             "feature_extraction_method": "raw",
             "random_state": 42,
             "model_save_path": "models/enhanced_gru",
@@ -205,6 +226,7 @@ class EnhancedGRUEstimator(BaseMLEstimator):
             "learning_rate_scheduler": True,
             "gradient_clipping": True,
             "max_grad_norm": 1.0,
+            "use_gradient_checkpointing": False,  # Temporarily disabled for debugging
         }
 
         # Update with provided parameters
@@ -432,7 +454,12 @@ class EnhancedGRUEstimator(BaseMLEstimator):
                 batch_X, batch_y = batch_X.to(self.device), batch_y.to(self.device)
                 
                 self.optimizer.zero_grad()
-                outputs = self.model(batch_X).squeeze()
+                model_output = self.model(batch_X)
+                # Handle checkpointing output format
+                if isinstance(model_output, tuple):
+                    outputs = model_output[0].squeeze()
+                else:
+                    outputs = model_output.squeeze()
                 
                 # Enhanced loss combining MSE and MAE for better training stability
                 mse_loss = self.criterion(outputs, batch_y)
@@ -461,7 +488,12 @@ class EnhancedGRUEstimator(BaseMLEstimator):
             with torch.no_grad():
                 for batch_X, batch_y in val_loader:
                     batch_X, batch_y = batch_X.to(self.device), batch_y.to(self.device)
-                    outputs = self.model(batch_X).squeeze()
+                    model_output = self.model(batch_X)
+                    # Handle checkpointing output format
+                    if isinstance(model_output, tuple):
+                        outputs = model_output[0].squeeze()
+                    else:
+                        outputs = model_output.squeeze()
                     loss = self.criterion(outputs, batch_y)
                     
                     val_loss += loss.item()

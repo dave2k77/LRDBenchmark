@@ -43,11 +43,12 @@ class AdaptiveCNN1D(nn.Module):
         self,
         input_length: int,
         num_features: int = 1,
-        conv_channels: List[int] = [32, 64, 128, 256],
-        fc_layers: List[int] = [512, 256, 128, 64],
+        conv_channels: List[int] = [16, 32, 64],  # Reduced for memory efficiency
+        fc_layers: List[int] = [128, 64],  # Reduced for memory efficiency
         dropout_rate: float = 0.3,
         use_residual: bool = True,
         use_attention: bool = True,
+        use_gradient_checkpointing: bool = True,  # New: gradient checkpointing
     ):
         """
         Initialize the adaptive CNN model.
@@ -76,6 +77,7 @@ class AdaptiveCNN1D(nn.Module):
         self.conv_channels = conv_channels
         self.use_residual = use_residual
         self.use_attention = use_attention
+        self.use_gradient_checkpointing = use_gradient_checkpointing
 
         # Convolutional layers with residual connections
         self.conv_layers = nn.ModuleList()
@@ -113,11 +115,18 @@ class AdaptiveCNN1D(nn.Module):
         if use_attention:
             self.attention = nn.MultiheadAttention(
                 embed_dim=conv_channels[-1], 
-                num_heads=8, 
+                num_heads=4,  # Reduced for memory efficiency
                 batch_first=True
             )
         else:
             self.attention = None
+
+        # Enable gradient checkpointing if requested
+        if use_gradient_checkpointing:
+            # Use standard checkpoint for compatibility
+            self._use_checkpoint = True
+        else:
+            self._use_checkpoint = False
 
         # Adaptive pooling
         self.adaptive_pool = nn.AdaptiveAvgPool1d(1)
@@ -166,8 +175,13 @@ class AdaptiveCNN1D(nn.Module):
         ):
             identity = x if i == 0 else identity
             
-            # Main conv path
-            out = conv_layer(x)
+            # Main conv path with optional checkpointing
+            if self._use_checkpoint:
+                out = torch.utils.checkpoint.checkpoint(
+                    conv_layer, x, use_reentrant=False
+                )
+            else:
+                out = conv_layer(x)
             
             # Residual connection
             if self.use_residual and x.size(1) == out.size(1):
@@ -183,11 +197,20 @@ class AdaptiveCNN1D(nn.Module):
             x = out
             identity = out
 
-        # Attention mechanism
+        # Attention mechanism with optional checkpointing
         if self.attention is not None:
             # Reshape for attention: (batch, seq_len, features)
             x_attn = x.transpose(1, 2)
-            attn_out, _ = self.attention(x_attn, x_attn, x_attn)
+            
+            if self._use_checkpoint:
+                attn_out = torch.utils.checkpoint.checkpoint(
+                    lambda q, k, v: self.attention(q, k, v)[0],
+                    x_attn, x_attn, x_attn,
+                    use_reentrant=False
+                )
+            else:
+                attn_out, _ = self.attention(x_attn, x_attn, x_attn)
+            
             x = attn_out.transpose(1, 2)  # Back to (batch, features, seq_len)
 
         # Global average pooling
@@ -239,11 +262,11 @@ class EnhancedCNNEstimator(BaseMLEstimator):
 
         # Set default parameters
         default_params = {
-            "conv_channels": [32, 64, 128, 256],
-            "fc_layers": [512, 256, 128, 64],
+            "conv_channels": [16, 32, 64],  # Reduced for memory efficiency
+            "fc_layers": [128, 64],  # Reduced for memory efficiency
             "dropout_rate": 0.3,
             "learning_rate": 0.001,
-            "batch_size": 32,
+            "batch_size": 16,  # Reduced for memory efficiency
             "epochs": 200,
             "use_residual": True,
             "use_attention": True,
@@ -254,6 +277,7 @@ class EnhancedCNNEstimator(BaseMLEstimator):
             "learning_rate_scheduler": True,
             "gradient_clipping": True,
             "max_grad_norm": 1.0,
+            "use_gradient_checkpointing": False,  # Temporarily disabled for debugging
         }
 
         # Update with provided parameters
@@ -473,7 +497,12 @@ class EnhancedCNNEstimator(BaseMLEstimator):
                 batch_X, batch_y = batch_X.to(self.device), batch_y.to(self.device)
                 
                 self.optimizer.zero_grad()
-                outputs = self.model(batch_X).squeeze()
+                model_output = self.model(batch_X)
+                # Handle checkpointing output format
+                if isinstance(model_output, tuple):
+                    outputs = model_output[0].squeeze()
+                else:
+                    outputs = model_output.squeeze()
                 loss = self.criterion(outputs, batch_y)
                 
                 loss.backward()
@@ -498,7 +527,12 @@ class EnhancedCNNEstimator(BaseMLEstimator):
             with torch.no_grad():
                 for batch_X, batch_y in val_loader:
                     batch_X, batch_y = batch_X.to(self.device), batch_y.to(self.device)
-                    outputs = self.model(batch_X).squeeze()
+                    model_output = self.model(batch_X)
+                    # Handle checkpointing output format
+                    if isinstance(model_output, tuple):
+                        outputs = model_output[0].squeeze()
+                    else:
+                        outputs = model_output.squeeze()
                     loss = self.criterion(outputs, batch_y)
                     
                     val_loss += loss.item()

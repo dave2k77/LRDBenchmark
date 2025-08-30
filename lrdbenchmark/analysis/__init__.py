@@ -6,10 +6,16 @@ in time series data using both temporal and spectral methods.
 """
 
 # Auto-optimized estimator system
-from lrdbench.analysis.auto_optimized_estimator import AutoOptimizedEstimator
+try:
+    from .auto_optimized_estimator import AutoOptimizedEstimator
+except ImportError:
+    AutoOptimizedEstimator = None
 
 # Standard DFA (fallback)
-from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+try:
+    from .temporal.dfa.dfa_estimator import DFAEstimator
+except ImportError:
+    DFAEstimator = None
 
 # Import submodules
 from . import temporal

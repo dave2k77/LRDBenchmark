@@ -17,6 +17,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 import torch.nn.functional as F
+import gc
 
 try:
     TORCH_AVAILABLE = True
@@ -37,17 +38,19 @@ class AdaptiveLSTM(nn.Module):
     - Dropout regularization
     - Adaptive input handling
     - Multi-layer architecture
+    - Memory-efficient training
     """
 
     def __init__(
         self,
         input_size: int = 1,
-        hidden_size: int = 128,
-        num_layers: int = 3,
+        hidden_size: int = 64,  # Reduced from 128 for memory efficiency
+        num_layers: int = 2,    # Reduced from 3 for memory efficiency
         dropout_rate: float = 0.3,
         bidirectional: bool = True,
         use_attention: bool = True,
-        attention_heads: int = 8,
+        attention_heads: int = 4,  # Reduced from 8 for memory efficiency
+        use_gradient_checkpointing: bool = True,  # New: gradient checkpointing
     ):
         """
         Initialize the adaptive LSTM model.
@@ -57,9 +60,9 @@ class AdaptiveLSTM(nn.Module):
         input_size : int
             Size of input features
         hidden_size : int
-            Size of hidden layers
+            Size of hidden layers (reduced for memory efficiency)
         num_layers : int
-            Number of LSTM layers
+            Number of LSTM layers (reduced for memory efficiency)
         dropout_rate : float
             Dropout rate for regularization
         bidirectional : bool
@@ -67,7 +70,9 @@ class AdaptiveLSTM(nn.Module):
         use_attention : bool
             Whether to use attention mechanism
         attention_heads : int
-            Number of attention heads
+            Number of attention heads (reduced for memory efficiency)
+        use_gradient_checkpointing : bool
+            Whether to use gradient checkpointing for memory efficiency
         """
         super(AdaptiveLSTM, self).__init__()
 
@@ -77,6 +82,7 @@ class AdaptiveLSTM(nn.Module):
         self.bidirectional = bidirectional
         self.use_attention = use_attention
         self.num_directions = 2 if bidirectional else 1
+        self.use_gradient_checkpointing = use_gradient_checkpointing
 
         # LSTM layers
         self.lstm = nn.LSTM(
@@ -98,18 +104,18 @@ class AdaptiveLSTM(nn.Module):
         else:
             self.attention = None
 
+        # Enable gradient checkpointing if requested
+        if use_gradient_checkpointing:
+            # Use standard checkpoint for compatibility
+            self._use_checkpoint = True
+        else:
+            self._use_checkpoint = False
+
         # Output layers
-        lstm_output_size = hidden_size * self.num_directions
-        
-        self.output_layers = nn.Sequential(
-            nn.Linear(lstm_output_size, lstm_output_size // 2),
-            nn.ReLU(),
-            nn.Dropout(dropout_rate),
-            nn.Linear(lstm_output_size // 2, lstm_output_size // 4),
-            nn.ReLU(),
-            nn.Dropout(dropout_rate),
-            nn.Linear(lstm_output_size // 4, 1)
-        )
+        self.dropout = nn.Dropout(dropout_rate)
+        self.fc1 = nn.Linear(hidden_size * self.num_directions, hidden_size // 2)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_size // 2, 1)
 
         # Global pooling
         self.global_pool = nn.AdaptiveAvgPool1d(1)
@@ -128,13 +134,25 @@ class AdaptiveLSTM(nn.Module):
         torch.Tensor
             Output tensor of shape (batch_size, 1)
         """
-        # LSTM forward pass
-        lstm_out, (hidden, cell) = self.lstm(x)
+        # LSTM forward pass with optional checkpointing
+        if self._use_checkpoint:
+            lstm_out = torch.utils.checkpoint.checkpoint(
+                lambda x: self.lstm(x)[0], x, use_reentrant=False
+            )
+        else:
+            lstm_out, _ = self.lstm(x)  # Ignore hidden states for now
         # lstm_out shape: (batch_size, seq_len, hidden_size * num_directions)
 
-        # Attention mechanism
+        # Attention mechanism with optional checkpointing
         if self.attention is not None:
-            attn_out, _ = self.attention(lstm_out, lstm_out, lstm_out)
+            if self._use_checkpoint:
+                attn_out = torch.utils.checkpoint.checkpoint(
+                    lambda q, k, v: self.attention(q, k, v)[0],
+                    lstm_out, lstm_out, lstm_out,
+                    use_reentrant=False
+                )
+            else:
+                attn_out, _ = self.attention(lstm_out, lstm_out, lstm_out)
             # attn_out shape: (batch_size, seq_len, hidden_size * num_directions)
         else:
             attn_out = lstm_out
@@ -146,7 +164,7 @@ class AdaptiveLSTM(nn.Module):
         
         # Squeeze and pass through output layers
         pooled = pooled.squeeze(-1)  # (batch_size, features)
-        output = self.output_layers(pooled)  # (batch_size, 1)
+        output = self.fc2(self.relu(self.fc1(pooled)))  # (batch_size, 1)
 
         return output
 
@@ -189,15 +207,15 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
 
         # Set default parameters
         default_params = {
-            "hidden_size": 128,
-            "num_layers": 3,
+            "hidden_size": 64,  # Reduced for memory efficiency
+            "num_layers": 2,    # Reduced for memory efficiency
             "dropout_rate": 0.3,
             "learning_rate": 0.001,
-            "batch_size": 32,
+            "batch_size": 16,   # Reduced for memory efficiency
             "epochs": 200,
             "bidirectional": True,
             "use_attention": True,
-            "attention_heads": 8,
+            "attention_heads": 4,  # Reduced for memory efficiency
             "feature_extraction_method": "raw",
             "random_state": 42,
             "model_save_path": "models/enhanced_lstm",
@@ -205,6 +223,7 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
             "learning_rate_scheduler": True,
             "gradient_clipping": True,
             "max_grad_norm": 1.0,
+            "use_gradient_checkpointing": False,  # Temporarily disabled for debugging
         }
 
         # Update with provided parameters
@@ -276,6 +295,7 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
             bidirectional=self.parameters["bidirectional"],
             use_attention=self.parameters["use_attention"],
             attention_heads=self.parameters["attention_heads"],
+            use_gradient_checkpointing=self.parameters["use_gradient_checkpointing"], # Pass to AdaptiveLSTM
         ).to(self.device)
 
     def _prepare_data(self, data: np.ndarray) -> torch.Tensor:
@@ -352,24 +372,76 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
             torch.FloatTensor(y_val)
         )
 
-        # Create data loaders with improved batch size handling
-        batch_size = min(self.parameters["batch_size"], len(X_train))
-        val_batch_size = min(self.parameters["batch_size"], len(X_val))
+        # Create data loaders with memory-efficient batch sizes
+        # Dynamically adjust batch size based on available GPU memory
+        optimal_batch_size = self._get_optimal_batch_size(len(X_train))
+        val_batch_size = min(optimal_batch_size, len(X_val))
         
         train_loader = DataLoader(
             train_dataset, 
-            batch_size=batch_size, 
+            batch_size=optimal_batch_size, 
             shuffle=True,
-            drop_last=True
+            drop_last=True,
+            pin_memory=torch.cuda.is_available()
         )
         val_loader = DataLoader(
             val_dataset, 
             batch_size=val_batch_size, 
             shuffle=False,
-            drop_last=False
+            drop_last=False,
+            pin_memory=torch.cuda.is_available()
         )
 
         return train_loader, val_loader
+    
+    def _get_optimal_batch_size(self, dataset_size: int) -> int:
+        """
+        Dynamically determine optimal batch size based on available GPU memory.
+        
+        Parameters
+        ----------
+        dataset_size : int
+            Size of the training dataset
+            
+        Returns
+        -------
+        int
+            Optimal batch size
+        """
+        if not torch.cuda.is_available():
+            return min(self.parameters["batch_size"], dataset_size)
+        
+        try:
+            # Get available GPU memory
+            gpu_memory = torch.cuda.get_device_properties(0).total_memory
+            allocated_memory = torch.cuda.memory_allocated(0)
+            free_memory = gpu_memory - allocated_memory
+            
+            # Estimate memory per sample (conservative estimate)
+            estimated_memory_per_sample = 1024 * 1024 * 50  # 50MB per sample
+            
+            # Calculate safe batch size
+            safe_batch_size = max(1, int(free_memory * 0.7 / estimated_memory_per_sample))
+            
+            # Use the smaller of safe batch size, default batch size, or dataset size
+            optimal_batch_size = min(safe_batch_size, self.parameters["batch_size"], dataset_size)
+            
+            print(f"🔍 GPU Memory: {free_memory / 1024**3:.2f}GB free")
+            print(f"📊 Optimal batch size: {optimal_batch_size}")
+            
+            return optimal_batch_size
+            
+        except Exception as e:
+            print(f"⚠️ Could not determine optimal batch size: {e}")
+            # Fallback to conservative batch size
+            return min(16, self.parameters["batch_size"], dataset_size)
+    
+    def _clear_gpu_memory(self):
+        """Clear GPU memory and garbage collect."""
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            torch.cuda.synchronize()
+        gc.collect()
 
     def train_model(self, data_list: List[np.ndarray], labels: List[float], save_model: bool = True) -> Dict[str, Any]:
         """
@@ -432,7 +504,12 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
                 batch_X, batch_y = batch_X.to(self.device), batch_y.to(self.device)
                 
                 self.optimizer.zero_grad()
-                outputs = self.model(batch_X).squeeze()
+                model_output = self.model(batch_X)
+                # Handle checkpointing output format
+                if isinstance(model_output, tuple):
+                    outputs = model_output[0].squeeze()
+                else:
+                    outputs = model_output.squeeze()
                 
                 # Enhanced loss combining MSE and MAE for better training stability
                 mse_loss = self.criterion(outputs, batch_y)
@@ -452,6 +529,11 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
                 
                 train_loss += loss.item()
                 train_mae += torch.mean(torch.abs(outputs - batch_y)).item()
+                
+                # Memory management: clear intermediate tensors
+                del outputs, loss
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
 
             # Validation phase
             self.model.eval()
@@ -461,11 +543,21 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
             with torch.no_grad():
                 for batch_X, batch_y in val_loader:
                     batch_X, batch_y = batch_X.to(self.device), batch_y.to(self.device)
-                    outputs = self.model(batch_X).squeeze()
+                    model_output = self.model(batch_X)
+                    # Handle checkpointing output format
+                    if isinstance(model_output, tuple):
+                        outputs = model_output[0].squeeze()
+                    else:
+                        outputs = model_output.squeeze()
                     loss = self.criterion(outputs, batch_y)
                     
                     val_loss += loss.item()
                     val_mae += torch.mean(torch.abs(outputs - batch_y)).item()
+                    
+                    # Memory management: clear intermediate tensors
+                    del outputs, loss
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
 
             # Calculate averages
             train_loss /= len(train_loader)
@@ -499,6 +591,9 @@ class EnhancedLSTMEstimator(BaseMLEstimator):
                 print(f"Epoch [{epoch+1}/{self.parameters['epochs']}] - "
                       f"Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, "
                       f"Train MAE: {train_mae:.4f}, Val MAE: {val_mae:.4f}")
+            
+            # Memory cleanup between epochs
+            self._clear_gpu_memory()
 
             # Early stopping check
             if patience_counter >= early_stopping_patience:
