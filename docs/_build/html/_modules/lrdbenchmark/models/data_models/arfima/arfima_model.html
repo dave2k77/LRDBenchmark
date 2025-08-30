@@ -1,0 +1,576 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lrdbenchmark.models.data_models.arfima.arfima_model &mdash; LRDBenchmark 1.7.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="https://lrdbenchmark.readthedocs.io/_modules/lrdbenchmark/models/data_models/arfima/arfima_model.html"/>
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=030dc6f6"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            LRDBenchmark
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">Documentation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/data_models.html">Data Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/estimators.html">Estimators API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/benchmark.html">Benchmark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/analytics.html">Analytics API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html">Theoretical Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#statistical-estimators">Statistical Estimators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#validation-techniques">Validation Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#practical-examples">Practical Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#theoretical-references">Theoretical References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html">Validation Techniques and Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#monte-carlo-validation">Monte Carlo Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#bootstrap-methods">Bootstrap Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#cross-validation">Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#robustness-analysis">Robustness Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#model-selection">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#quality-assurance">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#id4">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#validation-references">Validation References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html">Comprehensive LRDBench Demonstration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#basic-data-generation-and-analysis">Basic Data Generation and Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#advanced-benchmarking">Advanced Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#machine-learning-and-neural-network-analysis">Machine Learning and Neural Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#analytics-and-monitoring">Analytics and Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#real-world-application-example">Real-World Application Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#integration-with-external-libraries">Integration with External Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#complete-workflow-example">Complete Workflow Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#summary">Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">LRDBenchmark</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../data_models.html">lrdbenchmark.models.data_models</a></li>
+      <li class="breadcrumb-item active">lrdbenchmark.models.data_models.arfima.arfima_model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lrdbenchmark.models.data_models.arfima.arfima_model</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Autoregressive Fractionally Integrated Moving Average (ARFIMA) model implementation.</span>
+
+<span class="sd">This module provides a class for generating ARFIMA time series with long-range dependence.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">gamma</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..base_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<div class="viewcode-block" id="ARFIMAModel">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ARFIMAModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Autoregressive Fractionally Integrated Moving Average (ARFIMA) model.</span>
+
+<span class="sd">    ARFIMA(p,d,q) process combines autoregressive (AR), fractionally integrated (FI),</span>
+<span class="sd">    and moving average (MA) components. The fractional integration parameter d</span>
+<span class="sd">    controls long-range dependence.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d : float</span>
+<span class="sd">        Fractional integration parameter (-0.5 &lt; d &lt; 0.5)</span>
+<span class="sd">    ar_params : List[float], optional</span>
+<span class="sd">        Autoregressive parameters (default: [])</span>
+<span class="sd">    ma_params : List[float], optional</span>
+<span class="sd">        Moving average parameters (default: [])</span>
+<span class="sd">    sigma : float, optional</span>
+<span class="sd">        Standard deviation of innovations (default: 1.0)</span>
+<span class="sd">    method : str, optional</span>
+<span class="sd">        Generation method (default: &#39;spectral&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ARFIMAModel.__init__">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">ar_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ma_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;spectral&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the ARFIMA model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        d : float</span>
+<span class="sd">            Fractional integration parameter (-0.5 &lt; d &lt; 0.5)</span>
+<span class="sd">        ar_params : List[float], optional</span>
+<span class="sd">            Autoregressive parameters</span>
+<span class="sd">        ma_params : List[float], optional</span>
+<span class="sd">            Moving average parameters</span>
+<span class="sd">        sigma : float, optional</span>
+<span class="sd">            Standard deviation of innovations</span>
+<span class="sd">        method : str, optional</span>
+<span class="sd">            Generation method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ar_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ar_params</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">ma_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ma_params</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">ar_params</span><span class="o">=</span><span class="n">ar_params</span><span class="p">,</span> <span class="n">ma_params</span><span class="o">=</span><span class="n">ma_params</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ARFIMAModel._validate_parameters">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel._validate_parameters">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate model parameters.&quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span>
+        <span class="n">ar_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;ar_params&quot;</span><span class="p">]</span>
+        <span class="n">ma_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;ma_params&quot;</span><span class="p">]</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">]</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">&lt;</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Fractional integration parameter d must be in (-0.5, 0.5)&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">sigma</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Standard deviation sigma must be positive&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check AR polynomial stability</span>
+        <span class="k">if</span> <span class="n">ar_params</span><span class="p">:</span>
+            <span class="n">ar_poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="o">-</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ar_params</span><span class="p">])</span>
+            <span class="n">roots</span> <span class="o">=</span> <span class="n">ar_poly</span><span class="o">.</span><span class="n">roots</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">roots</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-10</span>
+            <span class="p">):</span>  <span class="c1"># Roots must be inside unit circle for stationarity</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;AR parameters must satisfy stationarity conditions&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check MA polynomial invertibility</span>
+        <span class="k">if</span> <span class="n">ma_params</span><span class="p">:</span>
+            <span class="n">ma_poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">ma_params</span><span class="p">)</span>
+            <span class="n">roots</span> <span class="o">=</span> <span class="n">ma_poly</span><span class="o">.</span><span class="n">roots</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">roots</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-10</span>
+            <span class="p">):</span>  <span class="c1"># Roots must be inside unit circle for invertibility</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;MA parameters must satisfy invertibility conditions&quot;</span><span class="p">)</span>
+
+        <span class="n">valid_methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;spectral&quot;</span><span class="p">,</span> <span class="s2">&quot;simulation&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_methods</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Method must be one of </span><span class="si">{</span><span class="n">valid_methods</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ARFIMAModel.generate">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel.generate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate ARFIMA time series.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n : int</span>
+<span class="sd">            Length of the time series to generate</span>
+<span class="sd">        seed : int, optional</span>
+<span class="sd">            Random seed for reproducibility</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Generated ARFIMA time series of length n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span>
+        <span class="n">ar_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;ar_params&quot;</span><span class="p">]</span>
+        <span class="n">ma_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;ma_params&quot;</span><span class="p">]</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">]</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;spectral&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spectral_method</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">ar_params</span><span class="p">,</span> <span class="n">ma_params</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation_method</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">ar_params</span><span class="p">,</span> <span class="n">ma_params</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ARFIMAModel._spectral_method">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel._spectral_method">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_spectral_method</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">ar_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">ma_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate ARFIMA using efficient spectral method.</span>
+
+<span class="sd">        This method generates the process in the frequency domain using FFT,</span>
+<span class="sd">        which is much more efficient than time-domain simulation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Generate frequencies</span>
+        <span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+        <span class="c1"># Spectral density of ARFIMA process</span>
+        <span class="n">spectral_density</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_spectral_density</span><span class="p">(</span>
+            <span class="n">freqs</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">ar_params</span><span class="p">,</span> <span class="n">ma_params</span><span class="p">,</span> <span class="n">sigma</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Generate complex Gaussian noise</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">noise</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># Apply spectral filter</span>
+        <span class="n">filtered_noise</span> <span class="o">=</span> <span class="n">noise</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">spectral_density</span><span class="p">)</span>
+
+        <span class="c1"># Inverse FFT</span>
+        <span class="n">time_series</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">filtered_noise</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">time_series</span></div>
+
+
+<div class="viewcode-block" id="ARFIMAModel._simulation_method">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel._simulation_method">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_simulation_method</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">ar_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">ma_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate ARFIMA using efficient simulation method.</span>
+
+<span class="sd">        This method uses FFT-based fractional differencing and efficient</span>
+<span class="sd">        AR/MA filtering with scipy.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Generate white noise</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1000</span><span class="p">)</span>  <span class="c1"># Extra for warm-up</span>
+
+        <span class="c1"># Apply MA filter if needed</span>
+        <span class="k">if</span> <span class="n">ma_params</span><span class="p">:</span>
+            <span class="n">ma_filtered</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_ma_filter_efficient</span><span class="p">(</span><span class="n">noise</span><span class="p">,</span> <span class="n">ma_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ma_filtered</span> <span class="o">=</span> <span class="n">noise</span>
+
+        <span class="c1"># Apply fractional differencing using FFT</span>
+        <span class="n">frac_diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fractional_differencing_fft</span><span class="p">(</span><span class="n">ma_filtered</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+        <span class="c1"># Apply AR filter if needed</span>
+        <span class="k">if</span> <span class="n">ar_params</span><span class="p">:</span>
+            <span class="n">ar_filtered</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_ar_filter_efficient</span><span class="p">(</span><span class="n">frac_diff</span><span class="p">,</span> <span class="n">ar_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ar_filtered</span> <span class="o">=</span> <span class="n">frac_diff</span>
+
+        <span class="c1"># Return the final n observations (discard warm-up)</span>
+        <span class="k">return</span> <span class="n">ar_filtered</span><span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="ARFIMAModel._fractional_differencing_fft">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel._fractional_differencing_fft">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fractional_differencing_fft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply fractional differencing operator (1-L)^d using FFT.</span>
+
+<span class="sd">        This is much more efficient than the recursive method.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : np.ndarray</span>
+<span class="sd">            Input time series</span>
+<span class="sd">        d : float</span>
+<span class="sd">            Fractional integration parameter</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Fractionally differenced series</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># Compute the fractional differencing filter in frequency domain</span>
+        <span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+        <span class="c1"># Handle zero frequency to avoid division by zero</span>
+        <span class="n">freqs_safe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="n">freqs</span><span class="p">)</span>
+
+        <span class="c1"># Fractional differencing filter: (1 - exp(-2πi*f))^d</span>
+        <span class="n">filter_fft</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">freqs_safe</span><span class="p">))</span> <span class="o">**</span> <span class="n">d</span>
+
+        <span class="c1"># Apply filter using FFT</span>
+        <span class="n">data_fft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">result_fft</span> <span class="o">=</span> <span class="n">data_fft</span> <span class="o">*</span> <span class="n">filter_fft</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">result_fft</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="ARFIMAModel._apply_ar_filter_efficient">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel._apply_ar_filter_efficient">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_ar_filter_efficient</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ar_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply autoregressive filter efficiently using scipy.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : np.ndarray</span>
+<span class="sd">            Input time series</span>
+<span class="sd">        ar_params : List[float]</span>
+<span class="sd">            AR parameters</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            AR filtered series</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create AR filter coefficients</span>
+        <span class="n">ar_coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="o">-</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ar_params</span><span class="p">]</span>
+
+        <span class="c1"># Apply AR filter using scipy&#39;s lfilter</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">lfilter</span><span class="p">([</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">ar_coeffs</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="ARFIMAModel._apply_ma_filter_efficient">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel._apply_ma_filter_efficient">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_ma_filter_efficient</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ma_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply moving average filter efficiently using scipy.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : np.ndarray</span>
+<span class="sd">            Input time series</span>
+<span class="sd">        ma_params : List[float]</span>
+<span class="sd">            MA parameters</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            MA filtered series</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create MA filter coefficients</span>
+        <span class="n">ma_coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">+</span> <span class="n">ma_params</span>
+
+        <span class="c1"># Apply MA filter using scipy&#39;s lfilter</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">lfilter</span><span class="p">(</span><span class="n">ma_coeffs</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="ARFIMAModel._compute_spectral_density">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel._compute_spectral_density">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_spectral_density</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">freqs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">ar_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">ma_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute spectral density of ARFIMA process.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        freqs : np.ndarray</span>
+<span class="sd">            Frequencies</span>
+<span class="sd">        d : float</span>
+<span class="sd">            Fractional integration parameter</span>
+<span class="sd">        ar_params : List[float]</span>
+<span class="sd">            AR parameters</span>
+<span class="sd">        ma_params : List[float]</span>
+<span class="sd">            MA parameters</span>
+<span class="sd">        sigma : float</span>
+<span class="sd">            Standard deviation</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Spectral density</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Handle zero frequency to avoid division by zero</span>
+        <span class="n">freqs_safe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="n">freqs</span><span class="p">)</span>
+
+        <span class="c1"># Fractional integration component</span>
+        <span class="n">frac_component</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">freqs_safe</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span>
+
+        <span class="c1"># AR component</span>
+        <span class="n">ar_component</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">if</span> <span class="n">ar_params</span><span class="p">:</span>
+            <span class="n">ar_poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="o">-</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ar_params</span><span class="p">])</span>
+            <span class="n">ar_component</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ar_poly</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">freqs_safe</span><span class="p">)))</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="c1"># MA component</span>
+        <span class="n">ma_component</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">if</span> <span class="n">ma_params</span><span class="p">:</span>
+            <span class="n">ma_poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">ma_params</span><span class="p">)</span>
+            <span class="n">ma_component</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ma_poly</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">freqs_safe</span><span class="p">)))</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="c1"># Combine components</span>
+        <span class="n">spectral_density</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">frac_component</span> <span class="o">*</span> <span class="n">ar_component</span> <span class="o">*</span> <span class="n">ma_component</span>
+
+        <span class="k">return</span> <span class="n">spectral_density</span></div>
+
+
+<div class="viewcode-block" id="ARFIMAModel.get_theoretical_properties">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel.get_theoretical_properties">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_theoretical_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get theoretical properties of ARFIMA process.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Dictionary containing theoretical properties</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span>
+        <span class="n">ar_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;ar_params&quot;</span><span class="p">]</span>
+        <span class="n">ma_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;ma_params&quot;</span><span class="p">]</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;fractional_integration&quot;</span><span class="p">:</span> <span class="n">d</span><span class="p">,</span>
+            <span class="s2">&quot;ar_order&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">ar_params</span><span class="p">),</span>
+            <span class="s2">&quot;ma_order&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">ma_params</span><span class="p">),</span>
+            <span class="s2">&quot;innovation_variance&quot;</span><span class="p">:</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+            <span class="s2">&quot;long_range_dependence&quot;</span><span class="p">:</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;stationary&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;invertible&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;autocorrelation_decay&quot;</span><span class="p">:</span> <span class="s2">&quot;power_law&quot;</span> <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;exponential&quot;</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="ARFIMAModel.get_increments">
+<a class="viewcode-back" href="../../../../../api/data_models.html#lrdbenchmark.models.data_models.arfima.arfima_model.ARFIMAModel.get_increments">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_increments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arfima</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the increments of ARFIMA process.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        arfima : np.ndarray</span>
+<span class="sd">            ARFIMA time series</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Increments (differences)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">arfima</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Davian Chin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

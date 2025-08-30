@@ -1,0 +1,729 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lrdbenchmark.analytics.workflow_analyzer &mdash; LRDBenchmark 1.7.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="https://lrdbenchmark.readthedocs.io/_modules/lrdbenchmark/analytics/workflow_analyzer.html"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            LRDBenchmark
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">Documentation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/data_models.html">Data Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/estimators.html">Estimators API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/benchmark.html">Benchmark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/analytics.html">Analytics API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html">Theoretical Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#statistical-estimators">Statistical Estimators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#validation-techniques">Validation Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#practical-examples">Practical Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#theoretical-references">Theoretical References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html">Validation Techniques and Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#monte-carlo-validation">Monte Carlo Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#bootstrap-methods">Bootstrap Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#cross-validation">Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#robustness-analysis">Robustness Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#model-selection">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#quality-assurance">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#id4">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#validation-references">Validation References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html">Comprehensive LRDBench Demonstration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#basic-data-generation-and-analysis">Basic Data Generation and Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#advanced-benchmarking">Advanced Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#machine-learning-and-neural-network-analysis">Machine Learning and Neural Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#analytics-and-monitoring">Analytics and Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#real-world-application-example">Real-World Application Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#integration-with-external-libraries">Integration with External Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#complete-workflow-example">Complete Workflow Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#summary">Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LRDBenchmark</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lrdbenchmark.analytics.workflow_analyzer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lrdbenchmark.analytics.workflow_analyzer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Workflow Analyzer for LRDBench</span>
+
+<span class="sd">Analyzes user workflows and usage patterns:</span>
+<span class="sd">- Workflow sequence analysis</span>
+<span class="sd">- Common parameter combinations</span>
+<span class="sd">- User behavior patterns</span>
+<span class="sd">- Workflow optimization recommendations</span>
+<span class="sd">- Feature usage analysis</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">asdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">Counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">WorkflowStep</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a single step in a user workflow&quot;&quot;&quot;</span>
+
+    <span class="n">timestamp</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># &#39;estimator_usage&#39;, &#39;benchmark_run&#39;, &#39;data_generation&#39;, etc.</span>
+    <span class="n">estimator_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">data_length</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">user_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Workflow</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a complete user workflow&quot;&quot;&quot;</span>
+
+    <span class="n">workflow_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">user_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">WorkflowStep</span><span class="p">]</span>
+    <span class="n">start_time</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">end_time</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">total_duration</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">step_count</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">WorkflowSummary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated workflow statistics&quot;&quot;&quot;</span>
+
+    <span class="n">total_workflows</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">unique_users</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">avg_workflow_duration</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">avg_steps_per_workflow</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">common_workflow_patterns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">int</span><span class="p">]]</span>
+    <span class="n">popular_estimator_sequences</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">int</span><span class="p">]]</span>
+    <span class="n">workflow_complexity_distribution</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">WorkflowAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive workflow analysis system</span>
+
+<span class="sd">    Features:</span>
+<span class="sd">    - Workflow pattern recognition</span>
+<span class="sd">    - Sequence analysis</span>
+<span class="sd">    - User behavior modeling</span>
+<span class="sd">    - Optimization recommendations</span>
+<span class="sd">    - Feature usage analysis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="WorkflowAnalyzer.__init__">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;~/.lrdbench/analytics&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the workflow analyzer&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">storage_path</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_workflows</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Workflow</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_sessions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">WorkflowStep</span><span class="p">]]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+        <span class="c1"># Load existing data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_existing_data</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer._load_existing_data">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer._load_existing_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_existing_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load existing workflow data&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">workflows_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span> <span class="o">/</span> <span class="s2">&quot;workflows.json&quot;</span>
+            <span class="k">if</span> <span class="n">workflows_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">workflows_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">workflow_data</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                        <span class="c1"># Reconstruct workflow from data</span>
+                        <span class="n">workflow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reconstruct_workflow</span><span class="p">(</span><span class="n">workflow_data</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">workflow</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_workflows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">workflow</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Could not load existing workflow data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer._reconstruct_workflow">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer._reconstruct_workflow">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_reconstruct_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Workflow</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reconstruct workflow object from stored data&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">steps</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">step_data</span> <span class="ow">in</span> <span class="n">workflow_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="n">step</span> <span class="o">=</span> <span class="n">WorkflowStep</span><span class="p">(</span><span class="o">**</span><span class="n">step_data</span><span class="p">)</span>
+                <span class="n">steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">Workflow</span><span class="p">(</span>
+                <span class="n">workflow_id</span><span class="o">=</span><span class="n">workflow_data</span><span class="p">[</span><span class="s2">&quot;workflow_id&quot;</span><span class="p">],</span>
+                <span class="n">session_id</span><span class="o">=</span><span class="n">workflow_data</span><span class="p">[</span><span class="s2">&quot;session_id&quot;</span><span class="p">],</span>
+                <span class="n">user_id</span><span class="o">=</span><span class="n">workflow_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user_id&quot;</span><span class="p">),</span>
+                <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">,</span>
+                <span class="n">start_time</span><span class="o">=</span><span class="n">workflow_data</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">],</span>
+                <span class="n">end_time</span><span class="o">=</span><span class="n">workflow_data</span><span class="p">[</span><span class="s2">&quot;end_time&quot;</span><span class="p">],</span>
+                <span class="n">total_duration</span><span class="o">=</span><span class="n">workflow_data</span><span class="p">[</span><span class="s2">&quot;total_duration&quot;</span><span class="p">],</span>
+                <span class="n">step_count</span><span class="o">=</span><span class="n">workflow_data</span><span class="p">[</span><span class="s2">&quot;step_count&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Could not reconstruct workflow: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer.start_workflow_session">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer.start_workflow_session">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start_workflow_session</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start tracking a new workflow session&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">session_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_sessions</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_current_sessions</span><span class="p">[</span><span class="n">session_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer.add_workflow_step">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer.add_workflow_step">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_workflow_step</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">step_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">estimator_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">user_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a step to the current workflow session</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            session_id: Session identifier</span>
+<span class="sd">            step_type: Type of workflow step</span>
+<span class="sd">            estimator_name: Name of estimator used (if applicable)</span>
+<span class="sd">            parameters: Parameters for the step</span>
+<span class="sd">            data_length: Length of input data</span>
+<span class="sd">            user_id: Optional user identifier</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="n">WorkflowStep</span><span class="p">(</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="n">step_type</span><span class="o">=</span><span class="n">step_type</span><span class="p">,</span>
+            <span class="n">estimator_name</span><span class="o">=</span><span class="n">estimator_name</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span> <span class="ow">or</span> <span class="p">{},</span>
+            <span class="n">data_length</span><span class="o">=</span><span class="n">data_length</span><span class="p">,</span>
+            <span class="n">session_id</span><span class="o">=</span><span class="n">session_id</span><span class="p">,</span>
+            <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">session_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_sessions</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_current_sessions</span><span class="p">[</span><span class="n">session_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">step</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer.end_workflow_session">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer.end_workflow_session">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">end_workflow_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        End a workflow session and create workflow record</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            session_id: Session identifier</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Workflow ID if successful, None otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">session_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_sessions</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="n">steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_sessions</span><span class="p">[</span><span class="n">session_id</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">steps</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_sessions</span><span class="p">[</span><span class="n">session_id</span><span class="p">]</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="c1"># Create workflow</span>
+            <span class="n">workflow_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;workflow_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">session_id</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span>
+            <span class="n">end_time</span> <span class="o">=</span> <span class="n">steps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span>
+
+            <span class="c1"># Calculate duration</span>
+            <span class="n">start_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span>
+            <span class="n">end_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">end_time</span><span class="p">)</span>
+            <span class="n">total_duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_dt</span> <span class="o">-</span> <span class="n">start_dt</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+
+            <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span>
+                <span class="n">workflow_id</span><span class="o">=</span><span class="n">workflow_id</span><span class="p">,</span>
+                <span class="n">session_id</span><span class="o">=</span><span class="n">session_id</span><span class="p">,</span>
+                <span class="n">user_id</span><span class="o">=</span><span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span>
+                <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">,</span>
+                <span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span>
+                <span class="n">end_time</span><span class="o">=</span><span class="n">end_time</span><span class="p">,</span>
+                <span class="n">total_duration</span><span class="o">=</span><span class="n">total_duration</span><span class="p">,</span>
+                <span class="n">step_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">steps</span><span class="p">),</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Store workflow</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_workflows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">workflow</span><span class="p">)</span>
+
+            <span class="c1"># Clean up session</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_sessions</span><span class="p">[</span><span class="n">session_id</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="n">workflow_id</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer.get_workflow_summary">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer.get_workflow_summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_workflow_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WorkflowSummary</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get workflow summary for the specified time period</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            days: Number of days to analyze</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WorkflowSummary object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">recent_workflows</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">w</span>
+                <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workflows</span>
+                <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recent_workflows</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">WorkflowSummary</span><span class="p">(</span>
+                <span class="n">total_workflows</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">unique_users</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">avg_workflow_duration</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">avg_steps_per_workflow</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">common_workflow_patterns</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">popular_estimator_sequences</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">workflow_complexity_distribution</span><span class="o">=</span><span class="p">{},</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Calculate basic statistics</span>
+        <span class="n">total_workflows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">recent_workflows</span><span class="p">)</span>
+        <span class="n">unique_users</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">user_id</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">recent_workflows</span> <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">user_id</span><span class="p">))</span>
+
+        <span class="n">durations</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">total_duration</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">recent_workflows</span><span class="p">]</span>
+        <span class="n">avg_workflow_duration</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">durations</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">durations</span><span class="p">)</span>
+
+        <span class="n">step_counts</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">step_count</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">recent_workflows</span><span class="p">]</span>
+        <span class="n">avg_steps_per_workflow</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">step_counts</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">step_counts</span><span class="p">)</span>
+
+        <span class="c1"># Analyze workflow patterns</span>
+        <span class="n">common_patterns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_workflow_patterns</span><span class="p">(</span><span class="n">recent_workflows</span><span class="p">)</span>
+        <span class="n">popular_sequences</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_estimator_sequences</span><span class="p">(</span><span class="n">recent_workflows</span><span class="p">)</span>
+        <span class="n">complexity_distribution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_workflow_complexity</span><span class="p">(</span><span class="n">recent_workflows</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">WorkflowSummary</span><span class="p">(</span>
+            <span class="n">total_workflows</span><span class="o">=</span><span class="n">total_workflows</span><span class="p">,</span>
+            <span class="n">unique_users</span><span class="o">=</span><span class="n">unique_users</span><span class="p">,</span>
+            <span class="n">avg_workflow_duration</span><span class="o">=</span><span class="n">avg_workflow_duration</span><span class="p">,</span>
+            <span class="n">avg_steps_per_workflow</span><span class="o">=</span><span class="n">avg_steps_per_workflow</span><span class="p">,</span>
+            <span class="n">common_workflow_patterns</span><span class="o">=</span><span class="n">common_patterns</span><span class="p">,</span>
+            <span class="n">popular_estimator_sequences</span><span class="o">=</span><span class="n">popular_sequences</span><span class="p">,</span>
+            <span class="n">workflow_complexity_distribution</span><span class="o">=</span><span class="n">complexity_distribution</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer._analyze_workflow_patterns">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer._analyze_workflow_patterns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_workflow_patterns</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">workflows</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Workflow</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze common workflow patterns&quot;&quot;&quot;</span>
+        <span class="n">patterns</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">workflow</span> <span class="ow">in</span> <span class="n">workflows</span><span class="p">:</span>
+            <span class="c1"># Extract step types as pattern</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="p">[</span><span class="n">step</span><span class="o">.</span><span class="n">step_type</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">workflow</span><span class="o">.</span><span class="n">steps</span><span class="p">]</span>
+            <span class="n">patterns</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">pattern</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Return top patterns</span>
+        <span class="k">return</span> <span class="n">patterns</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer._analyze_estimator_sequences">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer._analyze_estimator_sequences">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_estimator_sequences</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">workflows</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Workflow</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze popular estimator sequences&quot;&quot;&quot;</span>
+        <span class="n">sequences</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">workflow</span> <span class="ow">in</span> <span class="n">workflows</span><span class="p">:</span>
+            <span class="c1"># Extract estimator names as sequence</span>
+            <span class="n">estimator_sequence</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">step</span><span class="o">.</span><span class="n">estimator_name</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">workflow</span><span class="o">.</span><span class="n">steps</span> <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">estimator_name</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">estimator_sequence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Only sequences with multiple estimators</span>
+                <span class="n">sequences</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">estimator_sequence</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Return top sequences</span>
+        <span class="k">return</span> <span class="n">sequences</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer._analyze_workflow_complexity">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer._analyze_workflow_complexity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_workflow_complexity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflows</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Workflow</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze workflow complexity distribution&quot;&quot;&quot;</span>
+        <span class="n">complexity_distribution</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;simple&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># 1-2 steps</span>
+            <span class="s2">&quot;moderate&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># 3-5 steps</span>
+            <span class="s2">&quot;complex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># 6-10 steps</span>
+            <span class="s2">&quot;very_complex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># 10+ steps</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">workflow</span> <span class="ow">in</span> <span class="n">workflows</span><span class="p">:</span>
+            <span class="n">step_count</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">step_count</span>
+            <span class="k">if</span> <span class="n">step_count</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">complexity_distribution</span><span class="p">[</span><span class="s2">&quot;simple&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">step_count</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">complexity_distribution</span><span class="p">[</span><span class="s2">&quot;moderate&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">step_count</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">complexity_distribution</span><span class="p">[</span><span class="s2">&quot;complex&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">complexity_distribution</span><span class="p">[</span><span class="s2">&quot;very_complex&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">complexity_distribution</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer.get_user_workflow_patterns">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer.get_user_workflow_patterns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_workflow_patterns</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get workflow patterns for a specific user&quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">user_workflows</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">w</span>
+                <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workflows</span>
+                <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">user_id</span>
+                <span class="ow">and</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user_workflows</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="c1"># Analyze user-specific patterns</span>
+        <span class="n">avg_duration</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">total_duration</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">user_workflows</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="n">user_workflows</span>
+        <span class="p">)</span>
+        <span class="n">avg_steps</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">step_count</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">user_workflows</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_workflows</span><span class="p">)</span>
+
+        <span class="c1"># Most common step types</span>
+        <span class="n">step_types</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">workflow</span> <span class="ow">in</span> <span class="n">user_workflows</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">workflow</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+                <span class="n">step_types</span><span class="p">[</span><span class="n">step</span><span class="o">.</span><span class="n">step_type</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Most common estimators</span>
+        <span class="n">estimators</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">workflow</span> <span class="ow">in</span> <span class="n">user_workflows</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">workflow</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">estimator_name</span><span class="p">:</span>
+                    <span class="n">estimators</span><span class="p">[</span><span class="n">step</span><span class="o">.</span><span class="n">estimator_name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;total_workflows&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_workflows</span><span class="p">),</span>
+            <span class="s2">&quot;avg_duration&quot;</span><span class="p">:</span> <span class="n">avg_duration</span><span class="p">,</span>
+            <span class="s2">&quot;avg_steps&quot;</span><span class="p">:</span> <span class="n">avg_steps</span><span class="p">,</span>
+            <span class="s2">&quot;favorite_step_types&quot;</span><span class="p">:</span> <span class="n">step_types</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+            <span class="s2">&quot;favorite_estimators&quot;</span><span class="p">:</span> <span class="n">estimators</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer.get_workflow_optimization_recommendations">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer.get_workflow_optimization_recommendations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_workflow_optimization_recommendations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get recommendations for workflow optimization&quot;&quot;&quot;</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_workflow_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="n">recommendations</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Analyze workflow duration</span>
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">avg_workflow_duration</span> <span class="o">&gt;</span> <span class="mi">300</span><span class="p">:</span>  <span class="c1"># 5 minutes</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Workflows are taking a long time on average. Consider &quot;</span>
+                <span class="s2">&quot;implementing parallel processing or caching.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Analyze workflow complexity</span>
+        <span class="n">complex_workflows</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">workflow_complexity_distribution</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;complex&quot;</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">)</span> <span class="o">+</span> <span class="n">summary</span><span class="o">.</span><span class="n">workflow_complexity_distribution</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;very_complex&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">complex_workflows</span> <span class="o">&gt;</span> <span class="n">summary</span><span class="o">.</span><span class="n">total_workflows</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">:</span>  <span class="c1"># 30% are complex</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Many workflows are complex. Consider creating workflow templates &quot;</span>
+                <span class="s2">&quot;or automated workflows for common tasks.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Analyze step patterns</span>
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">common_workflow_patterns</span><span class="p">:</span>
+            <span class="n">most_common</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">common_workflow_patterns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">most_common</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">summary</span><span class="o">.</span><span class="n">total_workflows</span> <span class="o">*</span> <span class="mf">0.5</span>
+            <span class="p">):</span>  <span class="c1"># 50% follow same pattern</span>
+                <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Most workflows follow the same pattern: </span><span class="si">{</span><span class="n">most_common</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="s2">&quot;Consider creating a dedicated function for this workflow.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Analyze estimator usage</span>
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">popular_estimator_sequences</span><span class="p">:</span>
+            <span class="n">most_popular</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">popular_estimator_sequences</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">most_popular</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">summary</span><span class="o">.</span><span class="n">total_workflows</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">:</span>  <span class="c1"># 40% use same sequence</span>
+                <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Many users use the same estimator sequence: </span><span class="si">{</span><span class="n">most_popular</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="s2">&quot;Consider creating a combined estimator or pipeline.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recommendations</span><span class="p">:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No specific optimization opportunities detected.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">recommendations</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer.export_workflows">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer.export_workflows">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_workflows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export workflow data to file&quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">recent_workflows</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">w</span>
+                <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workflows</span>
+                <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="n">workflows_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">asdict</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">recent_workflows</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">workflows_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer.get_feature_usage_analysis">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer.get_feature_usage_analysis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_feature_usage_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze feature usage patterns&quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">recent_workflows</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">w</span>
+                <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workflows</span>
+                <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="c1"># Analyze feature usage</span>
+        <span class="n">feature_usage</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;estimators&quot;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">(),</span>
+            <span class="s2">&quot;step_types&quot;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">(),</span>
+            <span class="s2">&quot;parameter_combinations&quot;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">(),</span>
+            <span class="s2">&quot;data_length_ranges&quot;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">workflow</span> <span class="ow">in</span> <span class="n">recent_workflows</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">workflow</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+                <span class="c1"># Count step types</span>
+                <span class="n">feature_usage</span><span class="p">[</span><span class="s2">&quot;step_types&quot;</span><span class="p">][</span><span class="n">step</span><span class="o">.</span><span class="n">step_type</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="c1"># Count estimators</span>
+                <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">estimator_name</span><span class="p">:</span>
+                    <span class="n">feature_usage</span><span class="p">[</span><span class="s2">&quot;estimators&quot;</span><span class="p">][</span><span class="n">step</span><span class="o">.</span><span class="n">estimator_name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="c1"># Count parameter combinations</span>
+                <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+                    <span class="n">param_key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+                    <span class="n">feature_usage</span><span class="p">[</span><span class="s2">&quot;parameter_combinations&quot;</span><span class="p">][</span><span class="n">param_key</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="c1"># Count data length ranges</span>
+                <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">data_length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">length_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_length_range</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">data_length</span><span class="p">)</span>
+                    <span class="n">feature_usage</span><span class="p">[</span><span class="s2">&quot;data_length_ranges&quot;</span><span class="p">][</span><span class="n">length_range</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;total_workflows&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">recent_workflows</span><span class="p">),</span>
+            <span class="s2">&quot;feature_usage&quot;</span><span class="p">:</span> <span class="n">feature_usage</span><span class="p">,</span>
+            <span class="s2">&quot;top_estimators&quot;</span><span class="p">:</span> <span class="n">feature_usage</span><span class="p">[</span><span class="s2">&quot;estimators&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+            <span class="s2">&quot;top_step_types&quot;</span><span class="p">:</span> <span class="n">feature_usage</span><span class="p">[</span><span class="s2">&quot;step_types&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+            <span class="s2">&quot;top_parameter_combinations&quot;</span><span class="p">:</span> <span class="n">feature_usage</span><span class="p">[</span>
+                <span class="s2">&quot;parameter_combinations&quot;</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+            <span class="s2">&quot;data_length_distribution&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">feature_usage</span><span class="p">[</span><span class="s2">&quot;data_length_ranges&quot;</span><span class="p">]),</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="WorkflowAnalyzer._get_length_range">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.workflow_analyzer.WorkflowAnalyzer._get_length_range">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_length_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert data length to range category&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&lt;100&quot;</span>
+        <span class="k">elif</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;100-1000&quot;</span>
+        <span class="k">elif</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;1000-10000&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&gt;10000&quot;</span></div>
+</div>
+
+
+
+<span class="c1"># Global workflow analyzer instance</span>
+<span class="n">_global_workflow_analyzer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">WorkflowAnalyzer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_workflow_analyzer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">WorkflowAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the global workflow analyzer instance&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_global_workflow_analyzer</span>
+    <span class="k">if</span> <span class="n">_global_workflow_analyzer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_global_workflow_analyzer</span> <span class="o">=</span> <span class="n">WorkflowAnalyzer</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">_global_workflow_analyzer</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">track_workflow</span><span class="p">(</span><span class="n">step_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator for tracking workflow steps&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">analyzer</span> <span class="o">=</span> <span class="n">get_workflow_analyzer</span><span class="p">()</span>
+
+            <span class="c1"># Start workflow session if not already started</span>
+            <span class="n">session_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;session_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">analyzer</span><span class="o">.</span><span class="n">start_workflow_session</span><span class="p">(</span><span class="n">session_id</span><span class="p">)</span>
+
+            <span class="c1"># Add workflow step</span>
+            <span class="n">analyzer</span><span class="o">.</span><span class="n">add_workflow_step</span><span class="p">(</span>
+                <span class="n">session_id</span><span class="o">=</span><span class="n">session_id</span><span class="p">,</span>
+                <span class="n">step_type</span><span class="o">=</span><span class="n">step_type</span><span class="p">,</span>
+                <span class="n">estimator_name</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;__name__&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+                <span class="n">data_length</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">args</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="c1"># End workflow session</span>
+                <span class="n">analyzer</span><span class="o">.</span><span class="n">end_workflow_session</span><span class="p">(</span><span class="n">session_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Davian Chin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

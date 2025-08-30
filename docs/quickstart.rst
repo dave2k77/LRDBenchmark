@@ -4,7 +4,7 @@ Quick Start Guide
 This guide will get you up and running with lrdbenchmark in minutes.
 
 Basic Usage
-----------
+-----------
 
 Generate synthetic data and run a benchmark:
 
@@ -25,7 +25,7 @@ Generate synthetic data and run a benchmark:
    print(f"Results: {results}")
 
 Data Models
-----------
+-----------
 
 LRDBenchmark provides several synthetic data models:
 
@@ -50,7 +50,7 @@ LRDBenchmark provides several synthetic data models:
    mrw_data = mrw.generate(1000)
 
 Individual Estimators
---------------------
+---------------------
 
 Use specific estimators directly:
 
@@ -71,7 +71,7 @@ Use specific estimators directly:
    print(f"GPH H estimate: {H_gph:.3f}")
 
 Analytics System
----------------
+----------------
 
 Track usage and performance:
 
@@ -91,7 +91,7 @@ Track usage and performance:
    print(summary)
 
 Enhanced ML and Neural Network Estimators
-----------------------------------------
+-----------------------------------------
 
 Use the new enhanced estimators with pre-trained models:
 
@@ -134,7 +134,7 @@ Use the new enhanced estimators with pre-trained models:
    print(f"Transformer H estimate: {H_transformer:.3f}")
 
 Advanced Usage
--------------
+--------------
 
 Custom benchmark configuration:
 
@@ -158,7 +158,7 @@ Custom benchmark configuration:
        print(f"{estimator}: H={result['estimated_H']:.3f}")
 
 Integration with HPFracc
------------------------
+------------------------
 
 Compare with fractional neural networks:
 
@@ -187,7 +187,7 @@ Compare with fractional neural networks:
        print("HPFracc not available. Install with: pip install hpfracc")
 
 Visualization
-------------
+-------------
 
 Plot results and data:
 
@@ -217,7 +217,7 @@ Plot results and data:
    plt.show()
 
 Performance Tips
----------------
+----------------
 
 1. **Use GPU acceleration** when available
 2. **Batch processing** for large datasets
@@ -225,7 +225,7 @@ Performance Tips
 4. **Use appropriate data lengths** (1000+ samples recommended)
 
 Next Steps
-----------
+-----------
 
 * :doc:`user_guide/getting_started` - Detailed getting started guide
 * :doc:`user_guide/data_models` - Learn about data models

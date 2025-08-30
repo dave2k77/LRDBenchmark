@@ -4,14 +4,14 @@ Installation Guide
 This guide will help you install lrdbenchmark and its dependencies.
 
 Requirements
------------
+------------
 
 * Python 3.8 or higher
 * pip (Python package installer)
 * Optional: CUDA-compatible GPU for accelerated computations
 
 Basic Installation
------------------
+------------------
 
 Install lrdbenchmark from PyPI:
 
@@ -22,7 +22,7 @@ Install lrdbenchmark from PyPI:
 This will install lrdbenchmark with all required dependencies including enhanced ML and neural network estimators.
 
 Installation with Optional Dependencies
--------------------------------------
+--------------------------------------
 
 For GPU acceleration and additional features:
 
@@ -38,7 +38,7 @@ For GPU acceleration and additional features:
    pip install lrdbenchmark[docs]
 
 Development Installation
------------------------
+------------------------
 
 To install LRDBenchmark in development mode:
 
@@ -58,7 +58,7 @@ To install LRDBenchmark in development mode:
    pip install -r requirements-dev.txt
 
 Conda Installation
------------------
+------------------
 
 Using conda:
 
@@ -72,7 +72,7 @@ Using conda:
    pip install lrdbenchmark
 
 Docker Installation
-------------------
+-------------------
 
 Pull the official LRDBenchmark Docker image:
 
@@ -93,7 +93,7 @@ Or build from Dockerfile:
    docker run -it lrdbenchmark
 
 Verification
------------
+------------
 
 After installation, verify that LRDBenchmark is working correctly:
 
@@ -113,10 +113,10 @@ After installation, verify that LRDBenchmark is working correctly:
    print(f"Generated {len(data)} samples")
 
 Troubleshooting
---------------
+---------------
 
 Common Installation Issues
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **ImportError: No module named 'torch'**
    Install PyTorch separately: ``pip install torch``
@@ -131,7 +131,7 @@ Common Installation Issues
    Consider using smaller batch sizes or reducing data length in benchmarks.
 
 Performance Optimization
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 For optimal performance:
 
@@ -141,7 +141,7 @@ For optimal performance:
 4. **Use appropriate batch sizes** for your hardware
 
 Environment Variables
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 Set these environment variables for optimal performance:
 
@@ -156,7 +156,7 @@ Set these environment variables for optimal performance:
    export MKL_NUM_THREADS=1
 
 Next Steps
-----------
+-----------
 
 After successful installation, proceed to:
 

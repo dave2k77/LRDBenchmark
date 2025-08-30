@@ -7,7 +7,7 @@ Long-Range Dependence (LRD)
 ---------------------------
 
 Definition and Properties
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Long-range dependence (LRD), also known as long memory or persistence, is a statistical property of time series where correlations between observations decay slowly with increasing time lag.
 
@@ -28,7 +28,7 @@ The Hurst parameter :math:`H` quantifies the degree of long-range dependence:
 - :math:`0 < H < 0.5`: Negative long-range dependence (anti-persistence)
 
 Power Spectral Density
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 For LRD processes, the power spectral density :math:`S(f)` exhibits a power-law behavior at low frequencies:
 
@@ -39,10 +39,10 @@ For LRD processes, the power spectral density :math:`S(f)` exhibits a power-law 
 This relationship forms the basis for spectral-based estimators like the Geweke-Porter-Hudak (GPH) estimator.
 
 Fractional Brownian Motion (FBM)
--------------------------------
+--------------------------------
 
 Mathematical Definition
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Fractional Brownian Motion :math:`B_H(t)` is a continuous-time Gaussian process with stationary increments, defined by:
 
@@ -56,7 +56,7 @@ where:
 - :math:`B(s)` is standard Brownian motion
 
 Properties
-~~~~~~~~~~
+~~~~~~~~~~~
 
 1. **Self-similarity**: :math:`B_H(at) \stackrel{d}{=} a^H B_H(t)` for all :math:`a > 0`
 2. **Stationary increments**: :math:`B_H(t+s) - B_H(s) \stackrel{d}{=} B_H(t) - B_H(0)`
@@ -64,7 +64,7 @@ Properties
 4. **Covariance function**: :math:`\text{Cov}[B_H(s), B_H(t)] = \frac{1}{2}(|s|^{2H} + |t|^{2H} - |s-t|^{2H})`
 
 Generation Methods
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 **Method 1: Cholesky Decomposition**
 The covariance matrix :math:`\Sigma` is constructed and decomposed as :math:`\Sigma = LL^T`. The FBM is then generated as :math:`B_H = LZ` where :math:`Z` is a vector of independent standard normal random variables.
@@ -76,7 +76,7 @@ The covariance function is embedded in a circulant matrix, which can be diagonal
 Uses the spectral representation of FBM to generate samples via FFT.
 
 Fractional Gaussian Noise (FGN)
-------------------------------
+-------------------------------
 
 Definition
 ~~~~~~~~~~
@@ -88,7 +88,7 @@ Fractional Gaussian Noise is the increment process of FBM:
    X_t = B_H(t+1) - B_H(t)
 
 Properties
-~~~~~~~~~~
+~~~~~~~~~~~
 
 1. **Stationarity**: FGN is a stationary process
 2. **Autocorrelation**: :math:`\rho(k) = \frac{1}{2}(|k+1|^{2H} - 2|k|^{2H} + |k-1|^{2H})`
@@ -113,7 +113,7 @@ where:
 - :math:`\epsilon_t` is white noise
 
 Fractional Differencing
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The fractional differencing operator :math:`(1-B)^d` is defined by the binomial expansion:
 
@@ -130,7 +130,7 @@ For :math:`|d| < 0.5`, the process is stationary and invertible. The relationshi
    H = d + 0.5
 
 Multifractal Random Walk (MRW)
------------------------------
+------------------------------
 
 Definition
 ~~~~~~~~~~
@@ -162,13 +162,13 @@ Properties
 3. **Scaling**: :math:`\langle |X(t+\tau) - X(t)|^q \rangle \sim \tau^{\zeta(q)}` where :math:`\zeta(q)` is the multifractal spectrum
 
 Statistical Estimators
-=====================
+======================
 
 Temporal Domain Estimators
--------------------------
+--------------------------
 
 Detrended Fluctuation Analysis (DFA)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Algorithm**:
 
@@ -191,7 +191,7 @@ For a time series of length :math:`N`, the DFA fluctuation function is:
 where :math:`F^2(v,s)` is the mean squared fluctuation in segment :math:`v` of size :math:`s`.
 
 R/S Analysis
-~~~~~~~~~~~
+~~~~~~~~~~~~
 
 **Algorithm**:
 
@@ -212,7 +212,7 @@ For a segment of length :math:`k`, the rescaled range is:
    R/S = \frac{\max_{1 \leq i \leq k} \sum_{j=1}^i (x_j - \bar{x}) - \min_{1 \leq i \leq k} \sum_{j=1}^i (x_j - \bar{x})}{\sqrt{\frac{1}{k} \sum_{i=1}^k (x_i - \bar{x})^2}}
 
 Higuchi Method
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 **Algorithm**:
 
@@ -232,10 +232,10 @@ For a time series :math:`\{x_i\}` and lag :math:`k`, the length is:
    L_m(k) = \frac{1}{k} \left[ \frac{N-1}{k^2} \sum_{i=1}^{[(N-m)/k]} |x_{m+ik} - x_{m+(i-1)k}| \right]
 
 Spectral Domain Estimators
--------------------------
+--------------------------
 
 Geweke-Porter-Hudak (GPH) Estimator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Algorithm**:
 
@@ -277,10 +277,10 @@ The Whittle likelihood function is:
 where :math:`S(f; \theta)` is the theoretical spectral density and :math:`I(f_j)` is the periodogram.
 
 Wavelet Domain Estimators
-------------------------
+-------------------------
 
 Wavelet Variance
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 **Algorithm**:
 
@@ -301,7 +301,7 @@ For wavelet coefficients :math:`d_{j,k}` at scale :math:`j`, the variance is:
 where :math:`n_j` is the number of coefficients at scale :math:`j`.
 
 Continuous Wavelet Transform (CWT)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Algorithm**:
 
@@ -322,10 +322,10 @@ The continuous wavelet transform is:
 where :math:`\psi(t)` is the mother wavelet and :math:`a, b` are scale and translation parameters.
 
 Multifractal Estimators
-----------------------
+-----------------------
 
 Multifractal Detrended Fluctuation Analysis (MFDFA)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Algorithm**:
 
@@ -352,10 +352,10 @@ The multifractal spectrum :math:`f(\alpha)` is obtained via Legendre transform:
    \alpha = h(q) + qh'(q), \quad f(\alpha) = q[\alpha - h(q)] + 1
 
 Validation Techniques
-====================
+=====================
 
 Monte Carlo Simulations
-----------------------
+-----------------------
 
 **Purpose**: Validate estimator performance on synthetic data with known parameters.
 
@@ -374,7 +374,7 @@ For estimator :math:`\hat{H}` and true value :math:`H_0`:
 - **MSE**: :math:`\text{MSE} = \mathbb{E}[(\hat{H} - H_0)^2] = \text{Bias}^2 + \text{Var}[\hat{H}]`
 
 Bootstrap Methods
-----------------
+-----------------
 
 **Purpose**: Estimate confidence intervals and standard errors for estimators.
 
@@ -393,7 +393,7 @@ For bootstrap samples :math:`\{\hat{H}_1^*, \ldots, \hat{H}_B^*\}`:
 - **Confidence Interval**: :math:`[\hat{H}_{\alpha/2}^*, \hat{H}_{1-\alpha/2}^*]`
 
 Cross-Validation
----------------
+----------------
 
 **Purpose**: Assess estimator performance and prevent overfitting.
 
@@ -414,7 +414,7 @@ For k-fold cross-validation with estimator :math:`f` and loss function :math:`L`
 where :math:`f^{-i}` is the estimator trained on all folds except fold :math:`i`.
 
 Robustness Analysis
-------------------
+-------------------
 
 **Purpose**: Assess estimator performance under various data conditions.
 
@@ -435,10 +435,10 @@ For contamination level :math:`\epsilon` and contamination distribution :math:`G
 where :math:`F` is the original distribution and :math:`F_\epsilon` is the contaminated distribution.
 
 Performance Metrics
-==================
+===================
 
 Accuracy Metrics
----------------
+----------------
 
 **Mean Absolute Error (MAE)**:
 .. math::
@@ -456,7 +456,7 @@ Accuracy Metrics
    \text{MAPE} = \frac{100\%}{n} \sum_{i=1}^n \left|\frac{\hat{H}_i - H_i}{H_i}\right|
 
 Precision Metrics
-----------------
+-----------------
 
 **Standard Error**:
 .. math::
@@ -474,17 +474,17 @@ Precision Metrics
    \text{CI Width} = \hat{H}_{1-\alpha/2} - \hat{H}_{\alpha/2}
 
 Efficiency Metrics
------------------
+------------------
 
 **Computational Complexity**: Big-O notation for time and space complexity
 **Convergence Rate**: Rate at which estimator approaches true value
 **Asymptotic Efficiency**: Ratio of estimator variance to Cramér-Rao lower bound
 
 Statistical Tests
-================
+=================
 
 Hypothesis Testing
------------------
+------------------
 
 **Null Hypothesis**: :math:`H_0: H = H_0`
 **Alternative Hypothesis**: :math:`H_1: H \neq H_0`
@@ -497,7 +497,7 @@ Hypothesis Testing
 **Decision Rule**: Reject :math:`H_0` if :math:`|T| > z_{\alpha/2}`
 
 Goodness-of-Fit Tests
---------------------
+---------------------
 
 **Kolmogorov-Smirnov Test**:
 Tests whether empirical distribution matches theoretical distribution.
@@ -509,7 +509,7 @@ Weighted version of KS test, more sensitive to tails.
 Tests fit of observed frequencies to expected frequencies.
 
 Model Selection
---------------
+---------------
 
 **Akaike Information Criterion (AIC)**:
 .. math::
@@ -524,10 +524,10 @@ Model Selection
 where :math:`k` is the number of parameters and :math:`L` is the likelihood.
 
 Practical Examples
-=================
+==================
 
 Monte Carlo Simulation Example
------------------------------
+------------------------------
 
 .. code-block:: python
 
@@ -615,7 +615,7 @@ Monte Carlo Simulation Example
        print("Monte Carlo validation completed!")
 
 Power Spectral Density Analysis
-------------------------------
+-------------------------------
 
 .. code-block:: python
 
@@ -677,7 +677,7 @@ Power Spectral Density Analysis
        print("Power spectral density analysis completed!")
 
 Autocorrelation Function Analysis
---------------------------------
+---------------------------------
 
 .. code-block:: python
 
@@ -737,7 +737,7 @@ Autocorrelation Function Analysis
        print("Autocorrelation analysis completed!")
 
 Theoretical References
-=====================
+======================
 
 1. Beran, J. (1994). Statistics for Long-Memory Processes. Chapman & Hall.
 2. Mandelbrot, B. B., & Van Ness, J. W. (1968). Fractional Brownian motions, fractional noises and applications. SIAM Review, 10(4), 422-437.

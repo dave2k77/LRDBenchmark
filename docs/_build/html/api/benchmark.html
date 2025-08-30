@@ -1,0 +1,669 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Benchmark API &mdash; LRDBenchmark 1.7.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="https://lrdbenchmark.readthedocs.io/api/benchmark.html"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=030dc6f6"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Analytics API" href="analytics.html" />
+    <link rel="prev" title="Estimators API" href="estimators.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            LRDBenchmark
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Documentation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="data_models.html">Data Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estimators.html">Estimators API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Benchmark API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comprehensive-benchmark">Comprehensive Benchmark</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#benchmark-results">Benchmark Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#benchmark-configuration">Benchmark Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-examples">Usage Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-benchmark">Basic Benchmark</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#classical-estimators-only">Classical Estimators Only</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#machine-learning-estimators">Machine Learning Estimators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#neural-network-estimators">Neural Network Estimators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-configuration">Custom Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-usage">Advanced Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parallel-processing">Parallel Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-data-models">Custom Data Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-estimators">Custom Estimators</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#results-analysis">Results Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#statistical-analysis">Statistical Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization">Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#performance-comparison">Performance Comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-analysis">Error Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#confidence-intervals">Confidence Intervals</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#export-and-reporting">Export and Reporting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#export-results">Export Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generate-reports">Generate Reports</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="analytics.html">Analytics API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research/theory.html">Theoretical Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/theory.html#statistical-estimators">Statistical Estimators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/theory.html#validation-techniques">Validation Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/theory.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/theory.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/theory.html#practical-examples">Practical Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/theory.html#theoretical-references">Theoretical References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html">Validation Techniques and Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html#monte-carlo-validation">Monte Carlo Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html#bootstrap-methods">Bootstrap Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html#cross-validation">Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html#robustness-analysis">Robustness Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html#model-selection">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html#quality-assurance">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html#id4">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research/validation.html#validation-references">Validation References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html">Comprehensive LRDBench Demonstration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#basic-data-generation-and-analysis">Basic Data Generation and Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#advanced-benchmarking">Advanced Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#machine-learning-and-neural-network-analysis">Machine Learning and Neural Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#analytics-and-monitoring">Analytics and Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#real-world-application-example">Real-World Application Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#integration-with-external-libraries">Integration with External Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#complete-workflow-example">Complete Workflow Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#summary">Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LRDBenchmark</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Benchmark API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/benchmark.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="benchmark-api">
+<h1>Benchmark API<a class="headerlink" href="#benchmark-api" title="Link to this heading"></a></h1>
+<p>lrdbenchmark provides a comprehensive benchmarking framework for evaluating and comparing all 18 estimators of long-range dependence.</p>
+<section id="comprehensive-benchmark">
+<h2>Comprehensive Benchmark<a class="headerlink" href="#comprehensive-benchmark" title="Link to this heading"></a></h2>
+</section>
+<section id="benchmark-results">
+<h2>Benchmark Results<a class="headerlink" href="#benchmark-results" title="Link to this heading"></a></h2>
+</section>
+<section id="benchmark-configuration">
+<h2>Benchmark Configuration<a class="headerlink" href="#benchmark-configuration" title="Link to this heading"></a></h2>
+</section>
+<section id="usage-examples">
+<h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading"></a></h2>
+<section id="basic-benchmark">
+<h3>Basic Benchmark<a class="headerlink" href="#basic-benchmark" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Create benchmark instance</span>
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running comprehensive benchmark...&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This will test multiple estimators on various data models&quot;</span><span class="p">)</span>
+
+<span class="c1"># Run comprehensive benchmark</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span>
+    <span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="c1"># Access results</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== BENCHMARK RESULTS ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of estimators tested: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">estimators</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of datasets generated: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total runs completed: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">estimators</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get summary statistics</span>
+<span class="n">summary</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">get_summary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== SUMMARY STATISTICS ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+
+<span class="c1"># Convert to DataFrame for detailed analysis</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== DETAILED RESULTS ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DataFrame shape: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columns: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Show top performing estimators</span>
+<span class="n">estimator_performance</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;estimator&#39;</span><span class="p">)[</span><span class="s1">&#39;estimated_H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== ESTIMATOR PERFORMANCE ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">estimator_performance</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="c1"># Show results by data model</span>
+<span class="n">model_performance</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;data_model&#39;</span><span class="p">)[</span><span class="s1">&#39;estimated_H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== DATA MODEL PERFORMANCE ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model_performance</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="classical-estimators-only">
+<h3>Classical Estimators Only<a class="headerlink" href="#classical-estimators-only" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+
+<span class="c1"># Run only classical estimators</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_classical_benchmark</span><span class="p">(</span>
+    <span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dfa&#39;</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span> <span class="s1">&#39;gph&#39;</span><span class="p">,</span> <span class="s1">&#39;wavelet_variance&#39;</span><span class="p">],</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+
+<span class="c1"># Get results for specific estimator</span>
+<span class="n">dfa_results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">get_estimator_results</span><span class="p">(</span><span class="s1">&#39;dfa&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DFA mean H estimate: </span><span class="si">{</span><span class="n">dfa_results</span><span class="o">.</span><span class="n">mean_estimate</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DFA standard error: </span><span class="si">{</span><span class="n">dfa_results</span><span class="o">.</span><span class="n">std_error</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="machine-learning-estimators">
+<h3>Machine Learning Estimators<a class="headerlink" href="#machine-learning-estimators" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+
+<span class="c1"># Run ML estimators with custom parameters</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_ml_benchmark</span><span class="p">(</span>
+    <span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;random_forest&#39;</span><span class="p">,</span> <span class="s1">&#39;gradient_boosting&#39;</span><span class="p">,</span> <span class="s1">&#39;svr&#39;</span><span class="p">],</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">train_test_split</span><span class="o">=</span><span class="mf">0.8</span>
+<span class="p">)</span>
+
+<span class="c1"># Get performance metrics</span>
+<span class="k">for</span> <span class="n">estimator_name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">estimators</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">estimator_name</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Mean H estimate: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">mean_estimate</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  RMSE: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">rmse</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  MAE: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">mae</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="neural-network-estimators">
+<h3>Neural Network Estimators<a class="headerlink" href="#neural-network-estimators" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+
+<span class="c1"># Run neural network estimators</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_neural_benchmark</span><span class="p">(</span>
+    <span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cnn&#39;</span><span class="p">,</span> <span class="s1">&#39;lstm&#39;</span><span class="p">,</span> <span class="s1">&#39;transformer&#39;</span><span class="p">],</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span>
+<span class="p">)</span>
+
+<span class="c1"># Get training history</span>
+<span class="k">for</span> <span class="n">estimator_name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">estimators</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;training_history&#39;</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">estimator_name</span><span class="si">}</span><span class="s2"> training completed&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Final loss: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">training_history</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-configuration">
+<h3>Custom Configuration<a class="headerlink" href="#custom-configuration" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span><span class="p">,</span> <span class="n">BenchmarkConfig</span>
+
+<span class="c1"># Create custom configuration</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">BenchmarkConfig</span><span class="p">(</span>
+    <span class="n">data_models</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;fbm&#39;</span><span class="p">,</span> <span class="s1">&#39;fgn&#39;</span><span class="p">,</span> <span class="s1">&#39;arfima&#39;</span><span class="p">],</span>
+    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dfa&#39;</span><span class="p">,</span> <span class="s1">&#39;gph&#39;</span><span class="p">,</span> <span class="s1">&#39;random_forest&#39;</span><span class="p">],</span>
+    <span class="n">data_lengths</span><span class="o">=</span><span class="p">[</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># Create benchmark with custom config</span>
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Run benchmark</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">()</span>
+
+<span class="c1"># Get results for specific data length</span>
+<span class="n">results_1000</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">get_results_by_length</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Results for length 1000: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results_1000</span><span class="o">.</span><span class="n">estimators</span><span class="p">)</span><span class="si">}</span><span class="s2"> estimators&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="advanced-usage">
+<h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading"></a></h2>
+<section id="parallel-processing">
+<h3>Parallel Processing<a class="headerlink" href="#parallel-processing" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+
+<span class="c1"># Set number of processes</span>
+<span class="n">mp</span><span class="o">.</span><span class="n">set_start_method</span><span class="p">(</span><span class="s1">&#39;spawn&#39;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+
+<span class="c1"># Run benchmark with parallel processing</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span>
+    <span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span>  <span class="c1"># Use 4 parallel processes</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-data-models">
+<h3>Custom Data Models<a class="headerlink" href="#custom-data-models" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span><span class="p">,</span> <span class="n">FBMModel</span><span class="p">,</span> <span class="n">FGNModel</span>
+
+<span class="c1"># Create custom data models</span>
+<span class="n">custom_models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;fbm_high&#39;</span><span class="p">:</span> <span class="n">FBMModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+    <span class="s1">&#39;fbm_low&#39;</span><span class="p">:</span> <span class="n">FBMModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+    <span class="s1">&#39;fgn_medium&#39;</span><span class="p">:</span> <span class="n">FGNModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+
+<span class="c1"># Run benchmark with custom models</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span>
+    <span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">custom_models</span><span class="o">=</span><span class="n">custom_models</span><span class="p">,</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-estimators">
+<h3>Custom Estimators<a class="headerlink" href="#custom-estimators" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark.analysis.temporal.dfa.dfa_estimator</span><span class="w"> </span><span class="kn">import</span> <span class="n">DFAEstimator</span>
+
+<span class="c1"># Create custom estimator</span>
+<span class="n">custom_dfa</span> <span class="o">=</span> <span class="n">DFAEstimator</span><span class="p">(</span>
+    <span class="n">min_scale</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">max_scale</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">num_scales</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">polynomial_order</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+
+<span class="n">custom_estimators</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;custom_dfa&#39;</span><span class="p">:</span> <span class="n">custom_dfa</span>
+<span class="p">}</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+
+<span class="c1"># Run benchmark with custom estimator</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span>
+    <span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">custom_estimators</span><span class="o">=</span><span class="n">custom_estimators</span><span class="p">,</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="results-analysis">
+<h2>Results Analysis<a class="headerlink" href="#results-analysis" title="Link to this heading"></a></h2>
+<section id="statistical-analysis">
+<h3>Statistical Analysis<a class="headerlink" href="#statistical-analysis" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span><span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Convert to pandas DataFrame for analysis</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+<span class="c1"># Group by estimator and calculate statistics</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;estimator&#39;</span><span class="p">)[</span><span class="s1">&#39;estimated_H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span>
+    <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span>
+<span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimator Statistics:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+
+<span class="c1"># Calculate bias for each estimator</span>
+<span class="n">true_H</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;true_H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Assuming same true H for all</span>
+<span class="n">bias</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;estimator&#39;</span><span class="p">)[</span><span class="s1">&#39;estimated_H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">true_H</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Bias (estimated - true H = </span><span class="si">{</span><span class="n">true_H</span><span class="si">}</span><span class="s2">):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bias</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="visualization">
+<h3>Visualization<a class="headerlink" href="#visualization" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span><span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Create box plot</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;estimator&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;estimated_H&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;true_H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True H&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Hurst Parameter Estimates by Estimator&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Create scatter plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">estimator</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;estimator&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;estimator&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">estimator</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="s1">&#39;true_H&#39;</span><span class="p">],</span> <span class="n">subset</span><span class="p">[</span><span class="s1">&#39;estimated_H&#39;</span><span class="p">],</span>
+               <span class="n">label</span><span class="o">=</span><span class="n">estimator</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Perfect Estimation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;True Hurst Parameter&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Estimated Hurst Parameter&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;True vs Estimated Hurst Parameters&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-comparison">
+<h3>Performance Comparison<a class="headerlink" href="#performance-comparison" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+
+<span class="c1"># Measure execution time</span>
+<span class="n">estimators</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dfa&#39;</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span> <span class="s1">&#39;gph&#39;</span><span class="p">,</span> <span class="s1">&#39;wavelet_variance&#39;</span><span class="p">]</span>
+<span class="n">execution_times</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">estimator</span> <span class="ow">in</span> <span class="n">estimators</span><span class="p">:</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_classical_benchmark</span><span class="p">(</span>
+        <span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">estimators</span><span class="o">=</span><span class="p">[</span><span class="n">estimator</span><span class="p">],</span>
+        <span class="n">n_runs</span><span class="o">=</span><span class="mi">5</span>
+    <span class="p">)</span>
+    <span class="n">execution_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="n">execution_times</span><span class="p">[</span><span class="n">estimator</span><span class="p">]</span> <span class="o">=</span> <span class="n">execution_time</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Execution Times:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">time_taken</span> <span class="ow">in</span> <span class="n">execution_times</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">estimator</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">time_taken</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="error-analysis">
+<h3>Error Analysis<a class="headerlink" href="#error-analysis" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span><span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+<span class="c1"># Calculate errors</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;estimated_H&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;true_H&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;abs_error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;squared_error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># Error statistics by estimator</span>
+<span class="n">error_stats</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;estimator&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+    <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;abs_error&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;squared_error&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span>
+<span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">error_stats</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Bias&#39;</span><span class="p">,</span> <span class="s1">&#39;Bias_Std&#39;</span><span class="p">,</span> <span class="s1">&#39;MAE&#39;</span><span class="p">,</span> <span class="s1">&#39;MSE&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error Statistics:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">error_stats</span><span class="p">)</span>
+
+<span class="c1"># Identify outliers</span>
+<span class="n">Q1</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;estimator&#39;</span><span class="p">)[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">Q3</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;estimator&#39;</span><span class="p">)[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
+
+<span class="n">outliers</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;estimator&#39;</span><span class="p">]])</span> <span class="o">|</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;estimator&#39;</span><span class="p">]])</span>
+<span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Number of outliers: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">outliers</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="confidence-intervals">
+<h3>Confidence Intervals<a class="headerlink" href="#confidence-intervals" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">stats</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span><span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+<span class="c1"># Calculate confidence intervals</span>
+<span class="n">confidence_level</span> <span class="o">=</span> <span class="mf">0.95</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">confidence_level</span>
+
+<span class="n">ci_results</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">estimator</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;estimator&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;estimator&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">estimator</span><span class="p">]</span>
+    <span class="n">estimates</span> <span class="o">=</span> <span class="n">subset</span><span class="p">[</span><span class="s1">&#39;estimated_H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="c1"># Bootstrap confidence interval</span>
+    <span class="n">n_bootstrap</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">bootstrap_means</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_bootstrap</span><span class="p">):</span>
+        <span class="n">bootstrap_sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">estimates</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">estimates</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">bootstrap_means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">bootstrap_sample</span><span class="p">))</span>
+
+    <span class="n">lower_ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">bootstrap_means</span><span class="p">,</span> <span class="n">alpha</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">upper_ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">bootstrap_means</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">alpha</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">ci_results</span><span class="p">[</span><span class="n">estimator</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">estimates</span><span class="p">),</span>
+        <span class="s1">&#39;lower_ci&#39;</span><span class="p">:</span> <span class="n">lower_ci</span><span class="p">,</span>
+        <span class="s1">&#39;upper_ci&#39;</span><span class="p">:</span> <span class="n">upper_ci</span><span class="p">,</span>
+        <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="n">upper_ci</span> <span class="o">-</span> <span class="n">lower_ci</span>
+    <span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confidence Intervals (95%):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">ci</span> <span class="ow">in</span> <span class="n">ci_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">estimator</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="s1">&#39;lower_ci&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="s1">&#39;upper_ci&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="export-and-reporting">
+<h2>Export and Reporting<a class="headerlink" href="#export-and-reporting" title="Link to this heading"></a></h2>
+<section id="export-results">
+<h3>Export Results<a class="headerlink" href="#export-results" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span><span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Export to JSON</span>
+<span class="n">results</span><span class="o">.</span><span class="n">save_json</span><span class="p">(</span><span class="s1">&#39;benchmark_results.json&#39;</span><span class="p">)</span>
+
+<span class="c1"># Export to CSV</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;benchmark_results.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Export to Excel</span>
+<span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="s1">&#39;benchmark_results.xlsx&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Results&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Create summary sheet</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">get_summary</span><span class="p">()</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">summary</span><span class="p">])</span>
+    <span class="n">summary_df</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Summary&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="generate-reports">
+<h3>Generate Reports<a class="headerlink" href="#generate-reports" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComprehensiveBenchmark</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_comprehensive_benchmark</span><span class="p">(</span><span class="n">data_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Generate comprehensive report</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">generate_report</span><span class="p">(</span>
+    <span class="n">include_plots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">include_statistics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">include_recommendations</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Save report</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;benchmark_report.html&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+
+<span class="c1"># Print summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">get_summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Sample Size</strong>: Use at least 1000 data points for reliable estimates</p></li>
+<li><p><strong>Number of Runs</strong>: Use 10-20 runs for stable statistics</p></li>
+<li><p><strong>Multiple Estimators</strong>: Compare results from different estimator types</p></li>
+<li><p><strong>Data Models</strong>: Test on various synthetic data models</p></li>
+<li><p><strong>Error Handling</strong>: Always handle potential estimation failures</p></li>
+<li><p><strong>Performance Monitoring</strong>: Track execution times for large-scale benchmarks</p></li>
+<li><p><strong>Result Validation</strong>: Cross-validate results with known theoretical values</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The benchmark system automatically handles parallel processing, error recovery,
+and result aggregation. For large-scale benchmarks, consider using the
+parallel processing capabilities.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Some estimators may fail on certain data types or parameter combinations.
+The benchmark system will report failures but continue with other estimators.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="estimators.html" class="btn btn-neutral float-left" title="Estimators API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="analytics.html" class="btn btn-neutral float-right" title="Analytics API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Davian Chin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

@@ -120,7 +120,7 @@ Wavelet Variance
    .. automethod:: estimate
 
 Wavelet Log-Variance
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.wavelet.log_variance.wavelet_log_variance_estimator.WaveletLogVarianceEstimator
    :members:
@@ -131,7 +131,7 @@ Wavelet Log-Variance
    .. automethod:: estimate
 
 Wavelet Whittle
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.wavelet.whittle.wavelet_whittle_estimator.WaveletWhittleEstimator
    :members:
@@ -142,10 +142,10 @@ Wavelet Whittle
    .. automethod:: estimate
 
 Multifractal Estimators
-----------------------
+-----------------------
 
 Multifractal Detrended Fluctuation Analysis (MFDFA)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.multifractal.mfdfa.mfdfa_estimator.MFDFAEstimator
    :members:
@@ -156,7 +156,7 @@ Multifractal Detrended Fluctuation Analysis (MFDFA)
    .. automethod:: estimate
 
 Multifractal Wavelet Leaders
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.multifractal.wavelet_leaders.multifractal_wavelet_leaders_estimator.MultifractalWaveletLeadersEstimator
    :members:
@@ -167,10 +167,10 @@ Multifractal Wavelet Leaders
    .. automethod:: estimate
 
 Machine Learning Estimators
---------------------------
+---------------------------
 
 Base ML Estimator
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.machine_learning.base_ml_estimator.BaseMLEstimator
    :members:
@@ -181,7 +181,7 @@ Base ML Estimator
    .. automethod:: estimate
 
 Random Forest Estimator
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.machine_learning.random_forest_estimator.RandomForestEstimator
    :members:
@@ -192,7 +192,7 @@ Random Forest Estimator
    .. automethod:: estimate
 
 Gradient Boosting Estimator
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.machine_learning.gradient_boosting_estimator.GradientBoostingEstimator
    :members:
@@ -203,7 +203,7 @@ Gradient Boosting Estimator
    .. automethod:: estimate
 
 Support Vector Regression (SVR)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.machine_learning.svr_estimator.SVREstimator
    :members:
@@ -214,10 +214,10 @@ Support Vector Regression (SVR)
    .. automethod:: estimate
 
 Neural Network Estimators
-------------------------
+-------------------------
 
 Base Neural Network Estimator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.machine_learning.neural_network_estimator.NeuralNetworkEstimator
    :members:
@@ -228,7 +228,7 @@ Base Neural Network Estimator
    .. automethod:: estimate
 
 CNN Estimator
-~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.machine_learning.cnn_estimator.CNNEstimator
    :members:
@@ -239,7 +239,7 @@ CNN Estimator
    .. automethod:: estimate
 
 LSTM Estimator
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.machine_learning.lstm_estimator.LSTMEstimator
    :members:
@@ -250,7 +250,7 @@ LSTM Estimator
    .. automethod:: estimate
 
 GRU Estimator
-~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.machine_learning.gru_estimator.GRUEstimator
    :members:
@@ -261,7 +261,7 @@ GRU Estimator
    .. automethod:: estimate
 
 Transformer Estimator
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.machine_learning.transformer_estimator.TransformerEstimator
    :members:
@@ -272,10 +272,10 @@ Transformer Estimator
    .. automethod:: estimate
 
 High Performance Estimators
---------------------------
+---------------------------
 
 JAX-based Estimators
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.high_performance.jax.dfa_jax.DFAJAXEstimator
    :members:
@@ -293,7 +293,7 @@ JAX-based Estimators
    :show-inheritance:
 
 Numba-based Estimators
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: lrdbenchmark.analysis.high_performance.numba.dfa_numba.DFANumbaEstimator
    :members:
@@ -311,10 +311,10 @@ Numba-based Estimators
    :show-inheritance:
 
 Usage Examples
--------------
+--------------
 
 Basic Estimator Usage
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -349,7 +349,7 @@ Basic Estimator Usage
    print(f"GPH:    {H_gph:.3f} (error: {abs(H_gph - 0.7):.3f})")
 
 Multiple Estimators Comparison
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -415,7 +415,7 @@ Multiple Estimators Comparison
        print(f"{estimator}: {avg_errors[col]:.3f}")
 
 Machine Learning Estimators
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -515,7 +515,7 @@ from lrdbenchmark.analysis.machine_learning.cnn_estimator import CNNEstimator
        print(f"  GB estimate: {H_gb:.3f} (error: {abs(H_gb - true_H):.3f})")
 
 High Performance Estimators
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -539,7 +539,7 @@ High Performance Estimators
    print(f"Numba R/S H estimate: {H_rs_numba:.3f}")
 
 Parameter Tuning
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -575,7 +575,7 @@ Parameter Tuning
 # No duplicate documentation needed
 
 Error Handling
--------------
+--------------
 
 .. code-block:: python
 
@@ -600,7 +600,7 @@ Error Handling
        print(f"GPH error: {e}")
 
 Performance Comparison
----------------------
+----------------------
 
 .. code-block:: python
 
@@ -630,7 +630,7 @@ Performance Comparison
    print(f"Speedup: {dfa_time/dfa_jax_time:.2f}x")
 
 Best Practices
--------------
+--------------
 
 1. **Data Length**: Use at least 1000 samples for reliable estimates
 2. **Parameter Selection**: Choose appropriate scale ranges for your data

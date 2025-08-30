@@ -1,26 +1,39 @@
 # ReadTheDocs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
 version: 2
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
   configuration: docs/conf.py
+  fail_on_warning: false
 
-# Set the version of Python and other tools you might need
-build:
-  os: ubuntu-22.04
-  tools:
-    python: "3.10"
-
-# Install documentation dependencies and the package for proper API generation
+# Build documentation with Python 3.9
 python:
+  version: "3.9"
   install:
-    - requirements: docs/requirements.txt
-    - path: .
+    - method: pip
+      path: .
+      extra_requirements:
+        - docs
 
-# Build PDFs and EPUB
+# Set the OS to Ubuntu 20.04
+build:
+  os: ubuntu-20.04
+  tools:
+    python: "3.9"
+
+# Additional build options
 formats:
   - pdf
   - epub
 
-# Additional configuration for enhanced ML and neural network documentation
-# This ensures proper handling of complex imports and type hints
+# Submodules
+submodules:
+  include:
+    - docs
+
+# Build environment
+build:
+  environment:
+    PYTHONPATH: $PYTHONPATH:$READTHEDOCS_PROJECT_DIR

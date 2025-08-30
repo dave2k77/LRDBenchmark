@@ -4,10 +4,10 @@ Comprehensive LRDBench Demonstration
 This document provides comprehensive examples demonstrating all major features of lrdbenchmark, from basic usage to advanced analysis workflows.
 
 Basic Data Generation and Analysis
-=================================
+==================================
 
 Simple Hurst Parameter Estimation
---------------------------------
+----------------------------------
 
 .. code-block:: python
 
@@ -66,7 +66,7 @@ Simple Hurst Parameter Estimation
    basic_results = basic_analysis_demo()
 
 Data Model Comparison
---------------------
+----------------------
 
 .. code-block:: python
 
@@ -136,10 +136,10 @@ Data Model Comparison
    data_model_comparison_demo()
 
 Advanced Benchmarking
-====================
+=====================
 
 Comprehensive Estimator Comparison
----------------------------------
+----------------------------------
 
 .. code-block:: python
 
@@ -269,10 +269,10 @@ Comprehensive Estimator Comparison
    comparison_results = comprehensive_estimator_comparison()
 
 Machine Learning and Neural Network Analysis
-===========================================
+============================================
 
 ML Estimator Training and Evaluation
-------------------------------------
+-------------------------------------
 
 .. code-block:: python
 
@@ -406,10 +406,10 @@ ML Estimator Training and Evaluation
    ml_estimators, ml_results = ml_analysis_demo()
 
 Analytics and Monitoring
-=======================
+========================
 
 Comprehensive Analytics Demo
----------------------------
+----------------------------
 
 .. code-block:: python
 
@@ -501,10 +501,10 @@ Comprehensive Analytics Demo
    analytics_dashboard = analytics_demo()
 
 Real-World Application Example
-=============================
+==============================
 
 Financial Time Series Analysis
------------------------------
+------------------------------
 
 .. code-block:: python
 
@@ -655,10 +655,10 @@ Financial Time Series Analysis
    financial_results = financial_analysis_demo()
 
 Integration with External Libraries
-==================================
+===================================
 
 HPFracc Integration Example
---------------------------
+---------------------------
 
 .. code-block:: python
 
@@ -701,10 +701,10 @@ HPFracc Integration Example
    hpfracc_results = hpfracc_integration_demo()
 
 Complete Workflow Example
-========================
+=========================
 
 End-to-End Analysis Pipeline
----------------------------
+----------------------------
 
 .. code-block:: python
 

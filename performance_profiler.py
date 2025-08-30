@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Performance Profiling Script for LRDBench
+Performance Profiler for LRDBench
 
-This script profiles the performance of various estimators to identify bottlenecks
-and optimization opportunities.
+This module provides comprehensive performance profiling capabilities
+for all estimators in the LRDBench package.
 """
 
 import time
@@ -11,22 +11,63 @@ import cProfile
 import pstats
 import io
 import numpy as np
-from typing import Dict, List, Any
+import pandas as pd
+from typing import Dict, List, Any, Optional
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Import our estimators
-from lrdbench.analysis.temporal.rs.rs_estimator import RSEstimator
-from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
-from lrdbench.analysis.temporal.dma.dma_estimator import DMAEstimator
-from lrdbench.analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
-from lrdbench.analysis.spectral.gph.gph_estimator import GPHEstimator
-from lrdbench.analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
-from lrdbench.analysis.spectral.whittle.whittle_estimator import WhittleEstimator
+# Import our estimators with error handling
+try:
+    from lrdbenchmark.analysis.temporal.rs.rs_estimator import RSEstimator
+    from lrdbenchmark.analysis.temporal.dfa.dfa_estimator import DFAEstimator
+    from lrdbenchmark.analysis.temporal.dma.dma_estimator import DMAEstimator
+    from lrdbenchmark.analysis.temporal.higuchi.higuchi_estimator import HiguchiEstimator
+    from lrdbenchmark.analysis.spectral.gph.gph_estimator import GPHEstimator
+    from lrdbenchmark.analysis.spectral.periodogram.periodogram_estimator import PeriodogramEstimator
+    from lrdbenchmark.analysis.spectral.whittle.whittle_estimator import WhittleEstimator
+except ImportError:
+    # Placeholder classes for modules that don't exist yet
+    class RSEstimator:
+        def __init__(self, *args, **kwargs):
+            raise ImportError("RSEstimator not available - module not found")
+    
+    class DFAEstimator:
+        def __init__(self, *args, **kwargs):
+            raise ImportError("DFAEstimator not available - module not found")
+    
+    class DMAEstimator:
+        def __init__(self, *args, **kwargs):
+            raise ImportError("DMAEstimator not available - module not found")
+    
+    class HiguchiEstimator:
+        def __init__(self, *args, **kwargs):
+            raise ImportError("HiguchiEstimator not available - module not found")
+    
+    class GPHEstimator:
+        def __init__(self, *args, **kwargs):
+            raise ImportError("GPHEstimator not available - module not found")
+    
+    class PeriodogramEstimator:
+        def __init__(self, *args, **kwargs):
+            raise ImportError("PeriodogramEstimator not available - module not found")
+    
+    class WhittleEstimator:
+        def __init__(self, *args, **kwargs):
+            raise ImportError("WhittleEstimator not available - module not found")
 
-# Import data models
-from lrdbench.models.data_models.fbm.fbm_model import FractionalBrownianMotion
-from lrdbench.models.data_models.fgn.fgn_model import FractionalGaussianNoise
+# Import data models with error handling
+try:
+    from lrdbenchmark.models.data_models.fbm.fbm_model import FractionalBrownianMotion
+    from lrdbenchmark.models.data_models.fgn.fgn_model import FractionalGaussianNoise
+except ImportError:
+    # Placeholder classes for modules that don't exist yet
+    class FractionalBrownianMotion:
+        def __init__(self, *args, **kwargs):
+            raise ImportError("FractionalBrownianMotion not available - module not found")
+    
+    class FractionalGaussianNoise:
+        def __init__(self, *args, **kwargs):
+            raise ImportError("FractionalGaussianNoise not available - module not found")
 
 
 class PerformanceProfiler:
@@ -81,6 +122,41 @@ class PerformanceProfiler:
             'result': result,
             'profiling_stats': profiling_output,
             'data_size': len(data)
+        }
+    
+    def profile_function(self, func, *args, **kwargs):
+        """Profile a single function execution."""
+        start_time = time.time()
+        
+        # Create profiler
+        profiler = cProfile.Profile()
+        profiler.enable()
+        
+        try:
+            result = func(*args, **kwargs)
+            success = True
+        except Exception as e:
+            result = f"Error: {e}"
+            success = False
+        
+        profiler.disable()
+        
+        # Get timing
+        execution_time = time.time() - start_time
+        
+        # Get profiling stats
+        s = io.StringIO()
+        stats = pstats.Stats(profiler, stream=s)
+        stats.sort_stats('cumulative')
+        stats.print_stats(5)  # Top 5 functions
+        
+        profiling_output = s.getvalue()
+        
+        return {
+            'execution_time': execution_time,
+            'success': success,
+            'result': result,
+            'profiling_stats': profiling_output
         }
     
     def run_comprehensive_profiling(self, data_sizes: List[int] = None) -> Dict[str, Any]:

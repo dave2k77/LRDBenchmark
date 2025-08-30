@@ -1,0 +1,2177 @@
+{
+  "timestamp": "2025-08-30T11:16:30.082596",
+  "summary": {
+    "fbm_generation": {
+      "fastest_methods": {
+        "100": {
+          "method": "davies_harte",
+          "framework": "numpy",
+          "time": 9.012222290039062e-05
+        },
+        "1000": {
+          "method": "davies_harte",
+          "framework": "numba",
+          "time": 0.00011181831359863281
+        },
+        "5000": {
+          "method": "davies_harte",
+          "framework": "numpy",
+          "time": 0.0003724098205566406
+        },
+        "10000": {
+          "method": "davies_harte",
+          "framework": "numpy",
+          "time": 0.0005838871002197266
+        }
+      },
+      "total_tests": 20,
+      "successful_tests": 120
+    },
+    "estimator_performance": {
+      "framework_performance": {
+        "auto": {
+          "avg_time": 4.789323786894481,
+          "total_tests": 12
+        },
+        "jax": {
+          "avg_time": 0.06740887959798177,
+          "total_tests": 12
+        },
+        "numba": {
+          "avg_time": 0.7911131680011749,
+          "total_tests": 16
+        },
+        "numpy": {
+          "avg_time": 0.06926923990249634,
+          "total_tests": 16
+        }
+      },
+      "total_estimators": 4
+    }
+  },
+  "detailed_results": {
+    "fbm_generation": {
+      "auto": {
+        "auto": {
+          "100": {
+            "execution_time": 1.7973597049713135,
+            "memory_used": 498.48046875,
+            "peak_memory": 1322.84375,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 1.2637252807617188,
+            "memory_used": 51.62109375,
+            "peak_memory": 1374.71484375,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 1.0815064907073975,
+            "memory_used": 30.875,
+            "peak_memory": 1405.58984375,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 1.3378796577453613,
+            "memory_used": 30.9453125,
+            "peak_memory": 1436.53515625,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 1.161102294921875,
+            "memory_used": 31.69140625,
+            "peak_memory": 1468.2265625,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.9524192810058594,
+            "memory_used": 32.0,
+            "peak_memory": 1500.2265625,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "jax": {
+          "100": {
+            "execution_time": 0.0041408538818359375,
+            "memory_used": 0.0,
+            "peak_memory": 1500.2265625,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.0037605762481689453,
+            "memory_used": 0.0,
+            "peak_memory": 1500.2265625,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.004418373107910156,
+            "memory_used": 0.125,
+            "peak_memory": 1500.3515625,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.004005908966064453,
+            "memory_used": 0.0,
+            "peak_memory": 1500.3515625,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.004403591156005859,
+            "memory_used": 0.0,
+            "peak_memory": 1500.3515625,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.007226467132568359,
+            "memory_used": 0.0,
+            "peak_memory": 1500.3515625,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "numba": {
+          "100": {
+            "execution_time": 0.0005381107330322266,
+            "memory_used": 0.14453125,
+            "peak_memory": 1500.49609375,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.0006206035614013672,
+            "memory_used": 0.0,
+            "peak_memory": 1500.49609375,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.00034236907958984375,
+            "memory_used": 0.0,
+            "peak_memory": 1500.49609375,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.0009469985961914062,
+            "memory_used": 0.0,
+            "peak_memory": 1500.49609375,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.002718687057495117,
+            "memory_used": 1.0,
+            "peak_memory": 1501.49609375,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.0006506443023681641,
+            "memory_used": 0.0,
+            "peak_memory": 1501.49609375,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "numpy": {
+          "100": {
+            "execution_time": 0.00012111663818359375,
+            "memory_used": 0.0,
+            "peak_memory": 1501.49609375,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.00028252601623535156,
+            "memory_used": 0.0,
+            "peak_memory": 1501.49609375,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.0002956390380859375,
+            "memory_used": 0.0,
+            "peak_memory": 1501.49609375,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.0008411407470703125,
+            "memory_used": 0.0,
+            "peak_memory": 1501.49609375,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.0021300315856933594,
+            "memory_used": 0.0,
+            "peak_memory": 1501.49609375,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.0005996227264404297,
+            "memory_used": 0.0,
+            "peak_memory": 1501.49609375,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        }
+      },
+      "hpfracc": {
+        "auto": {
+          "100": {
+            "execution_time": 0.004648447036743164,
+            "memory_used": 0.125,
+            "peak_memory": 1501.62109375,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.0038559436798095703,
+            "memory_used": 0.0,
+            "peak_memory": 1501.62109375,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.0046579837799072266,
+            "memory_used": 0.0,
+            "peak_memory": 1501.62109375,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.004004478454589844,
+            "memory_used": 0.0,
+            "peak_memory": 1501.62109375,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.003936767578125,
+            "memory_used": 0.0,
+            "peak_memory": 1501.62109375,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 1.0868632793426514,
+            "memory_used": 30.46484375,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "jax": {
+          "100": {
+            "execution_time": 0.003320455551147461,
+            "memory_used": 0.0,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.004180192947387695,
+            "memory_used": 0.0,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.003327608108520508,
+            "memory_used": 0.0,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.004136085510253906,
+            "memory_used": 0.0,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.004031658172607422,
+            "memory_used": 0.0,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.003946542739868164,
+            "memory_used": 0.0,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "numba": {
+          "100": {
+            "execution_time": 0.00019669532775878906,
+            "memory_used": 0.0,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.00033020973205566406,
+            "memory_used": 0.0,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.00041961669921875,
+            "memory_used": 0.0,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.0009646415710449219,
+            "memory_used": 0.0,
+            "peak_memory": 1532.0859375,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.0031676292419433594,
+            "memory_used": 1.125,
+            "peak_memory": 1533.2109375,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.004277944564819336,
+            "memory_used": 0.66796875,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "numpy": {
+          "100": {
+            "execution_time": 0.0002486705780029297,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.00038695335388183594,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.00044989585876464844,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.0010364055633544922,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.0026712417602539062,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.003355264663696289,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        }
+      },
+      "circulant": {
+        "auto": {
+          "100": {
+            "execution_time": 0.004918098449707031,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.0036041736602783203,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.004403352737426758,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.0032291412353515625,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.004464626312255859,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.003284931182861328,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "jax": {
+          "100": {
+            "execution_time": 0.004925727844238281,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.0031778812408447266,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.00455164909362793,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.003154754638671875,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.0045397281646728516,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.003419637680053711,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "numba": {
+          "100": {
+            "execution_time": 0.000213623046875,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.0003390312194824219,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.0003173351287841797,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.0011577606201171875,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.002401590347290039,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.0029659271240234375,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "numpy": {
+          "100": {
+            "execution_time": 0.00024199485778808594,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.00038123130798339844,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.0003857612609863281,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.0010273456573486328,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.002566814422607422,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.0031690597534179688,
+            "memory_used": 0.0,
+            "peak_memory": 1533.87890625,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        }
+      },
+      "cholesky": {
+        "auto": {
+          "100": {
+            "execution_time": 0.9419450759887695,
+            "memory_used": 42.61328125,
+            "peak_memory": 1576.4921875,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.9162952899932861,
+            "memory_used": 20.5625,
+            "peak_memory": 1597.0546875,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.920496940612793,
+            "memory_used": 21.75,
+            "peak_memory": 1618.8046875,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.923220157623291,
+            "memory_used": 21.6875,
+            "peak_memory": 1640.4921875,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 1.294832468032837,
+            "memory_used": 162.58203125,
+            "peak_memory": 1803.07421875,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 1.4538166522979736,
+            "memory_used": 45.875,
+            "peak_memory": 1848.94921875,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "jax": {
+          "100": {
+            "execution_time": 0.0033211708068847656,
+            "memory_used": 0.0,
+            "peak_memory": 1848.94921875,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.0031783580780029297,
+            "memory_used": 0.0,
+            "peak_memory": 1848.94921875,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.003564119338989258,
+            "memory_used": 0.0,
+            "peak_memory": 1848.94921875,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.009493589401245117,
+            "memory_used": 0.0,
+            "peak_memory": 1848.94921875,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.07548379898071289,
+            "memory_used": 0.0,
+            "peak_memory": 1848.94921875,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.30871152877807617,
+            "memory_used": 0.0,
+            "peak_memory": 1848.94921875,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "numba": {
+          "100": {
+            "execution_time": 0.013054609298706055,
+            "memory_used": 0.53515625,
+            "peak_memory": 1849.484375,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.10904836654663086,
+            "memory_used": 7.0,
+            "peak_memory": 1856.484375,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.4637453556060791,
+            "memory_used": 4.6328125,
+            "peak_memory": 1861.1171875,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 1.909639596939087,
+            "memory_used": 3.69140625,
+            "peak_memory": 1864.80859375,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 11.837188243865967,
+            "memory_used": 29.3046875,
+            "peak_memory": 1894.11328125,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 48.36291551589966,
+            "memory_used": 14.17578125,
+            "peak_memory": 1908.2890625,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "numpy": {
+          "100": {
+            "execution_time": 0.006325721740722656,
+            "memory_used": 0.0,
+            "peak_memory": 1908.2890625,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.13161897659301758,
+            "memory_used": 0.0,
+            "peak_memory": 1908.2890625,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.46306419372558594,
+            "memory_used": 0.0,
+            "peak_memory": 1908.2890625,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 1.8832967281341553,
+            "memory_used": -23.65234375,
+            "peak_memory": 1884.63671875,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 11.449473142623901,
+            "memory_used": 23.90625,
+            "peak_memory": 1908.54296875,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 47.80529451370239,
+            "memory_used": 0.14453125,
+            "peak_memory": 1908.6875,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        }
+      },
+      "davies_harte": {
+        "auto": {
+          "100": {
+            "execution_time": 0.9983730316162109,
+            "memory_used": 3.0,
+            "peak_memory": 1911.6875,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 1.06209397315979,
+            "memory_used": 36.0625,
+            "peak_memory": 1947.75,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.9512486457824707,
+            "memory_used": 19.6875,
+            "peak_memory": 1967.4375,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.7944445610046387,
+            "memory_used": 25.625,
+            "peak_memory": 1993.0625,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 1.0599136352539062,
+            "memory_used": 30.5546875,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.004790782928466797,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "jax": {
+          "100": {
+            "execution_time": 0.004509687423706055,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.006081342697143555,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.007607221603393555,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.00821995735168457,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.007971525192260742,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.008127689361572266,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "numba": {
+          "100": {
+            "execution_time": 0.00017333030700683594,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 0.00013327598571777344,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.00011181831359863281,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.00016927719116210938,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.0003833770751953125,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.0006988048553466797,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        },
+        "numpy": {
+          "100": {
+            "execution_time": 9.012222290039062e-05,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              100
+            ],
+            "success": true
+          },
+          "500": {
+            "execution_time": 7.510185241699219e-05,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              500
+            ],
+            "success": true
+          },
+          "1000": {
+            "execution_time": 0.00011682510375976562,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              1000
+            ],
+            "success": true
+          },
+          "2000": {
+            "execution_time": 0.00014448165893554688,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              2000
+            ],
+            "success": true
+          },
+          "5000": {
+            "execution_time": 0.0003724098205566406,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              5000
+            ],
+            "success": true
+          },
+          "10000": {
+            "execution_time": 0.0005838871002197266,
+            "memory_used": 0.0,
+            "peak_memory": 2023.6171875,
+            "data_shape": [
+              10000
+            ],
+            "success": true
+          }
+        }
+      }
+    },
+    "estimator_performance": {
+      "R/S Estimator": {
+        "auto": {
+          "1000": {
+            "execution_time": 9.048390865325928,
+            "memory_used": 261.11328125,
+            "peak_memory": 2284.73046875,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 10.820616722106934,
+            "memory_used": 286.12890625,
+            "peak_memory": 2570.859375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 10.441906213760376,
+            "memory_used": 232.125,
+            "peak_memory": 2802.984375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 13.508005142211914,
+            "memory_used": 279.0,
+            "peak_memory": 3081.984375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          }
+        },
+        "jax": {
+          "1000": {
+            "execution_time": 0.08400511741638184,
+            "memory_used": 0.0,
+            "peak_memory": 3081.984375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.08623242378234863,
+            "memory_used": 0.0,
+            "peak_memory": 3081.984375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 0.11215829849243164,
+            "memory_used": 0.125,
+            "peak_memory": 3082.109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 0.11948609352111816,
+            "memory_used": 0.0,
+            "peak_memory": 3082.109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          }
+        },
+        "numba": {
+          "1000": {
+            "execution_time": 0.010289907455444336,
+            "memory_used": 0.0,
+            "peak_memory": 3082.109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.019948959350585938,
+            "memory_used": 0.0,
+            "peak_memory": 3082.109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 0.0494074821472168,
+            "memory_used": 0.0,
+            "peak_memory": 3082.109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 0.10047483444213867,
+            "memory_used": 0.0,
+            "peak_memory": 3082.109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          }
+        },
+        "numpy": {
+          "1000": {
+            "execution_time": 0.011325836181640625,
+            "memory_used": 0.0,
+            "peak_memory": 3082.109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.02038264274597168,
+            "memory_used": 0.0,
+            "peak_memory": 3082.109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 0.04984140396118164,
+            "memory_used": 0.0,
+            "peak_memory": 3082.109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 0.09982800483703613,
+            "memory_used": 0.0,
+            "peak_memory": 3082.109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "scales",
+              "rs_values",
+              "optimization_framework"
+            ]
+          }
+        }
+      },
+      "DFA Estimator": {
+        "auto": {
+          "1000": {
+            "execution_time": null,
+            "memory_used": null,
+            "peak_memory": null,
+            "success": false,
+            "error": "Insufficient data points for estimation"
+          },
+          "2000": {
+            "execution_time": null,
+            "memory_used": null,
+            "peak_memory": null,
+            "success": false,
+            "error": "Insufficient data points for estimation"
+          },
+          "5000": {
+            "execution_time": null,
+            "memory_used": null,
+            "peak_memory": null,
+            "success": false,
+            "error": "Insufficient data points for estimation"
+          },
+          "10000": {
+            "execution_time": null,
+            "memory_used": null,
+            "peak_memory": null,
+            "success": false,
+            "error": "Insufficient data points for estimation"
+          }
+        },
+        "jax": {
+          "1000": {
+            "execution_time": null,
+            "memory_used": null,
+            "peak_memory": null,
+            "success": false,
+            "error": "Insufficient data points for estimation"
+          },
+          "2000": {
+            "execution_time": null,
+            "memory_used": null,
+            "peak_memory": null,
+            "success": false,
+            "error": "Insufficient data points for estimation"
+          },
+          "5000": {
+            "execution_time": null,
+            "memory_used": null,
+            "peak_memory": null,
+            "success": false,
+            "error": "Insufficient data points for estimation"
+          },
+          "10000": {
+            "execution_time": null,
+            "memory_used": null,
+            "peak_memory": null,
+            "success": false,
+            "error": "Insufficient data points for estimation"
+          }
+        },
+        "numba": {
+          "1000": {
+            "execution_time": 0.04755687713623047,
+            "memory_used": 0.703125,
+            "peak_memory": 3220.1875,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "box_sizes",
+              "fluctuations",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.08999347686767578,
+            "memory_used": 0.0,
+            "peak_memory": 3220.1875,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "box_sizes",
+              "fluctuations",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 0.23398470878601074,
+            "memory_used": 0.125,
+            "peak_memory": 3220.3125,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "box_sizes",
+              "fluctuations",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 0.4528341293334961,
+            "memory_used": 0.0,
+            "peak_memory": 3220.3125,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "box_sizes",
+              "fluctuations",
+              "optimization_framework"
+            ]
+          }
+        },
+        "numpy": {
+          "1000": {
+            "execution_time": 0.04193830490112305,
+            "memory_used": 0.0,
+            "peak_memory": 3220.3125,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "box_sizes",
+              "fluctuations",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.08991837501525879,
+            "memory_used": 0.0,
+            "peak_memory": 3220.3125,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "box_sizes",
+              "fluctuations",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 0.22632145881652832,
+            "memory_used": 0.0,
+            "peak_memory": 3220.3125,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "box_sizes",
+              "fluctuations",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 0.45705676078796387,
+            "memory_used": 0.0,
+            "peak_memory": 3220.3125,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "box_sizes",
+              "fluctuations",
+              "optimization_framework"
+            ]
+          }
+        }
+      },
+      "Higuchi Estimator": {
+        "auto": {
+          "1000": {
+            "execution_time": 1.9597413539886475,
+            "memory_used": 39.5,
+            "peak_memory": 3259.8125,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.3714165687561035,
+            "memory_used": 6.875,
+            "peak_memory": 3266.6875,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 0.41960930824279785,
+            "memory_used": 6.75,
+            "peak_memory": 3273.4375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 0.4730226993560791,
+            "memory_used": 6.75,
+            "peak_memory": 3280.1875,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          }
+        },
+        "jax": {
+          "1000": {
+            "execution_time": 0.04750537872314453,
+            "memory_used": 0.125,
+            "peak_memory": 3280.3125,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.05457472801208496,
+            "memory_used": 0.125,
+            "peak_memory": 3280.4375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 0.0756688117980957,
+            "memory_used": 0.0,
+            "peak_memory": 3280.4375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 0.11880302429199219,
+            "memory_used": 0.0,
+            "peak_memory": 3280.4375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          }
+        },
+        "numba": {
+          "1000": {
+            "execution_time": 0.8959286212921143,
+            "memory_used": 36.203125,
+            "peak_memory": 3316.640625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.8950676918029785,
+            "memory_used": 3.75,
+            "peak_memory": 3320.390625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 1.0382001399993896,
+            "memory_used": 4.375,
+            "peak_memory": 3324.765625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 1.461164951324463,
+            "memory_used": 1.125,
+            "peak_memory": 3326.015625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          }
+        },
+        "numpy": {
+          "1000": {
+            "execution_time": 0.004725456237792969,
+            "memory_used": 0.0,
+            "peak_memory": 3326.015625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.010070562362670898,
+            "memory_used": 0.0,
+            "peak_memory": 3326.015625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 0.028238296508789062,
+            "memory_used": 0.0,
+            "peak_memory": 3326.015625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 0.06274890899658203,
+            "memory_used": 0.0,
+            "peak_memory": 3326.015625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "fractal_dimension",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "k_values",
+              "l_values",
+              "optimization_framework"
+            ]
+          }
+        }
+      },
+      "DMA Estimator": {
+        "auto": {
+          "1000": {
+            "execution_time": 2.7431845664978027,
+            "memory_used": 289.20703125,
+            "peak_memory": 3615.22265625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 1.8784914016723633,
+            "memory_used": 22.375,
+            "peak_memory": 3637.59765625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 2.415822744369507,
+            "memory_used": 26.75,
+            "peak_memory": 3664.34765625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 3.3916778564453125,
+            "memory_used": 27.75,
+            "peak_memory": 3692.09765625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          }
+        },
+        "jax": {
+          "1000": {
+            "execution_time": 0.01989006996154785,
+            "memory_used": 0.0,
+            "peak_memory": 3692.09765625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.023911237716674805,
+            "memory_used": 0.0,
+            "peak_memory": 3692.09765625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 0.031976938247680664,
+            "memory_used": 0.0,
+            "peak_memory": 3692.09765625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 0.03469443321228027,
+            "memory_used": 0.0,
+            "peak_memory": 3692.09765625,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          }
+        },
+        "numba": {
+          "1000": {
+            "execution_time": 0.21142578125,
+            "memory_used": 1.0234375,
+            "peak_memory": 3693.12109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.6920795440673828,
+            "memory_used": 0.0,
+            "peak_memory": 3693.12109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 1.7269320487976074,
+            "memory_used": 0.0,
+            "peak_memory": 3693.12109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 4.7325215339660645,
+            "memory_used": 0.0,
+            "peak_memory": 3693.12109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          }
+        },
+        "numpy": {
+          "1000": {
+            "execution_time": 0.001087188720703125,
+            "memory_used": 0.0,
+            "peak_memory": 3693.12109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "2000": {
+            "execution_time": 0.0012969970703125,
+            "memory_used": 0.0,
+            "peak_memory": 3693.12109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "5000": {
+            "execution_time": 0.0014302730560302734,
+            "memory_used": 0.0,
+            "peak_memory": 3693.12109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          },
+          "10000": {
+            "execution_time": 0.0020973682403564453,
+            "memory_used": 0.0,
+            "peak_memory": 3693.12109375,
+            "success": true,
+            "result_keys": [
+              "hurst_parameter",
+              "confidence_interval",
+              "r_squared",
+              "p_value",
+              "std_error",
+              "window_sizes",
+              "fluctuation_values",
+              "optimization_framework"
+            ]
+          }
+        }
+      }
+    },
+    "gpu_vs_cpu": {
+      "jax_gpu": {
+        "1000": null,
+        "2000": null,
+        "5000": null,
+        "10000": null,
+        "20000": null
+      },
+      "jax_cpu": {
+        "1000": null,
+        "2000": null,
+        "5000": null,
+        "10000": null,
+        "20000": null
+      }
+    }
+  },
+  "recommendations": [
+    "FBM Generation: Use davies_harte method for medium datasets (1000 points)",
+    "Estimators: JAX provides best performance for GPU-accelerated computations",
+    "Estimators: Numba provides good CPU optimization for JIT-compiled functions"
+  ]
+}

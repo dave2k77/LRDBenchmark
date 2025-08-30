@@ -1,0 +1,702 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lrdbenchmark.analytics.error_analyzer &mdash; LRDBenchmark 1.7.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="https://lrdbenchmark.readthedocs.io/_modules/lrdbenchmark/analytics/error_analyzer.html"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            LRDBenchmark
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">Documentation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/data_models.html">Data Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/estimators.html">Estimators API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/benchmark.html">Benchmark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/analytics.html">Analytics API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html">Theoretical Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#statistical-estimators">Statistical Estimators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#validation-techniques">Validation Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#practical-examples">Practical Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#theoretical-references">Theoretical References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html">Validation Techniques and Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#monte-carlo-validation">Monte Carlo Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#bootstrap-methods">Bootstrap Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#cross-validation">Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#robustness-analysis">Robustness Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#model-selection">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#quality-assurance">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#id4">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#validation-references">Validation References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html">Comprehensive LRDBench Demonstration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#basic-data-generation-and-analysis">Basic Data Generation and Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#advanced-benchmarking">Advanced Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#machine-learning-and-neural-network-analysis">Machine Learning and Neural Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#analytics-and-monitoring">Analytics and Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#real-world-application-example">Real-World Application Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#integration-with-external-libraries">Integration with External Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#complete-workflow-example">Complete Workflow Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#summary">Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LRDBenchmark</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lrdbenchmark.analytics.error_analyzer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lrdbenchmark.analytics.error_analyzer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Error Analyzer for LRDBench</span>
+
+<span class="sd">Analyzes error patterns and failure modes to improve reliability:</span>
+<span class="sd">- Error categorization and frequency analysis</span>
+<span class="sd">- Failure mode identification</span>
+<span class="sd">- Error correlation analysis</span>
+<span class="sd">- Reliability metrics</span>
+<span class="sd">- Improvement recommendations</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">asdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">Counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+
+<div class="viewcode-block" id="ErrorEvent">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorEvent">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ErrorEvent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a single error event&quot;&quot;&quot;</span>
+
+    <span class="n">timestamp</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">estimator_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">error_type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">error_message</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">stack_trace</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">data_length</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">user_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<div class="viewcode-block" id="ErrorSummary">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorSummary">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ErrorSummary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated error statistics&quot;&quot;&quot;</span>
+
+    <span class="n">total_errors</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">unique_errors</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">error_rate</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">most_common_errors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span>
+    <span class="n">error_by_estimator</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+    <span class="n">error_by_type</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+    <span class="n">error_trends</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>  <span class="c1"># &quot;increasing&quot;, &quot;decreasing&quot;, &quot;stable&quot;</span>
+    <span class="n">reliability_score</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+
+<div class="viewcode-block" id="ErrorAnalyzer">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ErrorAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive error analysis system</span>
+
+<span class="sd">    Features:</span>
+<span class="sd">    - Error pattern recognition</span>
+<span class="sd">    - Failure mode analysis</span>
+<span class="sd">    - Reliability scoring</span>
+<span class="sd">    - Trend analysis</span>
+<span class="sd">    - Improvement recommendations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ErrorAnalyzer.__init__">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;~/.lrdbench/analytics&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the error analyzer&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">storage_path</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_errors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ErrorEvent</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Error categorization patterns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_patterns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s2">&quot;convergence&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;converge&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;diverg&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;iterations&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;maximum.*iterations&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;failed.*converge&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;numerical&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s2">&quot;overflow&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;underflow&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;nan&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;inf&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;division.*zero&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;singular&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;ill.*conditioned&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;numerical.*error&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;memory&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s2">&quot;memory&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;out.*memory&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;insufficient.*memory&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;allocation.*failed&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;oom&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s2">&quot;invalid.*parameter&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;parameter.*error&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;bad.*parameter&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;parameter.*out.*range&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;unsupported.*parameter&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s2">&quot;data.*error&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;invalid.*data&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;data.*length&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;insufficient.*data&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;data.*format&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">r</span><span class="s2">&quot;algorithm.*error&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;method.*failed&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;estimation.*failed&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;computation.*error&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;calculation.*error&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Load existing data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_existing_data</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ErrorAnalyzer._load_existing_data">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer._load_existing_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_existing_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load existing error data&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">errors_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span> <span class="o">/</span> <span class="s2">&quot;error_events.json&quot;</span>
+            <span class="k">if</span> <span class="n">errors_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">errors_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">error_data</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                        <span class="n">error</span> <span class="o">=</span> <span class="n">ErrorEvent</span><span class="p">(</span><span class="o">**</span><span class="n">error_data</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Could not load existing error data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ErrorAnalyzer.record_error">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer.record_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">record_error</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">estimator_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">error_message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">stack_trace</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">user_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">session_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Record a new error event</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            estimator_name: Name of the estimator that failed</span>
+<span class="sd">            error_message: Error message</span>
+<span class="sd">            stack_trace: Optional stack trace</span>
+<span class="sd">            parameters: Estimator parameters</span>
+<span class="sd">            data_length: Length of input data</span>
+<span class="sd">            user_id: Optional user identifier</span>
+<span class="sd">            session_id: Optional session identifier</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Categorize error</span>
+        <span class="n">error_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_categorize_error</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+
+        <span class="c1"># Create error event</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="n">ErrorEvent</span><span class="p">(</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="n">estimator_name</span><span class="o">=</span><span class="n">estimator_name</span><span class="p">,</span>
+            <span class="n">error_type</span><span class="o">=</span><span class="n">error_type</span><span class="p">,</span>
+            <span class="n">error_message</span><span class="o">=</span><span class="n">error_message</span><span class="p">,</span>
+            <span class="n">stack_trace</span><span class="o">=</span><span class="n">stack_trace</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span> <span class="ow">or</span> <span class="p">{},</span>
+            <span class="n">data_length</span><span class="o">=</span><span class="n">data_length</span><span class="p">,</span>
+            <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span>
+            <span class="n">session_id</span><span class="o">=</span><span class="n">session_id</span> <span class="ow">or</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Store error</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ErrorAnalyzer._categorize_error">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer._categorize_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_categorize_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error_message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Categorize error based on message patterns&quot;&quot;&quot;</span>
+        <span class="n">error_message_lower</span> <span class="o">=</span> <span class="n">error_message</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">patterns</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_patterns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">error_message_lower</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">category</span>
+
+        <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span></div>
+
+
+<div class="viewcode-block" id="ErrorAnalyzer.get_error_summary">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer.get_error_summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_error_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ErrorSummary</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get error summary for the specified time period</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            days: Number of days to analyze</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ErrorSummary object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">recent_errors</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">e</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_errors</span>
+                <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recent_errors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ErrorSummary</span><span class="p">(</span>
+                <span class="n">total_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">unique_errors</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">error_rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">most_common_errors</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">error_by_estimator</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">error_by_type</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">error_trends</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">reliability_score</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Calculate statistics</span>
+        <span class="n">total_errors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">recent_errors</span><span class="p">)</span>
+        <span class="n">unique_errors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">error_message</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">recent_errors</span><span class="p">))</span>
+
+        <span class="c1"># Error by estimator</span>
+        <span class="n">error_by_estimator</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">estimator_name</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">recent_errors</span><span class="p">)</span>
+
+        <span class="c1"># Error by type</span>
+        <span class="n">error_by_type</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">error_type</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">recent_errors</span><span class="p">)</span>
+
+        <span class="c1"># Most common errors</span>
+        <span class="n">error_messages</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">error_message</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">recent_errors</span><span class="p">)</span>
+        <span class="n">most_common_errors</span> <span class="o">=</span> <span class="n">error_messages</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="c1"># Error trends</span>
+        <span class="n">error_trends</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_error_trends</span><span class="p">(</span><span class="n">recent_errors</span><span class="p">)</span>
+
+        <span class="c1"># Reliability score (1.0 = no errors, 0.0 = all failures)</span>
+        <span class="c1"># This is a simplified calculation - in practice you&#39;d need total attempts</span>
+        <span class="n">reliability_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">total_errors</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span>  <span class="c1"># Normalize</span>
+
+        <span class="k">return</span> <span class="n">ErrorSummary</span><span class="p">(</span>
+            <span class="n">total_errors</span><span class="o">=</span><span class="n">total_errors</span><span class="p">,</span>
+            <span class="n">unique_errors</span><span class="o">=</span><span class="n">unique_errors</span><span class="p">,</span>
+            <span class="n">error_rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># Would need total attempts to calculate</span>
+            <span class="n">most_common_errors</span><span class="o">=</span><span class="n">most_common_errors</span><span class="p">,</span>
+            <span class="n">error_by_estimator</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">error_by_estimator</span><span class="p">),</span>
+            <span class="n">error_by_type</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">error_by_type</span><span class="p">),</span>
+            <span class="n">error_trends</span><span class="o">=</span><span class="n">error_trends</span><span class="p">,</span>
+            <span class="n">reliability_score</span><span class="o">=</span><span class="n">reliability_score</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ErrorAnalyzer._analyze_error_trends">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer._analyze_error_trends">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_error_trends</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">errors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ErrorEvent</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze error trends over time&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="c1"># Sort by timestamp</span>
+        <span class="n">sorted_errors</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
+
+        <span class="c1"># Split into early and late periods</span>
+        <span class="n">mid_point</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_errors</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">early_errors</span> <span class="o">=</span> <span class="n">sorted_errors</span><span class="p">[:</span><span class="n">mid_point</span><span class="p">]</span>
+        <span class="n">late_errors</span> <span class="o">=</span> <span class="n">sorted_errors</span><span class="p">[</span><span class="n">mid_point</span><span class="p">:]</span>
+
+        <span class="n">trends</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Analyze by estimator</span>
+        <span class="n">estimators</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">estimator_name</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">estimator</span> <span class="ow">in</span> <span class="n">estimators</span><span class="p">:</span>
+            <span class="n">early_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">early_errors</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">estimator_name</span> <span class="o">==</span> <span class="n">estimator</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">late_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">late_errors</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">estimator_name</span> <span class="o">==</span> <span class="n">estimator</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">late_count</span> <span class="o">&lt;</span> <span class="n">early_count</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">:</span>  <span class="c1"># 20% reduction</span>
+                <span class="n">trends</span><span class="p">[</span><span class="n">estimator</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;decreasing&quot;</span>
+            <span class="k">elif</span> <span class="n">late_count</span> <span class="o">&gt;</span> <span class="n">early_count</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">:</span>  <span class="c1"># 20% increase</span>
+                <span class="n">trends</span><span class="p">[</span><span class="n">estimator</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;increasing&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">trends</span><span class="p">[</span><span class="n">estimator</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;stable&quot;</span>
+
+        <span class="c1"># Analyze by error type</span>
+        <span class="n">error_types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">error_type</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">error_type</span> <span class="ow">in</span> <span class="n">error_types</span><span class="p">:</span>
+            <span class="n">early_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">early_errors</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">error_type</span> <span class="o">==</span> <span class="n">error_type</span><span class="p">])</span>
+            <span class="n">late_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">late_errors</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">error_type</span> <span class="o">==</span> <span class="n">error_type</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">late_count</span> <span class="o">&lt;</span> <span class="n">early_count</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">:</span>
+                <span class="n">trends</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;type_</span><span class="si">{</span><span class="n">error_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;decreasing&quot;</span>
+            <span class="k">elif</span> <span class="n">late_count</span> <span class="o">&gt;</span> <span class="n">early_count</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">:</span>
+                <span class="n">trends</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;type_</span><span class="si">{</span><span class="n">error_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;increasing&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">trends</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;type_</span><span class="si">{</span><span class="n">error_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;stable&quot;</span>
+
+        <span class="k">return</span> <span class="n">trends</span></div>
+
+
+<div class="viewcode-block" id="ErrorAnalyzer.get_estimator_reliability">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer.get_estimator_reliability">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_estimator_reliability</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">estimator_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get reliability metrics for a specific estimator&quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">estimator_errors</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">e</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_errors</span>
+                <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">estimator_name</span> <span class="o">==</span> <span class="n">estimator_name</span>
+                <span class="ow">and</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">estimator_errors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;reliability_score&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;total_errors&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+
+        <span class="c1"># Group by error type</span>
+        <span class="n">error_by_type</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">error_type</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">estimator_errors</span><span class="p">)</span>
+
+        <span class="c1"># Calculate reliability score based on error types</span>
+        <span class="c1"># Different error types have different weights</span>
+        <span class="n">error_weights</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># Less critical</span>
+            <span class="s2">&quot;numerical&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>  <span class="c1"># More critical</span>
+            <span class="s2">&quot;memory&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>  <span class="c1"># Very critical</span>
+            <span class="s2">&quot;parameter&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span>  <span class="c1"># User error</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>  <span class="c1"># Data issue</span>
+            <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>  <span class="c1"># Algorithm failure</span>
+            <span class="s2">&quot;unknown&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span>  <span class="c1"># Unknown severity</span>
+        <span class="p">}</span>
+
+        <span class="n">weighted_errors</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">error_by_type</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">error_type</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">error_weights</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">error_type</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">error_type</span> <span class="ow">in</span> <span class="n">error_by_type</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Normalize reliability score</span>
+        <span class="n">reliability_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">weighted_errors</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;reliability_score&quot;</span><span class="p">:</span> <span class="n">reliability_score</span><span class="p">,</span>
+            <span class="s2">&quot;total_errors&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">estimator_errors</span><span class="p">),</span>
+            <span class="s2">&quot;error_by_type&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">error_by_type</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="ErrorAnalyzer.get_improvement_recommendations">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer.get_improvement_recommendations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_improvement_recommendations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get recommendations for improving reliability&quot;&quot;&quot;</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_error_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="n">recommendations</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Analyze error patterns</span>
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">error_by_type</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;convergence&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;High convergence failures detected. Consider adjusting convergence &quot;</span>
+                <span class="s2">&quot;parameters or implementing fallback methods.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">error_by_type</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;numerical&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Numerical errors detected. Review data preprocessing and &quot;</span>
+                <span class="s2">&quot;implement numerical stability improvements.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">error_by_type</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Memory issues detected. Consider implementing memory-efficient &quot;</span>
+                <span class="s2">&quot;algorithms or chunking for large datasets.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Analyze estimator-specific issues</span>
+        <span class="k">for</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">error_count</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">error_by_estimator</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">error_count</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+                <span class="n">reliability</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_estimator_reliability</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">days</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">reliability</span><span class="p">[</span><span class="s2">&quot;reliability_score&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.7</span><span class="p">:</span>
+                    <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Estimator &#39;</span><span class="si">{</span><span class="n">estimator</span><span class="si">}</span><span class="s2">&#39; has low reliability. &quot;</span>
+                        <span class="s2">&quot;Consider algorithm improvements or parameter tuning.&quot;</span>
+                    <span class="p">)</span>
+
+        <span class="c1"># General recommendations</span>
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">total_errors</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;High error rate detected. Implement comprehensive error handling &quot;</span>
+                <span class="s2">&quot;and user input validation.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recommendations</span><span class="p">:</span>
+            <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No specific issues detected. Continue monitoring.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">recommendations</span></div>
+
+
+<div class="viewcode-block" id="ErrorAnalyzer.export_errors">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer.export_errors">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export error data to file&quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">recent_errors</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">e</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_errors</span>
+                <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="n">errors_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">asdict</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">recent_errors</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">errors_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ErrorAnalyzer.get_error_correlation">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer.get_error_correlation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_error_correlation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze correlations between different error types&quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">recent_errors</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">e</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_errors</span>
+                <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">recent_errors</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="c1"># Group errors by session to find correlations</span>
+        <span class="n">session_errors</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">recent_errors</span><span class="p">:</span>
+            <span class="n">session_errors</span><span class="p">[</span><span class="n">error</span><span class="o">.</span><span class="n">session_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">error_type</span><span class="p">)</span>
+
+        <span class="c1"># Calculate correlation matrix</span>
+        <span class="n">error_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">error_type</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">recent_errors</span><span class="p">))</span>
+        <span class="n">correlation_matrix</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">error_type1</span> <span class="ow">in</span> <span class="n">error_types</span><span class="p">:</span>
+            <span class="n">correlation_matrix</span><span class="p">[</span><span class="n">error_type1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">error_type2</span> <span class="ow">in</span> <span class="n">error_types</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">error_type1</span> <span class="o">==</span> <span class="n">error_type2</span><span class="p">:</span>
+                    <span class="n">correlation_matrix</span><span class="p">[</span><span class="n">error_type1</span><span class="p">][</span><span class="n">error_type2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Calculate correlation coefficient</span>
+                    <span class="n">correlation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_correlation</span><span class="p">(</span>
+                        <span class="n">session_errors</span><span class="p">,</span> <span class="n">error_type1</span><span class="p">,</span> <span class="n">error_type2</span>
+                    <span class="p">)</span>
+                    <span class="n">correlation_matrix</span><span class="p">[</span><span class="n">error_type1</span><span class="p">][</span><span class="n">error_type2</span><span class="p">]</span> <span class="o">=</span> <span class="n">correlation</span>
+
+        <span class="k">return</span> <span class="n">correlation_matrix</span></div>
+
+
+<div class="viewcode-block" id="ErrorAnalyzer._calculate_correlation">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.error_analyzer.ErrorAnalyzer._calculate_correlation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_correlation</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">session_errors</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">error_type1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">error_type2</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate correlation between two error types&quot;&quot;&quot;</span>
+        <span class="c1"># Simple correlation calculation</span>
+        <span class="c1"># In practice, you might want to use more sophisticated methods</span>
+
+        <span class="n">sessions_with_type1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="mi">1</span> <span class="k">for</span> <span class="n">errors</span> <span class="ow">in</span> <span class="n">session_errors</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">error_type1</span> <span class="ow">in</span> <span class="n">errors</span>
+        <span class="p">)</span>
+        <span class="n">sessions_with_type2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="mi">1</span> <span class="k">for</span> <span class="n">errors</span> <span class="ow">in</span> <span class="n">session_errors</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">error_type2</span> <span class="ow">in</span> <span class="n">errors</span>
+        <span class="p">)</span>
+        <span class="n">sessions_with_both</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">errors</span> <span class="ow">in</span> <span class="n">session_errors</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">error_type1</span> <span class="ow">in</span> <span class="n">errors</span> <span class="ow">and</span> <span class="n">error_type2</span> <span class="ow">in</span> <span class="n">errors</span>
+        <span class="p">)</span>
+
+        <span class="n">total_sessions</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">session_errors</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">total_sessions</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+
+        <span class="c1"># Calculate correlation using co-occurrence</span>
+        <span class="n">expected_both</span> <span class="o">=</span> <span class="p">(</span><span class="n">sessions_with_type1</span> <span class="o">*</span> <span class="n">sessions_with_type2</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_sessions</span>
+        <span class="k">if</span> <span class="n">expected_both</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+
+        <span class="n">correlation</span> <span class="o">=</span> <span class="p">(</span><span class="n">sessions_with_both</span> <span class="o">-</span> <span class="n">expected_both</span><span class="p">)</span> <span class="o">/</span> <span class="n">expected_both</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">correlation</span><span class="p">))</span></div>
+</div>
+
+
+
+<span class="c1"># Global error analyzer instance</span>
+<span class="n">_global_error_analyzer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ErrorAnalyzer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_error_analyzer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ErrorAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the global error analyzer instance&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_global_error_analyzer</span>
+    <span class="k">if</span> <span class="n">_global_error_analyzer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_global_error_analyzer</span> <span class="o">=</span> <span class="n">ErrorAnalyzer</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">_global_error_analyzer</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">track_errors</span><span class="p">(</span><span class="n">estimator_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator for tracking estimator errors&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="c1"># Record error</span>
+                <span class="n">analyzer</span> <span class="o">=</span> <span class="n">get_error_analyzer</span><span class="p">()</span>
+                <span class="n">analyzer</span><span class="o">.</span><span class="n">record_error</span><span class="p">(</span>
+                    <span class="n">estimator_name</span><span class="o">=</span><span class="n">estimator_name</span><span class="p">,</span>
+                    <span class="n">error_message</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+                    <span class="n">stack_trace</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># Could capture full traceback</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+                    <span class="n">data_length</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">args</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">raise</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Davian Chin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

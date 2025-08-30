@@ -1,0 +1,878 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theoretical Foundations &mdash; LRDBenchmark 1.7.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="https://lrdbenchmark.readthedocs.io/research/theory.html"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=030dc6f6"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Validation Techniques and Statistical Tests" href="validation.html" />
+    <link rel="prev" title="Analytics API" href="../api/analytics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            LRDBenchmark
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Documentation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/data_models.html">Data Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/estimators.html">Estimators API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/benchmark.html">Benchmark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/analytics.html">Analytics API</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Theoretical Foundations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#long-range-dependence-lrd">Long-Range Dependence (LRD)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#definition-and-properties">Definition and Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#power-spectral-density">Power Spectral Density</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fractional-brownian-motion-fbm">Fractional Brownian Motion (FBM)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mathematical-definition">Mathematical Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#properties">Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generation-methods">Generation Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fractional-gaussian-noise-fgn">Fractional Gaussian Noise (FGN)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#definition">Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Properties</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#arfima-models">ARFIMA Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fractional-differencing">Fractional Differencing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#multifractal-random-walk-mrw">Multifractal Random Walk (MRW)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Properties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#statistical-estimators">Statistical Estimators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#temporal-domain-estimators">Temporal Domain Estimators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#detrended-fluctuation-analysis-dfa">Detrended Fluctuation Analysis (DFA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#r-s-analysis">R/S Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#higuchi-method">Higuchi Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spectral-domain-estimators">Spectral Domain Estimators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#geweke-porter-hudak-gph-estimator">Geweke-Porter-Hudak (GPH) Estimator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#whittle-estimator">Whittle Estimator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#wavelet-domain-estimators">Wavelet Domain Estimators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wavelet-variance">Wavelet Variance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#continuous-wavelet-transform-cwt">Continuous Wavelet Transform (CWT)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#multifractal-estimators">Multifractal Estimators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multifractal-detrended-fluctuation-analysis-mfdfa">Multifractal Detrended Fluctuation Analysis (MFDFA)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#validation-techniques">Validation Techniques</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#monte-carlo-simulations">Monte Carlo Simulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bootstrap-methods">Bootstrap Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cross-validation">Cross-Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#robustness-analysis">Robustness Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#performance-metrics">Performance Metrics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#accuracy-metrics">Accuracy Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#precision-metrics">Precision Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#efficiency-metrics">Efficiency Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#statistical-tests">Statistical Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#hypothesis-testing">Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#goodness-of-fit-tests">Goodness-of-Fit Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-selection">Model Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#practical-examples">Practical Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#monte-carlo-simulation-example">Monte Carlo Simulation Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#power-spectral-density-analysis">Power Spectral Density Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#autocorrelation-function-analysis">Autocorrelation Function Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#theoretical-references">Theoretical References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html">Validation Techniques and Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html#monte-carlo-validation">Monte Carlo Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html#bootstrap-methods">Bootstrap Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html#cross-validation">Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html#robustness-analysis">Robustness Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html#model-selection">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html#quality-assurance">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html#id4">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html#validation-references">Validation References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html">Comprehensive LRDBench Demonstration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#basic-data-generation-and-analysis">Basic Data Generation and Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#advanced-benchmarking">Advanced Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#machine-learning-and-neural-network-analysis">Machine Learning and Neural Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#analytics-and-monitoring">Analytics and Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#real-world-application-example">Real-World Application Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#integration-with-external-libraries">Integration with External Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#complete-workflow-example">Complete Workflow Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/comprehensive_demo.html#summary">Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LRDBenchmark</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Theoretical Foundations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/research/theory.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="theoretical-foundations">
+<h1>Theoretical Foundations<a class="headerlink" href="#theoretical-foundations" title="Link to this heading"></a></h1>
+<p>This document provides the theoretical foundations for the statistical tests, validation techniques, and mathematical principles underlying LRDBench.</p>
+<section id="long-range-dependence-lrd">
+<h2>Long-Range Dependence (LRD)<a class="headerlink" href="#long-range-dependence-lrd" title="Link to this heading"></a></h2>
+<section id="definition-and-properties">
+<h3>Definition and Properties<a class="headerlink" href="#definition-and-properties" title="Link to this heading"></a></h3>
+<p>Long-range dependence (LRD), also known as long memory or persistence, is a statistical property of time series where correlations between observations decay slowly with increasing time lag.</p>
+<p>For a stationary time series <span class="math">\{X_t\}</span> with autocorrelation function <span class="math">\rho(k)</span>, LRD is characterized by:</p>
+<div class="math">
+<p><span class="math">\rho(k) \sim c|k|^{2H-2} \text{ as } k \to \infty</span></p>
+</div><p>where:
+- <span class="math">H</span> is the Hurst parameter (<span class="math">0.5 &lt; H &lt; 1</span>)
+- <span class="math">c</span> is a positive constant
+- <span class="math">\sim</span> denotes asymptotic equivalence</p>
+<p>The Hurst parameter <span class="math">H</span> quantifies the degree of long-range dependence:
+- <span class="math">H = 0.5</span>: No long-range dependence (white noise)
+- <span class="math">0.5 &lt; H &lt; 1</span>: Positive long-range dependence (persistence)
+- <span class="math">0 &lt; H &lt; 0.5</span>: Negative long-range dependence (anti-persistence)</p>
+</section>
+<section id="power-spectral-density">
+<h3>Power Spectral Density<a class="headerlink" href="#power-spectral-density" title="Link to this heading"></a></h3>
+<p>For LRD processes, the power spectral density <span class="math">S(f)</span> exhibits a power-law behavior at low frequencies:</p>
+<div class="math">
+<p><span class="math">S(f) \sim c|f|^{1-2H} \text{ as } f \to 0</span></p>
+</div><p>This relationship forms the basis for spectral-based estimators like the Geweke-Porter-Hudak (GPH) estimator.</p>
+</section>
+</section>
+<section id="fractional-brownian-motion-fbm">
+<h2>Fractional Brownian Motion (FBM)<a class="headerlink" href="#fractional-brownian-motion-fbm" title="Link to this heading"></a></h2>
+<section id="mathematical-definition">
+<h3>Mathematical Definition<a class="headerlink" href="#mathematical-definition" title="Link to this heading"></a></h3>
+<p>Fractional Brownian Motion <span class="math">B_H(t)</span> is a continuous-time Gaussian process with stationary increments, defined by:</p>
+<div class="math">
+<p><span class="math">B_H(t) = \frac{1}{\Gamma(H + \frac{1}{2})} \int_{-\infty}^t (t-s)^{H-\frac{1}{2}} dB(s)</span></p>
+</div><p>where:
+- <span class="math">H</span> is the Hurst parameter (<span class="math">0 &lt; H &lt; 1</span>)
+- <span class="math">\Gamma(\cdot)</span> is the gamma function
+- <span class="math">B(s)</span> is standard Brownian motion</p>
+</section>
+<section id="properties">
+<h3>Properties<a class="headerlink" href="#properties" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Self-similarity</strong>: <span class="math">B_H(at) \stackrel{d}{=} a^H B_H(t)</span> for all <span class="math">a &gt; 0</span></p></li>
+<li><p><strong>Stationary increments</strong>: <span class="math">B_H(t+s) - B_H(s) \stackrel{d}{=} B_H(t) - B_H(0)</span></p></li>
+<li><p><strong>Variance scaling</strong>: <span class="math">\text{Var}[B_H(t)] = t^{2H}</span></p></li>
+<li><p><strong>Covariance function</strong>: <span class="math">\text{Cov}[B_H(s), B_H(t)] = \frac{1}{2}(|s|^{2H} + |t|^{2H} - |s-t|^{2H})</span></p></li>
+</ol>
+</section>
+<section id="generation-methods">
+<h3>Generation Methods<a class="headerlink" href="#generation-methods" title="Link to this heading"></a></h3>
+<p><strong>Method 1: Cholesky Decomposition</strong>
+The covariance matrix <span class="math">\Sigma</span> is constructed and decomposed as <span class="math">\Sigma = LL^T</span>. The FBM is then generated as <span class="math">B_H = LZ</span> where <span class="math">Z</span> is a vector of independent standard normal random variables.</p>
+<p><strong>Method 2: Circulant Embedding</strong>
+The covariance function is embedded in a circulant matrix, which can be diagonalized using the FFT, enabling efficient generation.</p>
+<p><strong>Method 3: Davies-Harte Method</strong>
+Uses the spectral representation of FBM to generate samples via FFT.</p>
+</section>
+</section>
+<section id="fractional-gaussian-noise-fgn">
+<h2>Fractional Gaussian Noise (FGN)<a class="headerlink" href="#fractional-gaussian-noise-fgn" title="Link to this heading"></a></h2>
+<section id="definition">
+<h3>Definition<a class="headerlink" href="#definition" title="Link to this heading"></a></h3>
+<p>Fractional Gaussian Noise is the increment process of FBM:</p>
+<div class="math">
+<p><span class="math">X_t = B_H(t+1) - B_H(t)</span></p>
+</div></section>
+<section id="id1">
+<h3>Properties<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Stationarity</strong>: FGN is a stationary process</p></li>
+<li><p><strong>Autocorrelation</strong>: <span class="math">\rho(k) = \frac{1}{2}(|k+1|^{2H} - 2|k|^{2H} + |k-1|^{2H})</span></p></li>
+<li><p><strong>Long-range dependence</strong>: For <span class="math">H &gt; 0.5</span>, <span class="math">\rho(k) \sim H(2H-1)k^{2H-2}</span> as <span class="math">k \to \infty</span></p></li>
+</ol>
+</section>
+</section>
+<section id="arfima-models">
+<h2>ARFIMA Models<a class="headerlink" href="#arfima-models" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3>Definition<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>An ARFIMA(p,d,q) process <span class="math">\{X_t\}</span> satisfies:</p>
+<div class="math">
+<p><span class="math">\Phi(B)(1-B)^d X_t = \Theta(B)\epsilon_t</span></p>
+</div><p>where:
+- <span class="math">\Phi(B) = 1 - \phi_1 B - \cdots - \phi_p B^p</span> (AR polynomial)
+- <span class="math">\Theta(B) = 1 + \theta_1 B + \cdots + \theta_q B^q</span> (MA polynomial)
+- <span class="math">(1-B)^d</span> is the fractional differencing operator
+- <span class="math">\epsilon_t</span> is white noise</p>
+</section>
+<section id="fractional-differencing">
+<h3>Fractional Differencing<a class="headerlink" href="#fractional-differencing" title="Link to this heading"></a></h3>
+<p>The fractional differencing operator <span class="math">(1-B)^d</span> is defined by the binomial expansion:</p>
+<div class="math">
+<p><span class="math">(1-B)^d = \sum_{k=0}^{\infty} \binom{d}{k} (-B)^k</span></p>
+</div><p>where <span class="math">\binom{d}{k} = \frac{d(d-1)\cdots(d-k+1)}{k!}</span></p>
+<p>For <span class="math">|d| &lt; 0.5</span>, the process is stationary and invertible. The relationship between <span class="math">d</span> and the Hurst parameter is:</p>
+<div class="math">
+<p><span class="math">H = d + 0.5</span></p>
+</div></section>
+</section>
+<section id="multifractal-random-walk-mrw">
+<h2>Multifractal Random Walk (MRW)<a class="headerlink" href="#multifractal-random-walk-mrw" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>Definition<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>The Multifractal Random Walk is defined as:</p>
+<div class="math">
+<p><span class="math">X(t) = \int_0^t e^{\omega(s)} dB(s)</span></p>
+</div><p>where:
+- <span class="math">B(s)</span> is standard Brownian motion
+- <span class="math">\omega(s)</span> is a stationary Gaussian process with covariance:</p>
+<div class="math">
+<p><span class="math">\text{Cov}[\omega(s), \omega(t)] = \lambda^2 \log_+ \frac{T}{|s-t| + \ell}</span></p>
+</div><p>Parameters:
+- <span class="math">\lambda^2</span>: Intermittency parameter
+- <span class="math">T</span>: Integral time scale
+- <span class="math">\ell</span>: Small-scale cutoff</p>
+</section>
+<section id="id4">
+<h3>Properties<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Multifractality</strong>: The process exhibits different scaling exponents at different time scales</p></li>
+<li><p><strong>Log-normal multipliers</strong>: The process can be constructed using log-normal multipliers</p></li>
+<li><p><strong>Scaling</strong>: <span class="math">\langle |X(t+\tau) - X(t)|^q \rangle \sim \tau^{\zeta(q)}</span> where <span class="math">\zeta(q)</span> is the multifractal spectrum</p></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="statistical-estimators">
+<h1>Statistical Estimators<a class="headerlink" href="#statistical-estimators" title="Link to this heading"></a></h1>
+<section id="temporal-domain-estimators">
+<h2>Temporal Domain Estimators<a class="headerlink" href="#temporal-domain-estimators" title="Link to this heading"></a></h2>
+<section id="detrended-fluctuation-analysis-dfa">
+<h3>Detrended Fluctuation Analysis (DFA)<a class="headerlink" href="#detrended-fluctuation-analysis-dfa" title="Link to this heading"></a></h3>
+<p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Integration</strong>: <span class="math">y(i) = \sum_{k=1}^i (x_k - \bar{x})</span></p></li>
+<li><p><strong>Segmentation</strong>: Divide into <span class="math">N_s = N/s</span> non-overlapping segments</p></li>
+<li><p><strong>Detrending</strong>: Fit polynomial <span class="math">y_n(i)</span> to each segment</p></li>
+<li><p><strong>Fluctuation</strong>: Calculate <span class="math">F^2(s) = \frac{1}{s} \sum_{i=1}^s [y(i) - y_n(i)]^2</span></p></li>
+<li><p><strong>Scaling</strong>: <span class="math">F(s) \sim s^H</span></p></li>
+</ol>
+<p><strong>Theoretical Foundation</strong>:
+DFA measures the scaling of fluctuations around local trends, making it robust to non-stationarities.</p>
+<p><strong>Mathematical Formulation</strong>:
+For a time series of length <span class="math">N</span>, the DFA fluctuation function is:</p>
+<div class="math">
+<p><span class="math">F(s) = \sqrt{\frac{1}{N_s} \sum_{v=1}^{N_s} F^2(v,s)}</span></p>
+</div><p>where <span class="math">F^2(v,s)</span> is the mean squared fluctuation in segment <span class="math">v</span> of size <span class="math">s</span>.</p>
+</section>
+<section id="r-s-analysis">
+<h3>R/S Analysis<a class="headerlink" href="#r-s-analysis" title="Link to this heading"></a></h3>
+<p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Segmentation</strong>: Divide data into segments of length <span class="math">k</span></p></li>
+<li><p><strong>Rescaled Range</strong>: For each segment, calculate:
+- <span class="math">R = \max_{1 \leq i \leq k} S_i - \min_{1 \leq i \leq k} S_i</span> (range)
+- <span class="math">S = \sqrt{\frac{1}{k} \sum_{i=1}^k (x_i - \bar{x})^2}</span> (standard deviation)</p></li>
+<li><p><strong>Scaling</strong>: <span class="math">R/S \sim k^H</span></p></li>
+</ol>
+<p><strong>Theoretical Foundation</strong>:
+R/S analysis measures the scaling of the range of partial sums, normalized by the standard deviation.</p>
+<p><strong>Mathematical Formulation</strong>:
+For a segment of length <span class="math">k</span>, the rescaled range is:</p>
+<div class="math">
+<p><span class="math">R/S = \frac{\max_{1 \leq i \leq k} \sum_{j=1}^i (x_j - \bar{x}) - \min_{1 \leq i \leq k} \sum_{j=1}^i (x_j - \bar{x})}{\sqrt{\frac{1}{k} \sum_{i=1}^k (x_i - \bar{x})^2}}</span></p>
+</div></section>
+<section id="higuchi-method">
+<h3>Higuchi Method<a class="headerlink" href="#higuchi-method" title="Link to this heading"></a></h3>
+<p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Subseries Construction</strong>: For each <span class="math">k</span>, construct <span class="math">k</span> subseries</p></li>
+<li><p><strong>Length Calculation</strong>: Calculate the length <span class="math">L_m(k)</span> of each subseries</p></li>
+<li><p><strong>Average Length</strong>: <span class="math">L(k) = \frac{1}{k} \sum_{m=1}^k L_m(k)</span></p></li>
+<li><p><strong>Scaling</strong>: <span class="math">L(k) \sim k^{-D}</span> where <span class="math">D = 2 - H</span></p></li>
+</ol>
+<p><strong>Theoretical Foundation</strong>:
+The Higuchi method estimates the fractal dimension by measuring how the length of the time series changes with different sampling intervals.</p>
+<p><strong>Mathematical Formulation</strong>:
+For a time series <span class="math">\{x_i\}</span> and lag <span class="math">k</span>, the length is:</p>
+<div class="math">
+<p><span class="math">L_m(k) = \frac{1}{k} \left[ \frac{N-1}{k^2} \sum_{i=1}^{[(N-m)/k]} |x_{m+ik} - x_{m+(i-1)k}| \right]</span></p>
+</div></section>
+</section>
+<section id="spectral-domain-estimators">
+<h2>Spectral Domain Estimators<a class="headerlink" href="#spectral-domain-estimators" title="Link to this heading"></a></h2>
+<section id="geweke-porter-hudak-gph-estimator">
+<h3>Geweke-Porter-Hudak (GPH) Estimator<a class="headerlink" href="#geweke-porter-hudak-gph-estimator" title="Link to this heading"></a></h3>
+<p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Periodogram</strong>: Calculate <span class="math">I(f_j) = \frac{1}{2\pi N} |\sum_{t=1}^N x_t e^{-i2\pi f_j t}|^2</span></p></li>
+<li><p><strong>Log-Regression</strong>: Fit <span class="math">\log I(f_j) = c - d \log(4\sin^2(\pi f_j)) + \epsilon_j</span></p></li>
+<li><p><strong>Estimation</strong>: <span class="math">H = d + 0.5</span></p></li>
+</ol>
+<p><strong>Theoretical Foundation</strong>:
+The GPH estimator is based on the spectral representation of ARFIMA processes, where the log-periodogram follows a linear relationship with the log-frequency.</p>
+<p><strong>Mathematical Formulation</strong>:
+For frequencies <span class="math">f_j = j/N</span>, the regression model is:</p>
+<div class="math">
+<p><span class="math">\log I(f_j) = c - d \log(4\sin^2(\pi f_j)) + \epsilon_j</span></p>
+</div><p>where <span class="math">d</span> is the fractional differencing parameter and <span class="math">H = d + 0.5</span>.</p>
+</section>
+<section id="whittle-estimator">
+<h3>Whittle Estimator<a class="headerlink" href="#whittle-estimator" title="Link to this heading"></a></h3>
+<p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Spectral Density</strong>: Assume parametric form <span class="math">S(f; \theta)</span></p></li>
+<li><p><strong>Whittle Likelihood</strong>: <span class="math">L(\theta) = \sum_{j=1}^{N/2} \left[ \log S(f_j; \theta) + \frac{I(f_j)}{S(f_j; \theta)} \right]</span></p></li>
+<li><p><strong>Optimization</strong>: Maximize <span class="math">L(\theta)</span> to estimate parameters</p></li>
+</ol>
+<p><strong>Theoretical Foundation</strong>:
+The Whittle estimator maximizes an approximation to the likelihood function in the frequency domain, making it asymptotically efficient.</p>
+<p><strong>Mathematical Formulation</strong>:
+The Whittle likelihood function is:</p>
+<div class="math">
+<p><span class="math">L(\theta) = \sum_{j=1}^{N/2} \left[ \log S(f_j; \theta) + \frac{I(f_j)}{S(f_j; \theta)} \right]</span></p>
+</div><p>where <span class="math">S(f; \theta)</span> is the theoretical spectral density and <span class="math">I(f_j)</span> is the periodogram.</p>
+</section>
+</section>
+<section id="wavelet-domain-estimators">
+<h2>Wavelet Domain Estimators<a class="headerlink" href="#wavelet-domain-estimators" title="Link to this heading"></a></h2>
+<section id="wavelet-variance">
+<h3>Wavelet Variance<a class="headerlink" href="#wavelet-variance" title="Link to this heading"></a></h3>
+<p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Wavelet Decomposition</strong>: Apply discrete wavelet transform</p></li>
+<li><p><strong>Variance Calculation</strong>: <span class="math">\sigma^2_j = \frac{1}{n_j} \sum_{k=1}^{n_j} d_{j,k}^2</span></p></li>
+<li><p><strong>Scaling</strong>: <span class="math">\sigma^2_j \sim 2^{j(2H-1)}</span></p></li>
+</ol>
+<p><strong>Theoretical Foundation</strong>:
+Wavelet variance measures the energy at different scales, providing a robust estimate of the scaling exponent.</p>
+<p><strong>Mathematical Formulation</strong>:
+For wavelet coefficients <span class="math">d_{j,k}</span> at scale <span class="math">j</span>, the variance is:</p>
+<div class="math">
+<p><span class="math">\sigma^2_j = \frac{1}{n_j} \sum_{k=1}^{n_j} d_{j,k}^2</span></p>
+</div><p>where <span class="math">n_j</span> is the number of coefficients at scale <span class="math">j</span>.</p>
+</section>
+<section id="continuous-wavelet-transform-cwt">
+<h3>Continuous Wavelet Transform (CWT)<a class="headerlink" href="#continuous-wavelet-transform-cwt" title="Link to this heading"></a></h3>
+<p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>CWT Calculation</strong>: <span class="math">W_x(a,b) = \frac{1}{\sqrt{a}} \int_{-\infty}^{\infty} x(t) \psi^*\left(\frac{t-b}{a}\right) dt</span></p></li>
+<li><p><strong>Wavelet Spectrum</strong>: <span class="math">S_x(a) = \int_{-\infty}^{\infty} |W_x(a,b)|^2 db</span></p></li>
+<li><p><strong>Scaling</strong>: <span class="math">S_x(a) \sim a^{2H+1}</span></p></li>
+</ol>
+<p><strong>Theoretical Foundation</strong>:
+CWT provides a time-scale representation that preserves both temporal and frequency information.</p>
+<p><strong>Mathematical Formulation</strong>:
+The continuous wavelet transform is:</p>
+<div class="math">
+<p><span class="math">W_x(a,b) = \frac{1}{\sqrt{a}} \int_{-\infty}^{\infty} x(t) \psi^*\left(\frac{t-b}{a}\right) dt</span></p>
+</div><p>where <span class="math">\psi(t)</span> is the mother wavelet and <span class="math">a, b</span> are scale and translation parameters.</p>
+</section>
+</section>
+<section id="multifractal-estimators">
+<h2>Multifractal Estimators<a class="headerlink" href="#multifractal-estimators" title="Link to this heading"></a></h2>
+<section id="multifractal-detrended-fluctuation-analysis-mfdfa">
+<h3>Multifractal Detrended Fluctuation Analysis (MFDFA)<a class="headerlink" href="#multifractal-detrended-fluctuation-analysis-mfdfa" title="Link to this heading"></a></h3>
+<p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Profile</strong>: <span class="math">Y(i) = \sum_{k=1}^i (x_k - \bar{x})</span></p></li>
+<li><p><strong>Segmentation</strong>: Divide into <span class="math">N_s = N/s</span> segments</p></li>
+<li><p><strong>Detrending</strong>: Fit polynomial to each segment</p></li>
+<li><p><strong>Fluctuation</strong>: <span class="math">F_q(s) = \left[ \frac{1}{N_s} \sum_{v=1}^{N_s} F^2(v,s)^{q/2} \right]^{1/q}</span></p></li>
+<li><p><strong>Scaling</strong>: <span class="math">F_q(s) \sim s^{h(q)}</span></p></li>
+</ol>
+<p><strong>Theoretical Foundation</strong>:
+MFDFA extends DFA to capture multifractal scaling by considering different moments of the fluctuation function.</p>
+<p><strong>Mathematical Formulation</strong>:
+The qth order fluctuation function is:</p>
+<div class="math">
+<p><span class="math">F_q(s) = \left[ \frac{1}{N_s} \sum_{v=1}^{N_s} F^2(v,s)^{q/2} \right]^{1/q}</span></p>
+</div><p>The multifractal spectrum <span class="math">f(\alpha)</span> is obtained via Legendre transform:</p>
+<div class="math">
+<p><span class="math">\alpha = h(q) + qh'(q), \quad f(\alpha) = q[\alpha - h(q)] + 1</span></p>
+</div></section>
+</section>
+</section>
+<section id="validation-techniques">
+<h1>Validation Techniques<a class="headerlink" href="#validation-techniques" title="Link to this heading"></a></h1>
+<section id="monte-carlo-simulations">
+<h2>Monte Carlo Simulations<a class="headerlink" href="#monte-carlo-simulations" title="Link to this heading"></a></h2>
+<p><strong>Purpose</strong>: Validate estimator performance on synthetic data with known parameters.</p>
+<p><strong>Methodology</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Data Generation</strong>: Generate <span class="math">N</span> realizations of synthetic data with known <span class="math">H</span></p></li>
+<li><p><strong>Estimation</strong>: Apply estimators to each realization</p></li>
+<li><p><strong>Statistics</strong>: Calculate bias, variance, and mean squared error</p></li>
+<li><p><strong>Confidence Intervals</strong>: Construct empirical confidence intervals</p></li>
+</ol>
+<p><strong>Mathematical Formulation</strong>:
+For estimator <span class="math">\hat{H}</span> and true value <span class="math">H_0</span>:</p>
+<ul class="simple">
+<li><p><strong>Bias</strong>: <span class="math">\text{Bias} = \mathbb{E}[\hat{H}] - H_0</span></p></li>
+<li><p><strong>Variance</strong>: <span class="math">\text{Var}[\hat{H}] = \mathbb{E}[(\hat{H} - \mathbb{E}[\hat{H}])^2]</span></p></li>
+<li><p><strong>MSE</strong>: <span class="math">\text{MSE} = \mathbb{E}[(\hat{H} - H_0)^2] = \text{Bias}^2 + \text{Var}[\hat{H}]</span></p></li>
+</ul>
+</section>
+<section id="bootstrap-methods">
+<h2>Bootstrap Methods<a class="headerlink" href="#bootstrap-methods" title="Link to this heading"></a></h2>
+<p><strong>Purpose</strong>: Estimate confidence intervals and standard errors for estimators.</p>
+<p><strong>Methodology</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Resampling</strong>: Generate bootstrap samples by resampling with replacement</p></li>
+<li><p><strong>Estimation</strong>: Apply estimator to each bootstrap sample</p></li>
+<li><p><strong>Statistics</strong>: Calculate empirical distribution of estimates</p></li>
+<li><p><strong>Confidence Intervals</strong>: Use percentiles or bias-corrected methods</p></li>
+</ol>
+<p><strong>Mathematical Formulation</strong>:
+For bootstrap samples <span class="math">\{\hat{H}_1^*, \ldots, \hat{H}_B^*\}</span>:</p>
+<ul class="simple">
+<li><p><strong>Bootstrap Mean</strong>: <span class="math">\bar{H}^* = \frac{1}{B} \sum_{b=1}^B \hat{H}_b^*</span></p></li>
+<li><p><strong>Bootstrap Variance</strong>: <span class="math">s^2 = \frac{1}{B-1} \sum_{b=1}^B (\hat{H}_b^* - \bar{H}^*)^2</span></p></li>
+<li><p><strong>Confidence Interval</strong>: <span class="math">[\hat{H}_{\alpha/2}^*, \hat{H}_{1-\alpha/2}^*]</span></p></li>
+</ul>
+</section>
+<section id="cross-validation">
+<h2>Cross-Validation<a class="headerlink" href="#cross-validation" title="Link to this heading"></a></h2>
+<p><strong>Purpose</strong>: Assess estimator performance and prevent overfitting.</p>
+<p><strong>Methodology</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Data Splitting</strong>: Divide data into training and validation sets</p></li>
+<li><p><strong>Parameter Tuning</strong>: Optimize parameters on training set</p></li>
+<li><p><strong>Validation</strong>: Evaluate performance on validation set</p></li>
+<li><p><strong>Cross-Validation</strong>: Repeat with different splits</p></li>
+</ol>
+<p><strong>Mathematical Formulation</strong>:
+For k-fold cross-validation with estimator <span class="math">f</span> and loss function <span class="math">L</span>:</p>
+<div class="math">
+<p><span class="math">\text{CV} = \frac{1}{k} \sum_{i=1}^k L(y_i, f^{-i}(x_i))</span></p>
+</div><p>where <span class="math">f^{-i}</span> is the estimator trained on all folds except fold <span class="math">i</span>.</p>
+</section>
+<section id="robustness-analysis">
+<h2>Robustness Analysis<a class="headerlink" href="#robustness-analysis" title="Link to this heading"></a></h2>
+<p><strong>Purpose</strong>: Assess estimator performance under various data conditions.</p>
+<p><strong>Methodology</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Contamination</strong>: Add noise, outliers, or trends to data</p></li>
+<li><p><strong>Estimation</strong>: Apply estimators to contaminated data</p></li>
+<li><p><strong>Comparison</strong>: Compare results with uncontaminated estimates</p></li>
+<li><p><strong>Robustness Metrics</strong>: Calculate breakdown points and influence functions</p></li>
+</ol>
+<p><strong>Mathematical Formulation</strong>:
+For contamination level <span class="math">\epsilon</span> and contamination distribution <span class="math">G</span>:</p>
+<div class="math">
+<p><span class="math">F_\epsilon = (1-\epsilon)F + \epsilon G</span></p>
+</div><p>where <span class="math">F</span> is the original distribution and <span class="math">F_\epsilon</span> is the contaminated distribution.</p>
+</section>
+</section>
+<section id="performance-metrics">
+<h1>Performance Metrics<a class="headerlink" href="#performance-metrics" title="Link to this heading"></a></h1>
+<section id="accuracy-metrics">
+<h2>Accuracy Metrics<a class="headerlink" href="#accuracy-metrics" title="Link to this heading"></a></h2>
+<p><strong>Mean Absolute Error (MAE)</strong>:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">MAE</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span><span class="n">n</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="n">n</span> <span class="o">|</span>\<span class="n">hat</span><span class="p">{</span><span class="n">H</span><span class="p">}</span><span class="n">_i</span> <span class="o">-</span> <span class="n">H_i</span><span class="o">|</span>
+</pre></div>
+</div>
+<p><strong>Root Mean Square Error (RMSE)</strong>:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">RMSE</span><span class="p">}</span> <span class="o">=</span> \<span class="n">sqrt</span><span class="p">{</span>\<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span><span class="n">n</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="n">n</span> <span class="p">(</span>\<span class="n">hat</span><span class="p">{</span><span class="n">H</span><span class="p">}</span><span class="n">_i</span> <span class="o">-</span> <span class="n">H_i</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Mean Absolute Percentage Error (MAPE)</strong>:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">MAPE</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">100</span>\<span class="o">%</span><span class="p">}{</span><span class="n">n</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="n">n</span> \<span class="n">left</span><span class="o">|</span>\<span class="n">frac</span><span class="p">{</span>\<span class="n">hat</span><span class="p">{</span><span class="n">H</span><span class="p">}</span><span class="n">_i</span> <span class="o">-</span> <span class="n">H_i</span><span class="p">}{</span><span class="n">H_i</span><span class="p">}</span>\<span class="n">right</span><span class="o">|</span>
+</pre></div>
+</div>
+</section>
+<section id="precision-metrics">
+<h2>Precision Metrics<a class="headerlink" href="#precision-metrics" title="Link to this heading"></a></h2>
+<p><strong>Standard Error</strong>:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">SE</span><span class="p">}</span> <span class="o">=</span> \<span class="n">sqrt</span><span class="p">{</span>\<span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="n">n</span> <span class="p">(</span>\<span class="n">hat</span><span class="p">{</span><span class="n">H</span><span class="p">}</span><span class="n">_i</span> <span class="o">-</span> \<span class="n">bar</span><span class="p">{</span><span class="n">H</span><span class="p">})</span><span class="o">^</span><span class="mi">2</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Coefficient of Variation</strong>:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">CV</span><span class="p">}</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span>\<span class="n">text</span><span class="p">{</span><span class="n">SE</span><span class="p">}}{</span>\<span class="n">bar</span><span class="p">{</span><span class="n">H</span><span class="p">}}</span> \<span class="n">times</span> <span class="mi">100</span>\<span class="o">%</span>
+</pre></div>
+</div>
+<p><strong>Confidence Interval Width</strong>:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">CI</span> <span class="n">Width</span><span class="p">}</span> <span class="o">=</span> \<span class="n">hat</span><span class="p">{</span><span class="n">H</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="mi">1</span><span class="o">-</span>\<span class="n">alpha</span><span class="o">/</span><span class="mi">2</span><span class="p">}</span> <span class="o">-</span> \<span class="n">hat</span><span class="p">{</span><span class="n">H</span><span class="p">}</span><span class="n">_</span><span class="p">{</span>\<span class="n">alpha</span><span class="o">/</span><span class="mi">2</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="efficiency-metrics">
+<h2>Efficiency Metrics<a class="headerlink" href="#efficiency-metrics" title="Link to this heading"></a></h2>
+<p><strong>Computational Complexity</strong>: Big-O notation for time and space complexity
+<strong>Convergence Rate</strong>: Rate at which estimator approaches true value
+<strong>Asymptotic Efficiency</strong>: Ratio of estimator variance to Cramér-Rao lower bound</p>
+</section>
+</section>
+<section id="statistical-tests">
+<h1>Statistical Tests<a class="headerlink" href="#statistical-tests" title="Link to this heading"></a></h1>
+<section id="hypothesis-testing">
+<h2>Hypothesis Testing<a class="headerlink" href="#hypothesis-testing" title="Link to this heading"></a></h2>
+<p><strong>Null Hypothesis</strong>: <span class="math">H_0: H = H_0</span>
+<strong>Alternative Hypothesis</strong>: <span class="math">H_1: H \neq H_0</span></p>
+<p><strong>Test Statistic</strong>:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span>\<span class="n">hat</span><span class="p">{</span><span class="n">H</span><span class="p">}</span> <span class="o">-</span> <span class="n">H_0</span><span class="p">}{</span>\<span class="n">text</span><span class="p">{</span><span class="n">SE</span><span class="p">}(</span>\<span class="n">hat</span><span class="p">{</span><span class="n">H</span><span class="p">})}</span>
+</pre></div>
+</div>
+<p><strong>Decision Rule</strong>: Reject <span class="math">H_0</span> if <span class="math">|T| &gt; z_{\alpha/2}</span></p>
+</section>
+<section id="goodness-of-fit-tests">
+<h2>Goodness-of-Fit Tests<a class="headerlink" href="#goodness-of-fit-tests" title="Link to this heading"></a></h2>
+<p><strong>Kolmogorov-Smirnov Test</strong>:
+Tests whether empirical distribution matches theoretical distribution.</p>
+<p><strong>Anderson-Darling Test</strong>:
+Weighted version of KS test, more sensitive to tails.</p>
+<p><strong>Chi-Square Test</strong>:
+Tests fit of observed frequencies to expected frequencies.</p>
+</section>
+<section id="model-selection">
+<h2>Model Selection<a class="headerlink" href="#model-selection" title="Link to this heading"></a></h2>
+<p><strong>Akaike Information Criterion (AIC)</strong>:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">AIC</span><span class="p">}</span> <span class="o">=</span> <span class="mi">2</span><span class="n">k</span> <span class="o">-</span> <span class="mi">2</span>\<span class="n">ln</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Bayesian Information Criterion (BIC)</strong>:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">text</span><span class="p">{</span><span class="n">BIC</span><span class="p">}</span> <span class="o">=</span> \<span class="n">ln</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="n">k</span> <span class="o">-</span> <span class="mi">2</span>\<span class="n">ln</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <span class="math">k</span> is the number of parameters and <span class="math">L</span> is the likelihood.</p>
+</section>
+</section>
+<section id="practical-examples">
+<h1>Practical Examples<a class="headerlink" href="#practical-examples" title="Link to this heading"></a></h1>
+<section id="monte-carlo-simulation-example">
+<h2>Monte Carlo Simulation Example<a class="headerlink" href="#monte-carlo-simulation-example" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">FBMModel</span><span class="p">,</span> <span class="n">ComprehensiveBenchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">monte_carlo_validation_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Demonstrate Monte Carlo validation for estimator performance.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Define parameter space</span>
+    <span class="n">H_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>  <span class="c1"># 13 different H values</span>
+    <span class="n">sample_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">]</span>
+    <span class="n">n_realizations</span> <span class="o">=</span> <span class="mi">50</span>
+
+    <span class="c1"># Initialize results storage</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;dfa&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bias&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;variance&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;mse&#39;</span><span class="p">:</span> <span class="p">[]},</span>
+        <span class="s1">&#39;gph&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bias&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;variance&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;mse&#39;</span><span class="p">:</span> <span class="p">[]},</span>
+        <span class="s1">&#39;rs&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bias&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;variance&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;mse&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="p">}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running Monte Carlo validation...&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">H</span> <span class="ow">in</span> <span class="n">H_values</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Testing H = </span><span class="si">{</span><span class="n">H</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sample_sizes</span><span class="p">:</span>
+            <span class="n">estimates</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dfa&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;gph&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;rs&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_realizations</span><span class="p">):</span>
+                <span class="c1"># Generate synthetic data</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">FBMModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+
+                <span class="c1"># Apply estimators</span>
+                <span class="n">benchmark</span> <span class="o">=</span> <span class="n">ComprehensiveBenchmark</span><span class="p">()</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run_classical_benchmark</span><span class="p">(</span>
+                    <span class="n">data_length</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+                    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dfa&#39;</span><span class="p">,</span> <span class="s1">&#39;gph&#39;</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">]</span>
+                <span class="p">)</span>
+
+                <span class="c1"># Collect estimates</span>
+                <span class="k">for</span> <span class="n">estimator_name</span> <span class="ow">in</span> <span class="n">estimates</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">estimator_name</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">estimators</span><span class="p">:</span>
+                        <span class="n">estimates</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="n">result</span><span class="o">.</span><span class="n">estimators</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">]</span><span class="o">.</span><span class="n">mean_estimate</span>
+                        <span class="p">)</span>
+
+            <span class="c1"># Calculate statistics</span>
+            <span class="k">for</span> <span class="n">estimator_name</span> <span class="ow">in</span> <span class="n">estimates</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">estimates</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">]:</span>
+                    <span class="n">est_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">estimates</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">])</span>
+                    <span class="n">bias</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">est_array</span><span class="p">)</span> <span class="o">-</span> <span class="n">H</span>
+                    <span class="n">variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">est_array</span><span class="p">)</span>
+                    <span class="n">mse</span> <span class="o">=</span> <span class="n">bias</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">variance</span>
+
+                    <span class="n">results</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">][</span><span class="s1">&#39;bias&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bias</span><span class="p">)</span>
+                    <span class="n">results</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">][</span><span class="s1">&#39;variance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
+                    <span class="n">results</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">][</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
+
+    <span class="c1"># Plot results</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">metric</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;bias&#39;</span><span class="p">,</span> <span class="s1">&#39;variance&#39;</span><span class="p">,</span> <span class="s1">&#39;mse&#39;</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">estimator_name</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">][</span><span class="n">metric</span><span class="p">]:</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">H_values</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">estimator_name</span><span class="p">][</span><span class="n">metric</span><span class="p">],</span>
+                            <span class="n">label</span><span class="o">=</span><span class="n">estimator_name</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;True Hurst Parameter (H)&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">metric</span><span class="o">.</span><span class="n">capitalize</span><span class="p">())</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">metric</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s1"> vs True H&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="c1"># Run the example</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">monte_carlo_validation_example</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Monte Carlo validation completed!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="power-spectral-density-analysis">
+<h2>Power Spectral Density Analysis<a class="headerlink" href="#power-spectral-density-analysis" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">FBMModel</span><span class="p">,</span> <span class="n">FGNModel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">power_spectral_density_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Demonstrate power spectral density analysis for LRD processes.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Generate data with different Hurst parameters</span>
+    <span class="n">models</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;FBM (H=0.3)&#39;</span><span class="p">:</span> <span class="n">FBMModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+        <span class="s1">&#39;FBM (H=0.5)&#39;</span><span class="p">:</span> <span class="n">FBMModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+        <span class="s1">&#39;FBM (H=0.7)&#39;</span><span class="p">:</span> <span class="n">FBMModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+        <span class="s1">&#39;FBM (H=0.9)&#39;</span><span class="p">:</span> <span class="n">FBMModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Generate data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+        <span class="c1"># Compute power spectral density</span>
+        <span class="n">freqs</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">welch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+
+        <span class="c1"># Plot PSD</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">psd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency (Hz)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Power Spectral Density&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Power Spectral Density of FBM Processes&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># Theoretical PSD for comparison</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">freqs_theoretical</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">H</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]:</span>
+        <span class="c1"># Theoretical PSD: S(f) ∝ f^(-2H+1)</span>
+        <span class="n">psd_theoretical</span> <span class="o">=</span> <span class="n">freqs_theoretical</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">H</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">freqs_theoretical</span><span class="p">,</span> <span class="n">psd_theoretical</span><span class="p">,</span>
+                  <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Theoretical (H=</span><span class="si">{</span><span class="n">H</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency (Hz)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Power Spectral Density&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Theoretical Power Spectral Density&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Run the example</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">power_spectral_density_example</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Power spectral density analysis completed!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="autocorrelation-function-analysis">
+<h2>Autocorrelation Function Analysis<a class="headerlink" href="#autocorrelation-function-analysis" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lrdbenchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">FBMModel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">autocorrelation_analysis_example</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Demonstrate autocorrelation function analysis for LRD processes.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Generate FBM data with different H values</span>
+    <span class="n">H_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
+    <span class="n">max_lag</span> <span class="o">=</span> <span class="mi">100</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">H</span> <span class="ow">in</span> <span class="n">H_values</span><span class="p">:</span>
+        <span class="c1"># Generate data</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">FBMModel</span><span class="p">(</span><span class="n">H</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+        <span class="c1"># Compute autocorrelation function</span>
+        <span class="n">acf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">correlate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span>
+        <span class="n">acf</span> <span class="o">=</span> <span class="n">acf</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">max_lag</span><span class="p">]</span> <span class="o">/</span> <span class="n">acf</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Plot ACF</span>
+        <span class="n">lags</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">max_lag</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lags</span><span class="p">,</span> <span class="n">acf</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;FBM (H=</span><span class="si">{</span><span class="n">H</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Lag&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Autocorrelation&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Autocorrelation Function of FBM Processes&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># Theoretical ACF comparison</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">lags_theoretical</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_lag</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">H</span> <span class="ow">in</span> <span class="n">H_values</span><span class="p">:</span>
+        <span class="c1"># Theoretical ACF: ρ(k) ∝ k^(2H-2)</span>
+        <span class="n">acf_theoretical</span> <span class="o">=</span> <span class="n">lags_theoretical</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">H</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">lags_theoretical</span><span class="p">,</span> <span class="n">acf_theoretical</span><span class="p">,</span>
+                  <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Theoretical (H=</span><span class="si">{</span><span class="n">H</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Lag&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Autocorrelation&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Theoretical Autocorrelation Function&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Run the example</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">autocorrelation_analysis_example</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Autocorrelation analysis completed!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="theoretical-references">
+<h1>Theoretical References<a class="headerlink" href="#theoretical-references" title="Link to this heading"></a></h1>
+<ol class="arabic simple">
+<li><p>Beran, J. (1994). Statistics for Long-Memory Processes. Chapman &amp; Hall.</p></li>
+<li><p>Mandelbrot, B. B., &amp; Van Ness, J. W. (1968). Fractional Brownian motions, fractional noises and applications. SIAM Review, 10(4), 422-437.</p></li>
+<li><p>Peng, C. K., et al. (1994). Mosaic organization of DNA nucleotides. Physical Review E, 49(2), 1685.</p></li>
+<li><p>Geweke, J., &amp; Porter-Hudak, S. (1983). The estimation and application of long memory time series models. Journal of Time Series Analysis, 4(4), 221-238.</p></li>
+<li><p>Kantelhardt, J. W., et al. (2002). Multifractal detrended fluctuation analysis of nonstationary time series. Physica A, 316(1-4), 87-114.</p></li>
+<li><p>Abry, P., &amp; Veitch, D. (1998). Wavelet analysis of long-range-dependent traffic. IEEE Transactions on Information Theory, 44(1), 2-15.</p></li>
+</ol>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../api/analytics.html" class="btn btn-neutral float-left" title="Analytics API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="validation.html" class="btn btn-neutral float-right" title="Validation Techniques and Statistical Tests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Davian Chin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

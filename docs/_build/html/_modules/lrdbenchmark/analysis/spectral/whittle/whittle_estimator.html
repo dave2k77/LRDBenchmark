@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lrdbenchmark.analysis.spectral.whittle.whittle_estimator &mdash; LRDBenchmark 1.7.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="https://lrdbenchmark.readthedocs.io/_modules/lrdbenchmark/analysis/spectral/whittle/whittle_estimator.html"/>
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=030dc6f6"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            LRDBenchmark
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">Documentation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/data_models.html">Data Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/estimators.html">Estimators API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/benchmark.html">Benchmark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/analytics.html">Analytics API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html">Theoretical Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#statistical-estimators">Statistical Estimators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#validation-techniques">Validation Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#practical-examples">Practical Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/theory.html#theoretical-references">Theoretical References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html">Validation Techniques and Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#monte-carlo-validation">Monte Carlo Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#bootstrap-methods">Bootstrap Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#cross-validation">Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#robustness-analysis">Robustness Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#model-selection">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#quality-assurance">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#id4">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../research/validation.html#validation-references">Validation References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html">Comprehensive LRDBench Demonstration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#basic-data-generation-and-analysis">Basic Data Generation and Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#advanced-benchmarking">Advanced Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#machine-learning-and-neural-network-analysis">Machine Learning and Neural Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#analytics-and-monitoring">Analytics and Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#real-world-application-example">Real-World Application Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#integration-with-external-libraries">Integration with External Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#complete-workflow-example">Complete Workflow Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples/comprehensive_demo.html#summary">Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">LRDBenchmark</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lrdbenchmark.analysis.spectral.whittle.whittle_estimator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lrdbenchmark.analysis.spectral.whittle.whittle_estimator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Whittle-based Hurst parameter estimator with adaptive spectral approach.</span>
+
+<span class="sd">This module implements a robust Whittle-based estimator for the Hurst parameter</span>
+<span class="sd">using adaptive spectral methods with intelligent method selection.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">optimize</span>
+<span class="c1"># Import base estimator</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">models.estimators.base_estimator</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEstimator</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="c1"># Fallback if base estimator not available</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">BaseEstimator</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+
+<div class="viewcode-block" id="WhittleEstimator">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">WhittleEstimator</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Whittle-based Hurst parameter estimator with adaptive spectral approach.</span>
+
+<span class="sd">    This estimator uses adaptive spectral methods with intelligent method selection</span>
+<span class="sd">    to provide robust Hurst parameter estimation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    min_freq_ratio : float, optional (default=0.01)</span>
+<span class="sd">        Minimum frequency ratio (relative to Nyquist) for fitting.</span>
+<span class="sd">    max_freq_ratio : float, optional (default=0.1)</span>
+<span class="sd">        Maximum frequency ratio (relative to Nyquist) for fitting.</span>
+<span class="sd">    use_local_whittle : bool, optional (default=False)</span>
+<span class="sd">        Whether to attempt Local Whittle estimation as fallback.</span>
+<span class="sd">    use_welch : bool, optional (default=True)</span>
+<span class="sd">        Whether to use Welch&#39;s method for PSD estimation.</span>
+<span class="sd">    window : str, optional (default=&#39;hann&#39;)</span>
+<span class="sd">        Window function for Welch&#39;s method.</span>
+<span class="sd">    nperseg : int, optional (default=None)</span>
+<span class="sd">        Length of each segment for Welch&#39;s method. If None, uses adaptive selection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="WhittleEstimator.__init__">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">min_freq_ratio</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">max_freq_ratio</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">use_local_whittle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">use_welch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">window</span><span class="o">=</span><span class="s2">&quot;hann&quot;</span><span class="p">,</span>
+        <span class="n">nperseg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_freq_ratio</span> <span class="o">=</span> <span class="n">min_freq_ratio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_freq_ratio</span> <span class="o">=</span> <span class="n">max_freq_ratio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_local_whittle</span> <span class="o">=</span> <span class="n">use_local_whittle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_welch</span> <span class="o">=</span> <span class="n">use_welch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nperseg</span> <span class="o">=</span> <span class="n">nperseg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_parameters</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="WhittleEstimator._validate_parameters">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._validate_parameters">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate estimator parameters.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_freq_ratio</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_freq_ratio</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Frequency ratios must satisfy: 0 &lt; min_freq_ratio &lt; max_freq_ratio &lt; 0.5&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nperseg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">nperseg</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;nperseg must be at least 2&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WhittleEstimator.estimate">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator.estimate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate Hurst parameter using adaptive spectral approach with intelligent method selection.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : array-like</span>
+<span class="sd">            Time series data.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Dictionary containing estimation results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># Adaptive bandwidth selection based on data length and characteristics</span>
+        <span class="n">bandwidth_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_adaptive_bandwidth_selection</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        
+        <span class="c1"># Method 1: Traditional Spectral Approach with adaptive bandwidth</span>
+        <span class="n">hurst_spectral</span><span class="p">,</span> <span class="n">spectral_quality</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spectral_approach_adaptive</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bandwidth_info</span><span class="p">)</span>
+        
+        <span class="c1"># Method 2: Local Whittle (Research Paper) - kept for comparison if enabled</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_local_whittle</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">hurst_local_whittle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_whittle_approach</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">local_whittle_available</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">hurst_local_whittle</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># fallback</span>
+                <span class="n">local_whittle_available</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hurst_local_whittle</span> <span class="o">=</span> <span class="mf">0.5</span>
+            <span class="n">local_whittle_available</span> <span class="o">=</span> <span class="kc">False</span>
+        
+        <span class="c1"># Intelligent method selection based on quality metrics</span>
+        <span class="n">hurst</span><span class="p">,</span> <span class="n">method_used</span><span class="p">,</span> <span class="n">selection_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_best_method</span><span class="p">(</span>
+            <span class="n">hurst_spectral</span><span class="p">,</span> <span class="n">spectral_quality</span><span class="p">,</span> 
+            <span class="n">hurst_local_whittle</span><span class="p">,</span> <span class="n">local_whittle_available</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># Compute final results using the selected method</span>
+        <span class="k">if</span> <span class="n">method_used</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Spectral&quot;</span><span class="p">):</span>
+            <span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_spectral_data_adaptive</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bandwidth_info</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_local_whittle_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        
+        <span class="c1"># Compute R-squared and other metrics</span>
+        <span class="n">model_spectrum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fgn_spectrum</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">hurst</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+        <span class="n">log_model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">model_spectrum</span><span class="p">)</span>
+        <span class="n">log_periodogram</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+        
+        <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r_value</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">std_err</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span>
+            <span class="n">log_model</span><span class="p">,</span> <span class="n">log_periodogram</span>
+        <span class="p">)</span>
+        <span class="n">r_squared</span> <span class="o">=</span> <span class="n">r_value</span><span class="o">**</span><span class="mi">2</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;hurst_parameter&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">hurst</span><span class="p">),</span>
+            <span class="s2">&quot;d_parameter&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">hurst</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">),</span>  <span class="c1"># d = H - 0.5 for fGn</span>
+            <span class="s2">&quot;scale_parameter&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+            <span class="s2">&quot;r_squared&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">r_squared</span><span class="p">),</span>
+            <span class="s2">&quot;slope&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">slope</span><span class="p">),</span>
+            <span class="s2">&quot;intercept&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">intercept</span><span class="p">),</span>
+            <span class="s2">&quot;p_value&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">p_value</span><span class="p">),</span>
+            <span class="s2">&quot;std_error&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">std_err</span><span class="p">),</span>
+            <span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)),</span>
+            <span class="s2">&quot;log_model&quot;</span><span class="p">:</span> <span class="n">log_model</span><span class="p">,</span>
+            <span class="s2">&quot;log_periodogram&quot;</span><span class="p">:</span> <span class="n">log_periodogram</span><span class="p">,</span>
+            <span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span>
+            <span class="s2">&quot;periodogram&quot;</span><span class="p">:</span> <span class="n">S</span><span class="p">,</span>
+            <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="n">method_used</span><span class="p">,</span>
+            <span class="s2">&quot;selection_reason&quot;</span><span class="p">:</span> <span class="n">selection_reason</span><span class="p">,</span>
+            <span class="s2">&quot;spectral_estimate&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">hurst_spectral</span><span class="p">),</span>
+            <span class="s2">&quot;local_whittle_estimate&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">hurst_local_whittle</span><span class="p">)</span> <span class="k">if</span> <span class="n">local_whittle_available</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;bandwidth_info&quot;</span><span class="p">:</span> <span class="n">bandwidth_info</span><span class="p">,</span>
+            <span class="s2">&quot;spectral_quality&quot;</span><span class="p">:</span> <span class="n">spectral_quality</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="WhittleEstimator._adaptive_bandwidth_selection">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._adaptive_bandwidth_selection">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_adaptive_bandwidth_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adaptive bandwidth selection based on data characteristics.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Dictionary containing bandwidth parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        
+        <span class="c1"># Base bandwidth selection</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">:</span>
+            <span class="c1"># Small datasets: use wider bandwidth for stability</span>
+            <span class="n">min_freq</span> <span class="o">=</span> <span class="mf">0.02</span>
+            <span class="n">max_freq</span> <span class="o">=</span> <span class="mf">0.25</span>
+            <span class="n">nperseg</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2000</span><span class="p">:</span>
+            <span class="c1"># Medium datasets: balanced approach</span>
+            <span class="n">min_freq</span> <span class="o">=</span> <span class="mf">0.015</span>
+            <span class="n">max_freq</span> <span class="o">=</span> <span class="mf">0.22</span>
+            <span class="n">nperseg</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Large datasets: can use narrower bandwidth for precision</span>
+            <span class="n">min_freq</span> <span class="o">=</span> <span class="mf">0.01</span>
+            <span class="n">max_freq</span> <span class="o">=</span> <span class="mf">0.2</span>
+            <span class="n">nperseg</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+        
+        <span class="c1"># Adjust based on data variance (indicator of noise level)</span>
+        <span class="n">data_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_var</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>  <span class="c1"># High variance data</span>
+            <span class="n">min_freq</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">min_freq</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">)</span>  <span class="c1"># Avoid very low frequencies</span>
+            <span class="n">max_freq</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">max_freq</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">)</span>   <span class="c1"># Avoid very high frequencies</span>
+        
+        <span class="c1"># Ensure we have enough frequency points</span>
+        <span class="n">expected_freqs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">max_freq</span> <span class="o">-</span> <span class="n">min_freq</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">expected_freqs</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="c1"># Expand bandwidth if too few points</span>
+            <span class="n">min_freq</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">min_freq</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span>
+            <span class="n">max_freq</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">max_freq</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;min_freq&#39;</span><span class="p">:</span> <span class="n">min_freq</span><span class="p">,</span>
+            <span class="s1">&#39;max_freq&#39;</span><span class="p">:</span> <span class="n">max_freq</span><span class="p">,</span>
+            <span class="s1">&#39;nperseg&#39;</span><span class="p">:</span> <span class="n">nperseg</span><span class="p">,</span>
+            <span class="s1">&#39;data_length&#39;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span>
+            <span class="s1">&#39;data_variance&#39;</span><span class="p">:</span> <span class="n">data_var</span>
+        <span class="p">}</span></div>
+
+    
+<div class="viewcode-block" id="WhittleEstimator._spectral_approach_adaptive">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._spectral_approach_adaptive">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_spectral_approach_adaptive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">bandwidth_info</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adaptive spectral approach using periodogram and power law fitting.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        
+        <span class="c1"># Use adaptive bandwidth parameters</span>
+        <span class="n">min_freq</span> <span class="o">=</span> <span class="n">bandwidth_info</span><span class="p">[</span><span class="s1">&#39;min_freq&#39;</span><span class="p">]</span>
+        <span class="n">max_freq</span> <span class="o">=</span> <span class="n">bandwidth_info</span><span class="p">[</span><span class="s1">&#39;max_freq&#39;</span><span class="p">]</span>
+        <span class="n">nperseg</span> <span class="o">=</span> <span class="n">bandwidth_info</span><span class="p">[</span><span class="s1">&#39;nperseg&#39;</span><span class="p">]</span>
+        
+        <span class="c1"># Compute periodogram using Welch&#39;s method with adaptive parameters</span>
+        <span class="n">freqs</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">welch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="n">nperseg</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Select frequency range for fitting</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">freqs</span> <span class="o">&gt;=</span> <span class="n">min_freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">freqs</span> <span class="o">&lt;=</span> <span class="n">max_freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">psd</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">freqs_sel</span> <span class="o">=</span> <span class="n">freqs</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">psd_sel</span> <span class="o">=</span> <span class="n">psd</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">freqs_sel</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="c1"># Fallback to wider bandwidth if insufficient points</span>
+            <span class="n">min_freq</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">min_freq</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span>
+            <span class="n">max_freq</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">max_freq</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">freqs</span> <span class="o">&gt;=</span> <span class="n">min_freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">freqs</span> <span class="o">&lt;=</span> <span class="n">max_freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">psd</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">freqs_sel</span> <span class="o">=</span> <span class="n">freqs</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+            <span class="n">psd_sel</span> <span class="o">=</span> <span class="n">psd</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+            
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">freqs_sel</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Insufficient frequency points for spectral analysis&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Power law fit: PSD(f) ~ f^(-β) where β = 2H - 1</span>
+        <span class="n">log_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">freqs_sel</span><span class="p">)</span>
+        <span class="n">log_psd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">psd_sel</span><span class="p">)</span>
+        
+        <span class="c1"># Linear regression in log-log space</span>
+        <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r_value</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">std_err</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span><span class="n">log_f</span><span class="p">,</span> <span class="n">log_psd</span><span class="p">)</span>
+        
+        <span class="c1"># β = -slope (negative because PSD decreases with frequency)</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="o">-</span><span class="n">slope</span>
+        
+        <span class="c1"># H = (β + 1) / 2</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        
+        <span class="c1"># Ensure H is within reasonable bounds</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+        
+        <span class="c1"># Quality assessment</span>
+        <span class="n">quality</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;r_squared&#39;</span><span class="p">:</span> <span class="n">r_value</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+            <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="n">p_value</span><span class="p">,</span>
+            <span class="s1">&#39;std_error&#39;</span><span class="p">:</span> <span class="n">std_err</span><span class="p">,</span>
+            <span class="s1">&#39;frequency_points&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">freqs_sel</span><span class="p">),</span>
+            <span class="s1">&#39;frequency_range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">freqs_sel</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">freqs_sel</span><span class="o">.</span><span class="n">max</span><span class="p">()],</span>
+            <span class="s1">&#39;slope&#39;</span><span class="p">:</span> <span class="n">slope</span><span class="p">,</span>
+            <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="n">beta</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">H</span><span class="p">,</span> <span class="n">quality</span></div>
+
+    
+<div class="viewcode-block" id="WhittleEstimator._select_best_method">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._select_best_method">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select_best_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hurst_spectral</span><span class="p">,</span> <span class="n">spectral_quality</span><span class="p">,</span> 
+                           <span class="n">hurst_local_whittle</span><span class="p">,</span> <span class="n">local_whittle_available</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intelligent method selection based on quality metrics.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Quality thresholds</span>
+        <span class="n">R2_THRESHOLD</span> <span class="o">=</span> <span class="mf">0.3</span>
+        <span class="n">P_VALUE_THRESHOLD</span> <span class="o">=</span> <span class="mf">0.05</span>
+        
+        <span class="c1"># Check if spectral method is reliable</span>
+        <span class="n">spectral_reliable</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">spectral_quality</span><span class="p">[</span><span class="s1">&#39;r_squared&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">R2_THRESHOLD</span> <span class="ow">and</span>
+            <span class="n">spectral_quality</span><span class="p">[</span><span class="s1">&#39;p_value&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">P_VALUE_THRESHOLD</span> <span class="ow">and</span>
+            <span class="mf">0.1</span> <span class="o">&lt;=</span> <span class="n">hurst_spectral</span> <span class="o">&lt;=</span> <span class="mf">0.9</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># Check if Local Whittle is available and reasonable</span>
+        <span class="n">local_whittle_reasonable</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">local_whittle_available</span> <span class="ow">and</span>
+            <span class="mf">0.1</span> <span class="o">&lt;=</span> <span class="n">hurst_local_whittle</span> <span class="o">&lt;=</span> <span class="mf">0.9</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># Decision logic</span>
+        <span class="k">if</span> <span class="n">spectral_reliable</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;Spectral Approach (Adaptive)&quot;</span>
+            <span class="n">reason</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;High quality spectral fit (R²=</span><span class="si">{</span><span class="n">spectral_quality</span><span class="p">[</span><span class="s1">&#39;r_squared&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">elif</span> <span class="n">local_whittle_reasonable</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;Local Whittle (Research Paper)&quot;</span>
+            <span class="n">reason</span> <span class="o">=</span> <span class="s2">&quot;Spectral method unreliable, Local Whittle reasonable&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Both methods have issues, use spectral with warning</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;Spectral Approach (Adaptive) - Fallback&quot;</span>
+            <span class="n">reason</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Both methods problematic, using spectral (R²=</span><span class="si">{</span><span class="n">spectral_quality</span><span class="p">[</span><span class="s1">&#39;r_squared&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)&quot;</span>
+        
+        <span class="c1"># Select the appropriate Hurst value</span>
+        <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Spectral&quot;</span><span class="p">):</span>
+            <span class="n">hurst</span> <span class="o">=</span> <span class="n">hurst_spectral</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hurst</span> <span class="o">=</span> <span class="n">hurst_local_whittle</span>
+        
+        <span class="k">return</span> <span class="n">hurst</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">reason</span></div>
+
+    
+<div class="viewcode-block" id="WhittleEstimator._get_spectral_data_adaptive">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._get_spectral_data_adaptive">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_spectral_data_adaptive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">bandwidth_info</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get spectral data using adaptive bandwidth.&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">freqs</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">welch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="n">bandwidth_info</span><span class="p">[</span><span class="s1">&#39;nperseg&#39;</span><span class="p">],</span> <span class="n">scaling</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+        <span class="n">min_freq</span><span class="p">,</span> <span class="n">max_freq</span> <span class="o">=</span> <span class="n">bandwidth_info</span><span class="p">[</span><span class="s1">&#39;min_freq&#39;</span><span class="p">],</span> <span class="n">bandwidth_info</span><span class="p">[</span><span class="s1">&#39;max_freq&#39;</span><span class="p">]</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">freqs</span> <span class="o">&gt;=</span> <span class="n">min_freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">freqs</span> <span class="o">&lt;=</span> <span class="n">max_freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">psd</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">freqs_sel</span> <span class="o">=</span> <span class="n">freqs</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">psd_sel</span> <span class="o">=</span> <span class="n">psd</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        
+        <span class="c1"># Estimate scale parameter</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">psd_sel</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">freqs_sel</span><span class="p">,</span> <span class="n">psd_sel</span><span class="p">,</span> <span class="n">scale</span></div>
+
+
+<div class="viewcode-block" id="WhittleEstimator._fgn_spectrum">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._fgn_spectrum">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fgn_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">hurst</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute fGn power spectrum.&quot;&quot;&quot;</span>
+        <span class="c1"># fGn spectrum: S(f) = scale * |2*sin(π*f)|^(2H-2)</span>
+        <span class="k">return</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">freqs</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">hurst</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WhittleEstimator._local_whittle_approach">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._local_whittle_approach">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_local_whittle_approach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Local Whittle approach based on research paper Algorithm 15.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># Step 1: Compute FFT of the time sequence (Algorithm 15, Line 3)</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        
+        <span class="c1"># Step 2: Calculate n = [N/2] (Algorithm 15, Line 4)</span>
+        <span class="n">n_freq</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+        
+        <span class="c1"># Step 3: Initialize frequency and periodogram vectors (Algorithm 15, Lines 5-6)</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_freq</span><span class="p">)</span>  <span class="c1"># for the frequencies</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_freq</span><span class="p">)</span>  <span class="c1"># for the periodogram</span>
+        
+        <span class="c1"># Step 4: Calculate frequencies and periodogram (Algorithm 15, Lines 7-10)</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_freq</span><span class="p">):</span>
+            <span class="c1"># T_idx = idx/N (Algorithm 15, Line 8)</span>
+            <span class="n">T</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">/</span> <span class="n">n</span>
+            
+            <span class="c1"># S_idx = |Y_{idx+1}|^2 (Algorithm 15, Line 9)</span>
+            <span class="n">S</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+        
+        <span class="c1"># Step 5: Filter out zero frequencies and use appropriate frequency range for Local Whittle</span>
+        <span class="n">min_freq</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># Minimum frequency ratio</span>
+        <span class="n">max_freq</span> <span class="o">=</span> <span class="mf">0.1</span>   <span class="c1"># Maximum frequency ratio</span>
+        
+        <span class="n">valid_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">T</span> <span class="o">&gt;=</span> <span class="n">min_freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">T</span> <span class="o">&lt;=</span> <span class="n">max_freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">S</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">valid_mask</span><span class="p">]</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">valid_mask</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Insufficient frequency points for Local Whittle estimation&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Step 6: Use Local Whittle solver (Algorithm 15, Line 11)</span>
+        <span class="n">hurst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_whittle_solver</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">hurst</span></div>
+
+    
+<div class="viewcode-block" id="WhittleEstimator._local_whittle_solver">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._local_whittle_solver">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_local_whittle_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Local Whittle solver based on Algorithm 15.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">objective_function</span><span class="p">(</span><span class="n">H</span><span class="p">):</span>
+            <span class="c1"># Local Whittle maximizes the log-likelihood, so we minimize the negative</span>
+            <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_compute_local_whittle_likelihood</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+        
+        <span class="c1"># Initial guess: H = 0.5 (random walk)</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+        
+        <span class="c1"># Optimize using L-BFGS-B with bounds</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span>
+            <span class="n">objective_function</span><span class="p">,</span>
+            <span class="n">x0</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">)],</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ftol&#39;</span><span class="p">:</span> <span class="mf">1e-8</span><span class="p">}</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Fallback to grid search if optimization fails</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid_search_local_whittle</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="WhittleEstimator._compute_local_whittle_likelihood">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._compute_local_whittle_likelihood">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_local_whittle_likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">H</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Local Whittle objective function ψ(H) based on Algorithm 16.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+        
+        <span class="c1"># Algorithm 16, Line 3: ψ(H) = ln((1/n) * Σ_{i=1}^{n} T_i^(2H-1) * S_i) - ((2H-1)/n) * Σ_{i=1}^{n} ln T_i</span>
+        
+        <span class="c1"># First term: ln((1/n) * Σ_{i=1}^{n} T_i^(2H-1) * S_i)</span>
+        <span class="n">first_term</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">T</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">H</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">S</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
+        <span class="n">first_term</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">first_term</span><span class="p">)</span>
+        
+        <span class="c1"># Second term: ((2H-1)/n) * Σ_{i=1}^{n} ln T_i</span>
+        <span class="n">second_term</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">H</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">T</span><span class="p">))</span> <span class="o">/</span> <span class="n">n</span>
+        
+        <span class="c1"># Return ψ(H) = first_term - second_term</span>
+        <span class="k">return</span> <span class="n">first_term</span> <span class="o">-</span> <span class="n">second_term</span></div>
+
+    
+<div class="viewcode-block" id="WhittleEstimator._grid_search_local_whittle">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._grid_search_local_whittle">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_grid_search_local_whittle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fallback grid search for Local Whittle estimation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">H_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="n">likelihood_values</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">H</span> <span class="ow">in</span> <span class="n">H_values</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">likelihood</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_local_whittle_likelihood</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+                <span class="n">likelihood_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">likelihood</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">likelihood_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        
+        <span class="c1"># Find H that maximizes likelihood (since we&#39;re returning positive values)</span>
+        <span class="n">best_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">likelihood_values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">H_values</span><span class="p">[</span><span class="n">best_idx</span><span class="p">]</span></div>
+
+    
+<div class="viewcode-block" id="WhittleEstimator._get_local_whittle_data">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator._get_local_whittle_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_local_whittle_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get Local Whittle data for the chosen method.&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">n_freq</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">idx</span> <span class="o">/</span> <span class="n">n</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_freq</span><span class="p">)])</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_freq</span><span class="p">)])</span>
+        
+        <span class="n">min_freq</span><span class="p">,</span> <span class="n">max_freq</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span>
+        <span class="n">valid_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">T</span> <span class="o">&gt;=</span> <span class="n">min_freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">T</span> <span class="o">&lt;=</span> <span class="n">max_freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">S</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">valid_mask</span><span class="p">]</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">valid_mask</span><span class="p">]</span>
+        
+        <span class="c1"># Estimate scale parameter</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">T</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">scale</span></div>
+
+
+<div class="viewcode-block" id="WhittleEstimator.plot_scaling">
+<a class="viewcode-back" href="../../../../../api/estimators.html#lrdbenchmark.analysis.spectral.whittle.whittle_estimator.WhittleEstimator.plot_scaling">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the scaling relationship and PSD.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No results available. Run estimate() first.&quot;</span><span class="p">)</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+        <span class="c1"># Plot 1: Log-log scaling relationship</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;log_model&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;log_periodogram&quot;</span><span class="p">],</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Data points&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Fit line</span>
+        <span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;log_model&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;log_model&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+            <span class="mi">100</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">y_fit</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_range</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_fit</span><span class="p">,</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Fit (R² = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;r_squared&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Log Model Spectrum&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Log Periodogram&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Scaling Relationship&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="c1"># Plot 2: Power Spectral Density</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;frequency&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;periodogram&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;b-&quot;</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Periodogram&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Model spectrum</span>
+        <span class="n">model_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;frequency&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;frequency&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span>
+            <span class="mi">100</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">model_psd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fgn_spectrum</span><span class="p">(</span>
+            <span class="n">model_freq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;hurst_parameter&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;scale_parameter&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">model_freq</span><span class="p">,</span> <span class="n">model_psd</span><span class="p">,</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;fGn Model&quot;</span><span class="p">)</span>
+
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Power Spectral Density&quot;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Power Spectral Density (H = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;hurst_parameter&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">save_path</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Davian Chin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

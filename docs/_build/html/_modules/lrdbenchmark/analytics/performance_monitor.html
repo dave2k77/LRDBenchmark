@@ -1,0 +1,577 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lrdbenchmark.analytics.performance_monitor &mdash; LRDBenchmark 1.7.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="https://lrdbenchmark.readthedocs.io/_modules/lrdbenchmark/analytics/performance_monitor.html"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            LRDBenchmark
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">Documentation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/data_models.html">Data Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/estimators.html">Estimators API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/benchmark.html">Benchmark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/analytics.html">Analytics API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html">Theoretical Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#statistical-estimators">Statistical Estimators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#validation-techniques">Validation Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#practical-examples">Practical Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#theoretical-references">Theoretical References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html">Validation Techniques and Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#monte-carlo-validation">Monte Carlo Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#bootstrap-methods">Bootstrap Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#cross-validation">Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#robustness-analysis">Robustness Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#model-selection">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#quality-assurance">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#id4">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#validation-references">Validation References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html">Comprehensive LRDBench Demonstration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#basic-data-generation-and-analysis">Basic Data Generation and Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#advanced-benchmarking">Advanced Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#machine-learning-and-neural-network-analysis">Machine Learning and Neural Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#analytics-and-monitoring">Analytics and Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#real-world-application-example">Real-World Application Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#integration-with-external-libraries">Integration with External Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#complete-workflow-example">Complete Workflow Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#summary">Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LRDBenchmark</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lrdbenchmark.analytics.performance_monitor</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lrdbenchmark.analytics.performance_monitor</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Performance Monitor for LRDBench</span>
+
+<span class="sd">Monitors and analyzes performance metrics including:</span>
+<span class="sd">- Execution time tracking</span>
+<span class="sd">- Memory usage monitoring</span>
+<span class="sd">- Performance trends over time</span>
+<span class="sd">- Bottleneck identification</span>
+<span class="sd">- Resource utilization</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">psutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">asdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="PerformanceMetrics">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMetrics">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PerformanceMetrics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Performance metrics for a single execution&quot;&quot;&quot;</span>
+
+    <span class="n">timestamp</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">estimator_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">execution_time</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">memory_before</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">memory_after</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">memory_peak</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">cpu_percent</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">data_length</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="PerformanceSummary">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceSummary">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PerformanceSummary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated performance statistics&quot;&quot;&quot;</span>
+
+    <span class="n">total_executions</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">avg_execution_time</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">std_execution_time</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">min_execution_time</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">max_execution_time</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">avg_memory_usage</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">memory_efficiency</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">performance_trend</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># &quot;improving&quot;, &quot;stable&quot;, &quot;degrading&quot;</span>
+    <span class="n">bottleneck_estimators</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="PerformanceMonitor">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PerformanceMonitor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive performance monitoring system</span>
+
+<span class="sd">    Features:</span>
+<span class="sd">    - Real-time performance tracking</span>
+<span class="sd">    - Memory usage monitoring</span>
+<span class="sd">    - CPU utilization tracking</span>
+<span class="sd">    - Performance trend analysis</span>
+<span class="sd">    - Bottleneck identification</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PerformanceMonitor.__init__">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;~/.lrdbench/analytics&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the performance monitor&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">storage_path</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PerformanceMetrics</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">Process</span><span class="p">()</span>
+
+        <span class="c1"># Load existing data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_existing_data</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PerformanceMonitor._load_existing_data">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor._load_existing_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_existing_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load existing performance data&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">metrics_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span> <span class="o">/</span> <span class="s2">&quot;performance_metrics.json&quot;</span>
+            <span class="k">if</span> <span class="n">metrics_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metrics_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">metric_data</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                        <span class="n">metric</span> <span class="o">=</span> <span class="n">PerformanceMetrics</span><span class="p">(</span><span class="o">**</span><span class="n">metric_data</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metric</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Could not load existing performance data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PerformanceMonitor.start_monitoring">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor.start_monitoring">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start_monitoring</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">estimator_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start monitoring a new execution</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            estimator_name: Name of the estimator</span>
+<span class="sd">            data_length: Length of input data</span>
+<span class="sd">            parameters: Estimator parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Monitoring session ID</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">session_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">estimator_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="c1"># Record initial state</span>
+        <span class="n">memory_before</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">memory_info</span><span class="p">()</span><span class="o">.</span><span class="n">rss</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span>  <span class="c1"># MB</span>
+
+        <span class="c1"># Store session info</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_session_info</span><span class="p">[</span><span class="n">session_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;estimator_name&quot;</span><span class="p">:</span> <span class="n">estimator_name</span><span class="p">,</span>
+                <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+                <span class="s2">&quot;memory_before&quot;</span><span class="p">:</span> <span class="n">memory_before</span><span class="p">,</span>
+                <span class="s2">&quot;data_length&quot;</span><span class="p">:</span> <span class="n">data_length</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">session_id</span></div>
+
+
+<div class="viewcode-block" id="PerformanceMonitor.stop_monitoring">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor.stop_monitoring">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop_monitoring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stop monitoring and record metrics</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            session_id: Monitoring session ID</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">session_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session_info</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session_info</span><span class="p">[</span><span class="n">session_id</span><span class="p">]</span>
+        <span class="n">execution_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">session</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Record final state</span>
+        <span class="n">memory_after</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">memory_info</span><span class="p">()</span><span class="o">.</span><span class="n">rss</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span>  <span class="c1"># MB</span>
+        <span class="n">memory_peak</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">memory_info</span><span class="p">()</span><span class="o">.</span><span class="n">peak_wset</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span>  <span class="c1"># MB</span>
+        <span class="n">cpu_percent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">cpu_percent</span><span class="p">()</span>
+
+        <span class="c1"># Create metrics</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="n">PerformanceMetrics</span><span class="p">(</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="n">estimator_name</span><span class="o">=</span><span class="n">session</span><span class="p">[</span><span class="s2">&quot;estimator_name&quot;</span><span class="p">],</span>
+            <span class="n">execution_time</span><span class="o">=</span><span class="n">execution_time</span><span class="p">,</span>
+            <span class="n">memory_before</span><span class="o">=</span><span class="n">session</span><span class="p">[</span><span class="s2">&quot;memory_before&quot;</span><span class="p">],</span>
+            <span class="n">memory_after</span><span class="o">=</span><span class="n">memory_after</span><span class="p">,</span>
+            <span class="n">memory_peak</span><span class="o">=</span><span class="n">memory_peak</span><span class="p">,</span>
+            <span class="n">cpu_percent</span><span class="o">=</span><span class="n">cpu_percent</span><span class="p">,</span>
+            <span class="n">data_length</span><span class="o">=</span><span class="n">session</span><span class="p">[</span><span class="s2">&quot;data_length&quot;</span><span class="p">],</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">session</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Store metrics</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+
+        <span class="c1"># Clean up session</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session_info</span><span class="p">[</span><span class="n">session_id</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PerformanceMonitor.get_performance_summary">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor.get_performance_summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_performance_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PerformanceSummary</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get performance summary for the specified time period</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            days: Number of days to analyze</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PerformanceSummary object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">recent_metrics</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">m</span>
+                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span>
+                <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recent_metrics</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">PerformanceSummary</span><span class="p">(</span>
+                <span class="n">total_executions</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">avg_execution_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">std_execution_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">min_execution_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">max_execution_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">avg_memory_usage</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">memory_efficiency</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">performance_trend</span><span class="o">=</span><span class="s2">&quot;stable&quot;</span><span class="p">,</span>
+                <span class="n">bottleneck_estimators</span><span class="o">=</span><span class="p">[],</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Calculate statistics</span>
+        <span class="n">execution_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">execution_time</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">recent_metrics</span><span class="p">]</span>
+        <span class="n">memory_usage</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">memory_after</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">memory_before</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">recent_metrics</span><span class="p">]</span>
+
+        <span class="n">avg_execution_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">execution_times</span><span class="p">)</span>
+        <span class="n">std_execution_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">execution_times</span><span class="p">)</span>
+        <span class="n">min_execution_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">execution_times</span><span class="p">)</span>
+        <span class="n">max_execution_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">execution_times</span><span class="p">)</span>
+
+        <span class="n">avg_memory_usage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">memory_usage</span><span class="p">)</span>
+        <span class="n">memory_efficiency</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">avg_memory_usage</span> <span class="o">/</span> <span class="n">avg_execution_time</span> <span class="k">if</span> <span class="n">avg_execution_time</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Determine performance trend</span>
+        <span class="n">performance_trend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_performance_trend</span><span class="p">(</span><span class="n">recent_metrics</span><span class="p">)</span>
+
+        <span class="c1"># Identify bottlenecks</span>
+        <span class="n">bottleneck_estimators</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_identify_bottlenecks</span><span class="p">(</span><span class="n">recent_metrics</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">PerformanceSummary</span><span class="p">(</span>
+            <span class="n">total_executions</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">recent_metrics</span><span class="p">),</span>
+            <span class="n">avg_execution_time</span><span class="o">=</span><span class="n">avg_execution_time</span><span class="p">,</span>
+            <span class="n">std_execution_time</span><span class="o">=</span><span class="n">std_execution_time</span><span class="p">,</span>
+            <span class="n">min_execution_time</span><span class="o">=</span><span class="n">min_execution_time</span><span class="p">,</span>
+            <span class="n">max_execution_time</span><span class="o">=</span><span class="n">max_execution_time</span><span class="p">,</span>
+            <span class="n">avg_memory_usage</span><span class="o">=</span><span class="n">avg_memory_usage</span><span class="p">,</span>
+            <span class="n">memory_efficiency</span><span class="o">=</span><span class="n">memory_efficiency</span><span class="p">,</span>
+            <span class="n">performance_trend</span><span class="o">=</span><span class="n">performance_trend</span><span class="p">,</span>
+            <span class="n">bottleneck_estimators</span><span class="o">=</span><span class="n">bottleneck_estimators</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PerformanceMonitor._analyze_performance_trend">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor._analyze_performance_trend">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_performance_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PerformanceMetrics</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze performance trend over time&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;stable&quot;</span>
+
+        <span class="c1"># Sort by timestamp</span>
+        <span class="n">sorted_metrics</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
+
+        <span class="c1"># Split into early and late periods</span>
+        <span class="n">mid_point</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_metrics</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">early_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">execution_time</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">sorted_metrics</span><span class="p">[:</span><span class="n">mid_point</span><span class="p">]]</span>
+        <span class="n">late_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">execution_time</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">sorted_metrics</span><span class="p">[</span><span class="n">mid_point</span><span class="p">:]]</span>
+
+        <span class="n">early_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">early_times</span><span class="p">)</span>
+        <span class="n">late_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">late_times</span><span class="p">)</span>
+
+        <span class="c1"># Calculate trend</span>
+        <span class="k">if</span> <span class="n">late_avg</span> <span class="o">&lt;</span> <span class="n">early_avg</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">:</span>  <span class="c1"># 10% improvement</span>
+            <span class="k">return</span> <span class="s2">&quot;improving&quot;</span>
+        <span class="k">elif</span> <span class="n">late_avg</span> <span class="o">&gt;</span> <span class="n">early_avg</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">:</span>  <span class="c1"># 10% degradation</span>
+            <span class="k">return</span> <span class="s2">&quot;degrading&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;stable&quot;</span></div>
+
+
+<div class="viewcode-block" id="PerformanceMonitor._identify_bottlenecks">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor._identify_bottlenecks">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_identify_bottlenecks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PerformanceMetrics</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Identify estimators with performance bottlenecks&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">metrics</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="c1"># Group by estimator</span>
+        <span class="n">estimator_metrics</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">metric</span><span class="o">.</span><span class="n">estimator_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">estimator_metrics</span><span class="p">:</span>
+                <span class="n">estimator_metrics</span><span class="p">[</span><span class="n">metric</span><span class="o">.</span><span class="n">estimator_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">estimator_metrics</span><span class="p">[</span><span class="n">metric</span><span class="o">.</span><span class="n">estimator_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metric</span><span class="p">)</span>
+
+        <span class="c1"># Calculate average execution time for each estimator</span>
+        <span class="n">estimator_avg_times</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">est_metrics</span> <span class="ow">in</span> <span class="n">estimator_metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">avg_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">m</span><span class="o">.</span><span class="n">execution_time</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">est_metrics</span><span class="p">])</span>
+            <span class="n">estimator_avg_times</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">avg_time</span>
+
+        <span class="c1"># Find estimators above 75th percentile</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">estimator_avg_times</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="n">times</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">estimator_avg_times</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="mi">75</span><span class="p">)</span>
+
+        <span class="n">bottlenecks</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">name</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">avg_time</span> <span class="ow">in</span> <span class="n">estimator_avg_times</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">avg_time</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+        <span class="p">]</span>
+
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">bottlenecks</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">estimator_avg_times</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PerformanceMonitor.get_estimator_performance">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor.get_estimator_performance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_estimator_performance</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">estimator_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get performance metrics for a specific estimator&quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">estimator_metrics</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">m</span>
+                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span>
+                <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">estimator_name</span> <span class="o">==</span> <span class="n">estimator_name</span>
+                <span class="ow">and</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">estimator_metrics</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="n">execution_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">execution_time</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">estimator_metrics</span><span class="p">]</span>
+        <span class="n">memory_usage</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">memory_after</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">memory_before</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">estimator_metrics</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;avg_execution_time&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">execution_times</span><span class="p">),</span>
+            <span class="s2">&quot;std_execution_time&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">execution_times</span><span class="p">),</span>
+            <span class="s2">&quot;min_execution_time&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">execution_times</span><span class="p">),</span>
+            <span class="s2">&quot;max_execution_time&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">execution_times</span><span class="p">),</span>
+            <span class="s2">&quot;avg_memory_usage&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">memory_usage</span><span class="p">),</span>
+            <span class="s2">&quot;total_executions&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">estimator_metrics</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="PerformanceMonitor.export_metrics">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor.export_metrics">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export performance metrics to file&quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">recent_metrics</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">m</span>
+                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span>
+                <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="n">metrics_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">asdict</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">recent_metrics</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">metrics_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PerformanceMonitor.get_memory_trends">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.performance_monitor.PerformanceMonitor.get_memory_trends">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_memory_trends</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get memory usage trends over time&quot;&quot;&quot;</span>
+        <span class="n">cutoff_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">recent_metrics</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">m</span>
+                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span>
+                <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff_time</span>
+            <span class="p">]</span>
+
+        <span class="c1"># Group by day</span>
+        <span class="n">daily_memory</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">recent_metrics</span><span class="p">:</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">timestamp</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>  <span class="c1"># YYYY-MM-DD</span>
+            <span class="k">if</span> <span class="n">date</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">daily_memory</span><span class="p">:</span>
+                <span class="n">daily_memory</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">daily_memory</span><span class="p">[</span><span class="n">date</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metric</span><span class="o">.</span><span class="n">memory_peak</span><span class="p">)</span>
+
+        <span class="c1"># Calculate daily averages</span>
+        <span class="n">trends</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">date</span><span class="p">,</span> <span class="n">memory_values</span> <span class="ow">in</span> <span class="n">daily_memory</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">trends</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">memory_values</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">trends</span></div>
+</div>
+
+
+
+<span class="c1"># Global performance monitor instance</span>
+<span class="n">_global_monitor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PerformanceMonitor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_performance_monitor</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PerformanceMonitor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the global performance monitor instance&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_global_monitor</span>
+    <span class="k">if</span> <span class="n">_global_monitor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_global_monitor</span> <span class="o">=</span> <span class="n">PerformanceMonitor</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">_global_monitor</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">monitor_performance</span><span class="p">(</span><span class="n">estimator_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator for monitoring estimator performance&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">monitor</span> <span class="o">=</span> <span class="n">get_performance_monitor</span><span class="p">()</span>
+
+            <span class="c1"># Start monitoring</span>
+            <span class="n">session_id</span> <span class="o">=</span> <span class="n">monitor</span><span class="o">.</span><span class="n">start_monitoring</span><span class="p">(</span>
+                <span class="n">estimator_name</span><span class="o">=</span><span class="n">estimator_name</span><span class="p">,</span>
+                <span class="n">data_length</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">args</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+            <span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="c1"># Stop monitoring</span>
+                <span class="n">monitor</span><span class="o">.</span><span class="n">stop_monitoring</span><span class="p">(</span><span class="n">session_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Davian Chin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

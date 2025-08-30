@@ -1,5 +1,5 @@
 Validation Techniques and Statistical Tests
-==========================================
+===========================================
 
 This document provides comprehensive coverage of the validation techniques, statistical tests, and quality assurance methods used in LRDBench.
 
@@ -7,7 +7,7 @@ Monte Carlo Validation
 =====================
 
 Overview
---------
+---------
 
 Monte Carlo validation is the primary method for assessing estimator performance on synthetic data with known parameters. This approach allows for controlled evaluation of estimator bias, variance, and overall accuracy.
 
@@ -81,12 +81,12 @@ Bootstrap Methods
 ================
 
 Overview
---------
+---------
 
 Bootstrap methods provide non-parametric approaches to estimate confidence intervals, standard errors, and bias correction for estimators.
 
 Types of Bootstrap
------------------
+------------------
 
 **1. Non-Parametric Bootstrap**:
 
@@ -143,7 +143,7 @@ Preserve temporal dependence by resampling blocks:
        return ci_lower, ci_upper, bootstrap_estimates
 
 Cross-Validation
-===============
+================
 
 Overview
 --------
@@ -151,7 +151,7 @@ Overview
 Cross-validation is essential for machine learning estimators to prevent overfitting and assess generalization performance.
 
 K-Fold Cross-Validation
-----------------------
+-----------------------
 
 **Algorithm**:
 
@@ -198,7 +198,7 @@ where :math:`f^{-k}` is the estimator trained on all folds except fold k.
        return np.mean(cv_scores), np.std(cv_scores)
 
 Time Series Cross-Validation
----------------------------
+----------------------------
 
 For time series data, standard k-fold CV can lead to data leakage. Time series CV uses expanding windows:
 
@@ -229,7 +229,7 @@ For time series data, standard k-fold CV can lead to data leakage. Time series C
        return np.mean(cv_scores), np.std(cv_scores)
 
 Robustness Analysis
-==================
+===================
 
 Overview
 --------
@@ -237,7 +237,7 @@ Overview
 Robustness analysis assesses estimator performance under various data conditions, including contamination, noise, and model misspecification.
 
 Contamination Models
--------------------
+--------------------
 
 **1. Additive Noise**:
 
@@ -289,7 +289,7 @@ Contamination Models
        return results
 
 Breakdown Point Analysis
------------------------
+------------------------
 
 The breakdown point is the smallest fraction of contaminated data that can cause the estimator to produce arbitrarily bad results.
 
@@ -328,10 +328,10 @@ The breakdown point is the smallest fraction of contaminated data that can cause
        return breakdown_point
 
 Statistical Tests
-================
+=================
 
 Hypothesis Testing
------------------
+------------------
 
 **1. Test for Long-Range Dependence**:
 
@@ -391,7 +391,7 @@ Test statistic:
        }
 
 Goodness-of-Fit Tests
---------------------
+---------------------
 
 **1. Kolmogorov-Smirnov Test**:
 
@@ -455,10 +455,10 @@ Tests fit of observed frequencies to expected frequencies.
        return results
 
 Model Selection
-==============
+===============
 
 Information Criteria
--------------------
+--------------------
 
 **1. Akaike Information Criterion (AIC)**:
 
@@ -513,10 +513,10 @@ where n is the sample size.
        return results
 
 Performance Metrics
-==================
+===================
 
 Accuracy Metrics
----------------
+----------------
 
 **1. Mean Absolute Error (MAE)**:
 
@@ -543,7 +543,7 @@ Accuracy Metrics
    SMAPE = \frac{100\%}{n} \sum_{i=1}^n \frac{2|\hat{H}_i - H_i|}{|\hat{H}_i| + |H_i|}
 
 Precision Metrics
-----------------
+-----------------
 
 **1. Standard Error**:
 
@@ -708,7 +708,7 @@ Ratio of estimator variance to Cramér-Rao lower bound.
        print("Efficiency analysis completed!")
 
 Quality Assurance
-================
+=================
 
 Data Quality Checks
 ------------------
@@ -1046,7 +1046,7 @@ Comprehensive Validation Workflow
        return results
 
 Quality Assurance
-================
+=================
 
 Data Quality Checks
 ------------------
@@ -1161,7 +1161,7 @@ Estimator Validation
        return validation_results
 
 Validation References
-====================
+=====================
 
 1. Beran, J. (1994). Statistics for Long-Memory Processes. Chapman & Hall.
 2. Efron, B., & Tibshirani, R. J. (1994). An Introduction to the Bootstrap. CRC Press.

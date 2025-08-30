@@ -5,19 +5,17 @@ This module provides various temporal estimators for analyzing long-range depend
 in time series data.
 """
 
-# Auto-optimized estimators (working ones)
-from lrdbench.analysis.auto_optimized_estimator import AutoRSEstimator as RSEstimator
-from lrdbench.analysis.auto_optimized_estimator import AutoDMAEstimator as DMAEstimator
-from lrdbench.analysis.auto_optimized_estimator import AutoHiguchiEstimator as HiguchiEstimator
-
-# Standard DFA (NUMBA version has issues)
-from lrdbench.analysis.temporal.dfa.dfa_estimator import DFAEstimator
-
 # Import individual modules for direct access
 from .rs import rs_estimator
 from .dma import dma_estimator
 from .dfa import dfa_estimator
 from .higuchi import higuchi_estimator
+
+# Import unified estimators
+from .rs.rs_estimator import RSEstimator
+from .dma.dma_estimator import DMAEstimator
+from .dfa.dfa_estimator import DFAEstimator
+from .higuchi.higuchi_estimator import HiguchiEstimator
 
 __all__ = [
     "RSEstimator",

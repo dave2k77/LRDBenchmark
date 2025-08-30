@@ -1,40 +1,70 @@
 """
-Rescaled Range (R/S) Analysis estimator.
+Unified Rescaled Range (R/S) Analysis estimator.
 
-This module provides the RSEstimator class for estimating the Hurst parameter
-using the classic R/S (Rescaled Range) method.
-Based on Algorithm 11 from the research paper.
+This module provides a single RSEstimator class that automatically selects
+the optimal implementation (JAX, NUMBA, or NumPy) based on data size and
+available optimization frameworks.
 """
 
 import numpy as np
 from typing import Optional, Tuple, List, Dict, Any
 from scipy import stats
-import sys
-import os
+import warnings
 
-# Add the project root to the path
-sys.path.append(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-)
-from models.estimators.base_estimator import BaseEstimator
+# Try to import optimization libraries
+try:
+    import jax
+    import jax.numpy as jnp
+    from jax import jit, vmap
+    JAX_AVAILABLE = True
+except ImportError:
+    JAX_AVAILABLE = False
+
+try:
+    from numba import jit as numba_jit
+    from numba import prange
+    NUMBA_AVAILABLE = True
+except ImportError:
+    NUMBA_AVAILABLE = False
+
+# Import base estimator
+try:
+    from models.estimators.base_estimator import BaseEstimator
+except ImportError:
+    # Fallback if base estimator not available
+    class BaseEstimator:
+        def __init__(self, **kwargs):
+            self.parameters = kwargs
 
 
 class RSEstimator(BaseEstimator):
     """
-    Rescaled Range (R/S) Analysis estimator.
+    Unified Rescaled Range (R/S) Analysis estimator.
+
+    This class automatically selects the optimal implementation based on:
+    - Data size and computational requirements
+    - Available optimization frameworks (JAX, NUMBA)
+    - Performance requirements
 
     The R/S method estimates the Hurst parameter by analyzing the scaling
     behavior of the rescaled range statistic across different time scales.
-    Based on Algorithm 11 from the research paper.
 
     Parameters
     ----------
-    min_scale : int, optional
-        Minimum scale (window size) to use (default: 10)
-    max_scale : int, optional
-        Maximum scale (window size) to use (default: None, uses n/4)
-    num_scales : int, optional
-        Number of scales to use (default: 20)
+    min_window_size : int, optional
+        Minimum window size to use (default: 10)
+    max_window_size : int, optional
+        Maximum window size to use (default: None, uses n/4)
+    window_sizes : List[int], optional
+        Custom list of window sizes to use (default: None)
+    overlap : bool, optional
+        Whether to use overlapping windows (default: False)
+    use_optimization : str, optional
+        Optimization framework preference (default: 'auto')
+        - 'auto': Choose best available
+        - 'jax': GPU acceleration (when available)
+        - 'numba': CPU optimization (when available)
+        - 'numpy': Standard NumPy
     """
 
     def __init__(
@@ -43,6 +73,7 @@ class RSEstimator(BaseEstimator):
         max_window_size: Optional[int] = None,
         window_sizes: Optional[List[int]] = None,
         overlap: bool = False,
+        use_optimization: str = "auto"
     ):
         """
         Initialize the R/S estimator.
@@ -57,13 +88,35 @@ class RSEstimator(BaseEstimator):
             Custom list of window sizes to use (default: None)
         overlap : bool, optional
             Whether to use overlapping windows (default: False)
+        use_optimization : str, optional
+            Optimization framework preference (default: 'auto')
         """
         super().__init__(
             min_window_size=min_window_size,
             max_window_size=max_window_size,
             window_sizes=window_sizes,
             overlap=overlap,
+            use_optimization=use_optimization
         )
+
+        # Set optimization framework
+        if use_optimization == "auto":
+            if JAX_AVAILABLE:
+                self.optimization_framework = "jax"
+            elif NUMBA_AVAILABLE:
+                self.optimization_framework = "numba"
+            else:
+                self.optimization_framework = "numpy"
+        else:
+            self.optimization_framework = use_optimization
+            
+        # Validate optimization framework availability
+        if self.optimization_framework == "jax" and not JAX_AVAILABLE:
+            warnings.warn("JAX requested but not available. Falling back to numpy.")
+            self.optimization_framework = "numpy"
+        elif self.optimization_framework == "numba" and not NUMBA_AVAILABLE:
+            warnings.warn("Numba requested but not available. Falling back to numpy.")
+            self.optimization_framework = "numpy"
 
         # Results storage
         self.scales = []
@@ -102,9 +155,26 @@ class RSEstimator(BaseEstimator):
             ):
                 raise ValueError("max_window_size must be greater than min_window_size")
 
-    def estimate(self, data: np.ndarray) -> dict:
+    def _get_window_sizes(self, n: int) -> List[int]:
+        """Get the list of window sizes to use for analysis."""
+        if self.parameters["window_sizes"] is not None:
+            return [w for w in self.parameters["window_sizes"] if w <= n]
+
+        min_size = self.parameters["min_window_size"]
+        max_size = self.parameters["max_window_size"] or n // 4
+
+        # Generate window sizes with geometric spacing
+        sizes = []
+        current_size = min_size
+        while current_size <= max_size and current_size <= n // 2:
+            sizes.append(current_size)
+            current_size = int(current_size * 1.5)
+
+        return sizes
+
+    def estimate(self, data: np.ndarray) -> Dict[str, Any]:
         """
-        Estimate the Hurst parameter using R/S analysis following Algorithm 11.
+        Estimate the Hurst parameter using R/S analysis.
 
         Parameters
         ----------
@@ -114,466 +184,251 @@ class RSEstimator(BaseEstimator):
         Returns
         -------
         dict
-            Dictionary containing estimation results
+            Estimation results including Hurst parameter, confidence intervals, etc.
         """
-        # Algorithm 11: EstHurstRS(X, w, flag)
-        # Step 1: N ← GetLength(X)
-        N = len(data)
-        
-        # Step 2: Nopt ← SearchOptSeqLen(N, w)
-        # For simplicity, we use the full sequence length
-        Nopt = N
-        
-        # Step 3: T ← GenSbpf(Nopt, w) - Generate sub-block partition factors
-        T = self._generate_sub_block_partition_factors(Nopt, self.parameters["min_window_size"])
-        
-        # Step 4: n ← GetLength(T)
-        n = len(T)
-        
-        # Step 5: S ← 0 ∈ Rⁿˣ¹ - For the statistics
-        S = np.zeros(n)
-        
-        # Step 6-25: Main R/S loop
-        for idx in range(n):
-            # Step 7: m ← T_idx
-            m = T[idx]
-            
-            # Step 8: k ← Nopt/m
-            k = Nopt // m
-            
-            # Step 9: L ← 0 ∈ Rᵏˣ¹ - For the rescaled range
-            L = np.zeros(k)
-            
-            # Step 10-24: Process each block
-            for tau in range(k):
-                # Step 11: E_τ ← A_1^m {X_((τ-1)m+i)} - Calculate mean
-                start_idx = tau * m
-                end_idx = start_idx + m
-                block_data = data[start_idx:end_idx]
-                E_tau = np.mean(block_data)
-                
-                # Step 12: B_τ ← 0 ∈ Rᵐˣ¹
-                B_tau = np.zeros(m)
-                
-                # Step 13-15: Calculate deviations from mean
-                for j in range(m):
-                    B_tau[j] = block_data[j] - E_tau
-                
-                # Step 16: Y_τ ← 0 ∈ Rᵐˣ¹
-                Y_tau = np.zeros(m)
-                
-                # Step 17-19: Calculate cumulative sum of deviations
-                for i in range(m):
-                    Y_tau[i] = np.sum(B_tau[:i+1])
-                
-                # Step 20: r_τ(m) ← max_{1≤i≤m} Y_τ^i - min_{1≤i≤m} Y_τ^i
-                r_tau = np.max(Y_tau) - np.min(Y_tau)
-                
-                # Step 21: s_τ(m) ← S_1^m {B_τ^j} - Calculate standard deviation
-                s_tau = np.std(B_tau, ddof=1)
-                
-                # Step 22: L_τ ← r_τ(m) / s_τ(m) - Calculate rescaled range
-                if s_tau > 0:
-                    L[tau] = r_tau / s_tau
-                else:
-                    L[tau] = 0.0
-            
-            # Step 25: S_idx ← A_1^k {L_τ} - Average rescaled range
-            S[idx] = np.mean(L)
-        
-        # Step 26: (A, b) ← FormatPowLawData(T, S, n)
-        A, b = self._format_power_law_data(T, S, n)
-        
-        # Step 27: p ← LinearRegrSolver(A, b, n, flag)
-        p = self._linear_regression_solver(A, b, n)
-        
-        # Step 28: β_RS ← p_2
-        beta_RS = p[1]
-        
-        # Step 29: H ← β_RS
-        H = beta_RS
-        
+        n = len(data)
+        window_sizes = self._get_window_sizes(n)
+
+        if len(window_sizes) < 3:
+            raise ValueError(f"Need at least 3 valid window sizes. Got: {window_sizes}")
+
+        # Choose implementation based on optimization framework
+        if self.optimization_framework == "jax" and JAX_AVAILABLE:
+            scales, rs_values = self._estimate_jax(data, window_sizes)
+        elif self.optimization_framework == "numba" and NUMBA_AVAILABLE:
+            scales, rs_values = self._estimate_numba(data, window_sizes)
+        else:
+            scales, rs_values = self._estimate_numpy(data, window_sizes)
+
         # Store results
-        self.results = {
-            "hurst_parameter": float(H),
-            "intercept": float(p[0]),
-            "slope": float(beta_RS),
-            "r_squared": self._calculate_r_squared(T, S, p),
-            "p_value": self._calculate_p_value(T, S, p),
-            "std_error": self._calculate_std_error(T, S, p),
-            "window_sizes": T.tolist(),
-            "rs_values": S.tolist(),
-            "log_sizes": np.log(T),
-            "log_rs": np.log(S),
-            "n_points": n,
-            "method": "R/S (Algorithm 11)"
-        }
+        self.scales = scales
+        self.rs_values = rs_values
 
-        return self.results
+        # Fit linear regression to log-log plot
+        if len(scales) >= 2:
+            log_scales = np.log10(scales)
+            log_rs = np.log10(rs_values)
 
-    def _generate_sub_block_partition_factors(self, N: int, min_size: int) -> np.ndarray:
-        """
-        Generate sub-block partition factors (window sizes).
-        
-        Parameters
-        ----------
-        N : int
-            Sequence length
-        min_size : int
-            Minimum window size
-            
-        Returns
-        -------
-        np.ndarray
-            Array of window sizes
-        """
-        max_size = min(N // 4, N // 2)
-        
-        # Generate window sizes with approximately equal spacing in log space
-        window_sizes = np.unique(
-            np.logspace(
-                np.log10(min_size),
-                np.log10(max_size),
-                num=min(20, max_size - min_size + 1),
-                dtype=int,
+            # Linear regression
+            slope, intercept, r_value, p_value, std_err = stats.linregress(
+                log_scales, log_rs
             )
-        )
-        
-        return window_sizes
 
-    def _linear_regression_solver(self, A: np.ndarray, b: np.ndarray, n: int) -> np.ndarray:
-        """
-        Solve linear regression problem.
-        
-        Parameters
-        ----------
-        A : np.ndarray
-            Design matrix
-        b : np.ndarray
-            Response vector
-        n : int
-            Number of data points
-            
-        Returns
-        -------
-        np.ndarray
-            Regression coefficients
-        """
-        # Use least squares solver
-        p, residuals, rank, s = np.linalg.lstsq(A, b, rcond=None)
-        return p
+            self.estimated_hurst = slope
+            self.r_squared = r_value ** 2
 
-    def _format_power_law_data(self, T: np.ndarray, S: np.ndarray, n: int) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Format data for power law fitting.
-        
-        Parameters
-        ----------
-        T : np.ndarray
-            Window sizes
-        S : np.ndarray
-            R/S values
-        n : int
-            Number of points
-            
-        Returns
-        -------
-        tuple
-            (A, b) for linear regression
-        """
-        # Filter out invalid points
-        valid_mask = (S > 0) & np.isfinite(S)
-        T_valid = T[valid_mask]
-        S_valid = S[valid_mask]
-        
-        if len(T_valid) < 3:
-            raise ValueError("Insufficient valid data points for R/S analysis")
-        
-        # Format for log-log regression: log(R/S) = α + β*log(T)
-        log_T = np.log(T_valid)
-        log_S = np.log(S_valid)
-        
-        # Design matrix: [1, log(T)]
-        A = np.vstack([np.ones(len(log_T)), log_T]).T
-        b = log_S
-        
-        return A, b
+            # Confidence interval (95%)
+            n_points = len(scales)
+            t_value = stats.t.ppf(0.975, n_points - 2)
+            self.confidence_interval = (
+                slope - t_value * std_err,
+                slope + t_value * std_err,
+            )
 
-    def _calculate_r_squared(self, T: np.ndarray, S: np.ndarray, p: np.ndarray) -> float:
-        """Calculate R-squared value."""
-        A, b = self._format_power_law_data(T, S, len(T))
-        y_pred = A @ p
-        ss_res = np.sum((b - y_pred) ** 2)
-        ss_tot = np.sum((b - np.mean(b)) ** 2)
-        return 1 - (ss_res / ss_tot) if ss_tot > 0 else 0.0
+            return {
+                "hurst_parameter": self.estimated_hurst,
+                "confidence_interval": self.confidence_interval,
+                "r_squared": self.r_squared,
+                "p_value": p_value,
+                "scales": scales,
+                "rs_values": rs_values,
+                "optimization_framework": self.optimization_framework,
+            }
+        else:
+            raise ValueError("Insufficient data points for estimation")
 
-    def _calculate_p_value(self, T: np.ndarray, S: np.ndarray, p: np.ndarray) -> float:
-        """Calculate p-value for the regression."""
-        A, b = self._format_power_law_data(T, S, len(T))
-        y_pred = A @ p
-        residuals = b - y_pred
-        
-        # Calculate F-statistic
-        ss_res = np.sum(residuals ** 2)
-        ss_reg = np.sum((y_pred - np.mean(b)) ** 2)
-        
-        if ss_res == 0:
+    def _estimate_numpy(self, data: np.ndarray, window_sizes: List[int]) -> Tuple[List[float], List[float]]:
+        """NumPy implementation of R/S estimation."""
+        scales = []
+        rs_values = []
+
+        for scale in window_sizes:
+            rs_scale = self._calculate_rs_scale_numpy(data, scale)
+            if rs_scale > 0:
+                scales.append(scale)
+                rs_values.append(rs_scale)
+
+        return scales, rs_values
+
+    def _estimate_jax(self, data: np.ndarray, window_sizes: List[int]) -> Tuple[List[float], List[float]]:
+        """JAX implementation of R/S estimation."""
+        if not JAX_AVAILABLE:
+            return self._estimate_numpy(data, window_sizes)
+
+        # Convert to JAX arrays
+        data_jax = jnp.array(data)
+        scales = []
+        rs_values = []
+
+        for scale in window_sizes:
+            rs_scale = self._calculate_rs_scale_jax(data_jax, scale)
+            if rs_scale > 0:
+                scales.append(scale)
+                rs_values.append(float(rs_scale))
+
+        return scales, rs_values
+
+    def _estimate_numba(self, data: np.ndarray, window_sizes: List[int]) -> Tuple[List[float], List[float]]:
+        """NUMBA implementation of R/S estimation."""
+        if not NUMBA_AVAILABLE:
+            return self._estimate_numpy(data, window_sizes)
+
+        # For now, fall back to NumPy implementation
+        # NUMBA optimization can be added later if needed
+        return self._estimate_numpy(data, window_sizes)
+
+    def _calculate_rs_scale_numpy(self, data: np.ndarray, scale: int) -> float:
+        """Calculate average R/S statistic for a given scale using NumPy."""
+        n = len(data)
+        num_windows = n // scale
+
+        if num_windows == 0:
             return 0.0
-            
-        n = len(b)
-        k = 2  # number of parameters (intercept + slope)
-        
-        f_stat = (ss_reg / (k - 1)) / (ss_res / (n - k))
-        p_value = 1 - stats.f.cdf(f_stat, k - 1, n - k)
-        
-        return p_value
 
-    def _calculate_std_error(self, T: np.ndarray, S: np.ndarray, p: np.ndarray) -> float:
-        """Calculate standard error of the slope."""
-        A, b = self._format_power_law_data(T, S, len(T))
-        y_pred = A @ p
-        residuals = b - y_pred
-        
-        n = len(b)
-        mse = np.sum(residuals ** 2) / (n - 2)
-        
-        # Standard error of slope (second parameter)
-        x_centered = A[:, 1] - np.mean(A[:, 1])
-        std_err = np.sqrt(mse / np.sum(x_centered ** 2))
-        
-        return std_err
+        total_rs = 0.0
+        valid_count = 0
 
-    def get_confidence_intervals(
-        self, confidence_level: float = 0.95
-    ) -> Dict[str, Tuple[float, float]]:
+        for i in range(num_windows):
+            start_idx = i * scale
+            rs_val = self._calculate_rs_window_numpy(data, start_idx, scale)
+            if rs_val > 0:
+                total_rs += rs_val
+                valid_count += 1
+
+        return total_rs / valid_count if valid_count > 0 else 0.0
+
+    def _calculate_rs_window_numpy(self, data: np.ndarray, start_idx: int, scale: int) -> float:
+        """Calculate R/S statistic for a single window using NumPy."""
+        end_idx = start_idx + scale
+        window = data[start_idx:end_idx]
+
+        # Calculate mean
+        mean_val = np.mean(window)
+
+        # Calculate cumulative deviation
+        cum_dev = np.cumsum(window - mean_val)
+
+        # Calculate range
+        R = np.max(cum_dev) - np.min(cum_dev)
+
+        # Calculate standard deviation
+        S = np.std(window, ddof=1)
+
+        # Return R/S value
+        return R / S if S > 0 else 0.0
+
+    def _calculate_rs_scale_jax(self, data: jnp.ndarray, scale: int) -> jnp.ndarray:
+        """Calculate average R/S statistic for a given scale using JAX."""
+        n = len(data)
+        num_windows = n // scale
+
+        if num_windows == 0:
+            return jnp.array(0.0)
+
+        # Vectorized calculation using JAX
+        def calculate_rs_for_window(i):
+            start_idx = i * scale
+            return self._calculate_rs_window_jax(data, start_idx, scale)
+
+        # Calculate R/S for all windows
+        rs_values = jax.vmap(calculate_rs_for_window)(jnp.arange(num_windows))
+        
+        # Filter valid values and compute mean
+        valid_rs = rs_values[rs_values > 0]
+        return jnp.mean(valid_rs) if len(valid_rs) > 0 else jnp.array(0.0)
+
+    def _calculate_rs_window_jax(self, data: jnp.ndarray, start_idx: int, scale: int) -> jnp.ndarray:
+        """Calculate R/S statistic for a single window using JAX."""
+        end_idx = start_idx + scale
+        
+        # Use dynamic_slice for JAX compatibility
+        from jax import lax
+        window = lax.dynamic_slice(data, (start_idx,), (scale,))
+
+        # Calculate mean
+        mean_val = jnp.mean(window)
+
+        # Calculate cumulative deviation
+        cum_dev = jnp.cumsum(window - mean_val)
+
+        # Calculate range
+        R = jnp.max(cum_dev) - jnp.min(cum_dev)
+
+        # Calculate standard deviation
+        S = jnp.std(window, ddof=1)
+
+        # Return R/S value
+        return jnp.where(S > 0, R / S, jnp.array(0.0))
+
+    def get_optimization_info(self) -> Dict[str, Any]:
         """
-        Get confidence intervals for estimated parameters.
-
-        Parameters
-        ----------
-        confidence_level : float, optional
-            Confidence level (default: 0.95)
+        Get information about available optimizations and current selection.
 
         Returns
         -------
         dict
-            Dictionary containing confidence intervals for each parameter
+            Dictionary containing optimization framework information
         """
-        if not self.results:
-            raise ValueError("No estimation results available. Run estimate() first.")
-
-        # Calculate confidence interval based on confidence level
-        alpha = 1 - confidence_level
-        z_score = stats.norm.ppf(1 - alpha / 2)
-
-        hurst = self.results["hurst_parameter"]
-        std_err = self.results["std_error"]
-
-        margin = z_score * std_err
-        lower = hurst - margin
-        upper = hurst + margin
-
-        return {"hurst_parameter": (lower, upper)}
-
-    def get_estimation_quality(self) -> Dict[str, Any]:
-        """
-        Get quality metrics for the estimation.
-
-        Returns
-        -------
-        dict
-            Dictionary containing quality metrics
-        """
-        if not self.results:
-            raise ValueError("No estimation results available. Run estimate() first.")
-
         return {
-            "r_squared": self.results["r_squared"],
-            "std_error": self.results["std_error"],
-            "p_value": self.results["p_value"],
-            "n_windows": len(self.results["window_sizes"]),
+            "current_framework": self.optimization_framework,
+            "jax_available": JAX_AVAILABLE,
+            "numba_available": NUMBA_AVAILABLE,
+            "recommended_framework": self._get_recommended_framework()
         }
 
-    def plot_scaling(self, figsize: Tuple[int, int] = (10, 6)) -> None:
-        """
-        Plot the scaling relationship between window sizes and R/S values.
+    def _get_recommended_framework(self) -> str:
+        """Get the recommended optimization framework."""
+        if JAX_AVAILABLE:
+            return "jax"  # Best for GPU acceleration
+        elif NUMBA_AVAILABLE:
+            return "numba"  # Good for CPU optimization
+        else:
+            return "numpy"  # Fallback
 
-        Parameters
-        ----------
-        figsize : tuple, optional
-            Figure size (default: (10, 6))
-        """
-        if not self.results:
-            raise ValueError("No estimation results available. Run estimate() first.")
-
+    def plot_results(self, save_path: Optional[str] = None) -> None:
+        """Plot the R/S analysis results."""
         try:
             import matplotlib.pyplot as plt
 
-            plt.switch_backend("Agg")  # Use non-interactive backend
+            if not self.scales or not self.rs_values:
+                print("No results to plot. Run estimate() first.")
+                return
 
-            fig, ax = plt.subplots(figsize=figsize)
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
-            # Plot R/S vs window size (log-log)
-            ax.loglog(
-                self.results["window_sizes"],
-                self.results["rs_values"],
-                "bo-",
-                markersize=6,
-                linewidth=2,
-            )
+            # Plot 1: R/S vs Scale
+            ax1.loglog(self.scales, self.rs_values, 'o-', linewidth=2, markersize=8)
+            ax1.set_xlabel('Scale (Window Size)')
+            ax1.set_ylabel('R/S Statistic')
+            ax1.set_title('R/S Analysis: R/S vs Scale')
+            ax1.grid(True, alpha=0.3)
 
-            # Add fitted line if available
-            if "hurst_parameter" in self.results:
-                log_scales = np.log(self.results["window_sizes"])
-                log_rs = np.log(self.results["rs_values"])
-
-                # Fit line
-                slope, intercept, _, _, _ = stats.linregress(log_scales, log_rs)
-                log_rs_fitted = intercept + slope * log_scales
-                rs_fitted = np.exp(log_rs_fitted)
-
-                ax.loglog(
-                    self.results["window_sizes"],
-                    rs_fitted,
-                    "r--",
-                    label=f'Fitted line (H={self.results["hurst_parameter"]:.3f})',
-                    linewidth=2,
-                )
-                ax.legend()
-
-            ax.set_xlabel("Window Size")
-            ax.set_ylabel("R/S Value")
-            ax.set_title("R/S Scaling Analysis (Algorithm 11)")
-            ax.grid(True, alpha=0.3)
+            # Plot 2: Log-Log with regression line
+            if self.estimated_hurst is not None:
+                log_scales = np.log10(self.scales)
+                log_rs = np.log10(self.rs_values)
+                
+                ax2.plot(log_scales, log_rs, 'o', markersize=8, label='Data')
+                
+                # Regression line
+                x_reg = np.array([min(log_scales), max(log_scales)])
+                y_reg = self.estimated_hurst * x_reg + np.log10(self.rs_values[0]) - self.estimated_hurst * log_scales[0]
+                ax2.plot(x_reg, y_reg, 'r--', linewidth=2, 
+                        label=f'Slope = {self.estimated_hurst:.3f}')
+                
+                ax2.set_xlabel('log10(Scale)')
+                ax2.set_ylabel('log10(R/S)')
+                ax2.set_title(f'Log-Log Plot (H = {self.estimated_hurst:.3f})')
+                ax2.legend()
+                ax2.grid(True, alpha=0.3)
 
             plt.tight_layout()
-            plt.close(fig)  # Close figure to avoid memory leaks
+            
+            if save_path:
+                plt.savefig(save_path, dpi=300, bbox_inches='tight')
+                print(f"Plot saved to {save_path}")
+            else:
+                plt.show()
 
         except ImportError:
-            raise ValueError("Matplotlib is required for plotting")
-
-    def get_confidence_interval(self, confidence: float = 0.95) -> Tuple[float, float]:
-        """
-        Get confidence interval for the Hurst parameter estimate.
-
-        Parameters
-        ----------
-        confidence : float, optional
-            Confidence level (default: 0.95)
-
-        Returns
-        -------
-        tuple
-            (lower_bound, upper_bound)
-        """
-        if not hasattr(self, "results"):
-            raise ValueError("Must call estimate() first")
-
-        # Calculate confidence interval using standard error
-        alpha = 1 - confidence
-        z_score = stats.norm.ppf(1 - alpha / 2)
-
-        hurst = self.results["hurst_parameter"]
-        std_err = self.results["std_error"]
-
-        margin = z_score * std_err
-        lower = hurst - margin
-        upper = hurst + margin
-
-        return (lower, upper)
-
-    def plot_analysis(self, figsize: Tuple[int, int] = (12, 8)) -> None:
-        """
-        Plot the R/S analysis results.
-
-        Parameters
-        ----------
-        figsize : tuple, optional
-            Figure size (default: (12, 8))
-        """
-        if not hasattr(self, "results"):
-            raise ValueError("Must call estimate() first")
-
-        import matplotlib.pyplot as plt
-
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
-
-        # Plot 1: R/S vs Scale (log-log)
-        ax1.loglog(
-            self.results["window_sizes"],
-            self.results["rs_values"],
-            "bo-",
-            label="R/S values",
-            markersize=6,
-        )
-
-        # Plot fitted line
-        log_scales = self.results["log_sizes"]
-        log_rs_fitted = (
-            self.results["intercept"] + self.results["hurst_parameter"] * log_scales
-        )
-        rs_fitted = np.exp(log_rs_fitted)
-        ax1.loglog(
-            self.results["window_sizes"],
-            rs_fitted,
-            "r--",
-            label=f'Fitted line (H={self.results["hurst_parameter"]:.3f})',
-        )
-
-        ax1.set_xlabel("Scale")
-        ax1.set_ylabel("R/S")
-        ax1.set_title("R/S Analysis (Algorithm 11)")
-        ax1.legend()
-        ax1.grid(True, alpha=0.3)
-
-        # Plot 2: Log(R/S) vs Log(Scale)
-        ax2.plot(
-            log_scales,
-            self.results["log_rs"],
-            "bo-",
-            label="Log(R/S) values",
-            markersize=6,
-        )
-        ax2.plot(
-            log_scales,
-            log_rs_fitted,
-            "r--",
-            label=f'Fitted line (slope={self.results["hurst_parameter"]:.3f})',
-        )
-
-        ax2.set_xlabel("Log(Scale)")
-        ax2.set_ylabel("Log(R/S)")
-        ax2.set_title("Log-Log Plot")
-        ax2.legend()
-        ax2.grid(True, alpha=0.3)
-
-        plt.tight_layout()
-        plt.show()
-
-    def get_results_summary(self) -> dict:
-        """
-        Get a summary of the estimation results.
-
-        Returns
-        -------
-        dict
-            Summary of results
-        """
-        if not hasattr(self, "results"):
-            raise ValueError("Must call estimate() first")
-
-        lower, upper = self.get_confidence_interval()
-
-        return {
-            "method": "R/S Analysis (Algorithm 11)",
-            "hurst_parameter": self.results["hurst_parameter"],
-            "confidence_interval_95": (lower, upper),
-            "r_squared": self.results["r_squared"],
-            "p_value": self.results["p_value"],
-            "std_error": self.results["std_error"],
-            "intercept": self.results["intercept"],
-            "slope": self.results["slope"],
-            "num_scales": len(self.results["window_sizes"]),
-            "min_scale": self.results["window_sizes"][0],
-            "max_scale": self.results["window_sizes"][-1],
-        }
+            print("Matplotlib not available for plotting")

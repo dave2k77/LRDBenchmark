@@ -1,7 +1,7 @@
 from typing import Optional, Dict, Any
 import numpy as np
 
-from models.data_models.base_model import BaseModel
+from ..base_model import BaseModel
 
 
 class FractionalGaussianNoise(BaseModel):

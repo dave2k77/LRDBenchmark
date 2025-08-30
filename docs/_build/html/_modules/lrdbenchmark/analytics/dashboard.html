@@ -1,0 +1,750 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lrdbenchmark.analytics.dashboard &mdash; LRDBenchmark 1.7.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="https://lrdbenchmark.readthedocs.io/_modules/lrdbenchmark/analytics/dashboard.html"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            LRDBenchmark
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">Documentation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/data_models.html">Data Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/estimators.html">Estimators API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/benchmark.html">Benchmark API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/analytics.html">Analytics API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html">Theoretical Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#statistical-estimators">Statistical Estimators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#validation-techniques">Validation Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#practical-examples">Practical Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/theory.html#theoretical-references">Theoretical References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html">Validation Techniques and Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#monte-carlo-validation">Monte Carlo Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#bootstrap-methods">Bootstrap Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#cross-validation">Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#robustness-analysis">Robustness Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#statistical-tests">Statistical Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#model-selection">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#performance-metrics">Performance Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#quality-assurance">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#id4">Quality Assurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/validation.html#validation-references">Validation References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html">Comprehensive LRDBench Demonstration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#basic-data-generation-and-analysis">Basic Data Generation and Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#advanced-benchmarking">Advanced Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#machine-learning-and-neural-network-analysis">Machine Learning and Neural Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#analytics-and-monitoring">Analytics and Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#real-world-application-example">Real-World Application Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#integration-with-external-libraries">Integration with External Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#complete-workflow-example">Complete Workflow Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/comprehensive_demo.html#summary">Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LRDBenchmark</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lrdbenchmark.analytics.dashboard</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lrdbenchmark.analytics.dashboard</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Analytics Dashboard for LRDBench</span>
+
+<span class="sd">Provides a unified interface for accessing all analytics data:</span>
+<span class="sd">- Usage statistics</span>
+<span class="sd">- Performance metrics</span>
+<span class="sd">- Error analysis</span>
+<span class="sd">- Workflow insights</span>
+<span class="sd">- Report generation</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.usage_tracker</span><span class="w"> </span><span class="kn">import</span> <span class="n">UsageTracker</span><span class="p">,</span> <span class="n">get_usage_tracker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.performance_monitor</span><span class="w"> </span><span class="kn">import</span> <span class="n">PerformanceMonitor</span><span class="p">,</span> <span class="n">get_performance_monitor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.error_analyzer</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorAnalyzer</span><span class="p">,</span> <span class="n">get_error_analyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.workflow_analyzer</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkflowAnalyzer</span><span class="p">,</span> <span class="n">get_workflow_analyzer</span>
+
+
+<div class="viewcode-block" id="AnalyticsDashboard">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.dashboard.AnalyticsDashboard">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AnalyticsDashboard</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive analytics dashboard for LRDBench</span>
+
+<span class="sd">    Provides easy access to all analytics data and generates</span>
+<span class="sd">    comprehensive reports and visualizations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AnalyticsDashboard.__init__">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.dashboard.AnalyticsDashboard.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;~/.lrdbench/analytics&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the analytics dashboard&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">storage_path</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Initialize analytics components</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">usage_tracker</span> <span class="o">=</span> <span class="n">get_usage_tracker</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">performance_monitor</span> <span class="o">=</span> <span class="n">get_performance_monitor</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_analyzer</span> <span class="o">=</span> <span class="n">get_error_analyzer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workflow_analyzer</span> <span class="o">=</span> <span class="n">get_workflow_analyzer</span><span class="p">()</span>
+
+        <span class="c1"># Set plotting style</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">set_palette</span><span class="p">(</span><span class="s2">&quot;husl&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AnalyticsDashboard.get_comprehensive_summary">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.dashboard.AnalyticsDashboard.get_comprehensive_summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_comprehensive_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get comprehensive summary of all analytics data</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            days: Number of days to analyze</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary containing all analytics summaries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;usage_summary&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_tracker</span><span class="o">.</span><span class="n">get_usage_summary</span><span class="p">(</span><span class="n">days</span><span class="p">),</span>
+            <span class="s2">&quot;performance_summary&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">performance_monitor</span><span class="o">.</span><span class="n">get_performance_summary</span><span class="p">(</span>
+                <span class="n">days</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;error_summary&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_analyzer</span><span class="o">.</span><span class="n">get_error_summary</span><span class="p">(</span><span class="n">days</span><span class="p">),</span>
+            <span class="s2">&quot;workflow_summary&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">workflow_analyzer</span><span class="o">.</span><span class="n">get_workflow_summary</span><span class="p">(</span><span class="n">days</span><span class="p">),</span>
+            <span class="s2">&quot;generated_at&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s2">&quot;analysis_period_days&quot;</span><span class="p">:</span> <span class="n">days</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="AnalyticsDashboard.generate_usage_report">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.dashboard.AnalyticsDashboard.generate_usage_report">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_usage_report</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate comprehensive usage report&quot;&quot;&quot;</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_tracker</span><span class="o">.</span><span class="n">get_usage_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="n">report</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"># LRDBench Usage Report</span>
+<span class="s2">Generated: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span>
+<span class="s2">Analysis Period: </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days</span>
+
+<span class="s2">## Overview</span>
+<span class="s2">- Total Events: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">total_events</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">- Unique Users: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">unique_users</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">- Success Rate: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">success_rate</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span>
+<span class="s2">- Average Execution Time: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">avg_execution_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s</span>
+
+<span class="s2">## Most Popular Estimators</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">estimator_usage</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">estimator</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> uses</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Parameter Usage Patterns</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">parameter_frequency</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">### </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">value</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">5</span><span class="p">]:</span>  <span class="c1"># Top 5 values</span>
+                <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> times</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Data Length Distribution</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">length_range</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">data_length_distribution</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">length_range</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> datasets</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">common_errors</span><span class="p">:</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Common Errors</span>
+<span class="s2">&quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">error</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">common_errors</span><span class="o">.</span><span class="n">items</span><span class="p">()[:</span><span class="mi">5</span><span class="p">]:</span>  <span class="c1"># Top 5 errors</span>
+                <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> occurrences</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">output_path</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">report</span></div>
+
+
+<div class="viewcode-block" id="AnalyticsDashboard.generate_performance_report">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.dashboard.AnalyticsDashboard.generate_performance_report">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_performance_report</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate comprehensive performance report&quot;&quot;&quot;</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">performance_monitor</span><span class="o">.</span><span class="n">get_performance_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="n">report</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"># LRDBench Performance Report</span>
+<span class="s2">Generated: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span>
+<span class="s2">Analysis Period: </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days</span>
+
+<span class="s2">## Performance Overview</span>
+<span class="s2">- Total Executions: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">total_executions</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">- Average Execution Time: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">avg_execution_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s</span>
+<span class="s2">- Execution Time Range: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">min_execution_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s - </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">max_execution_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s</span>
+<span class="s2">- Standard Deviation: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">std_execution_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s</span>
+<span class="s2">- Performance Trend: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">performance_trend</span><span class="si">}</span>
+
+<span class="s2">## Memory Usage</span>
+<span class="s2">- Average Memory Usage: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">avg_memory_usage</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB</span>
+<span class="s2">- Memory Efficiency: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">memory_efficiency</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> MB/s</span>
+
+<span class="s2">## Performance Bottlenecks</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">bottleneck_estimators</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">estimator</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">bottleneck_estimators</span><span class="p">:</span>
+                <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">estimator</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="s2">&quot;- No significant bottlenecks detected</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">output_path</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">report</span></div>
+
+
+<div class="viewcode-block" id="AnalyticsDashboard.generate_reliability_report">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.dashboard.AnalyticsDashboard.generate_reliability_report">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_reliability_report</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate comprehensive reliability report&quot;&quot;&quot;</span>
+        <span class="n">error_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_analyzer</span><span class="o">.</span><span class="n">get_error_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="n">recommendations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_analyzer</span><span class="o">.</span><span class="n">get_improvement_recommendations</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="n">report</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"># LRDBench Reliability Report</span>
+<span class="s2">Generated: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span>
+<span class="s2">Analysis Period: </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days</span>
+
+<span class="s2">## Error Overview</span>
+<span class="s2">- Total Errors: </span><span class="si">{</span><span class="n">error_summary</span><span class="o">.</span><span class="n">total_errors</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">- Unique Errors: </span><span class="si">{</span><span class="n">error_summary</span><span class="o">.</span><span class="n">unique_errors</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">- Reliability Score: </span><span class="si">{</span><span class="n">error_summary</span><span class="o">.</span><span class="n">reliability_score</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span>
+
+<span class="s2">## Error Distribution by Type</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">error_type</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">error_summary</span><span class="o">.</span><span class="n">error_by_type</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">error_type</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> errors</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Error Distribution by Estimator</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">error_summary</span><span class="o">.</span><span class="n">error_by_estimator</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">estimator</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> errors</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">error_summary</span><span class="o">.</span><span class="n">error_trends</span><span class="p">:</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Error Trends</span>
+<span class="s2">&quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">trend_key</span><span class="p">,</span> <span class="n">trend_value</span> <span class="ow">in</span> <span class="n">error_summary</span><span class="o">.</span><span class="n">error_trends</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">trend_key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">trend_value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">recommendations</span><span class="p">:</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Improvement Recommendations</span>
+<span class="s2">&quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">recommendation</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">recommendations</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">recommendation</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">output_path</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">report</span></div>
+
+
+<div class="viewcode-block" id="AnalyticsDashboard.generate_workflow_report">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.dashboard.AnalyticsDashboard.generate_workflow_report">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_workflow_report</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate comprehensive workflow report&quot;&quot;&quot;</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workflow_analyzer</span><span class="o">.</span><span class="n">get_workflow_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="n">recommendations</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">workflow_analyzer</span><span class="o">.</span><span class="n">get_workflow_optimization_recommendations</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">feature_usage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workflow_analyzer</span><span class="o">.</span><span class="n">get_feature_usage_analysis</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="n">report</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"># LRDBench Workflow Report</span>
+<span class="s2">Generated: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span>
+<span class="s2">Analysis Period: </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days</span>
+
+<span class="s2">## Workflow Overview</span>
+<span class="s2">- Total Workflows: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">total_workflows</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">- Unique Users: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">unique_users</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">- Average Duration: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">avg_workflow_duration</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s</span>
+<span class="s2">- Average Steps: </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">avg_steps_per_workflow</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span>
+
+<span class="s2">## Workflow Complexity Distribution</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">complexity</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">workflow_complexity_distribution</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">percentage</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">count</span> <span class="o">/</span> <span class="n">summary</span><span class="o">.</span><span class="n">total_workflows</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">total_workflows</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="k">else</span> <span class="mi">0</span>
+            <span class="p">)</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">complexity</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">percentage</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">common_workflow_patterns</span><span class="p">:</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Common Workflow Patterns</span>
+<span class="s2">&quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                <span class="n">summary</span><span class="o">.</span><span class="n">common_workflow_patterns</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="mi">1</span>
+            <span class="p">):</span>
+                <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> workflows</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">popular_estimator_sequences</span><span class="p">:</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Popular Estimator Sequences</span>
+<span class="s2">&quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                <span class="n">summary</span><span class="o">.</span><span class="n">popular_estimator_sequences</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="mi">1</span>
+            <span class="p">):</span>
+                <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="s1">&#39; → &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> workflows</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">feature_usage</span><span class="p">[</span><span class="s2">&quot;top_estimators&quot;</span><span class="p">]:</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Top Estimators by Usage</span>
+<span class="s2">&quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">feature_usage</span><span class="p">[</span><span class="s2">&quot;top_estimators&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]:</span>
+                <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">estimator</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> uses</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">recommendations</span><span class="p">:</span>
+            <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Optimization Recommendations</span>
+<span class="s2">&quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">recommendation</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">recommendations</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">recommendation</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">output_path</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">report</span></div>
+
+
+<div class="viewcode-block" id="AnalyticsDashboard.generate_comprehensive_report">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.dashboard.AnalyticsDashboard.generate_comprehensive_report">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_comprehensive_report</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate comprehensive analytics report with all sections&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">output_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span> <span class="o">/</span> <span class="s2">&quot;reports&quot;</span>
+
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+        <span class="n">output_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Generate individual reports</span>
+        <span class="n">usage_report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_usage_report</span><span class="p">(</span>
+            <span class="n">days</span><span class="p">,</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;usage_report_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.md&quot;</span>
+        <span class="p">)</span>
+        <span class="n">performance_report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_performance_report</span><span class="p">(</span>
+            <span class="n">days</span><span class="p">,</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;performance_report_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.md&quot;</span>
+        <span class="p">)</span>
+        <span class="n">reliability_report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_reliability_report</span><span class="p">(</span>
+            <span class="n">days</span><span class="p">,</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;reliability_report_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.md&quot;</span>
+        <span class="p">)</span>
+        <span class="n">workflow_report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_workflow_report</span><span class="p">(</span>
+            <span class="n">days</span><span class="p">,</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;workflow_report_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.md&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Generate comprehensive report</span>
+        <span class="n">comprehensive_report</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"># LRDBench Comprehensive Analytics Report</span>
+<span class="s2">Generated: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span>
+<span class="s2">Analysis Period: </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days</span>
+
+<span class="s2">## Executive Summary</span>
+<span class="s2">This report provides comprehensive insights into LRDBench usage, performance, reliability, and workflows.</span>
+
+<span class="s2">## Quick Statistics</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="c1"># Add quick stats from all summaries</span>
+        <span class="n">usage_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_tracker</span><span class="o">.</span><span class="n">get_usage_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="n">performance_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">performance_monitor</span><span class="o">.</span><span class="n">get_performance_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="n">error_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_analyzer</span><span class="o">.</span><span class="n">get_error_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="n">workflow_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workflow_analyzer</span><span class="o">.</span><span class="n">get_workflow_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+
+        <span class="n">comprehensive_report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">- **Total Usage Events**: </span><span class="si">{</span><span class="n">usage_summary</span><span class="o">.</span><span class="n">total_events</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">- **Success Rate**: </span><span class="si">{</span><span class="n">usage_summary</span><span class="o">.</span><span class="n">success_rate</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span>
+<span class="s2">- **Average Execution Time**: </span><span class="si">{</span><span class="n">performance_summary</span><span class="o">.</span><span class="n">avg_execution_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s</span>
+<span class="s2">- **Reliability Score**: </span><span class="si">{</span><span class="n">error_summary</span><span class="o">.</span><span class="n">reliability_score</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span>
+<span class="s2">- **Total Workflows**: </span><span class="si">{</span><span class="n">workflow_summary</span><span class="o">.</span><span class="n">total_workflows</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">- **Unique Users**: </span><span class="si">{</span><span class="n">usage_summary</span><span class="o">.</span><span class="n">unique_users</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+
+<span class="s2">## Report Sections</span>
+<span class="s2">1. [Usage Analysis](usage_report_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.md)</span>
+<span class="s2">2. [Performance Analysis](performance_report_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.md)</span>
+<span class="s2">3. [Reliability Analysis](reliability_report_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.md)</span>
+<span class="s2">4. [Workflow Analysis](workflow_report_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.md)</span>
+
+<span class="s2">## Key Insights</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="c1"># Add key insights</span>
+        <span class="k">if</span> <span class="n">usage_summary</span><span class="o">.</span><span class="n">estimator_usage</span><span class="p">:</span>
+            <span class="n">top_estimator</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                <span class="n">usage_summary</span><span class="o">.</span><span class="n">estimator_usage</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">comprehensive_report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- Most popular estimator: </span><span class="si">{</span><span class="n">top_estimator</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">top_estimator</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> uses)</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">performance_summary</span><span class="o">.</span><span class="n">bottleneck_estimators</span><span class="p">:</span>
+            <span class="n">comprehensive_report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- Performance bottleneck: </span><span class="si">{</span><span class="n">performance_summary</span><span class="o">.</span><span class="n">bottleneck_estimators</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">error_summary</span><span class="o">.</span><span class="n">error_by_type</span><span class="p">:</span>
+            <span class="n">top_error_type</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                <span class="n">error_summary</span><span class="o">.</span><span class="n">error_by_type</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">comprehensive_report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- Most common error type: </span><span class="si">{</span><span class="n">top_error_type</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">top_error_type</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> errors)</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">workflow_summary</span><span class="o">.</span><span class="n">common_workflow_patterns</span><span class="p">:</span>
+            <span class="n">top_pattern</span> <span class="o">=</span> <span class="n">workflow_summary</span><span class="o">.</span><span class="n">common_workflow_patterns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">comprehensive_report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;- Most common workflow pattern: </span><span class="si">{</span><span class="n">top_pattern</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">top_pattern</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> workflows)</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="n">comprehensive_report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">## Recommendations</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="c1"># Add recommendations from all analyzers</span>
+        <span class="n">usage_recommendations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">performance_recommendations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">error_recommendations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_analyzer</span><span class="o">.</span><span class="n">get_improvement_recommendations</span><span class="p">(</span>
+            <span class="n">days</span>
+        <span class="p">)</span>
+        <span class="n">workflow_recommendations</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">workflow_analyzer</span><span class="o">.</span><span class="n">get_workflow_optimization_recommendations</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">all_recommendations</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">usage_recommendations</span>
+            <span class="o">+</span> <span class="n">performance_recommendations</span>
+            <span class="o">+</span> <span class="n">error_recommendations</span>
+            <span class="o">+</span> <span class="n">workflow_recommendations</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">all_recommendations</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">recommendation</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_recommendations</span><span class="p">[:</span><span class="mi">10</span><span class="p">],</span> <span class="mi">1</span><span class="p">):</span>  <span class="c1"># Top 10</span>
+                <span class="n">comprehensive_report</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">recommendation</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">comprehensive_report</span> <span class="o">+=</span> <span class="s2">&quot;- No specific recommendations at this time.</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="c1"># Save comprehensive report</span>
+        <span class="n">comprehensive_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;comprehensive_report_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.md&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">comprehensive_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">comprehensive_report</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">comprehensive_report</span></div>
+
+
+<div class="viewcode-block" id="AnalyticsDashboard.create_visualizations">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.dashboard.AnalyticsDashboard.create_visualizations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_visualizations</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create visualizations for analytics data&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">output_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span> <span class="o">/</span> <span class="s2">&quot;visualizations&quot;</span>
+
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+        <span class="n">output_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">)</span>
+        <span class="n">plots</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Usage visualization</span>
+        <span class="n">usage_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_tracker</span><span class="o">.</span><span class="n">get_usage_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">usage_summary</span><span class="o">.</span><span class="n">estimator_usage</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+            <span class="n">estimators</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">usage_summary</span><span class="o">.</span><span class="n">estimator_usage</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">usage_summary</span><span class="o">.</span><span class="n">estimator_usage</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">estimators</span><span class="p">)),</span> <span class="n">counts</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Estimators&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Usage Count&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estimator Usage (Last </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days)&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">estimators</span><span class="p">)),</span> <span class="n">estimators</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+            <span class="n">usage_plot_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;estimator_usage_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.png&quot;</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">usage_plot_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">plots</span><span class="p">[</span><span class="s2">&quot;estimator_usage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">usage_plot_path</span><span class="p">)</span>
+
+        <span class="c1"># Performance visualization</span>
+        <span class="n">performance_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">performance_monitor</span><span class="o">.</span><span class="n">get_performance_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">performance_summary</span><span class="o">.</span><span class="n">total_executions</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+            <span class="c1"># Create performance metrics bar chart</span>
+            <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Avg Time&quot;</span><span class="p">,</span> <span class="s2">&quot;Min Time&quot;</span><span class="p">,</span> <span class="s2">&quot;Max Time&quot;</span><span class="p">]</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">performance_summary</span><span class="o">.</span><span class="n">avg_execution_time</span><span class="p">,</span>
+                <span class="n">performance_summary</span><span class="o">.</span><span class="n">min_execution_time</span><span class="p">,</span>
+                <span class="n">performance_summary</span><span class="o">.</span><span class="n">max_execution_time</span><span class="p">,</span>
+            <span class="p">]</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;skyblue&quot;</span><span class="p">,</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="s2">&quot;lightcoral&quot;</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Execution Time (seconds)&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Performance Metrics (Last </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days)&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+            <span class="n">perf_plot_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;performance_metrics_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.png&quot;</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">perf_plot_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">plots</span><span class="p">[</span><span class="s2">&quot;performance_metrics&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">perf_plot_path</span><span class="p">)</span>
+
+        <span class="c1"># Error visualization</span>
+        <span class="n">error_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_analyzer</span><span class="o">.</span><span class="n">get_error_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">error_summary</span><span class="o">.</span><span class="n">error_by_type</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+            <span class="n">error_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">error_summary</span><span class="o">.</span><span class="n">error_by_type</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">error_counts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">error_summary</span><span class="o">.</span><span class="n">error_by_type</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">error_counts</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">error_types</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%1.1f%%</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">startangle</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error Distribution by Type (Last </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days)&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+            <span class="n">error_plot_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;error_distribution_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.png&quot;</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">error_plot_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">plots</span><span class="p">[</span><span class="s2">&quot;error_distribution&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">error_plot_path</span><span class="p">)</span>
+
+        <span class="c1"># Workflow visualization</span>
+        <span class="n">workflow_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workflow_analyzer</span><span class="o">.</span><span class="n">get_workflow_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">workflow_summary</span><span class="o">.</span><span class="n">workflow_complexity_distribution</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+            <span class="n">complexities</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="n">workflow_summary</span><span class="o">.</span><span class="n">workflow_complexity_distribution</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">workflow_summary</span><span class="o">.</span><span class="n">workflow_complexity_distribution</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+            <span class="c1"># Clean up complexity labels</span>
+            <span class="n">clean_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">complexities</span><span class="p">]</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">clean_labels</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Workflow Complexity&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Workflows&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Workflow Complexity Distribution (Last </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days)&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+            <span class="n">workflow_plot_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;workflow_complexity_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.png&quot;</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">workflow_plot_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">plots</span><span class="p">[</span><span class="s2">&quot;workflow_complexity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">workflow_plot_path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">plots</span></div>
+
+
+<div class="viewcode-block" id="AnalyticsDashboard.export_all_data">
+<a class="viewcode-back" href="../../../api/analytics.html#lrdbenchmark.analytics.dashboard.AnalyticsDashboard.export_all_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_all_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export all analytics data to files&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">output_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_path</span> <span class="o">/</span> <span class="s2">&quot;exports&quot;</span>
+
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+        <span class="n">output_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">)</span>
+        <span class="n">exports</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Export usage data</span>
+        <span class="n">usage_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;usage_data_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.json&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">usage_tracker</span><span class="o">.</span><span class="n">export_summary</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">usage_path</span><span class="p">),</span> <span class="n">days</span><span class="p">)</span>
+        <span class="n">exports</span><span class="p">[</span><span class="s2">&quot;usage_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">usage_path</span><span class="p">)</span>
+
+        <span class="c1"># Export performance data</span>
+        <span class="n">perf_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;performance_data_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.json&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">performance_monitor</span><span class="o">.</span><span class="n">export_metrics</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">perf_path</span><span class="p">),</span> <span class="n">days</span><span class="p">)</span>
+        <span class="n">exports</span><span class="p">[</span><span class="s2">&quot;performance_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">perf_path</span><span class="p">)</span>
+
+        <span class="c1"># Export error data</span>
+        <span class="n">error_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;error_data_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.json&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_analyzer</span><span class="o">.</span><span class="n">export_errors</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">error_path</span><span class="p">),</span> <span class="n">days</span><span class="p">)</span>
+        <span class="n">exports</span><span class="p">[</span><span class="s2">&quot;error_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">error_path</span><span class="p">)</span>
+
+        <span class="c1"># Export workflow data</span>
+        <span class="n">workflow_path</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;workflow_data_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.json&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workflow_analyzer</span><span class="o">.</span><span class="n">export_workflows</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">workflow_path</span><span class="p">),</span> <span class="n">days</span><span class="p">)</span>
+        <span class="n">exports</span><span class="p">[</span><span class="s2">&quot;workflow_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">workflow_path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">exports</span></div>
+</div>
+
+
+
+<span class="c1"># Global dashboard instance</span>
+<span class="n">_global_dashboard</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnalyticsDashboard</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_analytics_dashboard</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AnalyticsDashboard</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the global analytics dashboard instance&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_global_dashboard</span>
+    <span class="k">if</span> <span class="n">_global_dashboard</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_global_dashboard</span> <span class="o">=</span> <span class="n">AnalyticsDashboard</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">_global_dashboard</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">quick_analytics_summary</span><span class="p">(</span><span class="n">days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a quick summary of analytics data&quot;&quot;&quot;</span>
+    <span class="n">dashboard</span> <span class="o">=</span> <span class="n">get_analytics_dashboard</span><span class="p">()</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">dashboard</span><span class="o">.</span><span class="n">get_comprehensive_summary</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+
+    <span class="n">quick_summary</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">📊 LRDBench Analytics Summary (Last </span><span class="si">{</span><span class="n">days</span><span class="si">}</span><span class="s2"> days)</span>
+
+<span class="s2">📈 Usage:</span>
+<span class="s2">   • Total Events: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;usage_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">total_events</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">   • Success Rate: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;usage_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">success_rate</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span>
+<span class="s2">   • Unique Users: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;usage_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique_users</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+
+<span class="s2">⚡ Performance:</span>
+<span class="s2">   • Avg Execution Time: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;performance_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">avg_execution_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s</span>
+<span class="s2">   • Total Executions: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;performance_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">total_executions</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">   • Trend: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;performance_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">performance_trend</span><span class="si">}</span>
+
+<span class="s2">🛡️ Reliability:</span>
+<span class="s2">   • Reliability Score: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;error_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reliability_score</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span>
+<span class="s2">   • Total Errors: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;error_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">total_errors</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+
+<span class="s2">🔄 Workflows:</span>
+<span class="s2">   • Total Workflows: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;workflow_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">total_workflows</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span>
+<span class="s2">   • Avg Duration: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;workflow_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">avg_workflow_duration</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s</span>
+<span class="s2">   • Avg Steps: </span><span class="si">{</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;workflow_summary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">avg_steps_per_workflow</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">quick_summary</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Davian Chin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

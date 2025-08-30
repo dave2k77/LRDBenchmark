@@ -33,7 +33,7 @@ Our latest benchmark shows:
 - **Top performers**: DFA (32.5% error), DMA (39.8% error), Random Forest (74.8% error)
 
 Key Features
------------
+------------
 
 * **Comprehensive Estimator Suite**: 18 total estimators including classical, enhanced machine learning, and neural network estimators
 * **Multiple Data Models**: FBM, FGN, ARFIMA, MRW with configurable parameters
@@ -44,7 +44,7 @@ Key Features
 * **Unified Framework**: All estimators work seamlessly with graceful fallbacks
 
 Quick Start
-----------
+-----------
 
 Install LRDBenchmark:
 
@@ -84,16 +84,17 @@ Simple Benchmark: Classical vs. ML:
    print(f"Classical MSE: {analysis['classical_mse']:.6f}")
 
 Installation & Setup
--------------------
+--------------------
 
 .. toctree::
    :maxdepth: 2
 
+   README
    installation
    quickstart
 
 API Reference
-------------
+-------------
 
 .. toctree::
    :maxdepth: 2
@@ -104,7 +105,7 @@ API Reference
    api/analytics
 
 Research & Theory
-----------------
+-----------------
 
 .. toctree::
    :maxdepth: 2
@@ -113,7 +114,7 @@ Research & Theory
    research/validation
 
 Examples & Demos
----------------
+----------------
 
 .. toctree::
    :maxdepth: 2
@@ -127,15 +128,3 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. toctree::
-   :hidden:
-
-   installation
-   quickstart
-   api/data_models
-   api/estimators
-   api/benchmark
-   api/analytics
-   research/theory
-   research/validation
-   examples/comprehensive_demo

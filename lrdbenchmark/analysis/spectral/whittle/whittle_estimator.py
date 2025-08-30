@@ -8,7 +8,14 @@ using adaptive spectral methods with intelligent method selection.
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats, signal, optimize
-from models.estimators.base_estimator import BaseEstimator
+# Import base estimator
+try:
+    from models.estimators.base_estimator import BaseEstimator
+except ImportError:
+    # Fallback if base estimator not available
+    class BaseEstimator:
+        def __init__(self, **kwargs):
+            self.parameters = kwargs
 
 
 class WhittleEstimator(BaseEstimator):

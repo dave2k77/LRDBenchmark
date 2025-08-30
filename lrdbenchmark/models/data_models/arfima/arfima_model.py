@@ -11,8 +11,7 @@ import os
 from scipy import signal
 from scipy.special import gamma
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-from models.data_models.base_model import BaseModel
+from ..base_model import BaseModel
 
 
 class ARFIMAModel(BaseModel):
